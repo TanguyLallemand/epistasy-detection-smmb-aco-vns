@@ -1,0 +1,56 @@
+Nous sommes le binome 8
+VNS SMMB ACO
+SMMB ACO (Stochastic Multiple Markov Blankets with Ant Colony Optimization)
+Variable neighborhood search
+
+Deux methodes a coder
+SMMB ACO tres bien detaillé, un peu plus de travail.
+
+
+Mais de plus evaluation a gerer. A scripté en python en python ou R
+De plus generation de données simulées via script.
+
+
+
+Sortie:
+    SNP et score
+    {var1, var2, var3} <score>
+    {var1, var45, var2000, var5000} <score>
+    ...
+    {var67, var340} <score>
+
+On doit pouvoir determine Faux positifs et faux negatifs afin de pouvoir determiner recall precision.
+
+Exemple de fichier <identifiant_fichier_i>_results.txt :
+TP
+FN
+TP
+FP
+...
+FN
+
+
+Regle pour pattern de taille 2
+si contient pattern simulé ca va donc TP true Positive
+
+Faux positif (on a trouve un truc faux)
+Faux negatif (on a pas trouve)
+    Fichier vide
+    Pas la bonne taille (donc la inferieur a 2)
+
+pour avoir un seul resultat par fichier, si on trouve un TP tout le fichier est TP
+sinon c'est a la majorité
+
+f measure pour eviter qu il plante a cause division par 0, si y a un seul TP et le reste en FP ou FP ca passe mais si pas de TP et tt en FN alors division par 0. Si TP=0 alors pb. Dans ce cas la j en enleverai un a celui qui peut pas etre calcule et je le met a l autre qui est a 0
+TOut bien documente:
+
+archive code source
+/toy_example avec dedans 2 fichiers input (genotype et phenotype) et un laucnh launch_simu_naive_toy_example.py en Python et un readme avec aussi avec la ligne de commande qui permet de laucnh
+chemin absolu
+un dossier /parameters/parameters.txt
+
+
+gestion de matrice en c++ librairie boost #include <boost/numeric/ublas/matrix.hpp>
+et pomper sur csv parser qui est dans les include/parsing
+pomper les entrees de fichier et la gestion des matrices
+et analyse syntaxique (gestion des parametres)

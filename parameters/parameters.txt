@@ -1,0 +1,38 @@
+# number of header lines in the genotype file
+header 1
+# separation between fields in the genotype file
+separator ,
+# alpha type I error rate
+2alpha 0.05
+# number of consecutive runs of SMMB-ACO
+n_smmb_aco_runs 1 # 1 : one pass, 2 : two-passes
+# number of ACO iterations
+n_it_t 100
+# number of ants
+n_ants 100
+# size of the subset of variables sampled by each ant
+k_large 10
+# size of a combination of variables sampled amongst the k_large
+above variables, in nested function learnMB (k_small < k_large)
+k_small 3
+# maximal number of iterations to coerce the exploration of the search space, in nested
+function learnMB
+n_it_n 30
+# global type I error threshold
+# alpha 0.05
+# parameters for ACO optimization
+# constant to initiate the pheromone rates
+tau_0 100
+# rho and lambda: two constants used in evaporation rate updates
+# evaporation rate (from 0.01 to 0.1 (see antEpiSeeker))
+rho 0.05
+lambda 0.1
+# modality used to initiate prior knowledge eta
+mod_init_prior_knowledge 1 # 1 : eta_0 is used; 2 : a file is used (set alpha and beta
+appropriately in this case)
+# constant to initiate (uniform) prior knowledge for each variable
+eta_0 1
+# alpha and beta: two constants used to ajust the relative importance between pheromone rate
+and a priori knowledge (by default, both parameters are initialized to 1).
+alpha 1 # to be set appropriately if mod_init_prior_knowledge is set to 2
+beta 1 # to be set appropriately if mod_init_prior_knowledge is set to 2
