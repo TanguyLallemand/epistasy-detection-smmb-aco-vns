@@ -1,4 +1,4 @@
-Nous sommes le binome 8
+
 VNS SMMB ACO
 SMMB ACO (Stochastic Multiple Markov Blankets with Ant Colony Optimization)
 Variable neighborhood search
