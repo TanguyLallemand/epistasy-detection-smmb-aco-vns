@@ -1,0 +1,40 @@
+explication projet C++
+
+  SMMBACO -> bien détaillé mais pas mal de boulot
+  évaluer la méthode -> calculer la perf avec données fournies.test par scripting python ou R
+  générer des données simulées -> simple normalement
+  données toutes au meme format
+
+fichiers de sortie : liste de snp et score
+
+power = nombre de vrai positif / nombre de runs
+
+si on a un bon résultats tous le run passe en bon
+
+si le pattern est de taille 2 et on a le pattern simulé
+si on a un pattern supérieur à 2 mais contenant le pattern == true positif
+sinon faux negatif
+
+si fichier vide faux negatif
+faux negatif si une partie de ce qu'on cherche
+si on a pas la bonne taille
+
+SMMBCAO/
+  toy_exemple/ : dans le répertoire du programme un script pour lancer
+    launch_smmbaco_-toy-exemple.py
+    parameters_toy.txt
+  parameters/
+    parameters.txt
+  readme.md
+
+
+faire des chemins en dur
+
+
+simuler en R mais pas une loi linéaire
+
+évaluation en cours de route pour voir ou on en est et nous remettre dans le droit chemin
+
+
+reprendre lecture de fichier et la gestion de calcul matriciel dans le truc tout fait
+librairie boost
