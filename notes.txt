@@ -8,17 +8,7 @@ Variable neighborhood search
 
 Deux methodes a coder
 SMMB ACO tres bien detaillé, un peu plus de travail.
-do you see me ?
-little bitch?
-micro penis, nice mais du coup ça save sur les 2 pc je suis un peux perdu la ? ^
-Euh ca a l air un peu random cette histoire ^
-euh si j ai bien compris ont sur le disque dur du pc qui a donner le portail donc la le mien. Mais apres je gitterai et toi tu pull ce que tu auras ecris en fait
- coucou
- Ca march bien petit impuissant
- du coup quand je clic ça met un truc en bas de l'icone mais je comprend pas vraiement l'effet ^^
 
-Ba je crois que c'est juste pour dire que tu es entrain de modif mon fichier. Par contre si tu rouvre avec nano genre notes.txt qui est sur ton pc si j ai bien compris tu n auras pas tt ca. C'est que sur mon pc
-du coup oui c'est que sur ton pc la j'ai les deux d'ouvert dans atom et j'ai pas l'up perso ^
 Mais de plus evaluation a gerer. A scripté en python en python ou R
 De plus generation de données simulées via script.
 Sortie:
