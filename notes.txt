@@ -1,7 +1,4 @@
 
-
-
-atom://teletype/portal/5c408c46-7384-40b6-b287-c19762805977
 VNS SMMB ACO
 SMMB ACO (Stochastic Multiple Markov Blankets with Ant Colony Optimization)
 Variable neighborhood search

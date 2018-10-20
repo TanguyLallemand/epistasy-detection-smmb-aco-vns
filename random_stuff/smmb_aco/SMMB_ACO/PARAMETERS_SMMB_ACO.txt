@@ -1,0 +1,55 @@
+# number of header lines in the genotype file
+header 1
+
+# separation between fields in the genotype file
+separator ,
+
+# alpha type I error rate
+alpha 0.05
+
+# number of consecutive runs of SMMB-ACO
+n_smmb_aco_runs 1#2
+
+# precision used in adaptative permutations
+precision 0.1
+
+# Number of iterations in ACO
+aco_n_iterations 40
+
+# Number of ants (500 or more (antEpiSeeker))
+aco_n_ants 100
+
+# Number of snps sampled in each ant
+aco_set_size 10
+
+# size of the smallest subset, k (draw in Algorithm 2)
+subset_size_small 3
+
+# Maximal number of iterations if there is no convergence (top level procedure of SMMB algorithm)
+n_trials_to_learn_mbs 30
+
+# Maximal number of iterations allowed to learn one Markov blanket, for one given large subset K, to escape the issue of non-modified MB.
+# If the sampling of k variables among K variables does not allow to identify a candidate subset s which is actually added to the growing MB, then the MB would not be modified and learnMB (inner level procedure of SMMB algorithm) would stop.
+# To palliate this problem, one coerces the exploration of the subset of K variables through n_trials_to_learn_1_mb.
+n_trials_to_learn_1_mb 100
+
+# Parameters for ACO optimization
+#   Parameters related to evaporation rates
+#     tau_init: value to initiate evaporation rates
+aco_tau_init 100
+#
+#     Rho and Lambda: two values used in evaporation rates updates
+#     Rho: evaporation rate (from 0.01 to 0.1 (antEpiSeeker reference)) 
+aco_rho 0.05
+#
+#     Lambda parameter from ACO-PDF update function
+aco_lambda 0.1
+#
+#   Parameters related to probability distribution updates
+#     eta: vector of weights (whose size is the nunmber of variables), to account for prior knowledge on the variables (by default, initialized to a vector of 1s).
+#     Only option in this version: default values.
+aco_eta 1
+#
+#     alpha and beta: two values used to ajust the relative importance between pheromone rate and a priori knowledge (by default, both parameters are initialized to 1).
+aco_alpha 1
+aco_beta 1

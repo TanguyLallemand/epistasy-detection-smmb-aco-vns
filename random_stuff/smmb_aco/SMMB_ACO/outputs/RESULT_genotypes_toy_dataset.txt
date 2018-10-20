@@ -1,0 +1,58 @@
+Duration	13015 milliseconds
+Output_file	toy_dataset/genotypes_toy_dataset.txt
+N_tests	44905
+Markov_blanket consensus	{ 27 }
+
+### Occurences of weak learner MBs ####
+{ 1 3 } => 9
+{ 2 15 } => 3
+{ 3 24 } => 14
+{ 4 7 } => 1
+{ 6 } => 29
+{ 9 } => 216
+{ 9 27 } => 43
+{ 12 } => 5
+{ 15 } => 2
+{ 17 } => 86
+{ 18 } => 64
+{ 23 } => 66
+{ 25 } => 11
+{ 26 } => 462
+{ 26 27 } => 42
+{ 27 } => 404
+
+Total number of MBs learned : 1457
+
+### p_values ###
+Indep( 1, phenotype | 2 ) => 0.675676
+Indep( 2, phenotype | 4 ) => 0.518135
+Indep( 3, phenotype | 1 ) => 0.796813
+Indep( 4, phenotype | 1 ) => 0.653595
+Indep( 6, phenotype | 1 ) => 0.0463158
+Indep( 6, phenotype | 2 ) => 1
+Indep( 7, phenotype | 9 ) => 0.49505
+Indep( 9, phenotype | 1 ) => 0.0178947
+Indep( 9, phenotype | 2 ) => 1
+Indep( 12, phenotype | 7 ) => 0.966184
+Indep( 15, phenotype | 1 ) => 0.921659
+Indep( 17, phenotype | 1 ) => 0.207469
+Indep( 18, phenotype | 1 ) => 0.181653
+Indep( 23, phenotype | 6 ) => 0.112549
+Indep( 24, phenotype | 1 ) => 0.314465
+Indep( 25, phenotype | 2 ) => 0.930233
+Indep( 26, phenotype | 1 ) => 0.000526316
+Indep( 26, phenotype | 1 2 ) => 1
+Indep( 26, phenotype | 2 ) => 0.000526316
+Indep( 26, phenotype | 3 ) => 0.000526316
+Indep( 26, phenotype | 4 ) => 0.000526316
+Indep( 26, phenotype | 6 ) => 0.000526316
+Indep( 26, phenotype | 7 ) => 0.000526316
+Indep( 26, phenotype | 9 ) => 0.000526316
+Indep( 26, phenotype | 12 ) => 0.000526316
+Indep( 26, phenotype | 15 ) => 0.000526316
+Indep( 26, phenotype | 17 ) => 0.000526316
+Indep( 26, phenotype | 18 ) => 0.000526316
+Indep( 26, phenotype | 23 ) => 0.000526316
+Indep( 26, phenotype | 24 ) => 0.000526316
+Indep( 26, phenotype | 25 ) => 0.000526316
+Indep( 26, phenotype | 27 ) => 0.000526316

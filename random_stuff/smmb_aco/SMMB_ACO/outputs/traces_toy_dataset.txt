@@ -1,0 +1,65 @@
+make: Rien à faire pour « all ».
+########### PARAMETERS ###########
+header => 1
+separator => ,
+alpha => 0.05
+precision => 0.03
+subset_size_large => 15
+subset_size_small => 3
+n_trials_to_learn_mbs => 30
+n_trials_to_learn_1_mb => 100
+#################################
+
+Data imported : 4000 individuals X 28 SNPs
+pheno size = 4000
+permuted_phenos object created
+Permuted phenotypes generated : 100 permutations
+Running SMMB_ACO
+ACO iteration 0
+ACO iteration 1
+ACO iteration 2
+ACO iteration 3
+ACO iteration 4
+ACO iteration 5
+ACO iteration 6
+ACO iteration 7
+ACO iteration 8
+ACO iteration 9
+ACO iteration 10
+ACO iteration 11
+ACO iteration 12
+ACO iteration 13
+ACO iteration 14
+ACO iteration 15
+ACO iteration 16
+ACO iteration 17
+ACO iteration 18
+ACO iteration 19
+ACO iteration 20
+ACO iteration 21
+ACO iteration 22
+ACO iteration 23
+ACO iteration 24
+ACO iteration 25
+ACO iteration 26
+ACO iteration 27
+ACO iteration 28
+ACO iteration 29
+ACO iteration 30
+ACO iteration 31
+ACO iteration 32
+ACO iteration 33
+ACO iteration 34
+ACO iteration 35
+ACO iteration 36
+ACO iteration 37
+ACO iteration 38
+ACO iteration 39
+Running SMMB.make_consensus()
+Consensus before backward : { 1 2 3 4 6 7 9 12 15 17 18 23 24 25 26 27 }
+Corrections of p-values with permutations : this may take several minutes.
+Consensus after backward : { 27 }
+
+##################
+  END OF PROGRAM
+##################
