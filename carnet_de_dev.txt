@@ -1,4 +1,4 @@
-- A priori il faut utiliser la librairie boost qu on peut avoir a la l'addresse: http://www.boost.org/users/history/version_1_61_0.html
+- A priori il faut utiliser la librairie boost qu on peut avoir a la l'addresse: http://www.boost.org/users/history/version_1_61_0.html. a mettre dans un dossier au dessus du projet et on tape dessus via le makefile
 - Pour la generation d'un dataset naif je pense que python avec la bibliotheque random et re est ce qu il y a de mieux...
-- Pour evaluation a voir si on pourra parser facilemen,t des matrices en python sinon peut etre passer par du R si tu penses voir le lvl.
+- Pour evaluation a voir si on pourra parser facilement des matrices en python sinon peut etre passer par du R si tu penses voir le lvl.
 -
