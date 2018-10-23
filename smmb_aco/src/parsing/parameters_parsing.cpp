@@ -14,7 +14,7 @@ using namespace std;
 //=================================================
 // Constructor
 //=================================================
-Parameters_file_parsing::Parameters_file_parsing()
+parameters_parsing::parameters_parsing()
 {
     ifstream file("./parameters/parameters.txt");
     if(file)
@@ -36,9 +36,9 @@ Parameters_file_parsing::Parameters_file_parsing()
 }
 
 //=================================================
-// Parameters_file_parsing : import_line
+// parameters_parsing : import_line
 //=================================================
-void Parameters_file_parsing::import_line(string const& line)
+void parameters_parsing::import_line(string const& line)
 {
     vector<string> token = this->split(line, ' ');
     string const& key = token[0];
@@ -64,7 +64,7 @@ void Parameters_file_parsing::import_line(string const& line)
 //    else if(key == "subset_size_large")
 //    {
 //        if(value == "sqrt")
-//           subset_size_large = 0;   // updated later in the main with method Parameters_file_parsing::update_subset_size_large
+//           subset_size_large = 0;   // updated later in the main with method parameters_parsing::update_subset_size_large
 //        else
 //            subset_size_large = atoi(value.c_str());
 //    }
@@ -120,9 +120,9 @@ void Parameters_file_parsing::import_line(string const& line)
 }
 
 //=================================================
-// Parameters_file_parsing : split
+// parameters_parsing : split
 //=================================================
-vector<string> Parameters_file_parsing::split(string const& s, char delim)
+vector<string> parameters_parsing::split(string const& s, char delim)
 {
     stringstream ss(s);
     string item;
@@ -133,9 +133,9 @@ vector<string> Parameters_file_parsing::split(string const& s, char delim)
 }
 
 //=================================================
-// Parameters_file_parsing : list_parameters
+// parameters_parsing : list_parameters
 //=================================================
-void Parameters_file_parsing::list_parameters() const
+void parameters_parsing::list_parameters() const
 {
     cout << "########### PARAMETERS ###########\n" << "header => " << header << endl
     << "separator => " << separator << endl
@@ -149,9 +149,9 @@ void Parameters_file_parsing::list_parameters() const
 }
 
 //=================================================
-// Parameters_file_parsing : update_subset_size_large
+// parameters_parsing : update_subset_size_large
 //=================================================
-void Parameters_file_parsing::update_subset_size_large(unsigned const& n_genos)
+void parameters_parsing::update_subset_size_large(unsigned const& n_genos)
 {
     if(aco_set_size == 0)
         aco_set_size = sqrt(n_genos);

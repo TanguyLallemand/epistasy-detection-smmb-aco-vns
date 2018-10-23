@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 
-class Parameters_file_parsing
+class parameters_parsing
 {
 public:
-    Parameters_file_parsing();
+    parameters_parsing();
     void import_line(std::string const& line);
     void list_parameters() const;
     void update_subset_size_large(unsigned const& n_genos);
