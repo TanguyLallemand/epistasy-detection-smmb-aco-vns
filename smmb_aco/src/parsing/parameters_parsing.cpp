@@ -55,19 +55,10 @@ void parameters_parsing::import_line(string const& line)
             separator = value.at(0);
     }
     else if(key == "alpha")
-
         alpha = atof(value.c_str());
 
     else if(key == "precision")
         precision = atof(value.c_str());
-
-//    else if(key == "subset_size_large")
-//    {
-//        if(value == "sqrt")
-//           subset_size_large = 0;   // updated later in the main with method parameters_parsing::update_subset_size_large
-//        else
-//            subset_size_large = atoi(value.c_str());
-//    }
 
     else if(key == "subset_size_small")
         subset_size_small = atoi (value.c_str());
