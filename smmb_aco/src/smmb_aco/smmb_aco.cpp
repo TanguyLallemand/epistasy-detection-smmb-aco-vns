@@ -62,6 +62,7 @@ procedure backward(MB, T, alpha)
 */
 #include <list>
 #include "smmb_aco.hpp"
+#include "statistics.hpp"
 void learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, float global_alpha, mem_a, P)
 {
     MB_A = NULL;
@@ -69,7 +70,6 @@ void learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, float global
     int j = 0;
     forward();
     }
-
     return MB_a
 }
 void forward(MB_modifie, MB_a, n_it_n, j, P, genotype_matrix, int K )
@@ -91,7 +91,15 @@ void forward(MB_modifie, MB_a, n_it_n, j, P, genotype_matrix, int K )
 }
 void backward(MB_a, phenotype_matrix, global_alpha)
 {
-    /* code */
+    for (size_t x = 0; x < MB.size; x++) {
+        for (size_t s = 0; s < count; s++) {
+            independance_test(X,T,S_0);
+            if (p_valeur>global_alpha) { //H_0: independance
+                // MB <- MB\{x} //a gerer en liste
+                // break
+            }
+        }
+    }
 }
 
 smmb_aco()
