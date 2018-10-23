@@ -10,33 +10,38 @@
 # --Force the compiler to use the correct headers
 # -ansi --Don't use GNU ext; do use ansi standard.
 
+# Add external library path
 BOOST_FOLDER = /home/storm/Documents/Master2/bitbucket/boost_1_61_0
+# Give path of .hpp files
 INC=-I$(BOOST_FOLDER) \
  -I./include \
  -I./include/parsing \
+ -I./include/statistics \
  -I./include/smmb_aco
 
-
+# Save compiler call
  CXX=g++ -o
  CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -g $(INC)
  LFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -I$(BOOST_FOLDER) -lm
-
+# Save directory names
  SRCDIR=src
  OBJDIR=obj
  BINDIR=.
  rm=rm -f
-
- OBJ=$(OBJDIR)/main.o \
- $(OBJDIR)/smmb_aco.o \
- $(OBJDIR)/parsing.o
+#Give .o files to create
+OBJ=$(OBJDIR)/main.o \
+$(OBJDIR)/file_parsing.o \
+$(OBJDIR)/smmb_aco.o \
+$(OBJDIR)/parameters_parsing.o \
+$(OBJDIR)/statistics.o
 
 TARGET=$(BINDIR)/smmb_aco
 
-# all: $(TARGET)
+all: $(TARGET)
 
-# $(TARGET): $(OBJ)
-# 	@g++ $^ -o $@ $(LFLAGS)
-# 	@echo "Linking complete."
+$(TARGET): $(OBJ)
+	@g++ $^ -o $@ $(LFLAGS)
+	@echo "Linking complete."
 
 #---------------------
 # main
@@ -48,13 +53,23 @@ $(OBJDIR)/main.o: ./$(SRCDIR)/main.cpp
 #---------------------
 # parsing
 #---------------------
-$(OBJDIR)/parsing.o: ./$(SRCDIR)/parsing/parsing.cpp
+$(OBJDIR)/file_parsing.o: ./$(SRCDIR)/parsing/file_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "Compiled Parameters_file_parsing.o"
+	@echo "Compiled file_parsing.o"
 
+$(OBJDIR)/parameters_parsing.o: ./$(SRCDIR)/parsing/parameters_parsing.cpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled parameters_parsing.o"
 #---------------------
 # smmb_aco
 #---------------------
 $(OBJDIR)/smmb_aco.o: ./$(SRCDIR)/smmb_aco/smmb_aco.cpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled smmb_aco.o"
+
+#---------------------
+# statistics
+#---------------------
+$(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled smmb_aco.o"
