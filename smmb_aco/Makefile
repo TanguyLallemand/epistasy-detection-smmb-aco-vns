@@ -44,14 +44,14 @@ $(TARGET): $(OBJ)
 	@echo "Linking complete."
 
 #---------------------
-# main
+# Main
 #---------------------
 $(OBJDIR)/main.o: ./$(SRCDIR)/main.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled main.o"
 
 #---------------------
-# parsing
+# Parsing
 #---------------------
 $(OBJDIR)/file_parsing.o: ./$(SRCDIR)/parsing/file_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
@@ -61,14 +61,14 @@ $(OBJDIR)/parameters_parsing.o: ./$(SRCDIR)/parsing/parameters_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled parameters_parsing.o"
 #---------------------
-# smmb_aco
+# Smmb_aco
 #---------------------
 $(OBJDIR)/smmb_aco.o: ./$(SRCDIR)/smmb_aco/smmb_aco.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled smmb_aco.o"
 
 #---------------------
-# statistics
+# Statistics
 #---------------------
 $(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
