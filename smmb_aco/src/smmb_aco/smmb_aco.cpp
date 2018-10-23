@@ -63,7 +63,8 @@ procedure backward(MB, T, alpha)
 #include <list>
 #include "smmb_aco.hpp"
 #include "statistics.hpp"
-void learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, float global_alpha, mem_a, P)
+
+void learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, float global_alpha, int mem_a, P)
 {
     MB_A = NULL;
     bool MB_modified = TRUE;
@@ -72,13 +73,14 @@ void learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, float global
     }
     return MB_a
 }
-void forward(MB_modifie, MB_a, n_it_n, j, P, genotype_matrix, int K )
+
+void forward(MB_modifie, MB_a, int n_it_n, int j, P, genotype_matrix, int K )
 {
     while (MB_modifie or MB_a == NULL and j<n_it_n)
     {
         MB_modifie = false
         /*
-        S = echantillone(P, D_a, k)
+        S = echantillone(P, genotype_matrix, k)
         s<-arg_max{score_association(s',T,MB_a,mem_a)} //l'argument qui maximise
         */
         if (p_valeur(s) << global_alpha) {//cas de rejet de H_0
@@ -89,7 +91,8 @@ void forward(MB_modifie, MB_a, n_it_n, j, P, genotype_matrix, int K )
         j++;
     }
 }
-void backward(MB_a, phenotype_matrix, global_alpha)
+
+void backward(MB_a, phenotype_matrix, float global_alpha)
 {
     for (size_t x = 0; x < MB.size; x++) {
         for (size_t s = 0; s < count; s++) {
@@ -110,9 +113,9 @@ smmb_aco()
     for (size_t i = 0; i < n_iteration; i++) {
         //P <- calculer distribution, probabilité (tau, eta, alpha, beta)
         for (size_t a = 0; a < n_ants; a++) { // a parallelise
-            /* D_a<- echantillonner(P, D, KI)
-            mem_a <- ensemble_vide
-            MB_a <- learn_MB(D_a,T, k, N_it_n, global_alpha, mem_a, P) */
+            // genotype_matrix<- echantillonner(P, D, KI)
+            int mem_a = NULL;
+            MB_a <- learn_MB(genotype_matrix,T, k, N_it_n, global_alpha, mem_a, P)
         }
         //quel type?? mem = NULL
         for (size_t a = 0; a < n_ants; a++) {
