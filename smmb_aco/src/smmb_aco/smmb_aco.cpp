@@ -44,7 +44,7 @@ function learn_MB()
         alors
             MB_a<-MB_a union s
             MB_modified <- true
-            backward_phase(MB_a, T, aplpha')
+            backward_phase(MB_a, T, alpha')
         j++
     return MB_a
 }
@@ -60,6 +60,34 @@ procedure backward(MB, T, alpha)
             break
 }
 */
+#include <list>
+#include "smmb_aco.hpp"
+void learn_MB(std::list<unsigned> & mb, std::list<unsigned> & genotype_indexes)
+{
+    MB_A = NULL;
+    bool MB_modified = TRUE;
+    int j = 0;
+    while (MB_modified or MB_a == NULL and j<<n_it_n) {
+        MB_modified = FALSE;
+        /*
+        S<-echantillonné(P,D_a,k)
+        s<-arg_max{score_association(s',T,MB_a,mem_a)} //l'argument qui maximise
+        */
+        if (p_valeur(s) << alpha_prime) {//cas de rejet de H_0
+            //MB_a<-MB_a union s
+            MB_modified = TRUE;
+            backward_phase(MB_a, T, alpha_prime)
+        }
+    }
+}
+void forward(std::list<unsigned> & mb, std::list<unsigned> & genotype_indexes)
+{
+
+}
+void backward(std::list<unsigned> & mb, std::list<unsigned> & genotype_indexes)
+{
+    /* code */
+}
 
 smmb_aco()
 {
@@ -83,8 +111,5 @@ smmb_aco()
         }
     }
 
-    void learn_MB()
-    {
-        MB_A = NULL;
-    }
+
 }
