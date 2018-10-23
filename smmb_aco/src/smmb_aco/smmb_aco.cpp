@@ -60,3 +60,8 @@ procedure backward(MB, T, alpha)
             break
 }
 */
+
+smmb_aco()
+{
+    
+}
