@@ -68,7 +68,10 @@ procedure backward(MB, T, alpha)
 
 class smmb_aco
 {
-    void smmb_aco::learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, float global_alpha, int mem_a, P)
+    //=================================================
+    // smmb_aco : learn_MB
+    //=================================================
+    void smmb_aco::learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, double alpha, int mem_a, P)
     {
         MB_A = NULL;
         bool MB_modified = TRUE;
@@ -77,7 +80,9 @@ class smmb_aco
         }
         return MB_a
     }
-
+    //=================================================
+    // smmb_aco : forward
+    //=================================================
     void smmb_aco::forward(MB_modifie, MB_a, int n_it_n, int j, P, genotype_matrix, int K )
     {
         while (MB_modifie or MB_a == NULL and j<n_it_n)
@@ -87,28 +92,32 @@ class smmb_aco
             S = echantillone(P, genotype_matrix, k)
             s<-arg_max{score_association(s',T,MB_a,mem_a)} //l'argument qui maximise
             */
-            if (p_valeur(s) << global_alpha) {//cas de rejet de H_0
+            if (p_valeur(s) << alpha) {//cas de rejet de H_0
                 //MB_a<-MB_a union s
                 MB_modified = TRUE;
-                backward(MB_a, T, global_alpha)
+                backward(MB_a, T, alpha)
             }
             j++;
         }
     }
-
-    void smmb_aco::backward(MB_a, phenotype_matrix, float global_alpha)
+    //=================================================
+    // smmb_aco : backward
+    //=================================================
+    void smmb_aco::backward(MB_a, phenotype_matrix, double alpha)
     {
         for (size_t x = 0; x < MB.size; x++) {
             for (size_t s = 0; s < count; s++) {
-                independance_test(X,T,S_0);
-                if (p_valeur>global_alpha) { //H_0: independance
+                independance_test_conditionnal(X,T,S_0);
+                if (p_valeur>alpha) { //H_0: independance
                     // MB <- MB\{x} //a gerer en liste
                     // break
                 }
             }
         }
     }
-
+    //=================================================
+    // smmb_aco : run
+    //=================================================
     void smmb_aco::run()
     {
         //initialise couverture de Markov
@@ -119,7 +128,7 @@ class smmb_aco
             for (size_t a = 0; a < n_ants; a++) { // a parallelise
                 // genotype_matrix<- echantillonner(P, D, KI)
                 int mem_a = NULL;
-                MB_a <- learn_MB(genotype_matrix,T, k, N_it_n, global_alpha, mem_a, P)
+                MB_a <- learn_MB(genotype_matrix,T, k, N_it_n, alpha, mem_a, P)
             }
             //quel type?? mem = NULL
             for (size_t a = 0; a < n_ants; a++) {
