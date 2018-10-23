@@ -63,5 +63,28 @@ procedure backward(MB, T, alpha)
 
 smmb_aco()
 {
-    
+    //initialise couverture de Markov
+    float tau = tau_0;
+
+    for (size_t i = 0; i < n_iteration; i++) {
+        //P <- calculer distribution, probabilité (tau, eta, alpha, beta)
+        for (size_t a = 0; a < n_ants; a++) { // a parallelise
+            /* D_a<- echantillonner(P, D, KI)
+            mem_a <- ensemble_vide
+            MB_a <- learn_MB(D_a,T, k, N_it_n, alpha', mem_a, P) */
+        }
+        //quel type?? mem = NULL
+        for (size_t a = 0; a < n_ants; a++) {
+            //ajouter(mem, mem_a)
+            if (MB_a != NULL) {
+                MB_S = MB_S + MB_a;
+            }
+            //post traitement
+        }
+    }
+
+    void learn_MB()
+    {
+        MB_A = NULL;
+    }
 }
