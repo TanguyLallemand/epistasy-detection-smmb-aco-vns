@@ -62,11 +62,18 @@ procedure backward(MB, T, alpha)
 */
 #include <list>
 #include "smmb_aco.hpp"
-void learn_MB(genotype_matrix, phenotype_matrix, K, n_it_n, float global_alpha, mem_a, P)
+void learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, float global_alpha, mem_a, P)
 {
     MB_A = NULL;
     bool MB_modified = TRUE;
     int j = 0;
+    forward();
+    }
+
+    return MB_a
+}
+void forward(MB_modifie, MB_a, n_it_n, j, P, genotype_matrix, int K )
+{
     while (MB_modifie or MB_a == NULL and j<n_it_n)
     {
         MB_modifie = false
@@ -77,15 +84,12 @@ void learn_MB(genotype_matrix, phenotype_matrix, K, n_it_n, float global_alpha, 
         if (p_valeur(s) << global_alpha) {//cas de rejet de H_0
             //MB_a<-MB_a union s
             MB_modified = TRUE;
-            backward_phase(MB_a, T, global_alpha)
+            backward(MB_a, T, global_alpha)
         }
+        j++;
     }
 }
-void forward()
-{
-
-}
-void backward(MB_a)
+void backward(MB_a, phenotype_matrix, global_alpha)
 {
     /* code */
 }
