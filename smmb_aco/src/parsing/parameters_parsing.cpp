@@ -16,7 +16,7 @@ using namespace std;
 //=================================================
 Parameters_file_parsing::Parameters_file_parsing()
 {
-    ifstream file("./PARAMETERS_SMMB_ACO.txt");
+    ifstream file("./parameters/parameters.txt");
     if(file)
     {
         string line;
@@ -31,7 +31,7 @@ Parameters_file_parsing::Parameters_file_parsing()
     }
     else
     {
-        std::cerr << "Error while opening PARAMETERS_SMMB_ACO.txt !\n";
+        std::cerr << "Error while opening parameters.txt !\n";
     }
 }
 
