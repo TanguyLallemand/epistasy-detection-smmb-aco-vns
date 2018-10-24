@@ -1,4 +1,4 @@
 - A priori il faut utiliser la librairie boost qu on peut avoir a la l'addresse: http://www.boost.org/users/history/version_1_61_0.html
 - generation d'un dataset naif done
-- Pour evaluation a voir si on pourra parser facilemen,t des matrices en python sinon peut etre passer par du R si tu penses voir le lvl.
+- Pour evaluation a voir si on pourra parser facilemen,t des matrices en python sinon peut etre passer par du R si tu penses voir le lvl. je suis meme godlike
 -
