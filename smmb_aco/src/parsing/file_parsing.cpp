@@ -1,13 +1,12 @@
 #include "file_parsing.hpp"
-
 // on doit open les csv qui contiennent les données et les parser pour les utiliser dans les differentes techniques
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <boost/numeric/ublas/matrix.hpp>
-
+using namespace std;
 //TODO voir comment on retourne les données exactement
-void get_datas(file_genotype, file_phenotype)
+void get_datas(string file_genotype, string file_phenotype)
 {
     ifstream flux_genotype(file_genotype); //open genotype file provided (read only)
 
@@ -39,11 +38,11 @@ void initialise_matrix()
     line_nb = get_line_nb(file_genotype);
     col_nb = get_col_nb(file_genotype);
     matrix<int> data_matrix(int line_nb, int col_nb)
-    
+
 }
 
 //get the line number to initialise the data matrix
-int get_line_nb(file_name)
+int get_line_nb(string file_name)
 {
     ifstream file(file_name);
     string temp;
@@ -57,7 +56,7 @@ int get_line_nb(file_name)
 }
 
 //get the column number to initialise the data matrix
-int get_col_nb(file_name, separator)
+int get_col_nb(string file_name, char separator)
 {
     ifstream file(file_name);
     string line;
