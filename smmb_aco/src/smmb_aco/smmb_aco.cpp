@@ -77,7 +77,6 @@ class smmb_aco
         bool MB_modified = TRUE;
         int j = 0;
         forward();
-        }
         return MB_a
     }
     //=================================================
