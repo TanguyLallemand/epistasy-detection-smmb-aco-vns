@@ -2,4 +2,4 @@
 - generation d'un dataset naif done
 - Pour evaluation a voir si on pourra parser facilemen,t des matrices en python sinon peut etre passer par du R si tu penses voir le lvl. je suis meme godlike
 -
-test2
+test3
