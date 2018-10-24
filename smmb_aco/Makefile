@@ -11,7 +11,7 @@
 # -ansi --Don't use GNU ext; do use ansi standard.
 
 # Add external library path
-BOOST_FOLDER = /home/storm/Documents/Master2/bitbucket/boost_1_61_0
+BOOST_FOLDER = ../boost_1_61_0
 # Give path of .hpp files
 INC=-I$(BOOST_FOLDER) \
  -I./include \
