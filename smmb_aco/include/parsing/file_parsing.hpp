@@ -1,5 +1,5 @@
-#ifndef FILE_PARSING_H
-#define FILE_PARSING_H
+#ifndef FILE_PARSING_HPP
+#define FILE_PARSING_HPP
 
 #include <string>
 using namespace std;

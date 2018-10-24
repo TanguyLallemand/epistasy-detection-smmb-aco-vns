@@ -1,5 +1,5 @@
-#ifndef SMMB_ACO_H
-#define SMMB_ACO_H
+#ifndef SMMB_ACO_HPP
+#define SMMB_ACO_HPP
 
 #include <list>
 class smmb_aco

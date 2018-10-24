@@ -1,5 +1,5 @@
-#ifndef PARAMETERS_PARSING_H
-#define PARAMETERS_PARSING_H
+#ifndef PARAMETERS_PARSING_HPP
+#define PARAMETERS_PARSING_HPP
 
 #include <string>
 #include <vector>
