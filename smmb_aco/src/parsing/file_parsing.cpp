@@ -38,7 +38,6 @@ void initialise_matrix()
     line_nb = get_line_nb(file_genotype);
     col_nb = get_col_nb(file_genotype);
     matrix<int> data_matrix(int line_nb, int col_nb);
-
 }
 
 //get the line number to initialise the data matrix
