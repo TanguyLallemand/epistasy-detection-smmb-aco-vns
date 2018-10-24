@@ -10,4 +10,5 @@ class file_parsing
     void initialise_matrix();
     int get_line_nb(string file_name);
     int get_col_nb(string file_name, char separator);
-}
+};
+#endif
