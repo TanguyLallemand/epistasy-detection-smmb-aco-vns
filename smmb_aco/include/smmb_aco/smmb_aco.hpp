@@ -23,22 +23,22 @@ public:
     alpha, beta: Deux constantes utilisees pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori
     */
 // Constructeur
-smmb_aco(genotype_matrix, phenotype_matrix, int n_it, int n_ants, int K, int n_it_n, double alpha, int tau_0, int rau, int tau, int eta, int alpha, int beta);
-void learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, double alpha, int mem_a, P);
-void forward(MB_modifie, MB_a, int n_it_n, int j, P, genotype_matrix, int K );
-void backward(MB_a, phenotype_matrix, double alpha);
-void run();
+    smmb_aco(genotype_matrix, phenotype_matrix, int n_it, int n_ants, int K, int n_it_n, double alpha, int tau_0, int rau, int tau, int eta, int alpha, int beta);
+    void learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, double alpha, int mem_a, P);
+    void forward(MB_modifie, MB_a, int n_it_n, int j, P, genotype_matrix, int K );
+    void backward(MB_a, phenotype_matrix, double alpha);
+    void run();
 
 private:
 
-int mem_a;
-// mettre les types     P;
-double alpha;
-// mettre les types     MB_A;
-int j;
-int K;
-bool MB_modified;
-// mettre les types     S;
-parameters_parsing _params;
+    int mem_a;
+    // mettre les types     P;
+    double alpha;
+    // mettre les types     MB_A;
+    int j;
+    int K;
+    bool MB_modified;
+    // mettre les types     S;
+    parameters_parsing _params;
 };
 #endif
