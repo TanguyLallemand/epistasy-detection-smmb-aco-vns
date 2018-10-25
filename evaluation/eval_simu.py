@@ -37,4 +37,3 @@
 # sinon c'est a la majorité
 #
 # f measure pour eviter qu il plante a cause division par 0, si y a un seul TP et le reste en FP ou FP ca passe mais si pas de TP et tt en FN alors division par 0. Si TP=0 alors pb. Dans ce cas la j en enleverai un a celui qui peut pas etre calcule et je le met a l autre qui est a 0
-# TOut bien documente:
