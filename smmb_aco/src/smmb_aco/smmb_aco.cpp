@@ -77,7 +77,6 @@ class smmb_aco
         bool MB_modified = TRUE;
         int j = 0;
         forward();
-        }
         return MB_a
     }
     //=================================================
@@ -93,7 +92,7 @@ class smmb_aco
             s<-arg_max{score_association(s',T,MB_a,mem_a)} //l'argument qui maximise
             */
             if (p_valeur(s) << alpha) {//cas de rejet de H_0
-                //MB_a<-MB_a union s
+                MB_a = std::set_union (MB_A, MB_A + MB_A.size(), S, S+S.size(), v.begin());// union de MB_A et S et retourne avec v.begin le debut du vecteur MB_A
                 MB_modified = TRUE;
                 backward(MB_a, T, alpha)
             }
