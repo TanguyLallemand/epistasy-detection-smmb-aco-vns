@@ -37,10 +37,10 @@ void initialise_matrix()
 {
     line_nb = get_line_nb(file_genotype);
     col_nb = get_col_nb(file_genotype);
-    matrix<int> data_matrix(int line_nb, int col_nb);
+    boost::numeric::ublas::matrix<int> data_matrix(int line_nb, int col_nb);
 }
 
-//get the line number to initialise the data matrix
+//get the line number to initialise the empty data matrix
 int get_line_nb(string file_name)
 {
     ifstream file(file_name);
@@ -54,7 +54,7 @@ int get_line_nb(string file_name)
     return line_nb;
 }
 
-//get the column number to initialise the data matrix
+//get the column number to initialise the empty data matrix
 int get_col_nb(string file_name, char separator)
 {
     ifstream file(file_name);
