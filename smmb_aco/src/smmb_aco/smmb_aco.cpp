@@ -71,6 +71,7 @@ class smmb_aco
     //=================================================
     // smmb_aco : learn_MB
     //=================================================
+    //Return Markov Blanket sous optimale eventuellemenet vide
     void smmb_aco::learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, double alpha, int mem_a, P)
     {
         MB_A = NULL;
@@ -82,11 +83,11 @@ class smmb_aco
     //=================================================
     // smmb_aco : forward
     //=================================================
-    void smmb_aco::forward(MB_modifie, MB_a, int n_it_n, int j, P, genotype_matrix, int K )
+    void smmb_aco::forward(MB_modified, MB_a, int n_it_n, int j, P, genotype_matrix, int K )
     {
-        while (MB_modifie or MB_a == NULL and j<n_it_n)
+        while (MB_modified or MB_a == NULL and j<n_it_n)
         {
-            MB_modifie = false
+            MB_modified = false
             /*
             S = echantillone(P, genotype_matrix, k)
             s<-arg_max{score_association(s',T,MB_a,mem_a)} //l'argument qui maximise
@@ -104,12 +105,12 @@ class smmb_aco
     //=================================================
     void smmb_aco::backward(MB_a, phenotype_matrix, double alpha)
     {
-        for (size_t x = 0; x < MB.size; x++) {
-            for (size_t s = 0; s < count; s++) {
+        for (size_t X = 0; X < MB.size; X++) {
+            for (size_t S = 0; S < count; S++) {
                 independance_test_conditionnal(X,T,S_0);
                 if (p_valeur>alpha) { //H_0: independance
                     // MB <- MB\{x} //a gerer en liste
-                    // break
+                    break
                 }
             }
         }
@@ -120,6 +121,7 @@ class smmb_aco
     void smmb_aco::run()
     {
         //initialise couverture de Markov
+        MB_S = NULL;
         float tau = tau_0;
 
         for (size_t i = 0; i < n_iteration; i++) {
@@ -127,9 +129,9 @@ class smmb_aco
             for (size_t a = 0; a < n_ants; a++) { // a parallelise
                 // genotype_matrix<- echantillonner(P, D, KI)
                 int mem_a = NULL;
-                MB_a <- learn_MB(genotype_matrix,T, k, N_it_n, alpha, mem_a, P)
+                MB_a <- learn_MB(genotype_matrix,T, K, n_it_n, alpha, mem_a, P)
             }
-            //quel type?? mem = NULL
+            int mem = NULL
             for (size_t a = 0; a < n_ants; a++) {
                 //ajouter(mem, mem_a)
                 if (MB_a != NULL) {
