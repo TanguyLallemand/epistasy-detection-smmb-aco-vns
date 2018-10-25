@@ -1,5 +1,4 @@
-__file_name#include "file_parsing.hpp"
-// on doit open les csv qui contiennent les données et les parser pour les utiliser dans les differentes techniques
+#include "file_parsing.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -9,11 +8,12 @@ using namespace std;
 //TODO faire le constructeur
 //TODO voir pour le type de la matrice car je comprends pas comment il fait le bon clement donc pour le moment j'ai mis du string pour que les identifiant passent, on verra bien à la compil ^^ #prepareuranus
 //TODO voir si un destructeur est nécessaire
-class data_parsing(string file_genotype, string file_phenotype)
+class data_parsing()
 {
 public:
+    data_parsing(string filename, int header_size, char separator)
     void initialise_empty_matrix();
-    void data_to_matrix();
+    void get_data();
     void get_col_nb();
     void get_line_nb();
 
@@ -31,19 +31,21 @@ private:
 //=================================================
 
 //=================================================
-// data_parsing : data_to_matrix
+// data_parsing : get_data
 //=================================================
-void data_to_matrix()
+void get_data()
 {
+    initialise_empty_matrix();
     ifstream file(_file_name);
     string line;
     for (size_t i = 0; i < _col_number; i++) {
-        for (size_t j = 0; j < count; j++) {
+        for (size_t j = 0; j < _row_number; j++) {
             getline(file, line, ',')
             _matrix (i, j) = line;
         }
     }
 }
+
 //=================================================
 // data_parsing : initialise_empty_matrix
 //=================================================
@@ -85,7 +87,7 @@ void get_col_nb()
     getline(file, line);
     int lenght = strlen(line);
     for (i = 0; i < lenght; i++) {
-        if (line[i]==separator) {
+        if (line[i]==_separator) {
             _col_number++;
         }
     }
