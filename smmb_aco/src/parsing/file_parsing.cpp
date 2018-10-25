@@ -8,14 +8,16 @@ using namespace std;
 //TODO faire le constructeur
 //TODO voir pour le type de la matrice car je comprends pas comment il fait le bon clement donc pour le moment j'ai mis du string pour que les identifiant passent, on verra bien à la compil ^^ #prepareuranus
 //TODO voir si un destructeur est nécessaire
+
+//Euh ca c'est pas ce qu il faut mettre dans le hpp, les proto et les variables?
 class data_parsing()
 {
 public:
     data_parsing(string filename, int header_size, char separator)
     void initialise_empty_matrix();
     void get_data();
-    void get_col_nb();
-    void get_line_nb();
+    void get_col_nb(string _file_name);
+    void get_line_nb(string _file_name);
 
 private:
     string _file_name;
@@ -78,7 +80,7 @@ int get_line_nb(string _file_name)
 //=================================================
 // data_parsing : get_col_nb
 //=================================================
-void get_col_nb()
+void get_col_nb(string _file_namestring _file_name)
 {
     ifstream file(_file_name);
     string line;
