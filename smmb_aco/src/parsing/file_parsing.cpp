@@ -7,6 +7,7 @@
 using namespace std;
 //TODO voir comment on retourne les données exactement (ou on met les identifiants etc)
 //TODO voir pour le choix du séparateur dans le fichier input. pour le moment on met ',' par default
+//IDEA Les séparateurs sont donnés en parametres dans le fichiers parameters, tt comme le nombre d eligne du header
 void get_datas(string file_genotype, string file_phenotype)
 {
     ifstream flux_genotype(file_genotype); //open genotype file provided (read only)
