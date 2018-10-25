@@ -120,17 +120,20 @@ class smmb_aco
     //=================================================
     void smmb_aco::run()
     {
-        //initialise couverture de Markov
+        // Initialization of Markov Blanket
         MB_S = NULL;
         float tau = tau_0;
-
         for (size_t i = 0; i < n_iteration; i++) {
             //P <- calculer distribution, probabilité (tau, eta, alpha, beta)
+            // For every ants
             for (size_t a = 0; a < n_ants; a++) { // a parallelise
                 // genotype_matrix<- echantillonner(P, D, KI)
+                // Initialization of memory
                 int mem_a = NULL;
+                // Generate Markov Blanket and stock it in a temp variable
                 MB_a <- learn_MB(genotype_matrix,T, K, n_it_n, alpha, mem_a, P)
             }
+            // Initialization of final variable
             int mem = NULL
             for (size_t a = 0; a < n_ants; a++) {
                 //ajouter(mem, mem_a)
