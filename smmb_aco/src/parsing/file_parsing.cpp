@@ -1,4 +1,4 @@
-#include "file_parsing.hpp"
+__file_name#include "file_parsing.hpp"
 // on doit open les csv qui contiennent les données et les parser pour les utiliser dans les differentes techniques
 #include <iostream>
 #include <fstream>
@@ -6,92 +6,87 @@
 #include <boost/numeric/ublas/matrix.hpp>
 using namespace std;
 //TODO voir comment on retourne les données exactement (ou on met les identifiants etc)
-//TODO voir pour le choix du séparateur dans le fichier input. pour le moment on met ',' par default
-//IDEA Les séparateurs sont donnés en parametres dans le fichiers parameters, tt comme le nombre d eligne du header
-void get_datas(string file_genotype, string file_phenotype)
+//TODO faire le constructeur
+//TODO voir pour le type de la matrice car je comprends pas comment il fait le bon clement donc pour le moment j'ai mis du string pour que les identifiant passent, on verra bien à la compil ^^ #prepareuranus
+//TODO voir si un destructeur est nécessaire
+class data_parsing(string file_genotype, string file_phenotype)
 {
-    ifstream flux_genotype(file_genotype); //open genotype file provided (read only)
+public:
+    void initialise_empty_matrix();
+    void data_to_matrix();
+    void get_col_nb();
+    void get_line_nb();
 
-    if (flux_genotype) {
-
-    }
-    else
-    {
-        cout << "genotype file can't be opened" << file_genotype << endl;
-    }
-
-    ifstream flux_phenotype(file_phenotype);
-
-    if (flux_phenotype) {
-        get_line_nb(file_phenotype)
-        get_col_nb(file_phenotype)
-    }
-    else
-    {
-        cout << "phenotype file can't be opened" << file_phenotype << endl;
-    }
-
-
+private:
+    string _file_name;
+    int _header_size;
+    int _row_number;
+    int _col_number;
+    char _separator;
+    boost::numeric::ublas::matrix<string> _matrix;
 }
 
 //=================================================
-// get_datas : data_to_matrix
+// data_parsing : //TODO constructeur ici
 //=================================================
-boost::numeric::ublas::matrix<string> data_to_matrix(empty_matrix, file_name)
+
+//=================================================
+// data_parsing : data_to_matrix
+//=================================================
+void data_to_matrix()
 {
-    ifstream file(file_name);
-    string line, value;
-    int row_it = 0;
-    int col_it = 0;
-    while (getline(file, line)) {
-        while (getline(line, value, ',')) {
-            empty_matrix(row_it, col_it) = value;
-            col_it++;
+    ifstream file(_file_name);
+    string line;
+    for (size_t i = 0; i < _col_number; i++) {
+        for (size_t j = 0; j < count; j++) {
+            getline(file, line, ',')
+            _matrix (i, j) = line;
         }
-        row_it++;
     }
-    return empty_matrix;
 }
 //=================================================
-// get_datas : initialise_matrix
+// data_parsing : initialise_empty_matrix
 //=================================================
-void initialise_matrix()
+void initialise_empty_matrix()
 {
-    line_nb = get_line_nb(file_genotype);
-    col_nb = get_col_nb(file_genotype);
-    boost::numeric::ublas::matrix<string> data_matrix(string line_nb, string col_nb);
+    get_line_nb();
+    get_col_nb();
+    boost::numeric::ublas::matrix<string> data_matrix(string _line_number, string _col_number);
 }
 
 //=================================================
-// get_datas : get_line_nb
+// data_parsing : get_line_nb
 //=================================================
-int get_line_nb(string file_name)
+int get_line_nb(string _file_name)
 {
-    ifstream file(file_name);
+    ifstream file(_file_name);
     string temp;
-    int line_nb=0;
+    _row_number=0;
     if (file) {
         while (getline(file, temp)) {
-            line_nb++;
+            _row_number++;
         }
     }
-    return line_nb;
+    else
+    {
+        std::cout << "unable to open : "<< _file_name << '\n';
+    }
 }
 
 //=================================================
-// get_datas : get_col_nb
+// data_parsing : get_col_nb
 //=================================================
-int get_col_nb(string file_name, char separator)
+void get_col_nb()
 {
-    ifstream file(file_name);
+    ifstream file(_file_name);
     string line;
     int i;
-    int col_nb=1;
+    _col_number=1;
     getline(file, line);
     int lenght = strlen(line);
     for (i = 0; i < lenght; i++) {
         if (line[i]==separator) {
-            col_nb++;
+            _col_number++;
         }
     }
 }
