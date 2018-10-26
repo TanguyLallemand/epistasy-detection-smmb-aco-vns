@@ -108,5 +108,6 @@ void data_parsing::get_col_nb()
 //=================================================
 boost::numeric::ublas::matrix<int> return_matrix()
 {
+    std::cout << _matrix << '\n';
     return _matrix;
 }
