@@ -16,7 +16,7 @@ using namespace std;
 //=================================================
 parameters_parsing::parameters_parsing()
 {
-    ifstream file("../parameters/parameters.txt");
+    ifstream file("smmb_aco/parameters/parameters.txt");
     if(file)
     {
         string line;
