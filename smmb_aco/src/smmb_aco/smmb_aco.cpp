@@ -73,7 +73,7 @@ class smmb_aco
     // smmb_aco : learn_MB
     //=================================================
     //Return Markov Blanket sous optimale eventuellemenet vide
-    void smmb_aco::learn_MB(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int K, int n_it_n, double alpha, int mem_a, /*P*/)
+    void smmb_aco::learn_MB(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int K, int n_it_n, double alpha, int mem_a/*, P*/)
     {
         list<unsigned> MB_A = NULL;
         bool MB_modified = TRUE;
@@ -84,7 +84,7 @@ class smmb_aco
     //=================================================
     // smmb_aco : forward
     //=================================================
-    void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, int n_it_n, int j, /*P*/, boost::numeric::ublas::matrix<int> genotype_matrix, int K )
+    void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, int n_it_n, int j/*, P*/, boost::numeric::ublas::matrix<int> genotype_matrix, int K )
     {
         while (MB_modified or MB_a == NULL and j<n_it_n)
         {
@@ -135,7 +135,7 @@ class smmb_aco
                 // Initialization of memory
                 list<unsigned> mem_a = NULL;
                 // Generate Markov Blanket and stock it in a temp variable
-                list<unsigned> MB_a = learn_MB(genotype_matrix,T, K, n_it_n, alpha, mem_a, /*P*/);
+                list<unsigned> MB_a = learn_MB(genotype_matrix,T, K, n_it_n, alpha, mem_a/*, P*/);
             }
             // Initialization of final variable
             list<unsigned> mem = NULL
