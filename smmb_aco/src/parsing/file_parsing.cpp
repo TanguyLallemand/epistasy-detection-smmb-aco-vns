@@ -28,7 +28,9 @@ data_parsing::data_parsing(string filename, int header_size, char separator)
 //=================================================
 void data_parsing::data_to_matrix()
 {
+    cout << "not open" << '\n';
     ifstream file(_file_name);
+    cout << "open" << '\n';
     string line;
     for (size_t x = 0; x < _header_size; x++) {
         getline(file, line);
@@ -55,7 +57,7 @@ void data_parsing::initialise_empty_matrix()
 //=================================================
 // data_parsing : get_line_nb
 //=================================================
-int data_parsing::get_line_nb(string _file_name)
+int data_parsing::get_line_nb()
 {
     ifstream file(_file_name);
     string temp;
@@ -75,7 +77,7 @@ int data_parsing::get_line_nb(string _file_name)
 //=================================================
 // data_parsing : get_col_nb
 //=================================================
-void data_parsing::get_col_nb(string _file_name)
+void data_parsing::get_col_nb()
 {
     ifstream file(_file_name);
     string line;
