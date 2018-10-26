@@ -14,7 +14,7 @@ using namespace std;
 //=================================================
 data_parsing::data_parsing(string filename, int header_size, char separator)
 {
-    std::cout << "coucou tang" << filename << '\n';
+    cout << "coucou tang" << filename << '\n';
     string _filename;
     _filename = filename;
     _header_size = header_size;
