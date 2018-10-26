@@ -21,7 +21,8 @@ int main(int argc, char* argv[])
     int header = params.header;
     char separator = params.separator;
     file_parsing data(genos_file, header, separator);
-    data.return_matrix();
+    boost::numeric::ublas::matrix<int> matrix;
+    matrix = data.return_matrix();
 
     // Instanciation de smmb_aco
     //smmb_aco(genotype_matrix, phenotype_matrix, n_it, n_ants, K, n_it_n, alpha, tau_0, rau, tau, eta, alpha, beta);
