@@ -24,9 +24,9 @@ public:
     */
 // Constructeur
     smmb_aco(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int n_it, int n_ants, int K, int n_it_n, double alpha, int tau_0, int rau, int tau, int eta, int alpha, int beta);
-    void learn_MB(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int K, int n_it_n, double alpha, int mem_a, P);
-    void forward(MB_modifie, MB_a, int n_it_n, int j, P, boost::numeric::ublas::matrix<int> genotype_matrix, int K );
-    void backward(MB_a, boost::numeric::ublas::matrix<int> phenotype_matrix, double alpha);
+    void learn_MB(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int K, int n_it_n, double alpha, list<unsigned> mem_a, P);
+    void forward(bool MB_modifie, list<unsigned> MB_a, int n_it_n, int j, P, boost::numeric::ublas::matrix<int> genotype_matrix, int K );
+    void backward(list<unsigned> MB_a, boost::numeric::ublas::matrix<int> phenotype_matrix, double alpha);
     void run();
 
 private:

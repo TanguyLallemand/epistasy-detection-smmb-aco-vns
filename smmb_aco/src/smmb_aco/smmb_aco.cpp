@@ -65,7 +65,7 @@ procedure backward(MB, T, alpha)
 #include <list>
 #include "smmb_aco.hpp"
 #include "statistics.hpp"
-#include <boost/numeric/ublas/matrix.hpp>
+#include "file_parsing.hpp"
 
 class smmb_aco
 {
