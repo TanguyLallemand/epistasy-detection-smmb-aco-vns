@@ -21,7 +21,7 @@ private:
     boost_matrix _matrix;
     void initialise_empty_matrix();
     void data_to_matrix();
-    void get_col_nb(string _file_name);
-    int get_line_nb(string _file_name);
+    void get_col_nb();
+    int get_line_nb();
 };
 #endif

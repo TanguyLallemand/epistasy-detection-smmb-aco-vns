@@ -28,9 +28,7 @@ data_parsing::data_parsing(string filename, int header_size, char separator)
 //=================================================
 void data_parsing::data_to_matrix()
 {
-    cout << "not open" << '\n';
     ifstream file(_file_name);
-    cout << "open" << '\n';
     string line;
     for (size_t x = 0; x < _header_size; x++) {
         getline(file, line);
