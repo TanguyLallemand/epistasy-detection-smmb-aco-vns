@@ -72,30 +72,31 @@ class smmb_aco
     // smmb_aco : learn_MB
     //=================================================
     //Return Markov Blanket sous optimale eventuellemenet vide
-    void smmb_aco::learn_MB(genotype_matrix, phenotype_matrix, int K, int n_it_n, double alpha, int mem_a, P)
+    void smmb_aco::learn_MB(boost::numeric::ublas::matrix <int> genotype_matrix, boost::numeric::ublas::matrix <int> phenotype_matrix, int K, int n_it_n, double alpha, int mem_a, P)
     {
-        MB_A = NULL;
+        list<unsigned> MB_A = NULL;
         bool MB_modified = TRUE;
         int j = 0;
         forward();
-        return MB_a
+        return MB_a;
     }
     //=================================================
     // smmb_aco : forward
     //=================================================
-    void smmb_aco::forward(MB_modified, MB_a, int n_it_n, int j, P, genotype_matrix, int K )
+    void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, int n_it_n, int j, P, boost::numeric::ublas::matrix <int> genotype_matrix, int K )
     {
         while (MB_modified or MB_a == NULL and j<n_it_n)
         {
-            MB_modified = false
+            MB_modified = false;
             /*
             S = echantillone(P, genotype_matrix, k)
             s<-arg_max{score_association(s',T,MB_a,mem_a)} //l'argument qui maximise
             */
-            if (p_valeur(s) << alpha) {//cas de rejet de H_0
+            if (p_valeur(s) << alpha)
+            {//cas de rejet de H_0
                 MB_a = std::set_union (MB_A, MB_A + MB_A.size(), S, S+S.size(), v.begin());// union de MB_A et S et retourne avec v.begin le debut du vecteur MB_A
                 MB_modified = TRUE;
-                backward(MB_a, T, alpha)
+                backward(MB_a, T, alpha);
             }
             j++;
         }
@@ -103,14 +104,14 @@ class smmb_aco
     //=================================================
     // smmb_aco : backward
     //=================================================
-    void smmb_aco::backward(MB_a, phenotype_matrix, double alpha)
+    void smmb_aco::backward(list<unsigned> MB_a, boost::numeric::ublas::matrix <int> phenotype_matrix, double alpha)
     {
         for (size_t X = 0; X < MB.size; X++) {
             for (size_t S = 0; S < count; S++) {
                 independance_test_conditionnal(X,T,S_0);
                 if (p_valeur>alpha) { //H_0: independance
-                    // MB <- MB\{x} //a gerer en liste
-                    break
+                    // MB <- MB\{x}; //a gerer en liste
+                    break;
                 }
             }
         }
@@ -121,26 +122,28 @@ class smmb_aco
     void smmb_aco::run()
     {
         // Initialization of Markov Blanket
-        MB_S = NULL;
+        list<unsigned> MB_S = NULL;
         float tau = tau_0;
-        for (size_t i = 0; i < n_iteration; i++) {
+        for (size_t i = 0; i < n_iteration; i++)
+        {
             //P <- calculer distribution, probabilité (tau, eta, alpha, beta)
             // For every ants
-            for (size_t a = 0; a < n_ants; a++) { // a parallelise
+            for (size_t a = 0; a < n_ants; a++)
+            { // a parallelise
                 // genotype_matrix<- echantillonner(P, D, KI)
                 // Initialization of memory
-                int mem_a = NULL;
+                list<unsigned> mem_a = NULL;
                 // Generate Markov Blanket and stock it in a temp variable
-                MB_a <- learn_MB(genotype_matrix,T, K, n_it_n, alpha, mem_a, P)
+                list<unsigned> MB_a = learn_MB(genotype_matrix,T, K, n_it_n, alpha, mem_a, P);
             }
             // Initialization of final variable
-            int mem = NULL
+            list<unsigned> mem = NULL
             for (size_t a = 0; a < n_ants; a++) {
-                //ajouter(mem, mem_a)
+                //ajouter(mem, mem_a);
                 if (MB_a != NULL) {
                     MB_S = MB_S + MB_a;
                 }
-                //post traitement
+                //post traitement;
             }
         }
     }
