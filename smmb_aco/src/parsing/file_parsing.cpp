@@ -15,8 +15,7 @@ using namespace std;
 data_parsing::data_parsing(string filename, int header_size, char separator)
 {
     cout << "coucou tang" << filename << '\n';
-    string _filename;
-    _filename = filename;
+    _file_name = filename;
     _header_size = header_size;
     _separator = separator;
     get_line_nb(_file_name);
