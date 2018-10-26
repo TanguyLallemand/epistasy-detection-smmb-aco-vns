@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <boost/numeric/ublas/matrix.hpp>
+
 using namespace std;
 
 //TODO voir si un destructeur est nécessaire
