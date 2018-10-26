@@ -8,7 +8,6 @@ using namespace std;
 
 //TODO voir si un destructeur est nécessaire
 
-//strlen c du C il vaut mieux utiliser str.size(), plus facile et c++ oriented
 //=================================================
 // data_parsing : constructeur
 //=================================================
@@ -97,6 +96,5 @@ void data_parsing::get_col_nb()
 //=================================================
 boost_matrix data_parsing::return_matrix()
 {
-    boost_matrix _matrix;
     return _matrix;
 }
