@@ -21,10 +21,6 @@ data_parsing::data_parsing(string filename, int header_size, char separator)
     get_col_nb();
     initialise_empty_matrix();
     data_to_matrix();
-    //std::cout << _matrix << '\n';
-    std::cout << _matrix.size1() << '\n';
-    std::cout << _matrix.size2() << '\n';
-    std::cout << _matrix << '\n';
 }
 //=================================================
 // data_parsing : data_to_matrix
@@ -102,6 +98,5 @@ void data_parsing::get_col_nb()
 boost_matrix data_parsing::return_matrix()
 {
     boost_matrix _matrix;
-    //std::cout << _matrix << '\n'; //Je crois que cout ne sais pas print ce type, il faut voir dans boost si ils ont pas un truc pour les prints
     return _matrix;
 }

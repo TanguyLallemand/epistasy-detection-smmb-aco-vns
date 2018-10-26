@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     params.phenos_file = phenos_file;
     int header = params.header;
     char separator = params.separator;
-    data_parsing data(genos_file, header, separator);
+    data_parsing data(phenos_file, header, separator);
     boost_matrix matrix;
     matrix = data.return_matrix();
     //std::cout << matrix << std::endl;
