@@ -7,7 +7,7 @@ using namespace std;
 class data_parsing
 {
 public:
-    data_parsing(string filename, int header_size, char separator)
+    data_parsing(string filename, int header_size, char separator);
     void initialise_empty_matrix();
     void data_to_matrix();
     void get_col_nb(string _file_name);
@@ -21,5 +21,5 @@ private:
     int _col_number;
     char _separator;
     boost::numeric::ublas::matrix<int> _matrix;
-}
+};
 #endif
