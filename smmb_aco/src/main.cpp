@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
     params.phenos_file = phenos_file;
     int header = params.header;
     char separator = params.separator;
-    file_parsing data(genos_file, header, separator);
+    data_parsing data(genos_file, header, separator);
     boost::numeric::ublas::matrix<int> matrix;
     matrix = data.return_matrix();
 

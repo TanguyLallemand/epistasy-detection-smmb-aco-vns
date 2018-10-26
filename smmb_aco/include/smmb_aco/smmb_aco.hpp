@@ -3,6 +3,8 @@
 
 #include <list>
 #include "parameters_parsing.hpp"
+#include <boost/numeric/ublas/matrix.hpp>
+#include "file_parsing.hpp"
 class smmb_aco
 {
 public:
