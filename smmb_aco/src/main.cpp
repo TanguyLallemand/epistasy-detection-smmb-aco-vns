@@ -6,7 +6,7 @@
 #include "parameters_parsing.hpp"
 #include "file_parsing.hpp"
 #include "smmb_aco.hpp"
-
+#include <boost/numeric/ublas/matrix.hpp>
 int main(int argc, char* argv[])
 {
     // Arguments
