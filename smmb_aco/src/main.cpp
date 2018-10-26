@@ -7,6 +7,7 @@
 #include "file_parsing.hpp"
 #include "smmb_aco.hpp"
 #include <boost/numeric/ublas/matrix.hpp>
+#include"global.hpp"
 int main(int argc, char* argv[])
 {
     // Arguments
@@ -21,7 +22,7 @@ int main(int argc, char* argv[])
     int header = params.header;
     char separator = params.separator;
     data_parsing data(genos_file, header, separator);
-    boost::numeric::ublas::matrix<int> matrix;
+    boost_matrix matrix;
     matrix = data.return_matrix();
 
     // Instanciation de smmb_aco

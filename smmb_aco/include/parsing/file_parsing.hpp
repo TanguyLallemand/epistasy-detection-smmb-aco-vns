@@ -13,7 +13,7 @@ public:
     void data_to_matrix();
     void get_col_nb(string _file_name);
     int get_line_nb(string _file_name);
-    boost::numeric::ublas::matrix<int> return_matrix();
+    boost_matrix return_matrix();
 
 private:
     string _file_name;

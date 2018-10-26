@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 
+#include "global.hpp"
 using namespace std;
 
 //TODO voir si un destructeur est nécessaire
@@ -48,7 +49,7 @@ void data_parsing::data_to_matrix()
 //=================================================
 void data_parsing::initialise_empty_matrix()
 {
-    boost::numeric::ublas::matrix<int> data_matrix(int _line_number, int _col_number);
+    boost_matrix data_matrix(int _line_number, int _col_number);
 }
 
 //=================================================
@@ -92,9 +93,9 @@ void data_parsing::get_col_nb(string _file_name)
 //=================================================
 // data_parsing : return_matrix
 //=================================================
-boost::numeric::ublas::matrix<int> return_matrix()
+boost_matrix return_matrix()
 {
-    boost::numeric::ublas::matrix<int> _matrix;
+    boost_matrix _matrix;
     //std::cout << _matrix << '\n'; //Je crois que cout ne sais pas print ce type, il faut voir dans boost si ils ont pas un truc pour les prints
     return _matrix;
 }
