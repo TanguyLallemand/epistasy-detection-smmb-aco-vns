@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
     data_parsing data(genos_file, header, separator);
     boost_matrix matrix;
     matrix = data.return_matrix();
-    std::cout << matrix << std::endl;
+    //std::cout << matrix << std::endl;
     // Instanciation de smmb_aco
     //smmb_aco(genotype_matrix, phenotype_matrix, n_it, n_ants, K, n_it_n, alpha, tau_0, rau, tau, eta, alpha, beta);
     //smmb_aco.run();//exemple de call de la méthode smmb. Ca ne passe pas parce qu'il faut avoir une instance d ela classe avt...
