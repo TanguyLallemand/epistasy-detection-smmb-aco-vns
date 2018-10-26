@@ -2,6 +2,7 @@
 #define FILE_PARSING_HPP
 
 #include <string>
+#include <boost/numeric/ublas/matrix.hpp>
 using namespace std;
 
 class data_parsing
