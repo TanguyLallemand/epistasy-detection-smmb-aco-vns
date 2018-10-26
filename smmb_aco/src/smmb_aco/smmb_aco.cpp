@@ -77,7 +77,7 @@ void smmb_aco::learn_MB(boost::numeric::ublas::matrix<int> genotype_matrix, boos
     list<unsigned> MB_a;
     bool MB_modified = true;
     int j = 0;
-    forward();
+    forward(MB_modified, MB_a, n_it_n, j/*, P*/, genotype_matrix, K );
     return MB_a;
 }
 //=================================================
@@ -122,9 +122,10 @@ void smmb_aco::backward(list<unsigned> MB_a, boost::numeric::ublas::matrix<int> 
 void smmb_aco::run(boost::numeric::ublas::matrix<int> genotype_matrix,int T, int K, size_t n_it_n, size_t n_ants)
 {
     // Initialization of Markov Blanket
-    list<unsigned> MB_S;
+    list<unsigned> MB_s;
     float tau = tau_0;
-    for (size_t i = 0; i < n_iteration; i++)
+    list<unsigned> MB_a;
+    for (size_t i = 0; i < n_it_n; i++)
     {
         //P <- calculer distribution, probabilité (tau, eta, alpha, beta)
         // For every ants
@@ -134,14 +135,14 @@ void smmb_aco::run(boost::numeric::ublas::matrix<int> genotype_matrix,int T, int
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
-            list<unsigned> MB_a = learn_MB(genotype_matrix,T, K, n_it_n, alpha, mem_a/*, P*/);
+            MB_a = learn_MB(genotype_matrix,T, K, n_it_n, alpha, mem_a/*, P*/);
         }
         // Initialization of final variable
         list<unsigned> mem;
         for (size_t a = 0; a < n_ants; a++) {
             //ajouter(mem, mem_a);
             if (!MB_a.empty()) {
-                MB_S = MB_S + MB_a;
+                MB_s.splice(MB_s.end(), MB_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end
             }
             //post traitement;
         }
