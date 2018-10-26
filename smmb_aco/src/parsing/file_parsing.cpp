@@ -57,7 +57,9 @@ void data_parsing::initialise_empty_matrix()
 //=================================================
 int data_parsing::get_line_nb()
 {
+    std::cout << "avant ifstream" << '\n';
     ifstream file(_file_name);
+    std::cout << "après ifstream" << '\n';
     string temp;
     _row_number=0;
     if (file) {
