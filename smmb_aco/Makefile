@@ -73,3 +73,10 @@ $(OBJDIR)/smmb_aco.o: ./$(SRCDIR)/smmb_aco/smmb_aco.cpp
 $(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled smmb_aco.o"
+
+#---------------------
+# Global
+#---------------------
+$(OBJDIR)/global.o: ./$(SRCDIR)/global.hpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled global.o"
