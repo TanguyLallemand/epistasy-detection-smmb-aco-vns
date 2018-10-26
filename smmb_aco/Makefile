@@ -80,3 +80,21 @@ $(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
 $(OBJDIR)/global.o: ./$(SRCDIR)/global.hpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled global.o"
+
+
+
+
+
+
+#---------------------
+# PHONEY
+#---------------------
+.PHONEY: clean
+clean:
+	@$(rm) $(OBJ)
+	@echo "Cleanup complete."
+
+.PHONEY: remove
+remove: clean
+	@$(rm) $(TARGET)
+	@echo "Executable removed."
