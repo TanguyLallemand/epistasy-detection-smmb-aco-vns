@@ -72,7 +72,7 @@ procedure backward(MB, T, alpha)
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-void smmb_aco::learn_MB(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int K, size_t n_it_n, double alpha, int mem_a/*, P*/)
+list<unsigned> smmb_aco::learn_MB(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int K, size_t n_it_n, double alpha, int mem_a/*, P*/)
 {
     list<unsigned> MB_a;
     bool MB_modified = true;
@@ -119,7 +119,7 @@ void smmb_aco::backward(list<unsigned> MB_a, boost::numeric::ublas::matrix<int> 
 //=================================================
 // smmb_aco : run
 //=================================================
-void smmb_aco::run(boost::numeric::ublas::matrix<int> genotype_matrix,int T, int K, size_t n_it_n, size_t n_ants)
+void smmb_aco::run(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int T, int K, size_t n_it_n, size_t n_ants)
 {
     // Initialization of Markov Blanket
     list<unsigned> MB_s;
@@ -135,7 +135,7 @@ void smmb_aco::run(boost::numeric::ublas::matrix<int> genotype_matrix,int T, int
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
-            MB_a = learn_MB(genotype_matrix,T, K, n_it_n, alpha, mem_a/*, P*/);
+            MB_a = learn_MB(genotype_matrix, phenotype_matrix, K, n_it_n, alpha, mem_a/*, P*/);
         }
         // Initialization of final variable
         list<unsigned> mem;
