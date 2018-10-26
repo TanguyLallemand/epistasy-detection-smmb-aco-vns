@@ -14,12 +14,11 @@ using namespace std;
 //=================================================
 data_parsing::data_parsing(string filename, int header_size, char separator)
 {
-    cout << "coucou tang" << filename << '\n';
     _file_name = filename;
     _header_size = header_size;
     _separator = separator;
-    get_line_nb(_file_name);
-    get_col_nb(_file_name);
+    get_line_nb();
+    get_col_nb();
     initialise_empty_matrix();
     data_to_matrix();
 }
@@ -57,10 +56,10 @@ void data_parsing::initialise_empty_matrix()
 //=================================================
 int data_parsing::get_line_nb()
 {
-    std::cout << "avant ifstream" << '\n';
     ifstream file(_file_name);
-    std::cout << "après ifstream" << '\n';
     string temp;
+    getline(file, temp);
+    std::cout << "coucou" << temp << '\n';
     _row_number=0;
     if (file) {
         while (getline(file, temp)) {
