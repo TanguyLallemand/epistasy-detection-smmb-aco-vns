@@ -93,7 +93,7 @@ void data_parsing::get_col_nb(string _file_name)
 //=================================================
 // data_parsing : return_matrix
 //=================================================
-boost_matrix return_matrix()
+boost_matrix data_parsing::return_matrix()
 {
     boost_matrix _matrix;
     //std::cout << _matrix << '\n'; //Je crois que cout ne sais pas print ce type, il faut voir dans boost si ils ont pas un truc pour les prints

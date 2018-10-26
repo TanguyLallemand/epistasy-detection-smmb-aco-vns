@@ -10,7 +10,6 @@ class data_parsing
 {
 public:
     data_parsing(string filename, int header_size, char separator);
-
     boost_matrix return_matrix();
 
 private:
