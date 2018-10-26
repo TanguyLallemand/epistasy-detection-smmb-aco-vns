@@ -10,10 +10,7 @@ class data_parsing
 {
 public:
     data_parsing(string filename, int header_size, char separator);
-    void initialise_empty_matrix();
-    void data_to_matrix();
-    void get_col_nb(string _file_name);
-    int get_line_nb(string _file_name);
+
     boost_matrix return_matrix();
 
 private:
@@ -23,5 +20,9 @@ private:
     int _col_number;
     char _separator;
     boost_matrix _matrix;
+    void initialise_empty_matrix();
+    void data_to_matrix();
+    void get_col_nb(string _file_name);
+    int get_line_nb(string _file_name);
 };
 #endif
