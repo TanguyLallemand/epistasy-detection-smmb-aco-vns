@@ -7,7 +7,7 @@ using namespace std;
 
 //TODO voir si un destructeur est nécessaire
 
-class data_parsing()
+class data_parsing
 {
 public:
     data_parsing(string filename, int header_size, char separator);
