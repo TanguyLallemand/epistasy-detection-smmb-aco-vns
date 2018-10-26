@@ -10,7 +10,7 @@ using namespace std;
 class data_parsing()
 {
 public:
-    data_parsing(string filename, int header_size, char separator)
+    data_parsing(string filename, int header_size, char separator);
     void initialise_empty_matrix();
     void data_to_matrix();
     void get_col_nb(string _file_name);
@@ -51,7 +51,7 @@ void data_parsing::data_to_matrix()
     }
     for (size_t i = 0; i < _col_number; i++) {
         for (size_t j = 0; j < _row_number; j++) {
-            getline(file, line, ',')
+            getline(file, line, ',');
             _matrix (i, j) = line;
         }
     }
