@@ -21,7 +21,10 @@ data_parsing::data_parsing(string filename, int header_size, char separator)
     get_col_nb();
     initialise_empty_matrix();
     data_to_matrix();
+    //std::cout << _matrix << '\n';
+    std::cout << _matrix.size1() << '\n';
     std::cout << _matrix.size2() << '\n';
+    std::cout << _matrix << '\n';
 }
 //=================================================
 // data_parsing : data_to_matrix
@@ -33,13 +36,15 @@ void data_parsing::data_to_matrix()
     for (size_t x = 0; x < _header_size; x++) {
         getline(file, line);
     }
-    for (int i = 0; i < _row_number; i++) {
-        for (int j = 0; j < _col_number; j++) {
-            int line_as_int;
-            getline(file, line, ',');
-            std::istringstream ss(line);
-            ss >> line_as_int;
-            _matrix (i, j) = line_as_int;
+    for (size_t i = 0; i < _matrix.size1(); i++) {
+        getline(file, line);
+        std::istringstream ss(line);
+        int r=0;
+        for (size_t j = 0; j < line.size(); j++) {
+            if (line[j]!=',') {
+                _matrix(i, r) = line[j]-48;
+                r++;
+            }
         }
     }
 }
@@ -65,7 +70,7 @@ int data_parsing::get_line_nb()
         while (getline(file, temp)) {
             _row_number++;
         }
-        _row_number = _row_number - _header_size;
+        //_row_number = _row_number - _header_size;
     }
     else
     {
