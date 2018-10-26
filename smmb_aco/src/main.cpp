@@ -20,7 +20,9 @@ int main(int argc, char* argv[])
     params.phenos_file = phenos_file;
     int header = params.header;
     char separator = params.separator;
-    //get_datas(string file_genotype, string file_phenotype)
+    file_parsing data(genos_file, header, separator);
+    data.return_matrix();
+
     // Instanciation de smmb_aco
     //smmb_aco(genotype_matrix, phenotype_matrix, n_it, n_ants, K, n_it_n, alpha, tau_0, rau, tau, eta, alpha, beta);
     //smmb_aco.run();//exemple de call de la méthode smmb. Ca ne passe pas parce qu'il faut avoir une instance d ela classe avt...
