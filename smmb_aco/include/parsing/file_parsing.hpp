@@ -3,6 +3,7 @@
 
 #include <string>
 #include <boost/numeric/ublas/matrix.hpp>
+#include "global.hpp"
 using namespace std;
 
 class data_parsing
@@ -21,6 +22,6 @@ private:
     int _row_number;
     int _col_number;
     char _separator;
-    boost::numeric::ublas::matrix<int> _matrix;
+    boost_matrix _matrix;
 };
 #endif
