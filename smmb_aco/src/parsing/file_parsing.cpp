@@ -21,6 +21,7 @@ data_parsing::data_parsing(string filename, int header_size, char separator)
     get_col_nb();
     initialise_empty_matrix();
     data_to_matrix();
+    std::cout << _matrix.size2() << '\n';
 }
 //=================================================
 // data_parsing : data_to_matrix
@@ -31,10 +32,9 @@ void data_parsing::data_to_matrix()
     string line;
     for (size_t x = 0; x < _header_size; x++) {
         getline(file, line);
-        std::cout << line << '\n';
     }
-    for (int i = 0; i < _col_number; i++) {
-        for (int j = 0; j < _row_number; j++) {
+    for (int i = 0; i < _row_number; i++) {
+        for (int j = 0; j < _col_number; j++) {
             int line_as_int;
             getline(file, line, ',');
             std::istringstream ss(line);
