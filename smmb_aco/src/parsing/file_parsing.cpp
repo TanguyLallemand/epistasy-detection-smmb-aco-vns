@@ -9,7 +9,7 @@ using namespace std;
 
 //strlen c du C il vaut mieux utiliser str.size(), plus facile et c++ oriented
 //=================================================
-// data_parsing : constructeur
+// data_parsing : //TODO constructeur ici
 //=================================================
 data_parsing::data_parsing(string filename, int header_size, char separator)
 {

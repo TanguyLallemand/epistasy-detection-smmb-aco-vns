@@ -1,5 +1,6 @@
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
-typedef boost::numeric::ublas::matrix<int> matrix;
+#include <boost/numeric/ublas/matrix.hpp>
+typedef boost::numeric::ublas::matrix<int> boost_matrix;
 #endif
