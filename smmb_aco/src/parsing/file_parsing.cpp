@@ -2,7 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-
+#include <boost/numeric/ublas/io.hpp>
 #include "global.hpp"
 using namespace std;
 
