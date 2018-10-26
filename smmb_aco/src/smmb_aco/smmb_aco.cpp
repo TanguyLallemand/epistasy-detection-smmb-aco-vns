@@ -72,12 +72,12 @@ procedure backward(MB, T, alpha)
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, double alpha, int mem_a/*, P*/)
+list<unsigned> smmb_aco::learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, double alpha, list<unsigned> mem_a/*, P*/)
 {
     list<unsigned> MB_a;
     bool MB_modified = true;
     int j = 0;
-    forward(MB_modified, MB_a, n_it_n, j/*, P*/, genotype_matrix, K );
+    forward(MB_modified, MB_a, n_it_n, j/*, P*/, genotype_matrix, phenotype_matrix, K );
     return MB_a;
 }
 //=================================================
@@ -89,12 +89,13 @@ void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, size_t n_it_n, int
     {
         MB_modified = false;
         /*
+        TODO
         S = echantillone(P, genotype_matrix, k)
         s<-arg_max{score_association(s',T,MB_a,mem_a)} //l'argument qui maximise
         */
         //if (p_valeur(s) << alpha) //TODO: Il faut une fonction pour calculer/renvoyer la p_valeur de la solution
         //{//cas de rejet de H_0
-            MB_a = std::set_union (MB_a, MB_a + MB_a.size(), S, S+S.size(), MB_a.begin());// union de MB_a et S et retourne avec v.begin le debut du vecteur MB_a
+            //MB_a = std::set_union (MB_a, MB_a + MB_a.size(), S, S+S.size(), MB_a.begin());// union de MB_a et S et retourne avec v.begin le debut du vecteur MB_a
             MB_modified = true;
             backward(MB_a, phenotype_matrix, alpha);
         //}
@@ -107,19 +108,20 @@ void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, size_t n_it_n, int
 void smmb_aco::backward(list<unsigned> MB, boost_matrix phenotype_matrix, double alpha)
 {
     for (size_t X = 0; X < MB.size(); X++) {
-        for (size_t S = 0; S < count; S++) {
+        //for (size_t S = 0; S < count; S++) {
+        //TODO: pour toute combinaison S non_vides inclus dans MB
             //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
             if (p_valeur>alpha) { //H_0: independance
-                // MB <- MB\{x}; //a gerer en liste
+                // MB <- MB\{x}; //a gerer en liste //TODO
                 break;
             }
-        }
+        //}
     }
 }
 //=================================================
 // smmb_aco : run
 //=================================================
-void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, size_t n_ants)
+void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, size_t n_ants, float tau_0)
 {
     // Initialization of Markov Blanket
     list<unsigned> MB_s;
@@ -131,7 +133,7 @@ void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, 
         // For every ants
         for (size_t a = 0; a < n_ants; a++)
         { // a parallelise
-            // genotype_matrix<- echantillonner(P, D, KI)
+            // genotype_matrix<- echantillonner(P, D, KI) //TODO
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
@@ -140,11 +142,11 @@ void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, 
         // Initialization of final variable
         list<unsigned> mem;
         for (size_t a = 0; a < n_ants; a++) {
-            //ajouter(mem, mem_a);
+            //ajouter(mem, mem_a); //TODO
             if (!MB_a.empty()) {
                 MB_s.splice(MB_s.end(), MB_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end
             }
-            //post traitement;
+            //post traitement; //TODO
         }
     }
 }

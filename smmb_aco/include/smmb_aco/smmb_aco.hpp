@@ -28,13 +28,13 @@ public:
 // Constructeur
     smmb_aco(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, size_t n_it, size_t n_ants, int K, size_t n_it_n, double alpha, int tau_0, int rau, int tau, int eta, int alpha_stat, int beta);
 
-    list<unsigned> learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, double alpha, int mem_a/*, P*/);
+    list<unsigned> learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, double alpha, list<unsigned> mem_a/*, P*/);
 
     void forward(bool MB_modifie, list<unsigned> MB_a, size_t n_it_n, int j/*, P*/, boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K );
 
     void backward(list<unsigned> MB, boost_matrix phenotype_matrix, double alpha);
 
-    void run(boost_matrix genotype_matrix,boost_matrix phenotype_matrix, int K, size_t n_it_n, size_t n_ants);
+    void run(boost_matrix genotype_matrix,boost_matrix phenotype_matrix, int K, size_t n_it_n, size_t n_ants, float tau_0);
 
 
 
