@@ -7,7 +7,7 @@ using namespace std;
 
 //TODO voir si un destructeur est nécessaire
 
-
+//strlen c du C il vaut mieux utiliser str.size(), plus facile et c++ oriented
 //=================================================
 // data_parsing : //TODO constructeur ici
 //=================================================
@@ -29,7 +29,7 @@ void data_parsing::data_to_matrix()
     ifstream file(_file_name);
     string line;
     for (size_t x = 0; x < _header_size; x++) {
-        getline(file, line)
+        getline(file, line);
     }
     for (size_t i = 0; i < _col_number; i++) {
         for (size_t j = 0; j < _row_number; j++) {
@@ -70,14 +70,14 @@ int data_parsing::get_line_nb(string _file_name)
 //=================================================
 // data_parsing : get_col_nb
 //=================================================
-void data_parsing::get_col_nb()
+void data_parsing::get_col_nb(string _file_name)
 {
     ifstream file(_file_name);
     string line;
     int i;
     _col_number=1;
     getline(file, line);
-    int lenght = strlen(line);
+    int lenght = line.size();
     for (i = 0; i < lenght; i++) {
         if (line[i]==_separator) {
             _col_number++;
