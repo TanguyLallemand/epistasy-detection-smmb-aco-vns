@@ -65,14 +65,14 @@ procedure backward(MB, T, alpha)
 #include <list>
 #include "smmb_aco.hpp"
 #include "statistics.hpp"
-
+#include "global.hpp"
 
 
 //=================================================
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int K, size_t n_it_n, double alpha, int mem_a/*, P*/)
+list<unsigned> smmb_aco::learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, double alpha, int mem_a/*, P*/)
 {
     list<unsigned> MB_a;
     bool MB_modified = true;
@@ -83,7 +83,7 @@ list<unsigned> smmb_aco::learn_MB(boost::numeric::ublas::matrix<int> genotype_ma
 //=================================================
 // smmb_aco : forward
 //=================================================
-void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, size_t n_it_n, int j/*, P*/, boost::numeric::ublas::matrix<int> genotype_matrix, int K )
+void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, size_t n_it_n, int j/*, P*/, boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K )
 {
     while (MB_modified || (MB_a.empty() && j<n_it_n))
     {
@@ -96,7 +96,7 @@ void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, size_t n_it_n, int
         //{//cas de rejet de H_0
             MB_a = std::set_union (MB_a, MB_a + MB_a.size(), S, S+S.size(), MB_a.begin());// union de MB_a et S et retourne avec v.begin le debut du vecteur MB_a
             MB_modified = true;
-            backward(MB_a, T, alpha);
+            backward(MB_a, phenotype_matrix, alpha);
         //}
         j++;
     }
@@ -104,9 +104,9 @@ void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, size_t n_it_n, int
 //=================================================
 // smmb_aco : backward
 //=================================================
-void smmb_aco::backward(list<unsigned> MB_a, boost::numeric::ublas::matrix<int> phenotype_matrix, double alpha)
+void smmb_aco::backward(list<unsigned> MB, boost_matrix phenotype_matrix, double alpha)
 {
-    for (size_t X = 0; X < MB.size; X++) {
+    for (size_t X = 0; X < MB.size(); X++) {
         for (size_t S = 0; S < count; S++) {
             //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
             if (p_valeur>alpha) { //H_0: independance
@@ -119,7 +119,7 @@ void smmb_aco::backward(list<unsigned> MB_a, boost::numeric::ublas::matrix<int> 
 //=================================================
 // smmb_aco : run
 //=================================================
-void smmb_aco::run(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int T, int K, size_t n_it_n, size_t n_ants)
+void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, size_t n_ants)
 {
     // Initialization of Markov Blanket
     list<unsigned> MB_s;
