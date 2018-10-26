@@ -65,6 +65,7 @@ procedure backward(MB, T, alpha)
 #include <list>
 #include "smmb_aco.hpp"
 #include "statistics.hpp"
+#include <boost/numeric/ublas/matrix.hpp>
 
 class smmb_aco
 {
@@ -72,7 +73,7 @@ class smmb_aco
     // smmb_aco : learn_MB
     //=================================================
     //Return Markov Blanket sous optimale eventuellemenet vide
-    void smmb_aco::learn_MB(boost::numeric::ublas::matrix <int> genotype_matrix, boost::numeric::ublas::matrix <int> phenotype_matrix, int K, int n_it_n, double alpha, int mem_a, P)
+    void smmb_aco::learn_MB(boost::numeric::ublas::matrix<int> genotype_matrix, boost::numeric::ublas::matrix<int> phenotype_matrix, int K, int n_it_n, double alpha, int mem_a, P)
     {
         list<unsigned> MB_A = NULL;
         bool MB_modified = TRUE;
@@ -83,7 +84,7 @@ class smmb_aco
     //=================================================
     // smmb_aco : forward
     //=================================================
-    void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, int n_it_n, int j, P, boost::numeric::ublas::matrix <int> genotype_matrix, int K )
+    void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, int n_it_n, int j, P, boost::numeric::ublas::matrix<int> genotype_matrix, int K )
     {
         while (MB_modified or MB_a == NULL and j<n_it_n)
         {
@@ -104,7 +105,7 @@ class smmb_aco
     //=================================================
     // smmb_aco : backward
     //=================================================
-    void smmb_aco::backward(list<unsigned> MB_a, boost::numeric::ublas::matrix <int> phenotype_matrix, double alpha)
+    void smmb_aco::backward(list<unsigned> MB_a, boost::numeric::ublas::matrix<int> phenotype_matrix, double alpha)
     {
         for (size_t X = 0; X < MB.size; X++) {
             for (size_t S = 0; S < count; S++) {
