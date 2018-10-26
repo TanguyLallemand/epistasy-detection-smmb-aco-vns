@@ -13,11 +13,12 @@ using namespace std;
 //=================================================
 data_parsing::data_parsing(string filename, int header_size, char separator)
 {
+    string _filename;
     _filename = filename;
     _header_size = header_size;
     _separator = separator;
-    get_line_nb();
-    get_col_nb();
+    get_line_nb(_file_name);
+    get_col_nb(_file_name);
     initialise_empty_matrix();
     data_to_matrix();
 }
@@ -33,8 +34,11 @@ void data_parsing::data_to_matrix()
     }
     for (size_t i = 0; i < _col_number; i++) {
         for (size_t j = 0; j < _row_number; j++) {
+            int line_as_int;
             getline(file, line, ',');
-            _matrix (i, j) = line;
+            std::istringstream ss(line);
+            ss >> line_as_int;
+            _matrix (i, j) = line_as_int;
         }
     }
 }
@@ -90,6 +94,7 @@ void data_parsing::get_col_nb(string _file_name)
 //=================================================
 boost::numeric::ublas::matrix<int> return_matrix()
 {
-    std::cout << _matrix << '\n';
+    boost::numeric::ublas::matrix<int> _matrix;
+    //std::cout << _matrix << '\n'; //Je crois que cout ne sais pas print ce type, il faut voir dans boost si ils ont pas un truc pour les prints
     return _matrix;
 }
