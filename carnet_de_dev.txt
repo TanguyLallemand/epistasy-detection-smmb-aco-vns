@@ -9,3 +9,8 @@ Pour demarrer le programm ./smmb_aco ../toy_dataset/genotype_toy_dataset.txt ../
 
 chemins a changer:
 boost folder dans le makefile
+
+
+changer la solution cradot du -48 dans le file_parsing.cpp
+(code ascii tout ça tou ça)
+pour le moment on garde car on veut du fonctionnel mais faudrais dans l'idéal trouver mieux <3
