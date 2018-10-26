@@ -4,6 +4,7 @@
 -
 test3
 
+Pour demarrer le programm ./smmb_aco ../toy_dataset/genotype_toy_dataset.txt ../toy_dataset/phenotype_toy_dataset.txt
 
 
 chemins a changer:
