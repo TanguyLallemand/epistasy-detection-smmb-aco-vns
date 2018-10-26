@@ -8,6 +8,7 @@ using namespace std;
 //TODO voir si un destructeur est nécessaire
 
 //strlen c du C il vaut mieux utiliser str.size(), plus facile et c++ oriented
+//Filename est passe par argument il faudrait le mettre ne var de classe
 //=================================================
 // data_parsing : //TODO constructeur ici
 //=================================================
