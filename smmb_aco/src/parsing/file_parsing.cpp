@@ -4,20 +4,18 @@
 #include <string>
 #include <boost/numeric/ublas/matrix.hpp>
 using namespace std;
-//TODO voir comment on retourne les données exactement (ou on met les identifiants etc)
-//TODO faire le constructeur
-//TODO voir pour le type de la matrice car je comprends pas comment il fait le bon clement donc pour le moment j'ai mis du string pour que les identifiant passent, on verra bien à la compil ^^ #prepareuranus
+
 //TODO voir si un destructeur est nécessaire
 
-//Euh ca c'est pas ce qu il faut mettre dans le hpp, les proto et les variables?
 class data_parsing()
 {
 public:
     data_parsing(string filename, int header_size, char separator)
     void initialise_empty_matrix();
-    void get_data();
+    void data_to_matrix();
     void get_col_nb(string _file_name);
     void get_line_nb(string _file_name);
+    boost::numeric::ublas::matrix<int> return_matrix();
 
 private:
     string _file_name;
@@ -25,21 +23,32 @@ private:
     int _row_number;
     int _col_number;
     char _separator;
-    boost::numeric::ublas::matrix<string> _matrix;
+    boost::numeric::ublas::matrix<int> _matrix;
 }
 
 //=================================================
 // data_parsing : //TODO constructeur ici
 //=================================================
-
-//=================================================
-// data_parsing : get_data
-//=================================================
-void get_data()
+data_parsing::data_parsing(string filename, int header_size, char separator)
 {
+    _filename = filename;
+    _header_size = header_size;
+    _separator = separator;
+    get_line_nb();
+    get_col_nb();
     initialise_empty_matrix();
+    data_to_matrix();
+}
+//=================================================
+// data_parsing : data_to_matrix
+//=================================================
+void data_parsing::data_to_matrix()
+{
     ifstream file(_file_name);
     string line;
+    for (size_t x = 0; x < _header_size; x++) {
+        getline(file, line)
+    }
     for (size_t i = 0; i < _col_number; i++) {
         for (size_t j = 0; j < _row_number; j++) {
             getline(file, line, ',')
@@ -51,17 +60,15 @@ void get_data()
 //=================================================
 // data_parsing : initialise_empty_matrix
 //=================================================
-void initialise_empty_matrix()
+void data_parsing::initialise_empty_matrix()
 {
-    get_line_nb();
-    get_col_nb();
-    boost::numeric::ublas::matrix<string> data_matrix(string _line_number, string _col_number);
+    boost::numeric::ublas::matrix<int> data_matrix(int _line_number, int _col_number);
 }
 
 //=================================================
 // data_parsing : get_line_nb
 //=================================================
-int get_line_nb(string _file_name)
+int data_parsing::get_line_nb(string _file_name)
 {
     ifstream file(_file_name);
     string temp;
@@ -70,6 +77,7 @@ int get_line_nb(string _file_name)
         while (getline(file, temp)) {
             _row_number++;
         }
+        _row_number = _row_number - _header_size;
     }
     else
     {
@@ -80,7 +88,7 @@ int get_line_nb(string _file_name)
 //=================================================
 // data_parsing : get_col_nb
 //=================================================
-void get_col_nb(string _file_namestring _file_name)
+void data_parsing::get_col_nb()
 {
     ifstream file(_file_name);
     string line;
@@ -93,4 +101,12 @@ void get_col_nb(string _file_namestring _file_name)
             _col_number++;
         }
     }
+}
+
+//=================================================
+// data_parsing : return_matrix
+//=================================================
+boost::numeric::ublas::matrix<int> return_matrix()
+{
+    return _matrix;
 }
