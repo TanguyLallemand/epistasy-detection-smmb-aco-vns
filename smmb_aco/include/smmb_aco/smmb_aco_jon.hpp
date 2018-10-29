@@ -32,7 +32,7 @@ private:
 
 
     //variables modifiées pendant le run
-        //tau doit etre un vecteur de la taille du nombre de SNP si j'ai compris
+    boost_vector tau;//tau doit etre un vecteur de la taille du nombre de SNP si j'ai compris
 
 
     // foctions
