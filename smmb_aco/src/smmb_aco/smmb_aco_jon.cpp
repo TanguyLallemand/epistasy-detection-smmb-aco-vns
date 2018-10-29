@@ -18,7 +18,7 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, para
     _alpha_phero = _params.aco_alpha;
     _beta_phero = _params.aco_beta;
     _alpha_stat = _params.alpha;
-    
+
 
 
     _tau = boost_vector(_genos_matrix.size2(), params.aco_tau_init); //normalement ça marche et ça init le vecteur au nbr de variable et à la valeur tau_0
@@ -37,7 +37,7 @@ void smmb_aco::add_pheromon(int SNP_pos)
 //=================================================
 void smmb_aco::evaporate()
 {
-    for (size_t i = 0; i < _tau.size(); i++) {
+    for (int i = 0; i < _tau.size(); i++) {
         _tau[i] -= _rho;
     }
 }
