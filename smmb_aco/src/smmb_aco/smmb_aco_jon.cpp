@@ -44,9 +44,9 @@ void smmb_aco::evaporate()
 
 //IDEA: Maybe drop in statistics module??, permit to be reusable for vns method.
 //=================================================
-// smmb_aco : echantillonate
+// smmb_aco : sampling
 //=================================================
-void smmb_aco::echantillonate() //the problem here is to know if we wan't a subset with _subset_size SNP or a subset with at least subset_size_small SNP? and at all how to do that
+void smmb_aco::sampling() //the problem here is to know if we wan't a subset with _subset_size SNP or a subset with at least subset_size_small SNP? and at all how to do that
 {
     //initialiser le random (peut etre à faire dans le constructeur)
     //copier tau
