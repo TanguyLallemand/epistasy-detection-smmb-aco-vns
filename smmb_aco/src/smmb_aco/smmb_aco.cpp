@@ -1,4 +1,4 @@
-/*
+_n_ant/*
 D: Matrice de genotype
 T: Vecteur de phénotype
 n_it: nombre d'itération ACO
@@ -72,32 +72,32 @@ procedure backward(MB, T, alpha)
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size, size_t n_it_n, double alpha, list<unsigned> mem_a/*, P*/)
+list<unsigned> smmb_aco::learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size, size_t n_it_n, double _alpha_stat, list<unsigned> mem_a/*, P*/)
 {
-    list<unsigned> MB_a;
-    bool MB_modified = true;
+    list<unsigned> _markov_blanket_a;
+    bool _markov_blanket_modified = true;
     int j = 0;
-    forward(MB_modified, MB_a, n_it_n, j/*, P*/, genotype_matrix, phenotype_matrix, _subset_size );
-    return MB_a;
+    forward(_markov_blanket_modified, _markov_blanket_a, n_it_n, j/*, P*/, genotype_matrix, phenotype_matrix, _subset_size );
+    return _markov_blanket_a;
 }
 //=================================================
 // smmb_aco : forward
 //=================================================
-void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, size_t n_it_n, int j/*, P*/, boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size )
+void smmb_aco::forward(bool _markov_blanket_modified, list<unsigned> _markov_blanket_a, size_t n_it_n, int j/*, P*/, boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size )
 {
-    while (MB_modified || (MB_a.empty() && j<n_it_n))
+    while (_markov_blanket_modified || (_markov_blanket_a.empty() && j<n_it_n))
     {
-        MB_modified = false;
+        _markov_blanket_modified = false;
         /*
         TODO
         S = echantillone(P, genotype_matrix, k)
-        s<-arg_max{score_association(s',T,MB_a,mem_a)} //l'argument qui maximise
+        s<-arg_max{score_association(s',T,_markov_blanket_a,mem_a)} //l'argument qui maximise
         */
-        //if (p_valeur(s) << alpha) //TODO: Il faut une fonction pour calculer/renvoyer la p_valeur de la solution
+        //if (p_valeur(s) << _alpha_stat) //TODO: Il faut une fonction pour calculer/renvoyer la p_valeur de la solution
         //{//cas de rejet de H_0
-            //MB_a = std::set_union (MB_a, MB_a + MB_a.size(), S, S+S.size(), MB_a.begin());// union de MB_a et S et retourne avec v.begin le debut du vecteur MB_a
-            MB_modified = true;
-            backward(MB_a, phenotype_matrix, alpha);
+            //_markov_blanket_a = std::set_union (_markov_blanket_a, _markov_blanket_a + _markov_blanket_a.size(), S, S+S.size(), _markov_blanket_a.begin());// union de MB_a et S et retourne avec v.begin le debut du vecteur MB_a
+            _markov_blanket_modified = true;
+            backward(_markov_blanket_a, phenotype_matrix, _alpha_stat);
         //}
         j++;
     }
@@ -105,13 +105,13 @@ void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, size_t n_it_n, int
 //=================================================
 // smmb_aco : backward
 //=================================================
-void smmb_aco::backward(list<unsigned> MB, boost_matrix phenotype_matrix, double alpha)
+void smmb_aco::backward(list<unsigned> _markov_blanket, boost_matrix phenotype_matrix, double _alpha_stat)
 {
-    for (size_t X = 0; X < MB.size(); X++) {
+    for (size_t X = 0; X < _markov_blanket.size(); X++) {
         //for (size_t S = 0; S < count; S++) {
         //TODO: pour toute combinaison S non_vides inclus dans MB
             //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
-            if (p_valeur>alpha) { //H_0: independance
+            if (p_valeur>_alpha_stat) { //H_0: independance
                 // MB <- MB\{x}; //a gerer en liste //TODO
                 break;
             }
@@ -121,30 +121,30 @@ void smmb_aco::backward(list<unsigned> MB, boost_matrix phenotype_matrix, double
 //=================================================
 // smmb_aco : run
 //=================================================
-void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size, size_t n_it_n, size_t n_ants, float tau_0)
+void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size, size_t n_it_n, size_t _n_ant, float tau_0)
 {
     // Initialization of Markov Blanket
-    list<unsigned> MB_s;
+    list<unsigned> _markov_blanket_s;
     float tau = tau_0;
-    list<unsigned> MB_a;
+    list<unsigned> _markov_blanket_a;
     for (size_t i = 0; i < n_it_n; i++)
     {
-        //P <- calculer distribution, probabilité (tau, eta, alpha, beta)
+        //P <- calculer distribution, probabilité (tau, eta, _alpha_stat, beta)
         // For every ants
-        for (size_t a = 0; a < n_ants; a++)
+        for (size_t a = 0; a < _n_ant; a++)
         { // a parallelise
             // genotype_matrix<- echantillonner(P, D, KI) //TODO
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
-            MB_a = learn_MB(genotype_matrix, phenotype_matrix, _subset_size, n_it_n, alpha, mem_a/*, P*/);
+            _markov_blanket_a = learn_MB(genotype_matrix, phenotype_matrix, _subset_size, n_it_n, _alpha_stat, mem_a/*, P*/);
         }
         // Initialization of final variable
         list<unsigned> mem;
-        for (size_t a = 0; a < n_ants; a++) {
+        for (size_t a = 0; a < _n_ant; a++) {
             //ajouter(mem, mem_a); //TODO
-            if (!MB_a.empty()) {
-                MB_s.splice(MB_s.end(), MB_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end
+            if (!_markov_blanket_a.empty()) {
+                _markov_blanket_s.splice(_markov_blanket_s.end(), _markov_blanket_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end
             }
             //post traitement; //TODO
         }
