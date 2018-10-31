@@ -1,4 +1,4 @@
-_n_ant/*
+/*
 D: Matrice de genotype
 T: Vecteur de phénotype
 n_it: nombre d'itération ACO
