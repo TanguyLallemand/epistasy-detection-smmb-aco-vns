@@ -33,15 +33,7 @@
 #
 #
 # Pour chaque jeu de données (comportant par exemple n_files fichiers), un fichier
-# f_measures.txt sera généré. Il comportera les n_files f-measures calculées à partir des n_runs
-# fichiers
-# <identifiant_fichier_i>_results.txt
-# générés
-# pour
-# chacun
-# des
-# fichiers
-# <identifiant_fichier_i.txt> (1 ≤ i ≤ n_files) :
+# f_measures.txt sera généré. Il comportera les n_files f-measures calculées à partir des n_runs fichiers <identifiant_fichier_i>_results.txt générés pour chacun # des fichiers <identifiant_fichier_i.txt> (1 ≤ i ≤ n_files) :
 # recall = #TP ⁄ (#TP + #FN)
 # precision = #TP ⁄ (#TP + #FP).
 # f-measure =2 / (1 ⁄ recall +1 ⁄ precision)
@@ -67,6 +59,8 @@
 import argparse
 import glob
 import os
+import numpy as np
+
 
 def get_arguments():
     import argparse
@@ -96,26 +90,42 @@ def parsing_result_file(result_file):
             false_negative += 1
         elif line != pattern:
             false_positive += 1
+            # recall = #TP ⁄ (#TP + #FN)
+            # precision = #TP ⁄ (#TP + #FP)
     return [true_positive, false_negative, false_positive]
+
 
 def creation_of_output_file(output_directory, results_file_parsed):
     base = os.path.basename(name_of_file)
     name = os.path.splitext(base)[0] + '_results.txt'
     if os.path.isdir(output_directory):
-        with open(name,'w') as output_file:
+        with open(name, 'w') as output_file:
             pass
 
 
-# Get argument parser
+def creation_of_measure_file():
+    with open('f_measures.txt', 'w') as measure_file:
+        pass
+    # f-measure =2 / (1 ⁄ recall +1 ⁄ precision)
+
+
+def creation_of_powers_file():
+    with open('powers.txt', 'w') as powers_file:
+
+
+        # Get argument parser
 args = get_arguments()
 input_directory = args.input
 output_directory = args.output
 number_of_execution = args.nruns
 
 input_files = get_input_files(input_directory)
+n_files = len(input_files)
 
 for file in input_files:
     with open(file, 'r') as result_file:
         # TODO: gerer cete fonction
         # results_file_parsed = parsing_result_file(result_file)
         # creation_of_output_file(output_directory, results_file_parsed)
+    # creation_of_measure_file()
+    # creation_of_powers_file():
