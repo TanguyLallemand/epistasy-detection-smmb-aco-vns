@@ -72,18 +72,18 @@ procedure backward(MB, T, alpha)
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, double alpha, list<unsigned> mem_a/*, P*/)
+list<unsigned> smmb_aco::learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size, size_t n_it_n, double alpha, list<unsigned> mem_a/*, P*/)
 {
     list<unsigned> MB_a;
     bool MB_modified = true;
     int j = 0;
-    forward(MB_modified, MB_a, n_it_n, j/*, P*/, genotype_matrix, phenotype_matrix, K );
+    forward(MB_modified, MB_a, n_it_n, j/*, P*/, genotype_matrix, phenotype_matrix, _subset_size );
     return MB_a;
 }
 //=================================================
 // smmb_aco : forward
 //=================================================
-void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, size_t n_it_n, int j/*, P*/, boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K )
+void smmb_aco::forward(bool MB_modified, list<unsigned> MB_a, size_t n_it_n, int j/*, P*/, boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size )
 {
     while (MB_modified || (MB_a.empty() && j<n_it_n))
     {
@@ -121,7 +121,7 @@ void smmb_aco::backward(list<unsigned> MB, boost_matrix phenotype_matrix, double
 //=================================================
 // smmb_aco : run
 //=================================================
-void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, size_t n_ants, float tau_0)
+void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size, size_t n_it_n, size_t n_ants, float tau_0)
 {
     // Initialization of Markov Blanket
     list<unsigned> MB_s;
@@ -137,7 +137,7 @@ void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, 
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
-            MB_a = learn_MB(genotype_matrix, phenotype_matrix, K, n_it_n, alpha, mem_a/*, P*/);
+            MB_a = learn_MB(genotype_matrix, phenotype_matrix, _subset_size, n_it_n, alpha, mem_a/*, P*/);
         }
         // Initialization of final variable
         list<unsigned> mem;
