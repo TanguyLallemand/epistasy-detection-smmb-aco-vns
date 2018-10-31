@@ -72,22 +72,22 @@ procedure backward(MB, T, alpha)
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB()
+list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/)
 {
-    list<unsigned> _markov_blanket_a;
-    bool _markov_blanket_modified = true;
+    list<unsigned> markov_blanket_a;
+    bool markov_blanket_modified = true;
     int j = 0;
-    forward(_markov_blanket_modified, _markov_blanket_a, _n_it_n, j/*, P*/, _genos_matrix, _phenos_matrix, _subset_size );
-    return _markov_blanket_a;
+    forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/);
+    return markov_blanket_a;
 }
 //=================================================
 // smmb_aco : forward
 //=================================================
-void smmb_aco::forward()
+void smmb_aco::forward(markov_blanket_modified, markov_blanket_a, j/*, P*/)
 {
-    while (_markov_blanket_modified || (_markov_blanket_a.empty() && j<_n_it_n))
+    while (markov_blanket_modified || (markov_blanket_a.empty() && j<_n_it_n))
     {
-        _markov_blanket_modified = false;
+        markov_blanket_modified = false;
         /*
         TODO
         S = echantillone(P, _genos_matrix, k)
@@ -96,8 +96,8 @@ void smmb_aco::forward()
         //if (p_valeur(s) << _alpha_stat) //TODO: Il faut une fonction pour calculer/renvoyer la p_valeur de la solution
         //{//cas de rejet de H_0
             //_markov_blanket_a = std::set_union (_markov_blanket_a, _markov_blanket_a + _markov_blanket_a.size(), S, S+S.size(), _markov_blanket_a.begin());// union de MB_a et S et retourne avec v.begin le debut du vecteur MB_a
-            _markov_blanket_modified = true;
-            backward(_markov_blanket_a, _phenos_matrix, _alpha_stat);
+            markov_blanket_modified = true;
+            backward(list<unsigned> markov_blanket_a);
         //}
         j++;
     }
@@ -105,9 +105,9 @@ void smmb_aco::forward()
 //=================================================
 // smmb_aco : backward
 //=================================================
-void smmb_aco::backward()
+void smmb_aco::backward(list<unsigned> markov_blanket_a)
 {
-    for (size_t X = 0; X < _markov_blanket.size(); X++) {
+    for (size_t X = 0; X < markov_blanket.size(); X++) {
         //for (size_t S = 0; S < count; S++) {
         //TODO: pour toute combinaison S non_vides inclus dans MB
             //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
@@ -124,9 +124,9 @@ void smmb_aco::backward()
 void smmb_aco::run()
 {
     // Initialization of Markov Blanket
-    list<unsigned> _markov_blanket_s;
+    list<unsigned> markov_blanket_s;
     float tau = _tau_0;
-    list<unsigned> _markov_blanket_a;
+    list<unsigned> markov_blanket_a;
     for (size_t i = 0; i < _n_it_n; i++)
     {
         //P <- calculer distribution, probabilité (tau, eta, _alpha_stat, beta)
@@ -137,14 +137,14 @@ void smmb_aco::run()
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
-            _markov_blanket_a = learn_MB(_genos_matrix, _phenos_matrix, _subset_size, _n_it_n, _alpha_stat, mem_a/*, P*/);
+            markov_blanket_a = learn_MB(list<unsigned> mem_a/*, P*/);
         }
         // Initialization of final variable
         list<unsigned> mem;
         for (size_t a = 0; a < _n_ant; a++) {
             //ajouter(mem, mem_a); //TODO
-            if (!_markov_blanket_a.empty()) {
-                _markov_blanket_s.splice(_markov_blanket_s.end(), _markov_blanket_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end
+            if (!markov_blanket_a.empty()) {
+                markov_blanket_s.splice(markov_blanket_s.end(), markov_blanket_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end
             }
             //post traitement; //TODO
         }

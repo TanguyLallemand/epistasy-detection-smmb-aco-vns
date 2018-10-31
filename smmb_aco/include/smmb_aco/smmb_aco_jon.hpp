@@ -35,9 +35,9 @@ private:
     boost_vector _tau;//tau doit etre un vecteur de la taille du nombre de SNP
 
     // fonctions données par la prof
-    list<unsigned> learn_MB();
-    void forward();
-    void backward();
+    list<unsigned> learn_MB(list<unsigned> mem_a/*, P*/);
+    void forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/);
+    void backward(list<unsigned> markov_blanket_a);
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
     void add_pheromon(int SNP_pos); //add pheromone on a good SNP
