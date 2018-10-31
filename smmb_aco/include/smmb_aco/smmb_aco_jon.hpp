@@ -5,7 +5,7 @@ class smmb_aco
 {
 public:
     // constructeur
-    smmb_aco(boost_matrix genotype, boost_matrix phenotype, parameters_parsing params);
+    smmb_aco(boost_matrix _genotype, boost_matrix _phenotype, parameters_parsing _params);
 
     //fait tourner l'algo
     void run();
