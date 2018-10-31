@@ -41,3 +41,17 @@ void smmb_aco::evaporate()
         _tau[i] -= _rho;
     }
 }
+
+//=================================================
+// smmb_aco : echantillonate
+//=================================================
+void smmb_aco::echantillonate()
+{
+    //initialiser le random
+    //copier tau
+    //faire une boucle pour pick les SNP
+        //on pick 1 nbr avec les poids
+        // on stocke le nbr dans une liste
+        //on passe le poids de celui qui est pick à 0 dans la copie pour pas le repick
+    //return la liste de SNP pick selon les poids
+}
