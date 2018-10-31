@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # Authors: Tanguy Lallemand M2 BB
 #          Jonathan Cruard M2 BB
@@ -42,23 +43,29 @@
 # f measure pour eviter qu il plante a cause division par 0, si y a un seul TP et le reste en FP ou FP ca passe mais si pas de TP et tt en FN alors division par 0. Si TP=0 alors pb. Dans ce cas la j en enleverai un a celui qui peut pas etre calcule et je le met a l autre qui est a 0
 
 import argparse
+import glob
 
-def getArguments():
+def get_arguments():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-a", "--all", help="Ask script to get all fasta files from current directory", action="store_true")
-    # Store path or filename given as a list
+        "-i", "--input", help="Give an input directory", type=str, action='store', required=True)
     parser.add_argument(
-        "-i", "--input", help="Give an input directory", action='append')
+        "-o", "--output", help="Give an output directory", type=str, action='store', required=True)
     parser.add_argument(
-        "-o", "--output", help="Give an output directory", action='append')
-    parser.add_argument(
-        "-n", "--nruns", help="Number of method executions to be performed on each file in the dataset", action='append')
+        "-n", "--nruns", help="Number of method executions to be performed on each file in the dataset", type=int)
     args = parser.parse_args()
     return args
 
+def get_input_files(input_directory):
+    # Search for file ending with txt extension in a given directory
+    input_files = glob.glob(input_directory + '*.txt')
+    return input_files
 
 
 # Get argument parser
-args = arglib.getArguments()
+args = get_arguments()
+input_directory = args.input
+output_directory = args.output
+number_of_execution = args.nruns
+input_files = get_input_files(input_directory)
