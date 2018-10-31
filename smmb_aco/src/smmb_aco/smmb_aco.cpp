@@ -83,7 +83,7 @@ list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/)
 //=================================================
 // smmb_aco : forward
 //=================================================
-void smmb_aco::forward(markov_blanket_modified, markov_blanket_a, j/*, P*/)
+void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/)
 {
     while (markov_blanket_modified || (markov_blanket_a.empty() && j<_n_it_n))
     {
