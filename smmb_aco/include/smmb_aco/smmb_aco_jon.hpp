@@ -8,7 +8,7 @@ public:
     smmb_aco(boost_matrix _genotype, boost_matrix _phenotype, parameters_parsing _params);
 
     //fait tourner l'algo
-    void run();
+    void run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size, size_t n_it_n, size_t _n_ant, float tau_0);
 
     //voir pour un destructeur
 
@@ -29,15 +29,15 @@ private:
     double _beta_phero;
     double _rho; // taux d'évaporation
     double _lambda; // jsp, moi nn plus...
-    boost_vector eta; // vecteur de poids apriori a ajouter à tau
+    boost_vector _eta; // vecteur de poids apriori a ajouter à tau
 
     //variables modifiées pendant le run
     boost_vector _tau;//tau doit etre un vecteur de la taille du nombre de SNP
 
     // fonctions données par la prof
-    list<unsigned> learn_MB(); // TODO mettre les parametres
-    void forward(); // TODO mettre les parametres
-    void backward(); // TODO mettre les parametres
+    list<unsigned> learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size, size_t n_it_n, double _alpha_stat, list<unsigned> mem_a/*, P*/);
+    void forward(bool _markov_blanket_modified, list<unsigned> _markov_blanket_a, size_t n_it_n, int j/*, P*/, boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size);
+    void backward(list<unsigned> _markov_blanket, boost_matrix phenotype_matrix, double _alpha_stat);
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
     void add_pheromon(int SNP_pos); //add pheromone on a good SNP
