@@ -72,7 +72,7 @@ procedure backward(MB, T, alpha)
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, int _subset_size, size_t _n_it_n, double _alpha_stat, list<unsigned> mem_a/*, P*/)
+list<unsigned> smmb_aco::learn_MB()
 {
     list<unsigned> _markov_blanket_a;
     bool _markov_blanket_modified = true;
@@ -83,7 +83,7 @@ list<unsigned> smmb_aco::learn_MB(boost_matrix _genos_matrix, boost_matrix _phen
 //=================================================
 // smmb_aco : forward
 //=================================================
-void smmb_aco::forward(bool _markov_blanket_modified, list<unsigned> _markov_blanket_a, size_t _n_it_n, int j/*, P*/, boost_matrix _genos_matrix, boost_matrix _phenos_matrix, int _subset_size )
+void smmb_aco::forward()
 {
     while (_markov_blanket_modified || (_markov_blanket_a.empty() && j<_n_it_n))
     {
@@ -105,7 +105,7 @@ void smmb_aco::forward(bool _markov_blanket_modified, list<unsigned> _markov_bla
 //=================================================
 // smmb_aco : backward
 //=================================================
-void smmb_aco::backward(list<unsigned> _markov_blanket, boost_matrix _phenos_matrix, double _alpha_stat)
+void smmb_aco::backward()
 {
     for (size_t X = 0; X < _markov_blanket.size(); X++) {
         //for (size_t S = 0; S < count; S++) {
@@ -121,7 +121,7 @@ void smmb_aco::backward(list<unsigned> _markov_blanket, boost_matrix _phenos_mat
 //=================================================
 // smmb_aco : run
 //=================================================
-void smmb_aco::run(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, int _subset_size, size_t _n_it_n, size_t _n_ant, float _tau_0)
+void smmb_aco::run()
 {
     // Initialization of Markov Blanket
     list<unsigned> _markov_blanket_s;
