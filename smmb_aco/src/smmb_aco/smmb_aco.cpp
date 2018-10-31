@@ -72,32 +72,32 @@ procedure backward(MB, T, alpha)
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size, size_t n_it_n, double _alpha_stat, list<unsigned> mem_a/*, P*/)
+list<unsigned> smmb_aco::learn_MB(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, int _subset_size, size_t _n_it_n, double _alpha_stat, list<unsigned> mem_a/*, P*/)
 {
     list<unsigned> _markov_blanket_a;
     bool _markov_blanket_modified = true;
     int j = 0;
-    forward(_markov_blanket_modified, _markov_blanket_a, n_it_n, j/*, P*/, genotype_matrix, phenotype_matrix, _subset_size );
+    forward(_markov_blanket_modified, _markov_blanket_a, _n_it_n, j/*, P*/, _genos_matrix, _phenos_matrix, _subset_size );
     return _markov_blanket_a;
 }
 //=================================================
 // smmb_aco : forward
 //=================================================
-void smmb_aco::forward(bool _markov_blanket_modified, list<unsigned> _markov_blanket_a, size_t n_it_n, int j/*, P*/, boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size )
+void smmb_aco::forward(bool _markov_blanket_modified, list<unsigned> _markov_blanket_a, size_t _n_it_n, int j/*, P*/, boost_matrix _genos_matrix, boost_matrix _phenos_matrix, int _subset_size )
 {
-    while (_markov_blanket_modified || (_markov_blanket_a.empty() && j<n_it_n))
+    while (_markov_blanket_modified || (_markov_blanket_a.empty() && j<_n_it_n))
     {
         _markov_blanket_modified = false;
         /*
         TODO
-        S = echantillone(P, genotype_matrix, k)
+        S = echantillone(P, _genos_matrix, k)
         s<-arg_max{score_association(s',T,_markov_blanket_a,mem_a)} //l'argument qui maximise
         */
         //if (p_valeur(s) << _alpha_stat) //TODO: Il faut une fonction pour calculer/renvoyer la p_valeur de la solution
         //{//cas de rejet de H_0
             //_markov_blanket_a = std::set_union (_markov_blanket_a, _markov_blanket_a + _markov_blanket_a.size(), S, S+S.size(), _markov_blanket_a.begin());// union de MB_a et S et retourne avec v.begin le debut du vecteur MB_a
             _markov_blanket_modified = true;
-            backward(_markov_blanket_a, phenotype_matrix, _alpha_stat);
+            backward(_markov_blanket_a, _phenos_matrix, _alpha_stat);
         //}
         j++;
     }
@@ -105,7 +105,7 @@ void smmb_aco::forward(bool _markov_blanket_modified, list<unsigned> _markov_bla
 //=================================================
 // smmb_aco : backward
 //=================================================
-void smmb_aco::backward(list<unsigned> _markov_blanket, boost_matrix phenotype_matrix, double _alpha_stat)
+void smmb_aco::backward(list<unsigned> _markov_blanket, boost_matrix _phenos_matrix, double _alpha_stat)
 {
     for (size_t X = 0; X < _markov_blanket.size(); X++) {
         //for (size_t S = 0; S < count; S++) {
@@ -121,23 +121,23 @@ void smmb_aco::backward(list<unsigned> _markov_blanket, boost_matrix phenotype_m
 //=================================================
 // smmb_aco : run
 //=================================================
-void smmb_aco::run(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int _subset_size, size_t n_it_n, size_t _n_ant, float tau_0)
+void smmb_aco::run(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, int _subset_size, size_t _n_it_n, size_t _n_ant, float _tau_0)
 {
     // Initialization of Markov Blanket
     list<unsigned> _markov_blanket_s;
-    float tau = tau_0;
+    float tau = _tau_0;
     list<unsigned> _markov_blanket_a;
-    for (size_t i = 0; i < n_it_n; i++)
+    for (size_t i = 0; i < _n_it_n; i++)
     {
         //P <- calculer distribution, probabilité (tau, eta, _alpha_stat, beta)
         // For every ants
         for (size_t a = 0; a < _n_ant; a++)
         { // a parallelise
-            // genotype_matrix<- echantillonner(P, D, KI) //TODO
+            // _genos_matrix<- echantillonner(P, D, KI) //TODO
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
-            _markov_blanket_a = learn_MB(genotype_matrix, phenotype_matrix, _subset_size, n_it_n, _alpha_stat, mem_a/*, P*/);
+            _markov_blanket_a = learn_MB(_genos_matrix, _phenos_matrix, _subset_size, _n_it_n, _alpha_stat, mem_a/*, P*/);
         }
         // Initialization of final variable
         list<unsigned> mem;
