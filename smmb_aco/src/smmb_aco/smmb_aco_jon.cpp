@@ -42,7 +42,7 @@ void smmb_aco::evaporate()
     }
 }
 
-//Maybe drop in statistics module??, permit to be reusable for vns method.
+//IDEA: Maybe drop in statistics module??, permit to be reusable for vns method.
 //=================================================
 // smmb_aco : echantillonate
 //=================================================
