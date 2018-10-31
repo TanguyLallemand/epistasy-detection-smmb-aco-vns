@@ -45,7 +45,7 @@ void smmb_aco::evaporate()
 //=================================================
 // smmb_aco : echantillonate
 //=================================================
-void smmb_aco::echantillonate()
+void smmb_aco::echantillonate() //the problem here is to know if we wan't a subset with _subset_size SNP or a subset with at least subset_size_small SNP? and at all how to do that
 {
     //initialiser le random (peut etre à faire dans le constructeur)
     //copier tau
