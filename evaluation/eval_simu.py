@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+# Authors: Tanguy Lallemand M2 BB
+#          Jonathan Cruard M2 BB
 # Le script d'évaluation eval_simu.xxx (R ou Python) prendra en entrée :
 # un nom de répertoire d'entrée
 # un nom de répertoire de sortie
@@ -37,3 +40,25 @@
 # sinon c'est a la majorité
 #
 # f measure pour eviter qu il plante a cause division par 0, si y a un seul TP et le reste en FP ou FP ca passe mais si pas de TP et tt en FN alors division par 0. Si TP=0 alors pb. Dans ce cas la j en enleverai un a celui qui peut pas etre calcule et je le met a l autre qui est a 0
+
+import argparse
+
+def getArguments():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-a", "--all", help="Ask script to get all fasta files from current directory", action="store_true")
+    # Store path or filename given as a list
+    parser.add_argument(
+        "-i", "--input", help="Give an input directory", action='append')
+    parser.add_argument(
+        "-o", "--output", help="Give an output directory", action='append')
+    parser.add_argument(
+        "-n", "--nruns", help="Number of method executions to be performed on each file in the dataset", action='append')
+    args = parser.parse_args()
+    return args
+
+
+
+# Get argument parser
+args = arglib.getArguments()
