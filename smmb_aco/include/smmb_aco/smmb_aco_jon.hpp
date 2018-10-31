@@ -40,7 +40,8 @@ private:
     void backward(); // TODO mettre les parametres
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
-    void add_pheromon(int SNP_pos);
-    void evaporate();
+    void add_pheromon(int SNP_pos); //add pheromone on a good SNP
+    void evaporate(); //substract rho to all SNP pheromones
+    void echantillonate() //pick a subset of SNP using tau as probability distribution
 };
 #endif
