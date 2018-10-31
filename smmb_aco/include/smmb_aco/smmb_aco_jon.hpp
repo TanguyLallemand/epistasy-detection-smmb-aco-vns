@@ -28,7 +28,7 @@ private:
     double _alpha_phero; // ces 2 variables influencent l'ajustement du taux de pheromones
     double _beta_phero;
     double _rho; // taux d'évaporation
-    double _lambda; // jsp
+    double _lambda; // jsp, moi nn plus...
     boost_vector eta; // vecteur de poids apriori a ajouter à tau
 
     //variables modifiées pendant le run
