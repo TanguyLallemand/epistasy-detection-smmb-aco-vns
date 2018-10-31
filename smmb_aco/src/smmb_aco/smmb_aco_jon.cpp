@@ -49,10 +49,13 @@ void smmb_aco::evaporate()
 void smmb_aco::sampling() //the problem here is to know if we wan't a subset with _subset_size SNP or a subset with at least subset_size_small SNP? and at all how to do that
 {
     //initialiser le random (peut etre à faire dans le constructeur)
+    // Peut etre ac ca
+    //double r = std::rand()/(RAND_MAX+1.0);
     //copier tau
     //faire une boucle pour pick les SNP
         //on pick 1 nbr avec les poids
         // on stocke le nbr dans une liste
         //on passe le poids de celui qui est pick à 0 dans la copie pour pas le repick
     //return la liste de SNP pick selon les poids
+
 }
