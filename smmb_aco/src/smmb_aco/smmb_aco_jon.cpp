@@ -47,7 +47,7 @@ void smmb_aco::evaporate()
 //=================================================
 void smmb_aco::echantillonate()
 {
-    //initialiser le random
+    //initialiser le random (peut etre à faire dans le constructeur)
     //copier tau
     //faire une boucle pour pick les SNP
         //on pick 1 nbr avec les poids
