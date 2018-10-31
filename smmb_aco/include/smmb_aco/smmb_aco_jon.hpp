@@ -28,8 +28,8 @@ private:
     double _alpha_phero; // ces 2 variables influencent l'ajustement du taux de pheromones
     double _beta_phero;
     double _rho; // taux d'évaporation
-    double _lambda; // jsp, moi nn plus...
-    boost_vector _eta; // vecteur de poids apriori a ajouter à tau
+    double _lambda; // values used in evaporation rates updates
+    boost_vector _eta; // vecteur de poids apriori a ajouter à tau, vector of weights (whose size is the nunmber of variables), to account for prior knowledge on the variables
 
     //variables modifiées pendant le run
     boost_vector _tau;//tau doit etre un vecteur de la taille du nombre de SNP
