@@ -110,6 +110,27 @@ def parsing_result_file(result_file, pattern):
     return [result, true_positive, false_negative, false_positive]
 
 ###############################################################################
+# This function permit to create an output directory if it does not exist
+###############################################################################
+def check_output_directory(output_directory):
+    import re
+    import os
+    # Import errno to handle with errors during directory creation
+    from errno import EEXIST
+    # Get current path and add sub directory name
+    # Get current directory path
+    my_path = os.getcwd() + '/' + output_directory
+    # Try to create a new directory
+    try:
+        # Make a directory following path given
+        os.mkdir(my_path)
+    except OSError as exc:
+        if exc.errno == EEXIST:
+            pass
+        else:
+            raise
+
+###############################################################################
 # This function permit to create an output file and writing results
 ###############################################################################
 
@@ -118,8 +139,10 @@ def creation_of_output_file(output_directory, results_file_parsed, name_of_file)
     base = os.path.basename(name_of_file)
     name = os.path.splitext(base)[0] + '_results.txt'
     if os.path.isdir(output_directory):
+        name = output_directory + '/' + name
         with open(name, 'w') as output_file:
-            result_file.write('\n'.join(results_file_parsed))
+            for item in results_file_parsed:
+                output_file.write(item + '\n')
 
 ###############################################################################
 # This function permit to calcul recall
@@ -191,6 +214,8 @@ def main():
         with open(file, 'r') as result_file:
             # Determine results category: TP, FN or FP
             results_file_parsed = parsing_result_file(result_file, pattern)
+            # Check if output directory exist, if not creation of it
+            check_output_directory(output_directory)
             # Save parsed result in a file
             creation_of_output_file(
                 output_directory, results_file_parsed[0], file)
