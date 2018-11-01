@@ -83,16 +83,18 @@ def get_input_files(input_directory):
 
 def parsing_result_file(result_file):
     # Parsing of result file
+    result = []
     for line in result_file:
         if line == pattern:
+            result.append('TP')
             true_positive += 1
         elif line.strip() or len(line) != len(pattern):
+            result.append('FN')
             false_negative += 1
         elif line != pattern:
+            result.append('FP')
             false_positive += 1
-            # recall = #TP ⁄ (#TP + #FN)
-            # precision = #TP ⁄ (#TP + #FP)
-    return [true_positive, false_negative, false_positive]
+    return [result, true_positive, false_negative, false_positive]
 
 
 def creation_of_output_file(output_directory, results_file_parsed):
@@ -105,7 +107,7 @@ def creation_of_output_file(output_directory, results_file_parsed):
 
 def creation_of_measure_file(recall, precision):
     with open('f_measures.txt', 'w') as measure_file:
-        f_measure =2 / (1 ⁄ recall +1 ⁄ precision)
+        f_measure = 2 / (1 ⁄ recall + 1 ⁄ precision)
         measure_file.write(f_measure)
 
 
@@ -125,8 +127,14 @@ n_files = len(input_files)
 
 for file in input_files:
     with open(file, 'r') as result_file:
-        # TODO: gerer cete fonction
-        # results_file_parsed = parsing_result_file(result_file)
-        # creation_of_output_file(output_directory, results_file_parsed)
-    # creation_of_measure_file()
+        results_file_parsed = parsing_result_file(result_file)
+        array_of_results_string = results_file_parsed[0]
+        true_positive = results_file_parsed[1]
+        false_negative = results_file_parsed[2]
+        false_positive = results_file_parsed[3]
+        creation_of_output_file(output_directory, array_of_results_string)
+        recall = calc_recall(true_positive, )
+        precision = calc_precision(true_positive, )
+
+        creation_of_measure_file(recall, precision)
     # creation_of_powers_file():
