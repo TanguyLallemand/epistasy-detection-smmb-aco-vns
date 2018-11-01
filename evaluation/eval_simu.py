@@ -55,7 +55,6 @@
 # sinon c'est a la majorité
 #
 # f measure pour eviter qu il plante a cause division par 0, si y a un seul TP et le reste en FP ou FP ca passe mais si pas de TP et tt en FN alors division par 0. Si TP=0 alors pb. Dans ce cas la j en enleverai un a celui qui peut pas etre calcule et je le met a l autre qui est a 0
-
 import argparse
 import glob
 import os
@@ -88,14 +87,16 @@ def parsing_result_file(result_file, pattern):
     true_positive = 0
     false_positive = 0
     for line in result_file:
-        if line == pattern:
+        # print(line)
+        if line.strip() == pattern:
             result.append('TP')
             true_positive += 1
-        elif line.strip() or len(line) != len(pattern):
+        elif line.strip() == '' or len(line.strip()) != len(pattern):
             result.append('FN')
             false_negative += 1
-        elif line != pattern:
+        elif line.strip() != pattern:
             result.append('FP')
+            print('FP')
             false_positive += 1
     return [result, true_positive, false_negative, false_positive]
 
@@ -112,43 +113,72 @@ def calc_recall(true_positive, false_negative):
     recall = true_positive / (true_positive + false_negative)
     return recall
 
+
 def calc_precision(true_positive, false_positive):
     precision = true_positive / (true_positive + false_positive)
     return precision
 
+
 def creation_of_measure_file(recall, precision):
     with open('f_measures.txt', 'w') as measure_file:
-        f_measure = 2 / ( 1 + recall + 1 + precision )
-        measure_file.write(f_measure)
+        f_measure = 2 / (1 + recall + 1 + precision)
+        measure_file.write(str(f_measure))
+        return f_measure
 
 
-
-def creation_of_powers_file():
+def creation_of_powers_file(f_measure):
     with open('powers.txt', 'w') as powers_file:
-        print('test')
+        print('')
+        # Pour chaque jeu de données (comportant par exemple n_files fichiers), un fichier powers.txt
+        # sera généré. Il comportera les n_files f-measures calculées à partir des n_runs fichiers
+        # <identifiant_fichier_i>_results.txt générés pour chacun des fichiers <identifiant_fichier_i.txt>
+        # (1 ≤ i ≤ n_files).
+        # power = #TP / n_run
 
-        # Get argument parser
-args = get_arguments()
-input_directory = args.input
-output_directory = args.output
-number_of_execution = args.nruns
 
-input_files = get_input_files(input_directory)
-n_files = len(input_files)
+def main():
+    # Initialization of some variables
+    pattern = 'ml'
+    f_measure = []
+    # Get argument parser
+    args = get_arguments()
+    # Get argument passed to script
+    input_directory = args.input
+    output_directory = args.output
+    number_of_execution = args.nruns
 
-pattern = 'ml'
-for file in input_files:
-    with open(file, 'r') as result_file:
-        results_file_parsed = parsing_result_file(result_file, pattern)
-        creation_of_output_file(output_directory, results_file_parsed[0], file)
-        true_positive = results_file_parsed[1]
-        false_negative = results_file_parsed[2]
-        false_positive = results_file_parsed[3]
-        print(true_positive)
-        print(false_negative)
-        print(false_positive)
-        recall = calc_recall(true_positive, false_negative)
-        precision = calc_precision(true_positive, false_positive)
+    input_files = get_input_files(input_directory)
+    n_files = len(input_files)
 
-        creation_of_measure_file(recall, precision)
-        creation_of_powers_file()
+    for file in input_files:
+        with open(file, 'r') as result_file:
+            # Determine results category: TP, FN or FP
+            results_file_parsed = parsing_result_file(result_file, pattern)
+            # Save parsed result in a file
+            creation_of_output_file(
+                output_directory, results_file_parsed[0], file)
+            true_positive = results_file_parsed[1]
+            false_negative = results_file_parsed[2]
+            false_positive = results_file_parsed[3]
+
+            print(true_positive)
+            print(false_negative)
+            print(false_positive)
+
+
+            if false_negative == 0:
+                false_positive -= 1
+                false_negative += 1
+            if false_positive == 0:
+                false_negative -= 1
+                false_positive += 1
+
+            recall = calc_recall(true_positive, false_negative)
+            precision = calc_precision(true_positive, false_positive)
+
+            f_measure.append(creation_of_measure_file(recall, precision))
+            creation_of_powers_file(f_measure)
+
+
+if __name__ == "__main__":
+    main()
