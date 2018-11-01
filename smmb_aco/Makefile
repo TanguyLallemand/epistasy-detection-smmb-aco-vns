@@ -86,7 +86,7 @@ $(OBJDIR)/global.o: ./$(SRCDIR)/global.hpp
 #---------------------
 # Tools
 #---------------------
-$(OBJDIR)/global.o: ./$(SRCDIR)/tools/tools.cpp
+$(OBJDIR)/tools.o: ./$(SRCDIR)/tools/tools.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled tools.o"
 
