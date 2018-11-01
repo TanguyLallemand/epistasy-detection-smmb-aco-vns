@@ -1,24 +1,22 @@
 #include "tools.hpp"
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/random/discrete_distribution.h>
+
 //=================================================
-// smmb_aco : sampling
+// tools : sampling
 //=================================================
-// TODO passer ça dans un autre fichier pour pouvoir l'utiliser dans vns
-boost_vector tools::sampling() //generate a subset of SNP of _subset_size SNP
+boost::numeric::ublas::vector<int> tools::sampling(int subset_size, boost::numeric::ublas::vector<float> weight_vector) //generate a subset of SNP of _subset_size SNP according to weight_vector distribution
 {
-    //TODO initialiser le random (peut etre à faire dans le constructeur)
+    //TODO voir si on donne la random seed en argument
     default_random_engine rng; // random seed initialization
-    list<int> SNP_picked; //empty list of SNP to return IDEA maybe use an int boost vector
-    boost_vector tau_copie = _tau;
+    boost::numeric::ublas::vector<int> SNP_picked (subset_size);
     int nb;
-    list<int> SNP_picked;
-    for (size_t i = 0; i < _subset_size; i++) {
-        boost::random::discrete_distribution<int,float> distrib(tau_copie);
+    for (size_t i = 0; i < subset_size; i++) {
+        boost::random::discrete_distribution<int,float> distrib(weight_vector);
         nb = distrib(rng); //on pick 1 nbr avec la distrib obtenue
-        SNP_picked.push_back(nb); // on stocke le nbr dans la liste
-        tau_copie (nb) = 0; //on passe le poids de celui qui est pick à 0 dans la copie pour pas le repick
+        SNP_picked (i) = nb; // on stocke le nbr dans la liste
+        weight_vector (nb) = 0; //on passe le poids de celui qui est pick à 0 pour pas le repick
     }
-    return SNP_picked;
+    return SNP_picked; // return a subset of subset_size different SNP
 
 }
