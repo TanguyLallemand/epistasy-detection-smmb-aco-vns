@@ -120,7 +120,6 @@ void smmb_aco::run()
         { // a parallelise
             boost::numeric::ublas::matrix_row<boost_matrix> ant (ant_colony, a);
             ant = TOOLS_HPP::sampling(_subset_size, _tau);
-            // _genos_matrix<- echantillonner(P, D, KI) //TODO
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
@@ -135,6 +134,6 @@ void smmb_aco::run()
             }
             //post traitement; //TODO
         }
-        evaporate(); // TODO vérifier si c'est bon si on met ça la 
+        evaporate(); // TODO vérifier si c'est bon si on met ça la
     }
 }
