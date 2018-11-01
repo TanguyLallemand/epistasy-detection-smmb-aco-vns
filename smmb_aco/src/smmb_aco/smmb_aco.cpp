@@ -113,10 +113,12 @@ void smmb_aco::run()
     list<unsigned> markov_blanket_a;
     for (size_t i = 0; i < _n_it_n; i++)
     {
-        //P <- calculer distribution, probabilité (tau, eta, _alpha_stat, beta)
+        //P <- calculer distribution, probabilité (tau, eta, _alpha_stat, beta) update_tau() ici sans doute
+        boost_matrix ant_colony (_n_ant, _subset_size);
         // For every ants
         for (size_t a = 0; a < _n_ant; a++)
         { // a parallelise
+            ant_colony = TOOLS_HPP::sampling(_subset_size, _tau);
             // _genos_matrix<- echantillonner(P, D, KI) //TODO
             // Initialization of memory
             list<unsigned> mem_a;
