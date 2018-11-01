@@ -16,12 +16,34 @@ import numpy as np
 import pandas as pd
 import random
 import string
+import argparse
+
+def get_arguments():
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-o", "--output", help="Give an output directory", type=str, action='store', required=True)
+    parser.add_argument(
+        "-p", "--prefix", help="Common prefix for files", type=str, action='store', required=True)
+    parser.add_argument(
+        "-n", "--file", help="Number of file to generate", type=int)
+    parser.add_argument(
+        "-v", "--variable", help="Number of variable to generate", type=int)
+    parser.add_argument(
+        "-p", "--patient", help="Number of patient to generate", type=int)
+    parser.add_argument(
+        "-c", "--control", help="Number of control to generate", type=int)
+    args = parser.parse_args()
+    return args
 
 ###############################################################################
 # Function to generate ID using characters and digits
 ###############################################################################
+
+
 def random_id(size):
     return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(size))
+
 
 ###############################################################################
 # Generation of genotype dataset
@@ -45,4 +67,5 @@ phenotype_header = ["Class"]
 # Generate dataset
 phenotype_dataset = (np.random.randint(2, size=(4000, 1)))
 # Concatenate both arrays and print it as a csv file called phenotype_toy_dataset.txt
-np.savetxt("./toy_dataset/phenotype_toy_dataset.txt",  np.r_[[phenotype_header], phenotype_dataset], fmt='%s', delimiter=',')
+np.savetxt("./toy_dataset/phenotype_toy_dataset.txt",
+           np.r_[[phenotype_header], phenotype_dataset], fmt='%s', delimiter=',')
