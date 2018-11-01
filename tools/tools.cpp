@@ -1,10 +1,11 @@
 #include "tools.hpp"
 #include <boost/numeric/ublas/vector.hpp>
+#include <boost/random/discrete_distribution.h>
 //=================================================
 // smmb_aco : sampling
 //=================================================
 // TODO passer ça dans un autre fichier pour pouvoir l'utiliser dans vns
-list<int> smmb_aco::sampling() //generate a subset of SNP of _subset_size SNP
+boost_vector tools::sampling() //generate a subset of SNP of _subset_size SNP
 {
     //TODO initialiser le random (peut etre à faire dans le constructeur)
     default_random_engine rng; // random seed initialization
