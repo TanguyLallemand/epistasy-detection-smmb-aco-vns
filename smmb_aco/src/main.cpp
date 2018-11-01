@@ -29,8 +29,7 @@ int main(int argc, char* argv[])
     // Instanciation de smmb_aco
     smmb_aco test(matrix_genos, matrix_phenos, params);
     boost_vector mordecai = test.return_tau();
-    tools toolbox;
-    boost::numeric::ublas::vector<int> gg = toolbox.sampling(params.aco_set_size, mordecai);
+    boost::numeric::ublas::vector<int> gg = TOOLS_HPP::sampling(params.aco_set_size, mordecai);
     std::cout << gg << '\n';
     //smmb_aco.run();//exemple de call de la méthode smmb. Ca ne passe pas parce qu'il faut avoir une instance d ela classe avt...
 
