@@ -104,13 +104,15 @@ def creation_of_output_file(output_directory, results_file_parsed):
         with open(name, 'w') as output_file:
             pass
 
-# precision = #TP ⁄ (#TP + #FP).
+
 def calc_recall(true_positive, false_negative):
     recall = true_positive / (true_positive + false_negative)
     return recall
+
 def calc_precision(true_positive, false_positive):
     precision = true_positive / (true_positive + false_positive)
     return precision
+
 def creation_of_measure_file(recall, precision):
     with open('f_measures.txt', 'w') as measure_file:
         f_measure = 2 / (1 ⁄ recall + 1 ⁄ precision)
@@ -134,7 +136,7 @@ n_files = len(input_files)
 for file in input_files:
     with open(file, 'r') as result_file:
         results_file_parsed = parsing_result_file(result_file)
-        array_of_results_string = results_file_parsed[0]
+        result_file.write(results_file_parsed[0])
         true_positive = results_file_parsed[1]
         false_negative = results_file_parsed[2]
         false_positive = results_file_parsed[3]
@@ -143,4 +145,4 @@ for file in input_files:
         precision = calc_precision(true_positive, false_positive)
 
         creation_of_measure_file(recall, precision)
-    # creation_of_powers_file():
+        creation_of_powers_file():
