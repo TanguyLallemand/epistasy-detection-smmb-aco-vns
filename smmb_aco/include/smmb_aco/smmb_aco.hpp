@@ -1,56 +1,46 @@
 #ifndef SMMB_ACO_HPP
 #define SMMB_ACO_HPP
-
-#include <list>
-#include "parameters_parsing.hpp"
-#include <boost/numeric/ublas/matrix.hpp>
-#include "file_parsing.hpp"
 #include "global.hpp"
 class smmb_aco
 {
 public:
-    /*
-    Parametres a donner, il faut donc les filer au constructeur?
-    D: Matrice de genotype
-    T: Vecteur de phénotype
-    n_it: nombre d'itération ACO
-    n_ants: nombre de fourmis
-    K: Taille du sous ensemble de variable echantilloné à partir de D, pour chaque fourmis
-    n_it_n: nombre d'itération maximale qui force l'exploration de l'espace de recherche dans Markov Blanket
-    global_alpha: seuil pour erreur de type I global
-    Parametres liés a l'ACO:
-    tau_0: valeur intiale pour un tax de phéromone de chaque variable
-    rau, lambda: Deux constantes utilisees pour mettre a jour lers taux de phéromone
-    tau: vecteur indiquant les poids de connaissance a priori pour les variables
-    eta:
-    alpha, beta: Deux constantes utilisees pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori
-    */
-// Constructeur
-    smmb_aco(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, size_t n_it, size_t n_ants, int K, size_t n_it_n, double alpha, int tau_0, int rau, int tau, int eta, int alpha_stat, int beta);
+    // constructeur
+    smmb_aco(boost_matrix _genotype, boost_matrix _phenotype, parameters_parsing _params);
 
-    list<unsigned> learn_MB(boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K, size_t n_it_n, double alpha, list<unsigned> mem_a/*, P*/);
+    //fait tourner l'algo
+    void run();
 
-    void forward(bool MB_modifie, list<unsigned> MB_a, size_t n_it_n, int j/*, P*/, boost_matrix genotype_matrix, boost_matrix phenotype_matrix, int K );
+    //TODO voir pour un destructeur
 
-    void backward(list<unsigned> MB, boost_matrix phenotype_matrix, double alpha);
-
-    void run(boost_matrix genotype_matrix,boost_matrix phenotype_matrix, int K, size_t n_it_n, size_t n_ants, float tau_0);
-
-
-
-    boost_matrix genotype_matrix;
-    boost_matrix phenotype_matrix;
 private:
-    float p_valeur;
-    int s;
-    int mem_a;
-    // mettre les types     P;
-    double alpha;
-    // mettre les types     MB_A;
-    int j;
-    int K;
-    bool MB_modified;
-    // mettre les types     S;
+    //objets récupérés en argument
+    boost_matrix _genos_matrix;
+    boost_matrix _phenos_matrix;
     parameters_parsing _params;
+
+    //variables initialisée par le constructeur à partir de params
+    int _n_it; // nombre d'itérations ACO
+    int _n_ant; // nb de fourmis
+    int _subset_size; // taille du subset créé par chaque fourmis
+    int _n_it_n; // nombre d'itération maximales pour explorer l'espace de recherche
+    double _alpha_stat; // seuil de significativité
+    double _tau_0; // valeur de phéromone initiale
+    double _alpha_phero; // ces 2 variables influencent l'ajustement du taux de pheromones
+    double _beta_phero;
+    double _rho; // taux d'évaporation
+    double _lambda; // values used in evaporation rates updates
+    boost_vector _eta; // vecteur de poids apriori a ajouter à tau, vector of weights (whose size is the nunmber of variables), to account for prior knowledge on the variables
+
+    //variables modifiées pendant le run
+    boost_vector _tau;//tau doit etre un vecteur de la taille du nombre de SNP
+
+    // fonctions données par la prof
+    list<unsigned> learn_MB(list<unsigned> mem_a/*, P*/);
+    void forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/);
+    void backward(list<unsigned> markov_blanket_a);
+
+    //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
+    void add_pheromon(int SNP_pos); //add pheromone on a good SNP
+    void evaporate(); //substract rho to all SNP pheromones
 };
 #endif
