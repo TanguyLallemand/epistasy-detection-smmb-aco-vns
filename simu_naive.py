@@ -46,6 +46,17 @@ def random_id(size):
 
 
 ###############################################################################
+# Get variables from arguments
+###############################################################################
+args = get_arguments()
+# Get argument passed to script
+output_directory = args.output
+common_prefix = args.prefix
+number_of_file = args.file
+number_of_variable = args.variable
+number_of_patient = args.patient
+number_of_control = args.control
+###############################################################################
 # Generation of genotype dataset
 ###############################################################################
 # intitialisation array of ID
