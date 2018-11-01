@@ -59,8 +59,9 @@ import argparse
 import glob
 import os
 import numpy as np
+
 ###############################################################################
-# This function permit to
+# This function permit to define some arguments and generate associated help
 ###############################################################################
 
 
@@ -77,7 +78,7 @@ def get_arguments():
     return args
 
 ###############################################################################
-# This function permit to
+# This function permit to get all txt file containned in input directory
 ###############################################################################
 
 
@@ -87,7 +88,7 @@ def get_input_files(input_directory):
     return input_files
 
 ###############################################################################
-# This function permit to
+# This function permit to determine for every results if it is a FP, TP or FN
 ###############################################################################
 
 
@@ -109,7 +110,7 @@ def parsing_result_file(result_file, pattern):
     return [result, true_positive, false_negative, false_positive]
 
 ###############################################################################
-# This function permit to
+# This function permit to create an output file and writing results
 ###############################################################################
 
 
@@ -121,7 +122,7 @@ def creation_of_output_file(output_directory, results_file_parsed, name_of_file)
             result_file.write('\n'.join(results_file_parsed))
 
 ###############################################################################
-# This function permit to
+# This function permit to calcul recall
 ###############################################################################
 
 
@@ -130,7 +131,7 @@ def calc_recall(true_positive, false_negative):
     return recall
 
 ###############################################################################
-# This function permit to
+# This function permit to calcul precision
 ###############################################################################
 
 
@@ -139,7 +140,7 @@ def calc_precision(true_positive, false_positive):
     return precision
 
 ###############################################################################
-# This function permit to
+# This function permit to create measure file and calcul f_measure
 ###############################################################################
 
 
@@ -150,14 +151,14 @@ def creation_of_measure_file(recall, precision):
         return f_measure
 
 ###############################################################################
-# This function permit to
+# This function permit to powers file and calcul powers
 ###############################################################################
 
 
 def creation_of_powers_file(f_measure):
     with open('powers.txt', 'w') as powers_file:
         for item in f_measure:
-            powers_file.write(str(item))
+            powers_file.write(str(item) + '\n')
             # Pour chaque jeu de données (comportant par exemple n_files fichiers), un fichier powers.txt
             # sera généré. Il comportera les n_files f-measures calculées à partir des n_runs fichiers
             # <identifiant_fichier_i>_results.txt générés pour chacun des fichiers <identifiant_fichier_i.txt>
