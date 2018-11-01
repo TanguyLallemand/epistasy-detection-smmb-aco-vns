@@ -59,6 +59,9 @@ import argparse
 import glob
 import os
 import numpy as np
+###############################################################################
+# This function permit to
+###############################################################################
 
 
 def get_arguments():
@@ -73,21 +76,27 @@ def get_arguments():
     args = parser.parse_args()
     return args
 
+###############################################################################
+# This function permit to
+###############################################################################
+
 
 def get_input_files(input_directory):
     # Search for file ending with txt extension in a given directory
     input_files = glob.glob(input_directory + '*.txt')
     return input_files
 
+###############################################################################
+# This function permit to
+###############################################################################
+
 
 def parsing_result_file(result_file, pattern):
-    # Parsing of result file
     result = []
     false_negative = 0
     true_positive = 0
     false_positive = 0
     for line in result_file:
-        # print(line)
         if line.strip() == pattern:
             result.append('TP')
             true_positive += 1
@@ -96,9 +105,12 @@ def parsing_result_file(result_file, pattern):
             false_negative += 1
         elif line.strip() != pattern:
             result.append('FP')
-            print('FP')
             false_positive += 1
     return [result, true_positive, false_negative, false_positive]
+
+###############################################################################
+# This function permit to
+###############################################################################
 
 
 def creation_of_output_file(output_directory, results_file_parsed, name_of_file):
@@ -108,15 +120,27 @@ def creation_of_output_file(output_directory, results_file_parsed, name_of_file)
         with open(name, 'w') as output_file:
             result_file.write('\n'.join(results_file_parsed))
 
+###############################################################################
+# This function permit to
+###############################################################################
+
 
 def calc_recall(true_positive, false_negative):
     recall = true_positive / (true_positive + false_negative)
     return recall
 
+###############################################################################
+# This function permit to
+###############################################################################
+
 
 def calc_precision(true_positive, false_positive):
     precision = true_positive / (true_positive + false_positive)
     return precision
+
+###############################################################################
+# This function permit to
+###############################################################################
 
 
 def creation_of_measure_file(recall, precision):
@@ -125,15 +149,24 @@ def creation_of_measure_file(recall, precision):
         measure_file.write(str(f_measure))
         return f_measure
 
+###############################################################################
+# This function permit to
+###############################################################################
+
 
 def creation_of_powers_file(f_measure):
     with open('powers.txt', 'w') as powers_file:
-        print('')
-        # Pour chaque jeu de données (comportant par exemple n_files fichiers), un fichier powers.txt
-        # sera généré. Il comportera les n_files f-measures calculées à partir des n_runs fichiers
-        # <identifiant_fichier_i>_results.txt générés pour chacun des fichiers <identifiant_fichier_i.txt>
-        # (1 ≤ i ≤ n_files).
-        # power = #TP / n_run
+        for item in f_measure:
+            powers_file.write(str(item))
+            # Pour chaque jeu de données (comportant par exemple n_files fichiers), un fichier powers.txt
+            # sera généré. Il comportera les n_files f-measures calculées à partir des n_runs fichiers
+            # <identifiant_fichier_i>_results.txt générés pour chacun des fichiers <identifiant_fichier_i.txt>
+            # (1 ≤ i ≤ n_files).
+            # power = #TP / n_run
+
+###############################################################################
+# Main function
+###############################################################################
 
 
 def main():
@@ -164,7 +197,6 @@ def main():
             print(true_positive)
             print(false_negative)
             print(false_positive)
-
 
             if false_negative == 0:
                 false_positive -= 1
