@@ -103,10 +103,11 @@ def creation_of_output_file(output_directory, results_file_parsed):
             pass
 
 
-def creation_of_measure_file():
+def creation_of_measure_file(recall, precision):
     with open('f_measures.txt', 'w') as measure_file:
-        pass
-    # f-measure =2 / (1 ⁄ recall +1 ⁄ precision)
+        f_measure =2 / (1 ⁄ recall +1 ⁄ precision)
+        measure_file.write(f_measure)
+
 
 
 def creation_of_powers_file():
