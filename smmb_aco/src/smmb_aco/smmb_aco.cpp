@@ -22,7 +22,7 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, para
 
 
 
-    _tau = boost_vector(_genos_matrix.size2(), params.aco_tau_init); //normalement ça marche et ça init le vecteur au nbr de variable et à la valeur tau_0
+    _tau = boost_vector(_genos_matrix.size2(), _params.aco_tau_init); //normalement ça marche et ça init le vecteur au nbr de variable et à la valeur tau_0
 }
 
 //=================================================
@@ -30,7 +30,7 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, para
 //=================================================
 void smmb_aco::add_pheromon(int SNP_pos)
 {
-    _tau[SNP_pos] += /*TODO cb on ajoute quand le truc est bon? */;
+    _tau[SNP_pos] += 1;//TODO cb on ajoute quand le truc est bon?
 }
 
 //=================================================
@@ -52,7 +52,7 @@ list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/)
     list<unsigned> markov_blanket_a;
     bool markov_blanket_modified = true;
     int j = 0;
-    forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/);
+    forward(markov_blanket_modified, markov_blanket_a, j/*, P*/);
     return markov_blanket_a;
 }
 
@@ -73,7 +73,7 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
         //{//cas de rejet de H_0
             //_markov_blanket_a = std::set_union (_markov_blanket_a, _markov_blanket_a + _markov_blanket_a.size(), S, S+S.size(), _markov_blanket_a.begin());// union de MB_a et S et retourne avec v.begin le debut du vecteur MB_a
             markov_blanket_modified = true;
-            backward(list<unsigned> markov_blanket_a);
+            backward(markov_blanket_a);
         //}
         j++;
     }
@@ -84,10 +84,11 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
 //=================================================
 void smmb_aco::backward(list<unsigned> markov_blanket_a)
 {
-    for (size_t X = 0; X < markov_blanket.size(); X++) {
+    for (size_t X = 0; X < markov_blanket_a.size(); X++) { // TODO it was markov_blanket instead of markov_blanket_a : erreur de frappe?
         //for (size_t S = 0; S < count; S++) {
         //TODO: pour toute combinaison S non_vides inclus dans MB
             //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
+            float p_valeur = 0; //TODO temporaire pour voir si ça compile
             if (p_valeur>_alpha_stat) { //H_0: independance
                 // MB <- MB\{x}; //a gerer en liste //TODO
                 break;
@@ -115,7 +116,7 @@ void smmb_aco::run()
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
-            markov_blanket_a = learn_MB(list<unsigned> mem_a/*, P*/);
+            markov_blanket_a = learn_MB( mem_a/*, P*/);
         }
         // Initialization of final variable
         list<unsigned> mem;

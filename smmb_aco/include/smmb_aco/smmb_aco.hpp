@@ -3,6 +3,7 @@
 #include "global.hpp"
 #include <list>
 #include "parameters_parsing.hpp"
+using namespace std;
 
 class smmb_aco
 {
