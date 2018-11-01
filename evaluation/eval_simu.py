@@ -81,9 +81,12 @@ def get_input_files(input_directory):
     return input_files
 
 
-def parsing_result_file(result_file):
+def parsing_result_file(result_file, pattern):
     # Parsing of result file
     result = []
+    false_negative = 0
+    true_positive = 0
+    false_positive = 0
     for line in result_file:
         if line == pattern:
             result.append('TP')
@@ -97,12 +100,12 @@ def parsing_result_file(result_file):
     return [result, true_positive, false_negative, false_positive]
 
 
-def creation_of_output_file(output_directory, results_file_parsed):
+def creation_of_output_file(output_directory, results_file_parsed, name_of_file):
     base = os.path.basename(name_of_file)
     name = os.path.splitext(base)[0] + '_results.txt'
     if os.path.isdir(output_directory):
         with open(name, 'w') as output_file:
-            pass
+            result_file.write('\n'.join(results_file_parsed))
 
 
 def calc_recall(true_positive, false_negative):
@@ -115,14 +118,14 @@ def calc_precision(true_positive, false_positive):
 
 def creation_of_measure_file(recall, precision):
     with open('f_measures.txt', 'w') as measure_file:
-        f_measure = 2 / (1 ⁄ recall + 1 ⁄ precision)
+        f_measure = 2 / ( 1 + recall + 1 + precision )
         measure_file.write(f_measure)
 
 
 
 def creation_of_powers_file():
     with open('powers.txt', 'w') as powers_file:
-
+        print('test')
 
         # Get argument parser
 args = get_arguments()
@@ -133,16 +136,19 @@ number_of_execution = args.nruns
 input_files = get_input_files(input_directory)
 n_files = len(input_files)
 
+pattern = 'ml'
 for file in input_files:
     with open(file, 'r') as result_file:
-        results_file_parsed = parsing_result_file(result_file)
-        result_file.write(results_file_parsed[0])
+        results_file_parsed = parsing_result_file(result_file, pattern)
+        creation_of_output_file(output_directory, results_file_parsed[0], file)
         true_positive = results_file_parsed[1]
         false_negative = results_file_parsed[2]
         false_positive = results_file_parsed[3]
-        creation_of_output_file(output_directory, array_of_results_string)
+        print(true_positive)
+        print(false_negative)
+        print(false_positive)
         recall = calc_recall(true_positive, false_negative)
         precision = calc_precision(true_positive, false_positive)
 
         creation_of_measure_file(recall, precision)
-        creation_of_powers_file():
+        creation_of_powers_file()
