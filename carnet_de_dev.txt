@@ -15,4 +15,20 @@ changer la solution cradot du -48 dans le file_parsing.cpp
 (code ascii tout ça tou ça)
 pour le moment on garde car on veut du fonctionnel mais faudrais dans l'idéal trouver mieux <3
 
-changer la seed pour le sampling 
+changer la seed pour le sampling
+
+
+explication de l algo dans la publi
+
+L’algorithme SMMB est une approche originale ; c’est la première variation stochastique proposée
+pour le calcul d’une couverture de Markov : de multiples couvertures sont calculées sur des versions
+perturbées du jeu de données, obtenues par échantillonnage des variables. Une couverture "consensus"
+est ensuite construite. Pour assurer le passage à l’échelle requis par les études d’association génétique,
+et ne pas biaiser l’apprentissage des CM en y incorporant une variable fortement dépendante avec lephénotype, la méthode SMMB se démarque des autres approches en ajoutant des groupes de variables
+à la CM en cours de construction, au lieu d’ajouter les variables une à une.
+L’algorithme SMMB-ACO permet de restreindre encore l’espace de recherche des combinaisons de
+variables explorées. Dans ce cadre, un échantillon de variables est assigné à chacune des fourmis, qui
+en apprend une couverture de Markov. A tous les niveaux de l’algorithme SMMB, l’échantillonnage
+des variables est réalisé selon une loi uniforme. Dans SMMB-ACO, l’échantillonnage est guidé au
+moyen d’une distribution de probabilité, calculée grâce à une stratégie d’optimisation de type colonie
+de fourmis.
