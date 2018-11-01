@@ -46,18 +46,17 @@ void smmb_aco::evaporate()
 //=================================================
 // smmb_aco : sampling
 //=================================================
-list<int> smmb_aco::sampling() //the problem here is to know if we wan't a subset with _subset_size SNP or a subset with at least subset_size_small SNP? and at all how to do that
+// TODO passer ça dans un autre fichier pour pouvoir l'utiliser dans vns
+list<int> smmb_aco::sampling() //generate a subset of SNP of _subset_size SNP
 {
     //TODO initialiser le random (peut etre à faire dans le constructeur)
-    // Peut etre ac ca
-    //double r = std::rand()/(RAND_MAX+1.0);
     default_random_engine rng; // random seed initialization
-    list<int> SNP_picked; //empty list of SNP to return
-    boost_vector tau_copie = _tau; //_tau copy allowing to modify it for not picking snp twice
+    list<int> SNP_picked; //empty list of SNP to return IDEA maybe use an int boost vector
+    boost_vector tau_copie = _tau;
     int nb;
     list<int> SNP_picked;
     for (size_t i = 0; i < _subset_size; i++) {
-        discrete_distribution<float> distrib = tau_copie; //à voir si on peut générer ça à partir d'un vecteur boost (sinon on passera sur une liste std)
+        boost::random::discrete_distribution<int,float> distrib(tau_copie);
         nb = distrib(rng); //on pick 1 nbr avec la distrib obtenue
         SNP_picked.push_back(nb); // on stocke le nbr dans la liste
         tau_copie (nb) = 0; //on passe le poids de celui qui est pick à 0 dans la copie pour pas le repick
