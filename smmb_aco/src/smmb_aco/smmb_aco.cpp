@@ -118,7 +118,8 @@ void smmb_aco::run()
         // For every ants
         for (size_t a = 0; a < _n_ant; a++)
         { // a parallelise
-            ant_colony = TOOLS_HPP::sampling(_subset_size, _tau);
+            boost::numeric::ublas::matrix_row<boost_matrix> ant (ant_colony, a);
+            ant = TOOLS_HPP::sampling(_subset_size, _tau);
             // _genos_matrix<- echantillonner(P, D, KI) //TODO
             // Initialization of memory
             list<unsigned> mem_a;
