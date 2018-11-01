@@ -113,7 +113,7 @@ void smmb_aco::run()
     list<unsigned> markov_blanket_a;
     for (size_t i = 0; i < _n_it_n; i++)
     {
-        //P <- calculer distribution, probabilité (tau, eta, _alpha_stat, beta) update_tau() ici sans doute
+        //P <- calculer distribution, probabilité (tau, eta, _alpha_stat, beta)
         boost_matrix ant_colony (_n_ant, _subset_size);
         // For every ants
         for (size_t a = 0; a < _n_ant; a++)
@@ -135,5 +135,6 @@ void smmb_aco::run()
             }
             //post traitement; //TODO
         }
+        evaporate(); // TODO vérifier si c'est bon si on met ça la 
     }
 }
