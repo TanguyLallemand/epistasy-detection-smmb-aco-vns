@@ -67,13 +67,12 @@ list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/)
 //=================================================
 void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/)
 {
-    // IDEA:
-    //boost::numeric::ublas::vector<int> S;
+    //Initialise S to handle with subset
+    boost::numeric::ublas::vector<int> S;
     while (markov_blanket_modified || (markov_blanket_a.empty() && j<_n_it_n))
     {
         markov_blanket_modified = false;
-        // IDEA:
-        //S = sampling(_genos_matrix, _subset_size)
+        //mettre ici le sampling et le mettre dans le S
         /*
         TODO
         s<-arg_max{score_association(s',T,_markov_blanket_a,mem_a)} //l'argument qui maximise
