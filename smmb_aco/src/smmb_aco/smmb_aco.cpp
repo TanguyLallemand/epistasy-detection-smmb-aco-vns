@@ -24,7 +24,12 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, para
 
     _tau = boost_vector(_genos_matrix.size2(), _params.aco_tau_init); //normalement ça marche et ça init le vecteur au nbr de variable et à la valeur tau_0
 }
-
+//TODO remove it is juste a test
+boost_vector smmb_aco::return_tau()
+{
+    std::cout << _tau << '\n';
+    return _tau;
+}
 //=================================================
 // smmb_aco : add_pheromon
 //=================================================
@@ -104,7 +109,6 @@ void smmb_aco::run()
 {
     // Initialization of Markov Blanket
     list<unsigned> markov_blanket_s;
-    float tau = _tau_0;
     list<unsigned> markov_blanket_a;
     for (size_t i = 0; i < _n_it_n; i++)
     {

@@ -14,6 +14,8 @@ public:
     //fait tourner l'algo
     void run();
 
+    //test TODO a remove
+    boost_vector return_tau();
     //TODO voir pour un destructeur
 
 private:

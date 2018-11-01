@@ -1,11 +1,12 @@
 #include <iostream>
 #include <stdlib.h>
 
-
+#include <boost/numeric/ublas/io.hpp>
 
 #include "parameters_parsing.hpp"
 #include "file_parsing.hpp"
 #include "smmb_aco.hpp"
+#include "tools.hpp"
 #include <boost/numeric/ublas/matrix.hpp>
 #include "global.hpp"
 int main(int argc, char* argv[])
@@ -27,6 +28,9 @@ int main(int argc, char* argv[])
     boost_matrix matrix_phenos = data_phenos.return_matrix();
     // Instanciation de smmb_aco
     smmb_aco test(matrix_genos, matrix_phenos, params);
+    boost_vector mordecai = test.return_tau();
+    boost::numeric::ublas::vector<int> gg = tools::sampling(3, mordecai);
+    std::cout << gg << '\n';
     //smmb_aco.run();//exemple de call de la méthode smmb. Ca ne passe pas parce qu'il faut avoir une instance d ela classe avt...
 
 
