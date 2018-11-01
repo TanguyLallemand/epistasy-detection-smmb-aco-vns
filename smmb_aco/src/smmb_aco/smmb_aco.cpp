@@ -1,5 +1,6 @@
-#include "smmb_aco_jon.hpp"
+#include "smmb_aco.hpp"
 #include <iostream>
+#include <stdlib.h>
 #include <fstream>
 #include <string>
 #include <boost/numeric/ublas/io.hpp>

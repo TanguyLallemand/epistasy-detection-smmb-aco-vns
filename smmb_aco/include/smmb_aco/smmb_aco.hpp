@@ -1,6 +1,9 @@
 #ifndef SMMB_ACO_HPP
 #define SMMB_ACO_HPP
 #include "global.hpp"
+#include <list>
+#include "parameters_parsing.hpp"
+
 class smmb_aco
 {
 public:
