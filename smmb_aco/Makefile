@@ -17,6 +17,7 @@ INC=-I$(BOOST_FOLDER) \
  -I./include \
  -I./include/parsing \
  -I./include/statistics \
+ -I./include/tools \
  -I./include/smmb_aco
 
 # Save compiler call
@@ -33,6 +34,7 @@ OBJ=$(OBJDIR)/main.o \
 $(OBJDIR)/file_parsing.o \
 $(OBJDIR)/smmb_aco.o \
 $(OBJDIR)/parameters_parsing.o \
+$(OBJDIR)/tools.o \
 $(OBJDIR)/statistics.o
 
 TARGET=$(BINDIR)/smmb_aco
@@ -81,7 +83,12 @@ $(OBJDIR)/global.o: ./$(SRCDIR)/global.hpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled global.o"
 
-
+#---------------------
+# Global
+#---------------------
+$(OBJDIR)/global.o: ./$(SRCDIR)/tools/tools.cpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled tools.o"
 
 
 
