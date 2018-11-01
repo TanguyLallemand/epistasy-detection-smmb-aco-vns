@@ -155,15 +155,18 @@ def creation_of_measure_file(recall, precision):
 ###############################################################################
 
 
-def creation_of_powers_file(f_measure):
+def creation_of_powers_file(f_measure, number_of_execution, number_true_positive):
     with open('powers.txt', 'w') as powers_file:
+        powers_file.write('Power\n')
+        powers_file.write(str(number_true_positive / number_of_execution) + '\n')
+        powers_file.write('f_measures\n')
         for item in f_measure:
             powers_file.write(str(item) + '\n')
             # Pour chaque jeu de données (comportant par exemple n_files fichiers), un fichier powers.txt
             # sera généré. Il comportera les n_files f-measures calculées à partir des n_runs fichiers
             # <identifiant_fichier_i>_results.txt générés pour chacun des fichiers <identifiant_fichier_i.txt>
             # (1 ≤ i ≤ n_files).
-            # power = #TP / n_run
+
 
 ###############################################################################
 # Main function
@@ -191,26 +194,21 @@ def main():
             # Save parsed result in a file
             creation_of_output_file(
                 output_directory, results_file_parsed[0], file)
-            true_positive = results_file_parsed[1]
-            false_negative = results_file_parsed[2]
-            false_positive = results_file_parsed[3]
+            number_true_positive = results_file_parsed[1]
+            number_false_negative = results_file_parsed[2]
+            number_false_positive = results_file_parsed[3]
+            if number_false_negative == 0:
+                number_false_positive -= 1
+                number_false_negative += 1
+            if number_false_positive == 0:
+                number_false_negative -= 1
+                number_false_positive += 1
 
-            print(true_positive)
-            print(false_negative)
-            print(false_positive)
-
-            if false_negative == 0:
-                false_positive -= 1
-                false_negative += 1
-            if false_positive == 0:
-                false_negative -= 1
-                false_positive += 1
-
-            recall = calc_recall(true_positive, false_negative)
-            precision = calc_precision(true_positive, false_positive)
+            recall = calc_recall(number_true_positive, number_false_negative)
+            precision = calc_precision(number_true_positive, number_false_positive)
 
             f_measure.append(creation_of_measure_file(recall, precision))
-            creation_of_powers_file(f_measure)
+            creation_of_powers_file(f_measure, number_of_execution, number_true_positive)
 
 
 if __name__ == "__main__":
