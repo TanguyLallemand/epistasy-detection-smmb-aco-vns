@@ -17,7 +17,9 @@ import string
 
 def get_arguments():
     import argparse
+    # Define arument parser and stock it as object
     parser = argparse.ArgumentParser()
+    # Add all arguments in parser
     parser.add_argument(
         "-o", "--output", help="Give an output directory", type=str, action='store', required=True)
     parser.add_argument(
@@ -30,7 +32,9 @@ def get_arguments():
         "-pa", "--case", help="Number of case to generate", type=int, required=True)
     parser.add_argument(
         "-c", "--control", help="Number of control to generate", type=int, required=True)
+    # Parse arguments
     args = parser.parse_args()
+    # Return parsed args
     return args
 
 ###############################################################################
@@ -39,7 +43,7 @@ def get_arguments():
 
 
 def generate_id(common_prefix, i):
-    #Generate an ID by joining common prefix and an iterator
+    # Generate an ID by joining common prefix and an iterator
     id = ''.join(common_prefix + str(i))
     return id
 
@@ -75,12 +79,13 @@ def generate_genotype_dataset(output_directory, id, number_of_variable, number_o
 
     # Intitialisation array of ID
     genotype_id = []
-    #Check if output directory exist
+    # Check if output directory exist
     check_output_directory(output_directory)
-    #Generate path to save txt file
+    # Generate path to save txt file
     path = './' + output_directory + '/genotype_toy_dataset' + id + '.txt'
     # Generate id of variables
     for j in range(0, number_of_variable):
+        # Join "SNP" string with iterator
         genotype_id.append(''.join('SNP' + str(j)))
 
     # Generate dataset
@@ -100,12 +105,12 @@ def generate_genotype_dataset(output_directory, id, number_of_variable, number_o
 def generate_phenotype_dataset(output_directory, number_of_case, number_of_control, common_prefix):
     # Check if output directory exist
     check_output_directory(output_directory)
-    #Generate path to save txt file
-    path = './' + output_directory + '/phenotype_toy_dataset'+ common_prefix + '.txt'
+    # Generate path to save txt file
+    path = './' + output_directory + '/phenotype_toy_dataset' + common_prefix + '.txt'
     # Generate header
     phenotype_header = ["Class"]
-    # Generate dataset
 
+    # Generate dataset
     # Generate right number of case as 1
     phenotype_case = np.ones((number_of_case, 1), dtype=int)
     # Generate right number of control as 0
@@ -133,19 +138,20 @@ def main():
     number_of_variable = args.variable
     number_of_case = args.case
     number_of_control = args.control
-    #Calculate number of patient
+    # Calculate number of patient
     number_of_patients = number_of_case + number_of_control
-    #A loop to generate number of genotype file asked
+    # A loop to generate number of genotype file asked
     for i in range(0, number_of_file):
         # Generate an ID for current file in construction
         id = generate_id(common_prefix, i)
-        #Generate datas and save it in a CSV file
+        # Generate datas and save it in a CSV file
         generate_genotype_dataset(
             output_directory, id, number_of_variable, number_of_patients)
-    #Generate one phenotype dataset linked to generated dataset
+    # Generate one phenotype dataset linked to generated dataset
     generate_phenotype_dataset(
-            output_directory, number_of_case, number_of_control, common_prefix)
+        output_directory, number_of_case, number_of_control, common_prefix)
 
 
+# Execution of main function
 if __name__ == "__main__":
     main()
