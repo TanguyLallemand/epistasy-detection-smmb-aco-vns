@@ -32,3 +32,5 @@ en apprend une couverture de Markov. A tous les niveaux de l’algorithme SMMB, 
 des variables est réalisé selon une loi uniforme. Dans SMMB-ACO, l’échantillonnage est guidé au
 moyen d’une distribution de probabilité, calculée grâce à une stratégie d’optimisation de type colonie
 de fourmis.
+
+mardi 16 octobre, 166min smmb_aco
