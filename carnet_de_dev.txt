@@ -34,3 +34,63 @@ moyen d’une distribution de probabilité, calculée grâce à une stratégie d
 de fourmis.
 
 mardi 16 octobre, 166min smmb_aco
+
+
+
+/*
+FROM COURS DE SINOQUET
+//attention k est different de _subset_size
+output: un ensemble de couvertures de Markov sous optimales
+
+MB_s<- ensemble non_vide
+_tau = tau_0 // attention c'est une copie de vecteur ici
+Pour i allant de 1 a _n_it
+    P <- Calculer distribution de probabilite(_tau, _eta,_alpha_phero,_beta_phero);// ca a un rapport ac cette histoire de curseur
+    pour j allant de 1 a _n_ants//La on fait travailler les fourmis //à parralelise, elle a dis de le faire, avec openMP, elle va nous donner les 2 lignes pour le faire
+        _genos_matrix_subset = echantilloné(P, _genos_matrix, _subset_size )
+        memoire_fourmis = ensemble_vide;
+        MB_fourmis = learnMB(_genos_matrix_subset, phenos_matrix, k, _n_it_n, _alpha_stat, memoire_fourmis, P);
+    fin pour
+    memoire = ensemble vide
+    pour a allant de 1 à _n_ants
+        ajouter à memoire la memoire_fourmis;
+        si MB_fourmis non vide alors MB_s(qui est un ensemble d'ensemble) = MB_s union; MB_fourmis;
+    finpour
+    _tau = mise_a_jour_taux_de_pheromone(memoire, _rho, _lambda)
+finpour
+procedure de post traitement de MB_s // la prof ne veut pas detaille, ca depend comment on prend le projet, elle nous donnera un cahier des charges
+
+//retourne une couverture sous optimale eventuellement vide
+FONCTION learn_MB()
+
+MB_fourmis = ensemble vide;
+MB_modified = true;
+j = 0;
+
+//On entre dans la phase forward, ca permet d'eliminer des variables de la MB
+tant que (MB_modified == true /*on est des barbus donc on met juste MB_modified */ or ( empty(MB_fourmis) and j<n_it_n))
+    MB_modified = false; //pour briser le prochain tour de boucle
+    S = echantilloné(P, _genos_matrix_subset, k )
+    s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
+    si p_valeur(s)<_alpha_stat //rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
+    alors
+        MB_fourmis = MB_fourmis union s
+        MB_modified = true
+        backward_phase(MB_fourmis, _phenos_matrix, _alpha_stat)
+    finsi
+    j++
+fintantque
+
+procedure backward(MB, T, alpha)
+{
+    pour tout x element de MB
+        pour toute combinaison S non_vides inclus dans MB
+            realiser le terst d'independance entre X et T conditionnellement a S_0
+            Si p_valeur>global_alpha//H_0: independance
+            alors
+            MB <- MB\{x} //a gerer en liste
+            break
+}
+
+
+*/
