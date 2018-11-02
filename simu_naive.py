@@ -40,6 +40,7 @@ def get_arguments():
 
 
 def generate_id(common_prefix, i):
+    #Generate an ID by joining common prefix and an iterator
     id = ''.join(common_prefix + str(i))
     return id
 
@@ -73,11 +74,13 @@ def check_output_directory(output_directory):
 
 def generate_genotype_dataset(output_directory, id, number_of_variable, number_of_patient):
 
-    # intitialisation array of ID
+    # Intitialisation array of ID
     genotype_id = []
+    #Check if output directory exist
     check_output_directory(output_directory)
+    #Generate path to save txt file
     path = './' + output_directory + '/genotype_toy_dataset' + id + '.txt'
-    #Generate id of variables
+    # Generate id of variables
     for j in range(0, number_of_variable):
         genotype_id.append(''.join('SNP' + str(j)))
 
@@ -95,14 +98,23 @@ def generate_genotype_dataset(output_directory, id, number_of_variable, number_o
 ###############################################################################
 
 
-def generate_phenotype_dataset():
-
+def generate_phenotype_dataset(output_directory, number_of_case, number_of_control, common_prefix):
+    # Check if output directory exist
+    check_output_directory(output_directory)
+    #Generate path to save txt file
+    path = './' + output_directory + '/phenotype_toy_dataset'+ common_prefix + '.txt'
     # Generate header
     phenotype_header = ["Class"]
     # Generate dataset
-    phenotype_dataset = (np.random.randint(2, size=(4000, 1)))
+    # Generate right number of case as 1
+    phenotype_case = np.ones((number_of_case, 1), dtype=int)
+    # Generate right number of control as 0
+    phenotype_control = np.zeros((number_of_control, 1), dtype=int)
+    # Merge those two numpy array
+    phenotype_dataset = np.append(phenotype_control, phenotype_case, axis=0)
+
     # Concatenate both arrays and print it as a csv file called phenotype_toy_dataset.txt
-    np.savetxt("./toy_dataset/phenotype_toy_dataset.txt",
+    np.savetxt(path,
                np.r_[[phenotype_header], phenotype_dataset], fmt='%s', delimiter=',')
 
 
@@ -121,10 +133,13 @@ def main():
     number_of_variable = args.variable
     number_of_case = args.case
     number_of_control = args.control
+    number_of_patients = number_of_case + number_of_control
     for i in range(0, number_of_file):
         id = generate_id(common_prefix, i)
         generate_genotype_dataset(
-            output_directory, id, number_of_variable, number_of_case)
+            output_directory, id, number_of_variable, number_of_patients)
+        generate_phenotype_dataset(
+            output_directory, number_of_case, number_of_control, common_prefix)
 
 
 if __name__ == "__main__":
