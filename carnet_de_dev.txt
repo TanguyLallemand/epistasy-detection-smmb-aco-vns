@@ -80,7 +80,7 @@ tant que (MB_modified == true /*on est des barbus donc on met juste MB_modified 
     finsi
     j++
 fintantque
-
+return MB_fourmis
 procedure backward(MB, T, alpha)
 {
     pour tout x element de MB
