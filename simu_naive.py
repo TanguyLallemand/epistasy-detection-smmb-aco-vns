@@ -106,6 +106,7 @@ def generate_phenotype_dataset(output_directory, number_of_case, number_of_contr
     # Generate header
     phenotype_header = ["Class"]
     # Generate dataset
+
     # Generate right number of case as 1
     phenotype_case = np.ones((number_of_case, 1), dtype=int)
     # Generate right number of control as 0
@@ -133,12 +134,17 @@ def main():
     number_of_variable = args.variable
     number_of_case = args.case
     number_of_control = args.control
+    #Calculate number of patient
     number_of_patients = number_of_case + number_of_control
+    #A loop to generate number of genotype file asked
     for i in range(0, number_of_file):
+        # Generate an ID for current file in construction
         id = generate_id(common_prefix, i)
+        #Generate datas and save it in a CSV file
         generate_genotype_dataset(
             output_directory, id, number_of_variable, number_of_patients)
-        generate_phenotype_dataset(
+    #Generate one phenotype dataset linked to generated dataset
+    generate_phenotype_dataset(
             output_directory, number_of_case, number_of_control, common_prefix)
 
 
