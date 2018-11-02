@@ -15,22 +15,22 @@ import string
 # Function to define arguments for script
 ###############################################################################
 
-# required=True
+
 def get_arguments():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-o", "--output", help="Give an output directory", type=str, action='store')
+        "-o", "--output", help="Give an output directory", type=str, action='store', required=True)
     parser.add_argument(
-        "-p", "--prefix", help="Common prefix for files", type=str, action='store')
+        "-p", "--prefix", help="Common prefix for files", type=str, action='store', required=True)
     parser.add_argument(
-        "-f", "--file", help="Number of file to generate", type=int)
+        "-f", "--file", help="Number of file to generate", type=int, required=True)
     parser.add_argument(
-        "-v", "--variable", help="Number of variable to generate", type=int)
+        "-v", "--variable", help="Number of variable to generate", type=int, required=True)
     parser.add_argument(
-        "-pa", "--case", help="Number of case to generate", type=int)
+        "-pa", "--case", help="Number of case to generate", type=int, required=True)
     parser.add_argument(
-        "-c", "--control", help="Number of control to generate", type=int)
+        "-c", "--control", help="Number of control to generate", type=int, required=True)
     args = parser.parse_args()
     return args
 
