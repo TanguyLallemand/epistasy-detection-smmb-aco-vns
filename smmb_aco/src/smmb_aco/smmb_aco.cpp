@@ -20,6 +20,7 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, para
     _alpha_phero = _params.aco_alpha;
     _beta_phero = _params.aco_beta;
     _alpha_stat = _params.alpha;
+    _subset_size = _params.aco_set_size;
 
 
 
@@ -117,11 +118,13 @@ void smmb_aco::run()
     {
         //P <- calculer distribution, probabilité (tau, eta, _alpha_stat, beta)
         boost_matrix ant_colony (_n_ant, _subset_size);
-        // For every ants
+        // For every ants a parallelise : #pragma omp parallel for
         for (size_t a = 0; a < _n_ant; a++)
-        { // a parallelise
+        {
             boost::numeric::ublas::matrix_row<boost_matrix> ant (ant_colony, a);
             ant = TOOLS_HPP::sampling(_subset_size, _tau);
+            std::cout << ant << '\n';
+            std::cout << ant_colony << '\n';
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
@@ -136,6 +139,6 @@ void smmb_aco::run()
             }
             //post traitement; //TODO
         }
-        evaporate(); // TODO vérifier si c'est bon si on met ça la
+        evaporate(); // TODO vérifier si c'est correct de mettre ça la
     }
 }
