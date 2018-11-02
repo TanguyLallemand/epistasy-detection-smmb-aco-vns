@@ -37,7 +37,7 @@ boost_vector smmb_aco::return_tau()
 //=================================================
 void smmb_aco::add_pheromon(int SNP_pos)
 {
-    _tau[SNP_pos] += 1;//TODO cb on ajoute quand le truc est bon?
+    _tau[SNP_pos] += _lambda;
 }
 
 //=================================================
@@ -126,7 +126,7 @@ void smmb_aco::run()
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
-            markov_blanket_a = learn_MB( mem_a/*, P*/);
+            markov_blanket_a = learn_MB( mem_a/*, P*/); //FIXME
         }
         // Initialization of final variable
         list<unsigned> mem;
