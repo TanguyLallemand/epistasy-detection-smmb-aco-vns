@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
     string phenos_file = argv[2];
 
     parameters_parsing params;
-    params.list_parameters();
+    //params.list_parameters();
 
     params.genos_file = genos_file;
     params.phenos_file = phenos_file;
@@ -28,9 +28,9 @@ int main(int argc, char* argv[])
     boost_matrix matrix_phenos = data_phenos.return_matrix();
     // Instanciation de smmb_aco
     smmb_aco test(matrix_genos, matrix_phenos, params);
-    boost_vector mordecai = test.return_tau();
-    boost::numeric::ublas::vector<int> gg = TOOLS_HPP::sampling(params.aco_set_size, mordecai);
-    std::cout << gg << '\n';
+    test.run();
+    //boost_vector mordecai = test.return_tau();
+    //boost::numeric::ublas::vector<int> gg = TOOLS_HPP::sampling(params.aco_set_size, mordecai);
     //smmb_aco.run();//exemple de call de la méthode smmb. Ca ne passe pas parce qu'il faut avoir une instance d ela classe avt...
 
 
