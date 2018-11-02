@@ -3,7 +3,6 @@
 # Authors: Tanguy Lallemand M2 BB
 #          Jonathan Cruard M2 BB
 
-import argparse
 import glob
 import os
 import numpy as np
