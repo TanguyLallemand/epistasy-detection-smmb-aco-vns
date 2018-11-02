@@ -121,10 +121,8 @@ void smmb_aco::run()
         // For every ants a parallelise : #pragma omp parallel for
         for (size_t a = 0; a < _n_ant; a++)
         {
-            boost::numeric::ublas::matrix_row<boost_matrix> ant (ant_colony, a);
-            ant = TOOLS_HPP::sampling(_subset_size, _tau);
-            std::cout << ant << '\n';
-            std::cout << ant_colony << '\n';
+            boost::numeric::ublas::matrix_row<boost_matrix> ant (ant_colony, a); //allow to affect the sample to an ant
+            ant = TOOLS_HPP::sampling(_subset_size, _tau); // affect the sample to the correct ant
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
