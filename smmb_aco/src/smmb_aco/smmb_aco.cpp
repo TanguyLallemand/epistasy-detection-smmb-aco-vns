@@ -92,7 +92,7 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
 //=================================================
 void smmb_aco::backward(list<unsigned> markov_blanket_a)
 {
-    for (size_t X = 0; X < markov_blanket_a.size(); X++) { // TODO it was markov_blanket instead of markov_blanket_a : erreur de frappe?
+    for (size_t X = 0; X < markov_blanket_a.size(); X++) {
         //for (size_t S = 0; S < count; S++) {
         //TODO: pour toute combinaison S non_vides inclus dans MB
             //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
