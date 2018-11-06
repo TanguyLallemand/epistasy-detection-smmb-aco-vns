@@ -147,7 +147,7 @@ void smmb_aco::run()
 }
 
 //=================================================
-// smmb_aco : sub_sampling //FIXME Résultats bizarres on a tjrs des trucs qui sont au début du ant_subset IDEA peut etre du au fait qu'on utilise la meme random seed pour les 2 random selection avoir si sur
+// smmb_aco : sub_sampling
 //=================================================
 void smmb_aco::sub_sampling(boost_vector & sub_subset, boost_vector ant_subset)
 {
