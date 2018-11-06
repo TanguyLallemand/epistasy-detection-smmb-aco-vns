@@ -56,7 +56,8 @@ void smmb_aco::evaporate()
 //Return Markov Blanket sous optimale eventuellemenet vide
 list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/, boost_vector ant_subset)
 {
-    list<unsigned> markov_blanket_a;
+    list<unsigned> markov_blanket_a; // J ai pas vu ca dans le pseudo code je sas pas trop ce que ca fait la?
+    //MB_fourmis = ensemble vide;
     bool markov_blanket_modified = true;
     int j = 0;
     forward(markov_blanket_modified, markov_blanket_a, j/*, P*/);
@@ -74,13 +75,13 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
     {
         markov_blanket_modified = false;
 
-        //XXX subsampling, faire une surdéfinition de tools sampling 
+        //XXX subsampling, faire une surdéfinition de tools sampling
         /*
         TODO
-        s<-arg_max{score_association(s',T,_markov_blanket_a,mem_a)} //l'argument qui maximise
+        s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
         */
         //if (p_valeur(s) << _alpha_stat) //TODO: Il faut une fonction pour calculer/renvoyer la p_valeur de la solution
-        //{//cas de rejet de H_0
+        //{//rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
             //_markov_blanket_a = std::set_union (_markov_blanket_a, _markov_blanket_a + _markov_blanket_a.size(), S, S+S.size(), _markov_blanket_a.begin());// union de MB_a et S et retourne avec v.begin le debut du vecteur MB_a
             markov_blanket_modified = true;
             backward(markov_blanket_a);
@@ -114,7 +115,7 @@ void smmb_aco::run()
 {
     // Initialization of Markov Blanket
     list<unsigned> markov_blanket_s;
-    list<unsigned> markov_blanket_a;
+    list<unsigned> markov_blanket_a;//attention jecrois que dans learn on reintialise ca...
     for (size_t i = 0; i < _n_it_n; i++)
     {
         //P <- calculer distribution, probabilité (tau, eta, _alpha_stat, beta)
