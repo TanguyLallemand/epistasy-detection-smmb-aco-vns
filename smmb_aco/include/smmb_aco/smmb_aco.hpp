@@ -44,8 +44,8 @@ private:
 
     // fonctions données par la prof
     list<unsigned> learn_MB(list<unsigned> mem_a/*, P*/, boost_vector ant_subset);
-    void forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/);
-    void backward(list<unsigned> markov_blanket_a);
+    void forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/, boost_vector ant_subset);
+    void backward(list<unsigned> markov_blanket_a, boost_vector ant_subset);
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
     void add_pheromon(int SNP_pos); //add pheromone on a good SNP
