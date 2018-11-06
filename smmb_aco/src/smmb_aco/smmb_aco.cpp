@@ -23,8 +23,10 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, para
     _subset_size = _params.aco_set_size;
     _sub_subset_size = _params.subset_size_small;
 
-
-    _tau = boost_vector(_genos_matrix.size2(), _params.aco_tau_init); //normalement ça marche et ça init le vecteur au nbr de variable et à la valeur tau_0
+    //vecteur concernant les pheromones
+    _eta = boost_vector(_genos_matrix.size2(), _params.aco_eta);
+    _tau = boost_vector(_genos_matrix.size2(), _params.aco_tau_init);
+    _pheromone_distrib = boost_vector(_genos_matrix.size2(), 0);
 }
 //TODO remove it is juste a test
 boost_vector smmb_aco::return_tau()
@@ -51,22 +53,31 @@ void smmb_aco::evaporate()
 }
 
 //=================================================
+// smmb_aco : update_distribution
+//=================================================
+void update_pheromon_distrib()
+{
+    for (size_t i = 0; i < _pheromone_distrib.size(); i++) {
+        _pheromone_distrib (i) = (_tau (i)*_alpha_phero) + (_eta*_beta_phero);
+    }
+}
+//=================================================
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/, boost_vector ant_subset)
+list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a, boost_vector ant_subset)
 {
     list<unsigned> markov_blanket_a;
     bool markov_blanket_modified = true;
     int j = 0;
-    forward(markov_blanket_modified, markov_blanket_a, j/*, P*/, ant_subset);
+    forward(markov_blanket_modified, markov_blanket_a, j, ant_subset);
     return markov_blanket_a;
 }
 
 //=================================================
 // smmb_aco : forward //FIXME
 //=================================================
-void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/, boost_vector ant_subset)
+void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j, boost_vector ant_subset)
 {
     //Initialise S to handle with subset
     boost::numeric::ublas::vector<int> S;
@@ -120,17 +131,16 @@ void smmb_aco::run()
     list<unsigned> markov_blanket_a;//attention jecrois que dans learn on reintialise ca...
     for (size_t i = 0; i < _n_it_n; i++)
     {
-        //P <- calculer distribution, probabilité (tau, eta, _alpha_stat, beta)
         boost_matrix ant_colony (_n_ant, _subset_size);
         // For every ants a parallelise : #pragma omp parallel for
         for (size_t a = 0; a < _n_ant; a++)
         {
             boost_vector ant_subset;
-            ant_subset = TOOLS_HPP::sampling(_subset_size, _tau); //This is the list of snp sampled by this ant.
+            ant_subset = TOOLS_HPP::sampling(_subset_size, _pheromone_distrib); //This is the list of snp sampled by this ant.
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
-            markov_blanket_a = learn_MB( mem_a/*, P*/, ant_subset);
+            markov_blanket_a = learn_MB( mem_a, ant_subset);
         }
         // Initialization of final variable
         list<unsigned> mem;
@@ -153,15 +163,15 @@ void smmb_aco::sub_sampling(boost_vector & sub_subset, boost_vector ant_subset)
 {
     // faut lui donner le sub_subset déja init il le prend par ref et le subset deja fait
     // et magie on a un sub_subset :D TODO
-    boost_vector small_tau(ant_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
+    boost_vector small_distrib(ant_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
     //puis on recup les tau des snp du ant_subset
     for (size_t i = 0; i < ant_subset.size(); i++)
     {
-        small_tau (i) = _tau (ant_subset(i));
+        small_distrib (i) = _pheromone_distrib (ant_subset(i));
     }
     boost_vector temp;
     // on file le vecteur de proba a tools::sampling
-    temp = TOOLS_HPP::sampling(sub_subset.size(), small_tau);
+    temp = TOOLS_HPP::sampling(sub_subset.size(), small_distrib);
 
     //on prend les valeur de ant_subset aux indices renvoyés par tools::sampling
     for (size_t j = 0; j < temp.size(); j++)

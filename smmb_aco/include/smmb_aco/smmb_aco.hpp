@@ -39,8 +39,10 @@ private:
     double _alpha_phero; //TODO peut etre a rennomer // Deux constantes utilisées pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori. Y a peut etre des SNPs qu on connait et donc on lui donne une bonne note. Ca permet donc de regler le cursuer entre importance des phéromones et importance des connaissances a priori
     double _beta_phero;
 
-    //variables modifiées pendant le run
-    boost_vector _tau;//tau doit etre un vecteur de la taille du nombre de SNP
+    //vecteur concernant les pheromones
+    boost_vector _eta;
+    boost_vector _tau;
+    boost_vector _pheromone_distrib;
 
     // fonctions données par la prof
     list<unsigned> learn_MB(list<unsigned> mem_a/*, P*/, boost_vector ant_subset);
@@ -51,5 +53,6 @@ private:
     void add_pheromon(int SNP_pos); //add pheromone on a good SNP
     void evaporate(); //substract rho to all SNP pheromones
     void sub_sampling(boost_vector & sub_subset, boost_vector ant_subset); //compute sub_subset
+    void update_pheromon_distrib(); //update pheromons using _tau and _eta
 };
 #endif
