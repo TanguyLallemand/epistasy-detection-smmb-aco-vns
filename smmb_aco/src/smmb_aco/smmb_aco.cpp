@@ -56,8 +56,7 @@ void smmb_aco::evaporate()
 //Return Markov Blanket sous optimale eventuellemenet vide
 list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/, boost_vector ant_subset)
 {
-    list<unsigned> markov_blanket_a; // J ai pas vu ca dans le pseudo code je sas pas trop ce que ca fait la?
-    //MB_fourmis = ensemble vide;
+    list<unsigned> markov_blanket_a;
     bool markov_blanket_modified = true;
     int j = 0;
     forward(markov_blanket_modified, markov_blanket_a, j/*, P*/);
@@ -97,7 +96,6 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
 void smmb_aco::backward(list<unsigned> markov_blanket_a)
 {
     for (size_t X = 0; X < markov_blanket_a.size(); X++) {
-        //for (size_t S = 0; S < count; S++) {
         //TODO: pour toute combinaison S non_vides inclus dans MB
             //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
             float p_valeur = 0; //TODO temporaire pour voir si ça compile
@@ -134,11 +132,12 @@ void smmb_aco::run()
         list<unsigned> mem;
         for (size_t a = 0; a < _n_ant; a++) {
             //ajouter(mem, mem_a); //TODO
-            if (!markov_blanket_a.empty()) {
-                markov_blanket_s.splice(markov_blanket_s.end(), markov_blanket_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end
+            if (!markov_blanket_a.empty())
+            {
+                markov_blanket_s.splice(markov_blanket_s.end(), markov_blanket_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end // TODO a test
             }
             //post traitement; //TODO
         }
-        evaporate(); // TODO vérifier si c'est correct de mettre ça la
+        evaporate(); // TODO vérifier si c'est correct de mettre ça la// en tt cas c'est comme ca dans le pseudo code
     }
 }
