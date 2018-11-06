@@ -19,7 +19,7 @@ public:
     statistics(boost_matrix _genos_matrix, parameters_parsing _params);
 
 
-    boost_vector generate_distribution();
+    boost::numeric::ublas::vector<double> generate_distribution();
 private:
 
     parameters_parsing _params;

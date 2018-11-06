@@ -19,11 +19,12 @@ statistics::statistics(boost_matrix _genos_matrix, parameters_parsing _params)
 // smmb_aco : generate_distribution
 //=================================================
 //Return un vecteur de distribution de probabilité
-boost_vector statistics::generate_distribution()
+//TODO not tested
+boost::numeric::ublas::vector<double> statistics::generate_distribution()
 {
-    float probability;
+    boost::numeric::ublas::vector<double> probability;
     for (int i = 0; i < _tau.size(); i++) {
-        probability = _tau[i]*_alpha_phero + _eta[i]*_beta_phero;
-    }
-    return probability
+        probability.insert_element(probability.size(), _tau[i]*_alpha_phero + _eta[i]*_beta_phero);//si j ai bien compris c est l equivalent de pusb_back pour les vector de boost. rappel du proto insert_element(size_type  i, const_reference	t)
+    };
+    return probability;
 }
