@@ -27,6 +27,8 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, para
     _eta = boost_vector(_genos_matrix.size2(), _params.aco_eta);
     _tau = boost_vector(_genos_matrix.size2(), _params.aco_tau_init);
     _pheromone_distrib = boost_vector(_genos_matrix.size2(), 0);
+
+    void update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
 }
 //TODO remove it is juste a test
 boost_vector smmb_aco::return_tau()
@@ -55,7 +57,7 @@ void smmb_aco::evaporate()
 //=================================================
 // smmb_aco : update_distribution
 //=================================================
-void update_pheromon_distrib()
+void smmb_aco::update_pheromon_distrib()
 {
     for (size_t i = 0; i < _pheromone_distrib.size(); i++) {
         _pheromone_distrib (i) = (_tau (i)*_alpha_phero) + (_eta*_beta_phero);

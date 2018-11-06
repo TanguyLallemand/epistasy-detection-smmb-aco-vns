@@ -35,7 +35,6 @@ private:
     //Mise a jour du taux de phéromones
     double _rho; // taux d'évaporation
     double _lambda; // values used in evaporation rates updates
-    boost_vector _eta; // vecteur de poids indiquant des connaissances a priori pour les variables. A traiter comme un vecteur. Car on a peut etre une idee sur certain SNP, ces connaissances viendraient de publis, si on ne sais rien on met eta en uniforme. eta pourrait tres bien etre un fichier texte avec des connaissances a priori qui serait vectorisé
     double _alpha_phero; //TODO peut etre a rennomer // Deux constantes utilisées pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori. Y a peut etre des SNPs qu on connait et donc on lui donne une bonne note. Ca permet donc de regler le cursuer entre importance des phéromones et importance des connaissances a priori
     double _beta_phero;
 
