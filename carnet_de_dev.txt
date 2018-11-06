@@ -54,7 +54,7 @@ Pour i allant de 1 a _n_it
     memoire = ensemble vide
     pour a allant de 1 à _n_ants
         ajouter à memoire la memoire_fourmis;
-        si MB_fourmis non vide alors MB_s(qui est un ensemble d'ensemble) = MB_s union; MB_fourmis;
+        si MB_fourmis non vide alors MB_s(qui est un ensemble d'ensemble) = MB_s union MB_fourmis;
     finpour
     _tau = mise_a_jour_taux_de_pheromone(memoire, _rho, _lambda)
 finpour
@@ -67,8 +67,8 @@ MB_fourmis = ensemble vide;
 MB_modified = true;
 j = 0;
 
-//On entre dans la phase forward, ca permet d'eliminer des variables de la MB
-tant que (MB_modified == true /*on est des barbus donc on met juste MB_modified */ or ( empty(MB_fourmis) and j<n_it_n))
+//On entre dans la phase forward, ca permet d'éliminer des variables de la MB
+tant que (MB_modified == true /*on est des barbus donc on met juste MB_modified */ or ( !empty(MB_fourmis) and j<n_it_n))
     MB_modified = false; //pour briser le prochain tour de boucle
     S = echantilloné(P, _genos_matrix_subset, k )
     s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -81,11 +81,12 @@ tant que (MB_modified == true /*on est des barbus donc on met juste MB_modified 
     j++
 fintantque
 return MB_fourmis
+
 procedure backward(MB, T, alpha)
 {
     pour tout x element de MB
         pour toute combinaison S non_vides inclus dans MB
-            realiser le terst d'independance entre X et T conditionnellement a S_0
+            realiser le test d'independance entre X et T conditionnellement a S_0
             Si p_valeur>global_alpha//H_0: independance
             alors
             MB <- MB\{x} //a gerer en liste
