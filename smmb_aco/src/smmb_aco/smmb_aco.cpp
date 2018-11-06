@@ -74,8 +74,9 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
     while (markov_blanket_modified || (!(markov_blanket_a.empty()) && j<_n_it_n))
     {
         markov_blanket_modified = false;
-
-        //XXX subsampling, faire une surdéfinition de tools sampling
+        boost_vector sub_subset(_sub_subset_size);
+        // faudra passer le subset de l'ant à forward,
+        sub_sampling(boost_vector & sub_subset, boost_vector ant_subset);
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -139,5 +140,30 @@ void smmb_aco::run()
             //post traitement; //TODO
         }
         evaporate(); // TODO vérifier si c'est correct de mettre ça la
+    }
+}
+
+//=================================================
+// smmb_aco : sub_sampling //TODO a crashtester
+//=================================================
+void smmb_aco::sub_sampling(boost_vector & sub_subset, boost_vector ant_subset)
+{
+    // faut lui donner le sub_subset déja init il le prend par ref et le subset deja fait
+    // et magie on a un sub_subset :D TODO
+    boost_vector small_tau(sub_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
+    //puis on recup les tau des snp du ant_subset
+    for (size_t i = 0; i < sub_subset.size(); i++)
+    {
+        small_tau (i) = _tau (ant_subset(i));
+    }
+
+    boost_vector temp;
+    // on file le vecteur de proba a tools::sampling
+    temp = TOOLS_HPP::sampling(sub_subset.size(), small_tau);
+
+    //on prend les valeur de ant_subset aux indices renvoyés par tools::sampling
+    for (size_t j = 0; j < temp.size(); j++)
+    {
+        sub_subset (j) = ant_subset(temp(j));
     }
 }
