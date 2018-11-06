@@ -21,7 +21,7 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, para
     _beta_phero = _params.aco_beta;
     _alpha_stat = _params.alpha;
     _subset_size = _params.aco_set_size;
-
+    _sub_subset_size = _params.subset_size_small;
 
 
     _tau = boost_vector(_genos_matrix.size2(), _params.aco_tau_init); //normalement ça marche et ça init le vecteur au nbr de variable et à la valeur tau_0
@@ -54,7 +54,7 @@ void smmb_aco::evaporate()
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/)
+list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/, boost_vector ant_subset)
 {
     list<unsigned> markov_blanket_a;
     bool markov_blanket_modified = true;
@@ -64,16 +64,17 @@ list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/)
 }
 
 //=================================================
-// smmb_aco : forward
+// smmb_aco : forward //FIXME
 //=================================================
 void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/)
 {
     //Initialise S to handle with subset
     boost::numeric::ublas::vector<int> S;
-    while (markov_blanket_modified || (markov_blanket_a.empty() && j<_n_it_n))
+    while (markov_blanket_modified || (!(markov_blanket_a.empty()) && j<_n_it_n))
     {
         markov_blanket_modified = false;
-        //mettre ici le sampling et le mettre dans le S
+
+        //XXX subsampling, faire une surdéfinition de tools sampling 
         /*
         TODO
         s<-arg_max{score_association(s',T,_markov_blanket_a,mem_a)} //l'argument qui maximise
@@ -121,12 +122,11 @@ void smmb_aco::run()
         // For every ants a parallelise : #pragma omp parallel for
         for (size_t a = 0; a < _n_ant; a++)
         {
-            boost::numeric::ublas::matrix_row<boost_matrix> ant (ant_colony, a); //allow to affect the sample to an ant
-            ant = TOOLS_HPP::sampling(_subset_size, _tau); // affect the sample to the correct ant
+            ant_subset = TOOLS_HPP::sampling(_subset_size, _tau); //This is the list of snp sampled by this ant.
             // Initialization of memory
             list<unsigned> mem_a;
             // Generate Markov Blanket and stock it in a temp variable
-            markov_blanket_a = learn_MB( mem_a/*, P*/); //FIXME
+            markov_blanket_a = learn_MB( mem_a/*, P*/, ant_subset);
         }
         // Initialization of final variable
         list<unsigned> mem;
