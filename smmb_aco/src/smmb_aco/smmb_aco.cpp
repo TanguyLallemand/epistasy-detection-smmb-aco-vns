@@ -141,3 +141,28 @@ void smmb_aco::run()
         evaporate(); // TODO vérifier si c'est correct de mettre ça la// en tt cas c'est comme ca dans le pseudo code
     }
 }
+
+//=================================================
+// smmb_aco : sub_sampling //TODO a crashtester
+//=================================================
+void smmb_aco::sub_sampling(boost_vector & sub_subset, boost_vector ant_subset)
+{
+    // faut lui donner le sub_subset déja init il le prend par ref et le subset deja fait
+    // et magie on a un sub_subset :D TODO
+    boost_vector small_tau(sub_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
+    //puis on recup les tau des snp du ant_subset
+    for (size_t i = 0; i < sub_subset.size(); i++)
+    {
+        small_tau (i) = _tau (ant_subset(i));
+    }
+
+    boost_vector temp;
+    // on file le vecteur de proba a tools::sampling
+    temp = TOOLS_HPP::sampling(sub_subset.size(), small_tau);
+
+    //on prend les valeur de ant_subset aux indices renvoyés par tools::sampling
+    for (size_t j = 0; j < temp.size(); j++)
+    {
+        sub_subset (j) = ant_subset(temp(j));
+    }
+}
