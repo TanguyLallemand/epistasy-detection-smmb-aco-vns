@@ -28,7 +28,7 @@ private:
     int _n_it; // nombre d'itérations ACO
     int _n_ant; // nb de fourmis
     int _subset_size; // taille du subset de variables echantillonnees à partir de _genos_matrix pour chaque fourmis (on echantillone donc les SNPs pas les individus)
-    int ; //TODO nomme le comme tu veux elle c'est k //taille d'une combinaison de variables echantillonnées parmi _subset_size
+    int _sub_subset_size; //taille d'une combinaison de variables echantillonnées parmi _subset_size
     int _n_it_n; // nombre d'itération maximales pour explorer l'espace de recherche
     double _alpha_stat; // seuil de significativité
     double _tau_0; // valeur initiale de phéromone de chaque variable, au debut des temps egalite parfaite car on a pas de connaissance. A traiter comme un vecteur
@@ -43,7 +43,7 @@ private:
     boost_vector _tau;//tau doit etre un vecteur de la taille du nombre de SNP
 
     // fonctions données par la prof
-    list<unsigned> learn_MB(list<unsigned> mem_a/*, P*/);
+    list<unsigned> learn_MB(list<unsigned> mem_a/*, P*/, boost_vector ant_subset);
     void forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/);
     void backward(list<unsigned> markov_blanket_a);
 

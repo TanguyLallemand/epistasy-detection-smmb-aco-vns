@@ -66,7 +66,7 @@ list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/, boost_vector ant_
 //=================================================
 // smmb_aco : forward //FIXME
 //=================================================
-void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/)
+void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/, boost_vector ant_subset)
 {
     //Initialise S to handle with subset
     boost::numeric::ublas::vector<int> S;
@@ -76,8 +76,10 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
         markov_blanket_modified = false;
 
         boost_vector sub_subset(_sub_subset_size);
+        std::cout << sub_subset << '\n';
         // faudra passer le subset de l'ant à forward,
-        sub_sampling(boost_vector & sub_subset, boost_vector ant_subset);
+        sub_sampling(sub_subset, ant_subset);
+        std::cout << sub_subset << '\n';
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -86,7 +88,7 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
         //{//rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
             std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), S.begin(), S.end(), std::back_inserter(markov_blanket_unified));// union de MB_a et S je crois que c'est bon
             markov_blanket_modified = true;
-            backward(markov_blanket_unified);
+            backward(markov_blanket_unified, boost_vector ant_subset);
         //}
         j++;
     }
@@ -95,7 +97,7 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
 //=================================================
 // smmb_aco : backward
 //=================================================
-void smmb_aco::backward(list<unsigned> markov_blanket_a)
+void smmb_aco::backward(list<unsigned> markov_blanket_a, boost_vector ant_subset)
 {
     for (size_t X = 0; X < markov_blanket_a.size(); X++) {
         //TODO: pour toute combinaison S non_vides inclus dans MB
