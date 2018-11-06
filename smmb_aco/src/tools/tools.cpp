@@ -2,13 +2,16 @@
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/random/discrete_distribution.hpp>
 #include <random>
+#include <ctime>
 //=================================================
 // tools : sampling
 //=================================================
 boost::numeric::ublas::vector<int> sampling(int subset_size, boost::numeric::ublas::vector<float> weight_vector) //generate a subset of SNP of _subset_size SNP according to weight_vector distribution
 {
     //TODO voir si on donne la random seed en argument
-    std::default_random_engine rng; // random seed initialization
+    std::mt19937 rng;
+    rng.seed(std::time(NULL));
+    //std::default_random_engine rng; // random seed initialization
     boost::numeric::ublas::vector<int> SNP_picked (subset_size);
     int nb;
     for (size_t i = 0; i < subset_size; i++) {
