@@ -71,21 +71,21 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
 {
     //Initialise S to handle with subset
     boost::numeric::ublas::vector<int> S;
+    list<unsigned> markov_blanket_unified;
     while (markov_blanket_modified || (!(markov_blanket_a.empty()) && j<_n_it_n))
     {
         markov_blanket_modified = false;
-        boost_vector sub_subset(_sub_subset_size);
-        // faudra passer le subset de l'ant à forward,
-        sub_sampling(boost_vector & sub_subset, boost_vector ant_subset);
+
+        //XXX subsampling, faire une surdéfinition de tools sampling
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
         */
         //if (p_valeur(s) << _alpha_stat) //TODO: Il faut une fonction pour calculer/renvoyer la p_valeur de la solution
         //{//rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
-            //_markov_blanket_a = std::set_union (_markov_blanket_a, _markov_blanket_a + _markov_blanket_a.size(), S, S+S.size(), _markov_blanket_a.begin());// union de MB_a et S et retourne avec v.begin le debut du vecteur MB_a
+            std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), S.begin(), S.end(), std::back_inserter(markov_blanket_unified));// union de MB_a et S je crois que c'est bon
             markov_blanket_modified = true;
-            backward(markov_blanket_a);
+            backward(markov_blanket_unified);
         //}
         j++;
     }
@@ -140,30 +140,5 @@ void smmb_aco::run()
             //post traitement; //TODO
         }
         evaporate(); // TODO vérifier si c'est correct de mettre ça la
-    }
-}
-
-//=================================================
-// smmb_aco : sub_sampling //TODO a crashtester
-//=================================================
-void smmb_aco::sub_sampling(boost_vector & sub_subset, boost_vector ant_subset)
-{
-    // faut lui donner le sub_subset déja init il le prend par ref et le subset deja fait
-    // et magie on a un sub_subset :D TODO
-    boost_vector small_tau(sub_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
-    //puis on recup les tau des snp du ant_subset
-    for (size_t i = 0; i < sub_subset.size(); i++)
-    {
-        small_tau (i) = _tau (ant_subset(i));
-    }
-
-    boost_vector temp;
-    // on file le vecteur de proba a tools::sampling
-    temp = TOOLS_HPP::sampling(sub_subset.size(), small_tau);
-
-    //on prend les valeur de ant_subset aux indices renvoyés par tools::sampling
-    for (size_t j = 0; j < temp.size(); j++)
-    {
-        sub_subset (j) = ant_subset(temp(j));
     }
 }
