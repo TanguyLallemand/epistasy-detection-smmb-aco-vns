@@ -59,7 +59,7 @@ list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a/*, P*/, boost_vector ant_
     list<unsigned> markov_blanket_a;
     bool markov_blanket_modified = true;
     int j = 0;
-    forward(markov_blanket_modified, markov_blanket_a, j/*, P*/);
+    forward(markov_blanket_modified, markov_blanket_a, j/*, P*/, ant_subset);
     return markov_blanket_a;
 }
 
@@ -75,11 +75,12 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
     {
         markov_blanket_modified = false;
 
-        boost_vector sub_subset(_sub_subset_size);
-        std::cout << sub_subset << '\n';
+        boost_vector sub_subset(_sub_subset_size, 0);
+
         // faudra passer le subset de l'ant à forward,
         sub_sampling(sub_subset, ant_subset);
         std::cout << sub_subset << '\n';
+        std::cout << ant_subset << '\n';
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -88,7 +89,7 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
         //{//rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
             std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), S.begin(), S.end(), std::back_inserter(markov_blanket_unified));// union de MB_a et S je crois que c'est bon
             markov_blanket_modified = true;
-            backward(markov_blanket_unified, boost_vector ant_subset);
+            backward(markov_blanket_unified, ant_subset);
         //}
         j++;
     }
@@ -126,6 +127,7 @@ void smmb_aco::run()
         // For every ants a parallelise : #pragma omp parallel for
         for (size_t a = 0; a < _n_ant; a++)
         {
+            boost_vector ant_subset;
             ant_subset = TOOLS_HPP::sampling(_subset_size, _tau); //This is the list of snp sampled by this ant.
             // Initialization of memory
             list<unsigned> mem_a;
@@ -147,7 +149,7 @@ void smmb_aco::run()
 }
 
 //=================================================
-// smmb_aco : sub_sampling //TODO a crashtester
+// smmb_aco : sub_sampling //FIXME Résultats bizarres on a tjrs des trucs qui sont au début du ant_subset IDEA peut etre du au fait qu'on utilise la meme random seed pour les 2 random selection avoir si sur
 //=================================================
 void smmb_aco::sub_sampling(boost_vector & sub_subset, boost_vector ant_subset)
 {
@@ -159,7 +161,7 @@ void smmb_aco::sub_sampling(boost_vector & sub_subset, boost_vector ant_subset)
     {
         small_tau (i) = _tau (ant_subset(i));
     }
-
+    std::cout << small_tau << '\n';
     boost_vector temp;
     // on file le vecteur de proba a tools::sampling
     temp = TOOLS_HPP::sampling(sub_subset.size(), small_tau);
