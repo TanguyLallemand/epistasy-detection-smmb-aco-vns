@@ -155,7 +155,7 @@ void smmb_aco::sub_sampling(boost_vector & sub_subset, boost_vector ant_subset)
 {
     // faut lui donner le sub_subset déja init il le prend par ref et le subset deja fait
     // et magie on a un sub_subset :D TODO
-    boost_vector small_tau(sub_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
+    boost_vector small_tau(ant_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
     //puis on recup les tau des snp du ant_subset
     for (size_t i = 0; i < sub_subset.size(); i++)
     {
