@@ -16,12 +16,12 @@ class statistics
 {
 public:
     // constructor
-    statistics(parameters_parsing _params;);
+    statistics(boost_matrix _genos_matrix, parameters_parsing _params);
 
 
     boost_vector generate_distribution();
 private:
-    
+
     parameters_parsing _params;
 
     //variables initialisée par le constructeur à partir de params
