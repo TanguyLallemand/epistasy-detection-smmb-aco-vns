@@ -15,12 +15,13 @@
 class statistics
 {
 public:
-    // constructeur
+    // constructor
     statistics(parameters_parsing _params;);
 
 
-    void generate_distribution();
+    boost_vector generate_distribution();
 private:
+    
     parameters_parsing _params;
 
     //variables initialisée par le constructeur à partir de params
