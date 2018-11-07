@@ -22,7 +22,9 @@ INC=-I$(BOOST_FOLDER) \
 
 # Save compiler call
  CXX=g++ -o
- CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -g $(INC)
+ CXXFLAGS=-std=c++11 -DNDEBUG -g $(INC)
+ #Intial call
+# CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -g $(INC)
  LFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -I$(BOOST_FOLDER) -lm
 # Save directory names
  SRCDIR=src
@@ -35,6 +37,7 @@ $(OBJDIR)/file_parsing.o \
 $(OBJDIR)/smmb_aco.o \
 $(OBJDIR)/parameters_parsing.o \
 $(OBJDIR)/tools.o \
+$(OBJDIR)/contingency.o \
 $(OBJDIR)/statistics.o
 
 TARGET=$(BINDIR)/smmb_aco
@@ -43,7 +46,7 @@ all: $(TARGET)
 
 $(TARGET): $(OBJ)
 	@g++ $^ -o $@ $(LFLAGS)
-	@echo "Linking complete."
+	@echo "Compilation complete, executable produced."
 
 #---------------------
 # Main
@@ -74,8 +77,11 @@ $(OBJDIR)/smmb_aco.o: ./$(SRCDIR)/smmb_aco/smmb_aco.cpp
 #---------------------
 $(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "Compiled smmb_aco.o"
+	@echo "Compiled statistics.o"
 
+$(OBJDIR)/contigency.o: ./$(SRCDIR)/statistics/contigency.cpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled contigency.o"
 #---------------------
 # Global
 #---------------------
