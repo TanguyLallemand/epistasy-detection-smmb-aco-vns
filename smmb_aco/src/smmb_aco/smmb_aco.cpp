@@ -149,8 +149,7 @@ void smmb_aco::run()
         // Initialization of final variable
         list<unsigned> mem;
         for (size_t a = 0; a < _n_ant; a++) {
-            auto i = std::find(begin(_mem_ant), end(_mem_ant), a);
-            mem.push_back(i);//ajouter(mem, mem_ant); //ajouter c est pas super precis... un push back te semble approprie?. Du coup j ajoute
+            mem.insert(mem.end(), _mem_ant.begin(), _mem_ant.end()); //ajouter(mem, mem_ant)
             if (!markov_blanket_a.empty())
             {
                 markov_blanket_s.splice(markov_blanket_s.end(), markov_blanket_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end // TODO a test
