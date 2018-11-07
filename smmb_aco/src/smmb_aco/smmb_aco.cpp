@@ -73,7 +73,17 @@ list<unsigned> smmb_aco::learn_MB(boost_vector_float ant_subset)
     list<unsigned> markov_blanket_a;
     bool markov_blanket_modified = true;
     int j = 0;
-    forward(markov_blanket_modified, markov_blanket_a, j, ant_subset);
+    while (markov_blanket_modified || (!(markov_blanket_a.empty()) && j<_n_it_n)) {
+        markov_blanket_modified = false;
+        boost_vector_float sub_subset(_sub_subset_size, 0);
+        //sub_sampling from ant_subset
+        sub_sampling(sub_subset, ant_subset);
+
+
+        forward(markov_blanket_modified, markov_blanket_a, j, ant_subset);
+        backward(markov_blanket_unified, ant_subset);
+        j++;
+    }
     return markov_blanket_a;
 }
 
@@ -85,15 +95,11 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
     //Initialise S to handle with subset
     boost::numeric::ublas::vector<int> S;
     list<unsigned> markov_blanket_unified;
-    while (markov_blanket_modified || (!(markov_blanket_a.empty()) && j<_n_it_n))
-    {
-        markov_blanket_modified = false;
 
-        boost_vector_float sub_subset(_sub_subset_size, 0);
-        //sub_sampling from ant_subset
-        sub_sampling(sub_subset, ant_subset);
 
-        
+
+
+
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -102,10 +108,10 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
         //{//rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
             std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), S.begin(), S.end(), std::back_inserter(markov_blanket_unified));// union de MB_a et S je crois que c'est bon
             markov_blanket_modified = true;
-            backward(markov_blanket_unified, ant_subset);
+
         //}
-        j++;
-    }
+
+    
 }
 
 //=================================================
@@ -136,7 +142,6 @@ void smmb_aco::run()
     list<unsigned> markov_blanket_a;//attention jecrois que dans learn on reintialise ca...
     for (size_t i = 0; i < _n_it_n; i++)
     {
-        boost_matrix ant_colony (_n_ant, _subset_size);
         // For every ants a parallelise : #pragma omp parallel for
         for (size_t a = 0; a < _n_ant; a++)
         {
