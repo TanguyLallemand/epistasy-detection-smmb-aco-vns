@@ -90,9 +90,10 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
         markov_blanket_modified = false;
 
         boost_vector_float sub_subset(_sub_subset_size, 0);
-
-        // faudra passer le subset de l'ant à forward,
+        //sub_sampling from ant_subset
         sub_sampling(sub_subset, ant_subset);
+
+        
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
