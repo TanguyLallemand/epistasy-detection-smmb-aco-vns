@@ -70,18 +70,18 @@ void smmb_aco::update_pheromon_distrib()
 //Return Markov Blanket sous optimale eventuellemenet vide
 list<unsigned> smmb_aco::learn_MB(boost_vector_float ant_subset)
 {
+    //stocke la mb en cours de construction //QUESTION L'initialiser a vide serait peut etre plus prudent?
     list<unsigned> markov_blanket_a;
+
+    //to enter the loop on first iteration
     bool markov_blanket_modified = true;
+    //counter of iteration number
     int j = 0;
+
+    //on boucle pour générer la markov blanket
     while (markov_blanket_modified || (!(markov_blanket_a.empty()) && j<_n_it_n)) {
-        markov_blanket_modified = false;
-        boost_vector_float sub_subset(_sub_subset_size, 0);
-        //sub_sampling from ant_subset
-        sub_sampling(sub_subset, ant_subset);
-
-
-        forward(markov_blanket_modified, markov_blanket_a, j, ant_subset);
-        backward(markov_blanket_unified, ant_subset);
+        forward(markov_blanket_modified, markov_blanket_a, ant_subset);
+        backward(markov_blanket_modified, markov_blanket_a);
         j++;
     }
     return markov_blanket_a;
@@ -90,18 +90,24 @@ list<unsigned> smmb_aco::learn_MB(boost_vector_float ant_subset)
 //=================================================
 // smmb_aco : forward //FIXME
 //=================================================
-void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> markov_blanket_a, int j, boost_vector_float ant_subset)
+void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset)
 {
-    //Initialise S to handle with subset
-    boost::numeric::ublas::vector<int> S;
-    list<unsigned> markov_blanket_unified;
+    //to break the loop if nothing modified
+    markov_blanket_modified = false;
+
+    //sub_subset container (S in the pseudocode)
+    boost_vector_float sub_subset(_sub_subset_size, 0);
+    //sub_sampling from ant_subset
+    sub_sampling(sub_subset, ant_subset);
+
+    list<unsigned> markov_blanket_unified; //don't know TODO je crois qu'il est useless lui
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
         */
         //if (p_valeur(s) << _alpha_stat) //TODO: Il faut une fonction pour calculer/renvoyer la p_valeur de la solution
         //{//rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
-            std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), S.begin(), S.end(), std::back_inserter(markov_blanket_unified));// union de MB_a et S je crois que c'est bon
+            std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), S.begin(), S.end(), std::back_inserter(markov_blanket_unified));// union de MB_a et S je crois que c'est bon //QUESTION Clement lui il modifie directement la blanket de la fourmis du coup je sais pas trop quoi penser de ton unified, mais bon comme je comprend pas ta ligne je touche pas pour le moment
             markov_blanket_modified = true;
 
         //}
@@ -112,7 +118,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> markov_bla
 //=================================================
 // smmb_aco : backward
 //=================================================
-void smmb_aco::backward(list<unsigned> markov_blanket_a, boost_vector_float ant_subset)
+void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a)
 {
     for (size_t X = 0; X < markov_blanket_a.size(); X++) {
         //TODO: pour toute combinaison S non_vides inclus dans MB
