@@ -90,16 +90,11 @@ list<unsigned> smmb_aco::learn_MB(boost_vector_float ant_subset)
 //=================================================
 // smmb_aco : forward //FIXME
 //=================================================
-void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j, boost_vector_float ant_subset)
+void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> markov_blanket_a, int j, boost_vector_float ant_subset)
 {
     //Initialise S to handle with subset
     boost::numeric::ublas::vector<int> S;
     list<unsigned> markov_blanket_unified;
-
-
-
-
-
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -111,7 +106,7 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
 
         //}
 
-    
+
 }
 
 //=================================================
