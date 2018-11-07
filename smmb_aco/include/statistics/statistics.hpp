@@ -19,7 +19,7 @@ public:
     statistics(boost_matrix _genos_matrix, parameters_parsing _params);
 
 
-    boost::numeric::ublas::vector<double> generate_distribution();
+
 private:
 
     parameters_parsing _params;
@@ -29,6 +29,8 @@ private:
     boost_vector _tau;//tau doit etre un vecteur de la taille du nombre de SNP
     double _alpha_phero; // Deux constantes utilisées pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori. Y a peut etre des SNPs qu on connait et donc on lui donne une bonne note. Ca permet donc de regler le cursuer entre importance des phéromones et importance des connaissances a priori
     double _beta_phero;
+
+
 
 
 };
