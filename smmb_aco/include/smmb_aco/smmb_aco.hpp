@@ -15,7 +15,7 @@ public:
     void run();
 
     //test TODO a remove
-    boost_vector return_tau();
+    boost_vector_float return_tau();
     //TODO voir pour un destructeur
 
 private:
@@ -39,19 +39,19 @@ private:
     double _beta_phero;
 
     //vecteur concernant les pheromones
-    boost_vector _eta;
-    boost_vector _tau;
-    boost_vector _pheromone_distrib;
+    boost_vector_float _eta;
+    boost_vector_float _tau;
+    boost_vector_float _pheromone_distrib;
 
     // fonctions données par la prof
-    list<unsigned> learn_MB(list<unsigned> mem_a/*, P*/, boost_vector ant_subset);
-    void forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/, boost_vector ant_subset);
-    void backward(list<unsigned> markov_blanket_a, boost_vector ant_subset);
+    list<unsigned> learn_MB(list<unsigned> mem_a/*, P*/, boost_vector_float ant_subset);
+    void forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/, boost_vector_float ant_subset);
+    void backward(list<unsigned> markov_blanket_a, boost_vector_float ant_subset);
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
     void add_pheromon(int SNP_pos); //add pheromone on a good SNP
     void evaporate(); //substract rho to all SNP pheromones
-    void sub_sampling(boost_vector & sub_subset, boost_vector ant_subset); //compute sub_subset
+    void sub_sampling(boost_vector_float & sub_subset, boost_vector_float ant_subset); //compute sub_subset
     void update_pheromon_distrib(); //update pheromons using _tau and _eta
 };
 #endif

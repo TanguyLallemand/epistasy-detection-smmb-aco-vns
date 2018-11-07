@@ -24,14 +24,14 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, para
     _sub_subset_size = _params.subset_size_small;
 
     //vecteur concernant les pheromones
-    _eta = boost_vector(_genos_matrix.size2(), _params.aco_eta);
-    _tau = boost_vector(_genos_matrix.size2(), _params.aco_tau_init);
-    _pheromone_distrib = boost_vector(_genos_matrix.size2(), 0);
+    _eta = boost_vector_float(_genos_matrix.size2(), _params.aco_eta);
+    _tau = boost_vector_float(_genos_matrix.size2(), _params.aco_tau_init);
+    _pheromone_distrib = boost_vector_float(_genos_matrix.size2(), 0);
 
     void update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
 }
 //TODO remove it is juste a test
-boost_vector smmb_aco::return_tau()
+boost_vector_float smmb_aco::return_tau()
 {
     std::cout << _tau << '\n';
     return _tau;
@@ -68,7 +68,7 @@ void smmb_aco::update_pheromon_distrib()
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a, boost_vector ant_subset)
+list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a, boost_vector_float ant_subset)
 {
     list<unsigned> markov_blanket_a;
     bool markov_blanket_modified = true;
@@ -80,7 +80,7 @@ list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a, boost_vector ant_subset)
 //=================================================
 // smmb_aco : forward //FIXME
 //=================================================
-void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j, boost_vector ant_subset)
+void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j, boost_vector_float ant_subset)
 {
     //Initialise S to handle with subset
     boost::numeric::ublas::vector<int> S;
@@ -89,7 +89,7 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
     {
         markov_blanket_modified = false;
 
-        boost_vector sub_subset(_sub_subset_size, 0);
+        boost_vector_float sub_subset(_sub_subset_size, 0);
 
         // faudra passer le subset de l'ant à forward,
         sub_sampling(sub_subset, ant_subset);
@@ -110,7 +110,7 @@ void smmb_aco::forward(bool markov_blanket_modified, list<unsigned> markov_blank
 //=================================================
 // smmb_aco : backward
 //=================================================
-void smmb_aco::backward(list<unsigned> markov_blanket_a, boost_vector ant_subset)
+void smmb_aco::backward(list<unsigned> markov_blanket_a, boost_vector_float ant_subset)
 {
     for (size_t X = 0; X < markov_blanket_a.size(); X++) {
         //TODO: pour toute combinaison S non_vides inclus dans MB
@@ -138,7 +138,7 @@ void smmb_aco::run()
         // For every ants a parallelise : #pragma omp parallel for
         for (size_t a = 0; a < _n_ant; a++)
         {
-            boost_vector ant_subset;
+            boost_vector_float ant_subset;
             ant_subset = TOOLS_HPP::sampling(_subset_size, _pheromone_distrib); //This is the list of snp sampled by this ant.
             // Initialization of memory
             list<unsigned> mem_a;
@@ -162,17 +162,17 @@ void smmb_aco::run()
 //=================================================
 // smmb_aco : sub_sampling
 //=================================================
-void smmb_aco::sub_sampling(boost_vector & sub_subset, boost_vector ant_subset)
+void smmb_aco::sub_sampling(boost_vector_float & sub_subset, boost_vector_float ant_subset)
 {
     // faut lui donner le sub_subset déja init il le prend par ref et le subset deja fait
     // et magie on a un sub_subset :D TODO
-    boost_vector small_distrib(ant_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
+    boost_vector_float small_distrib(ant_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
     //puis on recup les tau des snp du ant_subset
     for (size_t i = 0; i < ant_subset.size(); i++)
     {
         small_distrib (i) = _pheromone_distrib (ant_subset(i));
     }
-    boost_vector temp;
+    boost_vector_float temp;
     // on file le vecteur de proba a tools::sampling
     temp = TOOLS_HPP::sampling(sub_subset.size(), small_distrib);
 
