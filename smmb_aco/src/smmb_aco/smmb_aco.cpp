@@ -117,7 +117,7 @@ void smmb_aco::backward(list<unsigned> markov_blanket_a, boost_vector_float ant_
             //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
             float p_valeur = 0; //TODO temporaire pour voir si ça compile
             if (p_valeur>_alpha_stat) { //H_0: independance
-                // MB <- MB\{x}; //a gerer en liste //TODO
+                markov_blanket_a.erase_element (X); // MB <- MB\{x}; //veut dire MB prive de X en notation ensembliste
                 break;
             }
         //}
@@ -155,7 +155,7 @@ void smmb_aco::run()
             }
             //post traitement; //TODO
         }
-        evaporate(); // TODO vérifier si c'est correct de mettre ça la// en tt cas c'est comme ca dans le pseudo code
+        evaporate();
     }
 }
 
