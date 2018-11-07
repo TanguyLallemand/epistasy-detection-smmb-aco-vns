@@ -68,7 +68,7 @@ void smmb_aco::update_pheromon_distrib()
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_a, boost_vector_float ant_subset)
+list<unsigned> smmb_aco::learn_MB(list<unsigned> mem_ant, boost_vector_float ant_subset)
 {
     list<unsigned> markov_blanket_a;
     bool markov_blanket_modified = true;
@@ -141,14 +141,14 @@ void smmb_aco::run()
             boost_vector_float ant_subset;
             ant_subset = TOOLS_HPP::sampling(_subset_size, _pheromone_distrib); //This is the list of snp sampled by this ant.
             // Initialization of memory
-            list<unsigned> mem_a;
+            list<unsigned> mem_ant;
             // Generate Markov Blanket and stock it in a temp variable
-            markov_blanket_a = learn_MB( mem_a, ant_subset);
+            markov_blanket_a = learn_MB( mem_ant, ant_subset);
         }
         // Initialization of final variable
         list<unsigned> mem;
         for (size_t a = 0; a < _n_ant; a++) {
-            //ajouter(mem, mem_a); //TODO
+            mem.push_back(mem_ant);//ajouter(mem, mem_ant); //ajouter c est pas super precis? un push back te semble approprie?
             if (!markov_blanket_a.empty())
             {
                 markov_blanket_s.splice(markov_blanket_s.end(), markov_blanket_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end // TODO a test
