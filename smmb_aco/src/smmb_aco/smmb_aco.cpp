@@ -70,7 +70,7 @@ void smmb_aco::update_pheromon_distrib()
 //Return Markov Blanket sous optimale eventuellemenet vide
 list<unsigned> smmb_aco::learn_MB(boost_vector_float ant_subset)
 {
-    //stocke la mb en cours de construction //QUESTION L'initialiser a vide serait peut etre plus prudent?
+    //stocke la mb en cours de construction
     list<unsigned> markov_blanket_a;
 
     //to enter the loop on first iteration
@@ -100,7 +100,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     //sub_sampling from ant_subset
     sub_sampling(sub_subset, ant_subset);
 
-    list<unsigned> markov_blanket_unified; //don't know TODO je crois qu'il est useless lui
+    list<unsigned> markov_blanket_unified; //don't know TODO je crois qu'il est useless lui en fonction de la reponse a la question plus bas
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -109,7 +109,6 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
         //{//rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
             std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), S.begin(), S.end(), std::back_inserter(markov_blanket_unified));// union de MB_a et S je crois que c'est bon //QUESTION Clement lui il modifie directement la blanket de la fourmis du coup je sais pas trop quoi penser de ton unified, mais bon comme je comprend pas ta ligne je touche pas pour le moment
             markov_blanket_modified = true;
-
         //}
 
 
@@ -140,7 +139,7 @@ void smmb_aco::run()
 {
     // Initialization of Markov Blanket
     list<unsigned> markov_blanket_s;
-    list<unsigned> markov_blanket_a;//attention jecrois que dans learn on reintialise ca...
+    list<unsigned> markov_blanket_a;//attention jecrois que dans learn on reintialise ca... TODO voir si c'est une liste de liste qu'il faut //QUESTION L'initialiser a vide serait peut etre plus prudent?
     for (size_t i = 0; i < _n_it_n; i++)
     {
         // For every ants a parallelise : #pragma omp parallel for
@@ -151,7 +150,7 @@ void smmb_aco::run()
             // Initialization of memory
             list<unsigned> _mem_ant;
             // Generate Markov Blanket and stock it in a temp variable
-            markov_blanket_a = learn_MB(ant_subset);
+            markov_blanket_a = learn_MB(ant_subset); //QUESTION du coup peut etre assigner à markov_blanket_a[a] ou alors carrément passer par référence et donner learn_MB(markov_blanket_a[a], ant_subset)
         }
         // Initialization of final variable
         list<unsigned> mem;
@@ -170,10 +169,8 @@ void smmb_aco::run()
 //=================================================
 // smmb_aco : sub_sampling
 //=================================================
-void smmb_aco::sub_sampling(boost_vector_float & sub_subset, boost_vector_float ant_subset)
+void smmb_aco::sub_sampling(boost_vector_float & sub_subset, boost_vector_float & ant_subset)
 {
-    // faut lui donner le sub_subset déja init il le prend par ref et le subset deja fait
-    // et magie on a un sub_subset :D TODO
     boost_vector_float small_distrib(ant_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
     //puis on recup les tau des snp du ant_subset
     for (size_t i = 0; i < ant_subset.size(); i++)
