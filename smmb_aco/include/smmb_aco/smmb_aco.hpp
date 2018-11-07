@@ -38,13 +38,15 @@ private:
     double _alpha_phero; //TODO peut etre a rennomer // Deux constantes utilisées pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori. Y a peut etre des SNPs qu on connait et donc on lui donne une bonne note. Ca permet donc de regler le cursuer entre importance des phéromones et importance des connaissances a priori
     double _beta_phero;
 
+
+    list<unsigned> _mem_ant;
     //vecteur concernant les pheromones
     boost_vector_float _eta;
     boost_vector_float _tau;
     boost_vector_float _pheromone_distrib;
 
     // fonctions données par la prof
-    list<unsigned> learn_MB(list<unsigned> mem_a/*, P*/, boost_vector_float ant_subset);
+    list<unsigned> learn_MB(/*, P*/ boost_vector_float ant_subset);
     void forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/, boost_vector_float ant_subset);
     void backward(list<unsigned> markov_blanket_a, boost_vector_float ant_subset);
 
