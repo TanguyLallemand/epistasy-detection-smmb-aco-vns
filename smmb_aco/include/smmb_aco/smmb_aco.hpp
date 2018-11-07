@@ -46,14 +46,14 @@ private:
     boost_vector_float _pheromone_distrib;
 
     // fonctions données par la prof
-    list<unsigned> learn_MB(/*, P*/ boost_vector_float ant_subset);
-    void forward(bool markov_blanket_modified, list<unsigned> markov_blanket_a, int j/*, P*/, boost_vector_float ant_subset);
-    void backward(list<unsigned> markov_blanket_a, boost_vector_float ant_subset);
+    list<unsigned> learn_MB(boost_vector_float ant_subset);
+    void forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset);
+    void backward(bool & markov_blanket_modified ,list<unsigned> & markov_blanket_a);
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
     void add_pheromon(int SNP_pos); //add pheromone on a good SNP
     void evaporate(); //substract rho to all SNP pheromones
-    void sub_sampling(boost_vector_float & sub_subset, boost_vector_float ant_subset); //compute sub_subset
+    void sub_sampling(boost_vector_float & sub_subset, boost_vector_float & ant_subset); //compute sub_subset
     void update_pheromon_distrib(); //update pheromons using _tau and _eta
 };
 #endif
