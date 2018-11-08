@@ -6,7 +6,7 @@
 //=================================================
 // tools : sampling
 //=================================================
-boost::numeric::ublas::vector<int> sampling(int subset_size, boost::numeric::ublas::vector<float> weight_vector) //generate a subset of SNP of _subset_size SNP according to weight_vector distribution
+boost::numeric::ublas::vector<int> tools::sampling(int subset_size, boost::numeric::ublas::vector<float> weight_vector) //generate a subset of SNP of _subset_size SNP according to weight_vector distribution
 {
     //TODO voir si on donne la random seed en argument
     std::mt19937 rng;
