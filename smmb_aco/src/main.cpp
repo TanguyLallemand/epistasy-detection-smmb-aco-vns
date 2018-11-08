@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
     //smmb_aco test(matrix_genos, matrix_phenos, params);
     //test.run();
     boost_matrix pikachu;
-    pikachu = STATISTICS_HPP::make_contingency_table(matrix_genos, matrix_phenos);
+    pikachu = statistics::make_contingency_table(matrix_genos, matrix_phenos);
     std::cout << pikachu << '\n';
     //boost_vector mordecai = test.return_tau();
     //boost::numeric::ublas::vector<int> gg = TOOLS_HPP::sampling(params.aco_set_size, mordecai);
