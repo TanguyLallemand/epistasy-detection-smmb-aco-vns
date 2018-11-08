@@ -115,16 +115,18 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
 //=================================================
 void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a)
 {
-    for (size_t X = 0; X < markov_blanket_a.size(); X++) {
-        //TODO: pour toute combinaison S non_vides inclus dans MB
-            //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
-            float p_valeur = 0; //TODO temporaire pour voir si ça compile
-            if (p_valeur>_alpha_stat) { //H_0: independance
-                auto i = std::find(begin(markov_blanket_a), end(markov_blanket_a), X);
-                markov_blanket_a.erase(i);// MB <- MB\{x}; //veut dire MB prive de X en notation ensembliste
-                break;
-            }
-        //}
+    if (markov_blanket_modified) {
+        for (size_t X = 0; X < markov_blanket_a.size(); X++) {
+            //TODO: pour toute combinaison S non_vides inclus dans MB
+                //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
+                float p_valeur = 0; //TODO temporaire pour voir si ça compile
+                if (p_valeur>_alpha_stat) { //H_0: independance
+                    auto i = std::find(begin(markov_blanket_a), end(markov_blanket_a), X);
+                    markov_blanket_a.erase(i);// MB <- MB\{x}; //veut dire MB prive de X en notation ensembliste
+                    break;
+                }
+            //}
+        }
     }
 }
 
