@@ -1,5 +1,5 @@
-#ifndef STATISTICS_H
-#define STATISTICS_H
+#ifndef STATISTICS_HPP
+#define STATISTICS_HPP
 
 #include <vector>
 #include <list>
@@ -7,16 +7,18 @@
 #include "parameters_parsing.hpp"
 #include "global.hpp"
 
-// liste des trucs à implémenter qui sont liés aux STATISTICS_H
+// liste des trucs à implémenter qui sont liés aux STATISTICS_HPP
     //test d'indépendance du chi 2
     //fonction pour trouver la pvalue d'une solution
     //test d'indépendance du chi 2 conditionnellement a une variable
+boost_matrix make_contingency_table(boost_matrix _genos_matrix, boost_matrix _phenos_matrix);
 
 class statistics
 {
 public:
     // constructor
-    statistics(boost_matrix _genos_matrix, parameters_parsing _params);
+    statistics(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, parameters_parsing _params);
+
 
 
 
@@ -29,7 +31,6 @@ private:
     boost_vector_float _tau;//tau doit etre un vecteur de la taille du nombre de SNP
     double _alpha_phero; // Deux constantes utilisées pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori. Y a peut etre des SNPs qu on connait et donc on lui donne une bonne note. Ca permet donc de regler le cursuer entre importance des phéromones et importance des connaissances a priori
     double _beta_phero;
-
 
 
 

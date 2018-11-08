@@ -7,6 +7,7 @@
 #include "file_parsing.hpp"
 #include "smmb_aco.hpp"
 #include "tools.hpp"
+#include "statistics.hpp"
 #include <boost/numeric/ublas/matrix.hpp>
 #include "global.hpp"
 int main(int argc, char* argv[])
@@ -27,8 +28,11 @@ int main(int argc, char* argv[])
     data_parsing data_phenos(phenos_file, header, separator);
     boost_matrix matrix_phenos = data_phenos.return_matrix();
     // Instanciation de smmb_aco
-    smmb_aco test(matrix_genos, matrix_phenos, params);
-    test.run();
+    //smmb_aco test(matrix_genos, matrix_phenos, params);
+    //test.run();
+    boost_matrix pikachu;
+    pikachu = STATISTICS_HPP::make_contingency_table(matrix_genos, matrix_phenos);
+    std::cout << pikachu << '\n';
     //boost_vector mordecai = test.return_tau();
     //boost::numeric::ublas::vector<int> gg = TOOLS_HPP::sampling(params.aco_set_size, mordecai);
     //smmb_aco.run();//exemple de call de la méthode smmb. Ca ne passe pas parce qu'il faut avoir une instance d ela classe avt...
