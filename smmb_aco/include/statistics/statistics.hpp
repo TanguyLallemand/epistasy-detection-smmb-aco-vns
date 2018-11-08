@@ -11,7 +11,7 @@
     //test d'indépendance du chi 2
     //fonction pour trouver la pvalue d'une solution
     //test d'indépendance du chi 2 conditionnellement a une variable
-boost_matrix make_contingency_table(boost_matrix _genos_matrix, boost_matrix _phenos_matrix);
+boost_matrix make_contingency_table(boost_matrix & _genos_matrix, boost_matrix & _phenos_matrix);
 
 class statistics
 {

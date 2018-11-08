@@ -16,7 +16,7 @@ statistics::statistics(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, 
 }
 
 
-boost_matrix make_contingency_table(boost_matrix _genos_matrix, boost_matrix _phenos_matrix)
+boost_matrix make_contingency_table(boost_matrix & _genos_matrix, boost_matrix & _phenos_matrix)
 {
     // Initialisation contingency table
     boost_matrix contingency_table(2,3,0);
