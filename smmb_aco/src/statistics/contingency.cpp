@@ -3,9 +3,9 @@
 
 using namespace std;
 
-contingency::contingency(boost_matrix _genos_matrix, boost_matrix _phenos_matrix) : blas_dmatrix(2, 3)
+contingency::contingency(boost_matrix _genos_matrix, boost_matrix _phenos_matrix) /*: blas_dmatrix(2, 3)*/
 {
-    // Initialisation to zeros
+    /*// Initialisation to zeros
     for (unsigned i=0; i < size1(); ++i)
     {
         for (unsigned j=0; j < size2(); ++j)
@@ -23,5 +23,5 @@ contingency::contingency(boost_matrix _genos_matrix, boost_matrix _phenos_matrix
             continue;
         }
         this->at_element(row_contingency, col_contingency) += 1;
-    }
+    }*/
 }

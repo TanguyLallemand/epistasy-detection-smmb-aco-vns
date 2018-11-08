@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "statistics.hpp"
-
+/*
 //=================================================
 // smmb_aco : constructeur //TODO work in progress
 //=================================================
@@ -30,4 +30,4 @@ statistics::chi2_test_indep()
 statistics::run()
 {
 
-}
+}*/
