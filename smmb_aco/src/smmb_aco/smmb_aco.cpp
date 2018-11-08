@@ -142,7 +142,7 @@ void smmb_aco::run()
         for (size_t a = 0; a < _n_ant; a++)
         {
             boost_vector_float ant_subset;
-            ant_subset = tools::sampling(_subset_size, _pheromone_distrib); //This is the list of SNP sampled for this ant.
+            ant_subset = tools::sampling(_subset_size, _pheromone_distrib); //This is the list of SNP sampled for this ant. and the distribution given on copy not ref
             // Initialization of memory
             list<unsigned> _mem_ant;
             // Generate Markov Blanket and stock it in a temp variable
