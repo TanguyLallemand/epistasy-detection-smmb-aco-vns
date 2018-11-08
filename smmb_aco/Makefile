@@ -79,9 +79,9 @@ $(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled statistics.o"
 
-$(OBJDIR)/contigency.o: ./$(SRCDIR)/statistics/contigency.cpp
+$(OBJDIR)/contingency.o: ./$(SRCDIR)/statistics/contingency.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "Compiled contigency.o"
+	@echo "Compiled contingency.o"
 #---------------------
 # Global
 #---------------------
