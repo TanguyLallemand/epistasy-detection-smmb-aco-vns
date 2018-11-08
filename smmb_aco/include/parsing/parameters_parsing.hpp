@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+using namespace std;
 class parameters_parsing
 {
 public:
@@ -40,8 +41,8 @@ public:
 
     unsigned n_mbs;
 
-    std::string genos_file;
-    std::string phenos_file;
+    string genos_file;
+    string phenos_file;
 
 
 private:
