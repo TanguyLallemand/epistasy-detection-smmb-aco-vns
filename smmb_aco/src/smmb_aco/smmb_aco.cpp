@@ -135,7 +135,7 @@ void smmb_aco::run()
 {
     // Initialization of Markov Blanket
     list<unsigned> markov_blanket_s;
-    boost::numeric::ublas::vector<list<unsigned>> markov_blanket_a(_n_ant);//TODO voir si c'est une liste de liste qu'il faut //QUESTION L'initialiser a vide serait peut etre plus prudent?
+    boost::numeric::ublas::vector<list<unsigned>> markov_blanket_a(_n_ant);
     for (size_t i = 0; i < _n_it_n; i++)
     {
         // For every ants a parallelise : #pragma omp parallel for
