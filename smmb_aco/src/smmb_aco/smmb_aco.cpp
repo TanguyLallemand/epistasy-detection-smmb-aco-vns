@@ -96,13 +96,13 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     //sub_sampling from ant_subset
     sub_sampling(sub_subset, ant_subset);
 
-    //list<unsigned> markov_blanket_unified; //don't know TODO je crois qu'il est useless lui en fonction de la reponse a la question plus bas
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
         */
         //if (p_valeur(s) << _alpha_stat) //TODO: Il faut une fonction pour calculer/renvoyer la p_valeur de la solution
         //{//rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
+
             std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), sub_subset.begin(), sub_subset.end(), std::back_inserter(markov_blanket_a));// union de MB_a et S je crois que c'est bon //QUESTION Clement lui il modifie directement la blanket de la fourmis du coup je sais pas trop quoi penser de ton unified, mais bon comme je comprend pas ta ligne je touche pas pour le moment
             markov_blanket_modified = true;
         //}
