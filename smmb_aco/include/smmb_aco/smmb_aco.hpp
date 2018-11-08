@@ -46,7 +46,7 @@ private:
     boost_vector_float _pheromone_distrib;
 
     // fonctions données par la prof
-    list<unsigned> learn_MB(boost_vector_float ant_subset);
+    void learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a);
     void forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset);
     void backward(bool & markov_blanket_modified ,list<unsigned> & markov_blanket_a);
 

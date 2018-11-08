@@ -30,7 +30,7 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, para
 
     void update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
 }
-//TODO remove it is juste a test
+//TODO remove it is just a test
 boost_vector_float smmb_aco::return_tau()
 {
     std::cout << _tau << '\n';
@@ -68,11 +68,8 @@ void smmb_aco::update_pheromon_distrib()
 // smmb_aco : learn_MB
 //=================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-list<unsigned> smmb_aco::learn_MB(boost_vector_float ant_subset)
+void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a)
 {
-    //stocke la mb en cours de construction
-    list<unsigned> markov_blanket_a;
-
     //to enter the loop on first iteration
     bool markov_blanket_modified = true;
     //counter of iteration number
@@ -84,7 +81,6 @@ list<unsigned> smmb_aco::learn_MB(boost_vector_float ant_subset)
         backward(markov_blanket_modified, markov_blanket_a);
         j++;
     }
-    return markov_blanket_a;
 }
 
 //=================================================
@@ -139,7 +135,7 @@ void smmb_aco::run()
 {
     // Initialization of Markov Blanket
     list<unsigned> markov_blanket_s;
-    list<unsigned> markov_blanket_a;//attention jecrois que dans learn on reintialise ca... TODO voir si c'est une liste de liste qu'il faut //QUESTION L'initialiser a vide serait peut etre plus prudent?
+    boost::numeric::ublas::vector<list<unsigned>> markov_blanket_a(_n_ant);//TODO voir si c'est une liste de liste qu'il faut //QUESTION L'initialiser a vide serait peut etre plus prudent?
     for (size_t i = 0; i < _n_it_n; i++)
     {
         // For every ants a parallelise : #pragma omp parallel for
@@ -150,15 +146,15 @@ void smmb_aco::run()
             // Initialization of memory
             list<unsigned> _mem_ant;
             // Generate Markov Blanket and stock it in a temp variable
-            markov_blanket_a = learn_MB(ant_subset); //QUESTION du coup peut etre assigner à markov_blanket_a[a] ou alors carrément passer par référence et donner learn_MB(markov_blanket_a[a], ant_subset)
+            learn_MB(ant_subset, markov_blanket_a(a));
         }
         // Initialization of final variable
         list<unsigned> mem;
         for (size_t a = 0; a < _n_ant; a++) {
             mem.insert(mem.end(), _mem_ant.begin(), _mem_ant.end()); //ajouter(mem, mem_ant)
-            if (!markov_blanket_a.empty())
+            if (!markov_blanket_a(a).empty())
             {
-                markov_blanket_s.splice(markov_blanket_s.end(), markov_blanket_a); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end // TODO a test
+                markov_blanket_s.splice(markov_blanket_s.end(), markov_blanket_a(a)); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end // TODO a test
             }
             //post traitement; //TODO
         }
