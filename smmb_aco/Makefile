@@ -40,7 +40,7 @@ $(OBJDIR)/tools.o \
 $(OBJDIR)/contingency.o \
 $(OBJDIR)/statistics.o
 
-TARGET=$(BINDIR)/smmb_aco
+TARGET=$(BINDIR)/smmb_aco.exe
 
 all: $(TARGET)
 
