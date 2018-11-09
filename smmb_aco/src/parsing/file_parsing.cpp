@@ -11,33 +11,36 @@ using namespace std;
 //=================================================
 // data_parsing : constructeur
 //=================================================
-data_parsing::data_parsing(string filename, int header_size, char separator)
+data_parsing::data_parsing(string _geno_filename, string _pheno_filename, int header_size, char separator)
 {
-    _file_name = filename;
     _header_size = header_size;
     _separator = separator;
     get_line_nb();
     get_col_nb();
-    initialise_empty_matrix();
-    data_to_matrix();
+
+    //parsing each input object
+    parse_snp_id();
+    parse_geno();
+    parse_pheno();
 }
+
 //=================================================
-// data_parsing : data_to_matrix
+// data_parsing : parse_geno
 //=================================================
-void data_parsing::data_to_matrix()
+void data_parsing::parse_geno()
 {
-    ifstream file(_file_name);
+    _geno_matrix.resize( _row_number, _col_number);
+    ifstream file(_geno_filename);
     string line;
     for (size_t x = 0; x < _header_size; x++) {
         getline(file, line);
     }
-    for (size_t i = 0; i < _matrix.size1(); i++) {
+    for (size_t i = 0; i < _geno_matrix.size1(); i++) {
         getline(file, line);
-        std::istringstream ss(line);
         int r=0;
         for (size_t j = 0; j < line.size(); j++) {
             if (line[j]!=',') {
-                _matrix(i, r) = line[j]-48;
+                _geno_matrix(i, r) = line[j]-48;
                 r++;
             }
         }
@@ -45,19 +48,46 @@ void data_parsing::data_to_matrix()
 }
 
 //=================================================
-// data_parsing : initialise_empty_matrix
+// data_parsing : parse_geno
 //=================================================
-void data_parsing::initialise_empty_matrix()
+void data_parsing::parse_pheno()
 {
-    _matrix.resize( _row_number, _col_number);
+    _pheno_vector.resize(_row_number);
+    ifstream file(_pheno_filename);
+    string line;
+    for (size_t x = 0; x < _header_size; x++) {
+        getline(file, line);
+    }
+    for (size_t i = 0; i < _pheno_vector.size(); i++) {
+        getline(file, line);
+        _pheno_vector(i) = line[0]-48;
+    }
 }
 
 //=================================================
+// data_parsing : parse_snp_id
+//=================================================
+void data_parsing::parse_snp_id()
+{
+    _snp_id_vector.resize(_col_number);
+    ifstream file(_geno_filename);
+    string line;
+    getline(file, line);
+    int r=0;
+    for (size_t i = 0; i < _snp_id_vector.size(); i++) {
+        while (line[r]!=_separator) {
+            _snp_id_vector(i) += line[r];
+            r++;
+        }
+        r++;
+    }
+}
+//=================================================
 // data_parsing : get_line_nb
 //=================================================
-int data_parsing::get_line_nb()
+void data_parsing::get_line_nb()
 {
-    ifstream file(_file_name);
+    ifstream file(_pheno_filename);
     string temp;
     getline(file, temp);
     _row_number=0;
@@ -69,7 +99,7 @@ int data_parsing::get_line_nb()
     }
     else
     {
-        cout << "unable to open : "<< _file_name << '\n';
+        cout << "unable to open : "<< _pheno_filename << '\n';
     }
 }
 
@@ -78,7 +108,7 @@ int data_parsing::get_line_nb()
 //=================================================
 void data_parsing::get_col_nb()
 {
-    ifstream file(_file_name);
+    ifstream file(_geno_filename);
     string line;
     int i;
     _col_number=1;
@@ -89,12 +119,4 @@ void data_parsing::get_col_nb()
             _col_number++;
         }
     }
-}
-
-//=================================================
-// data_parsing : return_matrix
-//=================================================
-boost_matrix data_parsing::return_matrix()
-{
-    return _matrix;
 }

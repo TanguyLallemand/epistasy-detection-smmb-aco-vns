@@ -4,6 +4,9 @@
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix_proxy.hpp>
+#include <string>
 typedef boost::numeric::ublas::matrix<unsigned int> boost_matrix;
 typedef boost::numeric::ublas::vector<float> boost_vector_float;
+typedef boost::numeric::ublas::vector<int> boost_vector_int;
+typedef boost::numeric::ublas::vector<std::string> boost_vector_string;
 #endif
