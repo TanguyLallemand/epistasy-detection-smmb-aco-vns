@@ -13,7 +13,7 @@ using namespace std;
 //=================================================
 // smmb_aco : constructeur
 //=================================================
-smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, parameters_parsing _params)
+smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_vector_int _phenos_matrix, parameters_parsing _params)
 {
     _n_it = _params.aco_n_iterations;
     _n_ant = _params.aco_n_ants;
