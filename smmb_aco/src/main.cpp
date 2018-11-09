@@ -25,6 +25,9 @@ int main(int argc, char* argv[])
     char separator = params.separator;
 
     data_parsing data(genos_file, phenos_file, header, separator);
+    float pikachu;
+    pikachu = statistics::compute_p_value(data._geno_matrix, data._pheno_vector);
+    std::cout << pikachu << '\n';
     // Instanciation de smmb_aco
     //smmb_aco test(matrix_genos, matrix_phenos, params);
     //test.run();

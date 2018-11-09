@@ -1,3 +1,7 @@
+/*
+Authors: Tanguy Lallemand M2BB
+         Jonathan Cruard M2BB
+*/
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/math/distributions/chi_squared.hpp>
 #include <iostream>
@@ -7,17 +11,18 @@
 //=================================================
 // smmb_aco : constructeur
 //=================================================
-statistics::statistics(boost_matrix _genos_matrix, boost_vector_int _phenos_vector, parameters_parsing _params)
-{
-    _alpha_phero = _params.aco_alpha;
-    _beta_phero = _params.aco_beta;
-    _tau = boost_vector_int(_genos_matrix.size2(), _params.aco_tau_init);
-    _eta = boost_vector_int(_genos_matrix.size2(), _params.aco_eta);
-}
 
 
-float statistics::compute_p_value()
+
+float statistics::compute_p_value(boost_matrix & _genos_matrix, boost_vector_int & _phenos_vector)
 {
+    boost_matrix contingency_table = make_contingency_table(_genos_matrix, _phenos_vector);
+    //TODO peut etre passer ne parametre les tailles de la contignecy table
+    boost_matrix contingency_theorical_table = make_contingency_theorical_table(contingency_table, _phenos_vector);
+    std::cout << contingency_table << '\n';
+    std::cout << contingency_theorical_table << '\n';
+    float float_test = 0.2; //TODO a virer
+    return float_test;
 
 }
 
@@ -26,45 +31,46 @@ boost_matrix statistics::make_contingency_table(boost_matrix & _genos_matrix, bo
     // Initialisation contingency table
     boost_matrix contingency_table(2,3,0);
     for (size_t i = 0; i < _genos_matrix.size1(); i++) {
-        int row_of_contingency_table = _phenos_vector(i,0);
+        int row_of_contingency_table = _phenos_vector(i);
         int col_of_contingency_table = _genos_matrix(i,0);
         contingency_table.at_element(row_of_contingency_table, col_of_contingency_table) +=1;
     }
     return contingency_table;
 }
 
-boost_matrix statistics::make_contingency_theorical_table(boost_matrix & _genos_matrix, boost_vector_int & _phenos_vector)
+boost_matrix statistics::make_contingency_theorical_table(boost_matrix contingency_table, boost_vector_int & _phenos_vector)
 {
     // Initialisation contingency table
-    boost_matrix contingency_table(2,3,0);
-    for (size_t i = 0; i < _genos_matrix.size1(); i++) {
-        int row_of_contingency_table = _phenos_vector(i,0);
-        int col_of_contingency_table = _genos_matrix(i,0);
-        contingency_table.at_element(row_of_contingency_table, col_of_contingency_table) +=1;
-    }
-    return contingency_table;
-}
+    boost_matrix contingency_theorical_table(2,3,0);
+    unsigned int size_matrix = _phenos_vector.size();
 
-unsigned int statistics::sum_col(int index)
-{
-    unsigned int sum_col = 0;
-
-    for(it1 = begin1(); it1 != end1(); ++it1)
+    // Expected contingency filling
+    for(unsigned i=0; i<contingency_theorical_table.size1(); ++i)
     {
-        it2 = it1.begin() + index;
-        s += *it2;
+        for(unsigned j=0; j<contingency_theorical_table.size2(); ++j)
+        {
+            contingency_theorical_table(i,j) = (float)((sum_row(i ,contingency_table) * sum_col(j ,contingency_table)) / size_matrix);
+        }
     }
-    return sum_col;
+    return contingency_theorical_table;
 }
 
-unsigned int statistics::sum_row(int index)
+unsigned int statistics::sum_col(int index, boost_matrix contingency_table)
 {
-    unsigned int sum_row = 0;
-    blas_dmatrix::const_iterator1 it1 = begin1() + index;
-    blas_dmatrix::const_iterator2 it2;
+    unsigned int sum_col_of_contingency_table = 0;
 
-    for(it2 = it1.begin(); it2 != it1.end(); ++it2)
-        s += *it2;
+    for (size_t i = 0; i < contingency_table.size1(); i++) {
+        sum_col_of_contingency_table += contingency_table(i, index);
+    }
+    return sum_col_of_contingency_table;
+}
 
-    return sum_row;
+unsigned int statistics::sum_row(int index, boost_matrix contingency_table)
+{
+    unsigned int sum_row_of_contingency_table = 0;
+
+    for (size_t i = 0; i < contingency_table.size2(); i++) {
+        sum_row_of_contingency_table += contingency_table(i, index);
+    }
+    return sum_row_of_contingency_table;
 }

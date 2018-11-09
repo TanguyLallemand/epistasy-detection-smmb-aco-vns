@@ -1,3 +1,7 @@
+/*
+Authors: Tanguy Lallemand M2BB
+         Jonathan Cruard M2BB
+*/
 #ifndef STATISTICS_HPP
 #define STATISTICS_HPP
 
@@ -18,12 +22,12 @@ class statistics
 {
 public:
     // constructor
-    statistics(boost_matrix _genos_matrix, boost_matrix _phenos_vector, parameters_parsing _params);
+    statistics(boost_matrix _genos_matrix, boost_vector_int _phenos_vector, parameters_parsing _params);
     static boost_matrix make_contingency_table(boost_matrix & _genos_matrix, boost_vector_int & _phenos_vector);
-    static float statistics::compute_p_value();
-    static boost_matrix statistics::make_contingency_theorical_table(boost_matrix & _genos_matrix, boost_vector_int & _phenos_vector);
-    static unsigned int statistics::sum_col(boost_matrix & _genos_matrix, boost_vector_int & _phenos_vector);
-    static unsigned int statistics::sum_row(boost_matrix & _genos_matrix, boost_vector_int & _phenos_vector);
+    static float compute_p_value(boost_matrix & _genos_matrix, boost_vector_int & _phenos_vector);
+    static boost_matrix make_contingency_theorical_table(boost_matrix contingency_table, boost_vector_int & _phenos_vector);
+    static unsigned int sum_col(int index, boost_matrix contingency_table);
+    static unsigned int sum_row(int index, boost_matrix contingency_table);
 
 
 

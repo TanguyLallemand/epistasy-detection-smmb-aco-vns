@@ -6,6 +6,8 @@
 #include <boost/numeric/ublas/io.hpp>
 #include "tools.hpp"
 #include "global.hpp"
+#include "statistics.hpp"
+
 using namespace std;
 
 //=================================================
@@ -119,12 +121,12 @@ void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_
         for (size_t X = 0; X < markov_blanket_a.size(); X++) {
             //TODO: pour toute combinaison S non_vides inclus dans MB
                 //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
-                float p_valeur = statistics::compute_p_value(); //TODO temporaire pour voir si ça compile
-                if (p_valeur>_alpha_stat) { //H_0: independance
-                    auto i = std::find(begin(markov_blanket_a), end(markov_blanket_a), X);
-                    markov_blanket_a.erase(i);// MB <- MB\{x}; //veut dire MB prive de X en notation ensembliste
-                    break;
-                }
+                // float p_valeur = statistics::compute_p_value(_genos_matrix, _phenos_matrix); //TODO temporaire pour voir si ça compile
+                // if (p_valeur>_alpha_stat) { //H_0: independance
+                //     auto i = std::find(begin(markov_blanket_a), end(markov_blanket_a), X);
+                //     markov_blanket_a.erase(i);// MB <- MB\{x}; //veut dire MB prive de X en notation ensembliste
+                //     break;
+                // }
             //}
         }
     }
