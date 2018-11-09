@@ -9,7 +9,7 @@
 using namespace std;
 
 //=================================================
-// smmb_aco : constructeur //TODO work in progress
+// smmb_aco : constructeur
 //=================================================
 smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_matrix _phenos_matrix, parameters_parsing _params)
 {
