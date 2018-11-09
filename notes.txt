@@ -95,3 +95,8 @@ simuler en R mais pas une loi linéaire
 
 reprendre lecture de fichier et la gestion de calcul matriciel dans le truc tout fait
 librairie boost
+
+
+
+
+Cours2:

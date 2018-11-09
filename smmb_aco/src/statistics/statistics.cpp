@@ -21,6 +21,7 @@ float statistics::compute_p_value(boost_matrix & _genos_matrix, boost_vector_int
     boost_matrix contingency_theorical_table = make_contingency_theorical_table(contingency_table, _phenos_vector);
     std::cout << contingency_table << '\n';
     std::cout << contingency_theorical_table << '\n';
+    //compute_chi_2(contingency_table, contingency_theorical_table);
     float float_test = 0.2; //TODO a virer
     return float_test;
 
