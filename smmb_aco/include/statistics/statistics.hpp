@@ -23,11 +23,11 @@ class statistics
 public:
     // constructor
     statistics(boost_matrix _genos_matrix, boost_vector_int _phenos_vector, parameters_parsing _params);
-    static boost_matrix make_contingency_table(boost_matrix & _genos_matrix, boost_vector_int & _phenos_vector);
+    static boost_matrix_float make_contingency_table(boost_matrix & _genos_matrix, boost_vector_int & _phenos_vector);
     static float compute_p_value(boost_matrix & _genos_matrix, boost_vector_int & _phenos_vector);
-    static boost_matrix make_contingency_theorical_table(boost_matrix contingency_table, boost_vector_int & _phenos_vector);
-    static unsigned int sum_col(int index, boost_matrix contingency_table);
-    static unsigned int sum_row(int index, boost_matrix contingency_table);
+    static boost_matrix_float make_contingency_theorical_table(boost_matrix_float contingency_table, boost_vector_int & _phenos_vector);
+    static unsigned int sum_col(int index, boost_matrix_float contingency_table);
+    static unsigned int sum_row(int index, boost_matrix_float contingency_table);
 
 
 
