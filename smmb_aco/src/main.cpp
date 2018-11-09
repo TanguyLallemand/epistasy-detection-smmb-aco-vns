@@ -28,6 +28,7 @@ int main(int argc, char* argv[])
     float pikachu;
     pikachu = statistics::compute_p_value(data._geno_matrix, data._pheno_vector);
     std::cout << pikachu << '\n';
+    std::cout << data._snp_id_vector << '\n';
     // Instanciation de smmb_aco
     smmb_aco test(data._geno_matrix, data._pheno_vector, params);
     test.run();

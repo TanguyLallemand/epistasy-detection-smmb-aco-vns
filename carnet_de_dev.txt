@@ -54,7 +54,7 @@ Pour i allant de 1 a _n_it
     memoire = ensemble vide
     pour a allant de 1 à _n_ants
         ajouter à memoire la memoire_fourmis;
-        si MB_fourmis non vide alors MB_s(qui est un ensemble d'ensemble) = MB_s union MB_fourmis;
+        si MB_fourmi non vide alors MB_s(qui est un ensemble d'ensemble) = MB_s union MB_fourmi;
     finpour
     _tau = mise_a_jour_taux_de_pheromone(memoire, _rho, _lambda)
 finpour
