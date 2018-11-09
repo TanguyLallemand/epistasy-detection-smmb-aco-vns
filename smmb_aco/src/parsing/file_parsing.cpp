@@ -11,8 +11,10 @@ using namespace std;
 //=================================================
 // data_parsing : constructeur
 //=================================================
-data_parsing::data_parsing(string _geno_filename, string _pheno_filename, int header_size, char separator)
+data_parsing::data_parsing(string geno_filename, string pheno_filename, int header_size, char separator)
 {
+    _geno_filename = geno_filename;
+    _pheno_filename = pheno_filename;
     _header_size = header_size;
     _separator = separator;
     get_line_nb();
@@ -90,6 +92,7 @@ void data_parsing::get_line_nb()
     ifstream file(_pheno_filename);
     string temp;
     getline(file, temp);
+    std::cout << temp << '\n';
     _row_number=0;
     if (file) {
         while (getline(file, temp)) {
