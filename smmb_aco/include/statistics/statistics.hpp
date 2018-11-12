@@ -30,8 +30,8 @@ public:
     static unsigned int sum_row(int index, boost_matrix_float contingency_table);
     static float compute_chi_2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table);
     static unsigned int compute_liberty_degree(boost_matrix_float const& contingency_table);
-    static boost_matrix_float contingency_table_conditionnal_chi_2(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector, blas_matrix const& cond_genos_vector);
-    static float compute_conditionnal_chi_2(boost_matrix_float const& contingency, liberty_degree);
+    static boost_matrix_float contingency_table_conditionnal_chi_2(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector, boost_vector_string const& cond_genos_vector);
+    static float compute_conditionnal_chi_2(boost_matrix_float const& contingency, unsigned int liberty_degree);
 
 
 
