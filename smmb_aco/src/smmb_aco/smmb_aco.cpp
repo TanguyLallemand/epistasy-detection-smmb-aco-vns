@@ -26,9 +26,9 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_vector_int _phenos_matrix, 
     _sub_subset_size = _params.subset_size_small;
 
     //vecteur concernant les pheromones
-    _eta = boost_vector_float(_genos_matrix.size2(), _params.aco_eta);
-    _tau = boost_vector_float(_genos_matrix.size2(), _params.aco_tau_init);
-    _pheromone_distrib = boost_vector_float(_genos_matrix.size2(), 0);
+    _eta = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_eta);
+    _tau = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_tau_init);
+    _pheromone_distrib = boost_vector_float(_genos_matrix.size2(), 0.0);
 
     void update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
 }
@@ -47,7 +47,7 @@ void smmb_aco::update_tau()
             //IDEA normalement la formule est bonne mais je trouve ça un peu con d'evaporer pour chaque stat dans la memoire (pour éviter ça je propose ce qui est en comment)
         }
     }
-    //repercuting changes on the distribution 
+    //repercuting changes on the distribution
     update_pheromon_distrib();
 }
 
@@ -74,9 +74,10 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
     //on boucle pour générer la markov blanket
     while (markov_blanket_modified || (!(markov_blanket_a.empty()) && j<_n_it_n)) {
         forward(markov_blanket_modified, markov_blanket_a, ant_subset);
-        backward(markov_blanket_modified, markov_blanket_a);
         j++;
     }
+    //backward(markov_blanket_modified, markov_blanket_a);
+    //TODO voir si on en met un la finalement
 }
 
 //=================================================
@@ -100,6 +101,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
         //{//rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
 
             std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), sub_subset.begin(), sub_subset.end(), std::back_inserter(markov_blanket_a));// union de MB_a et S je crois que c'est bon //QUESTION Clement lui il modifie directement la blanket de la fourmis du coup je sais pas trop quoi penser de ton unified, mais bon comme je comprend pas ta ligne je touche pas pour le moment
+            backward(markov_blanket_modified, markov_blanket_a);
             markov_blanket_modified = true;
         //}
 
@@ -156,7 +158,7 @@ void smmb_aco::run()
             }
             //post traitement; //TODO
         }
-        evaporate();
+        update_tau();
     }
 }
 
