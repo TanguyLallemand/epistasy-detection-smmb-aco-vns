@@ -57,8 +57,7 @@ void smmb_aco::evaporate()
 void smmb_aco::update_pheromon_distrib()
 {
     for (size_t i = 0; i < _pheromone_distrib.size(); i++) {
-        _pheromone_distrib.insert_element(i, _tau[i]*_alpha_phero + _eta[i]*_beta_phero);
-        //insert_element (size_type i, const_reference t) Set element $i$ to the value t.
+        _pheromone_distrib(i) = pow(_tau[i], _alpha_phero) + pow(_eta[i], _beta_phero);
     }
 }
 //=================================================
