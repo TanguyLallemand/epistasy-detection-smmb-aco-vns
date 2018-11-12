@@ -28,6 +28,8 @@ public:
     static boost_matrix_float make_contingency_theorical_table(boost_matrix_float contingency_table, boost_vector_int & _phenos_vector);
     static unsigned int sum_col(int index, boost_matrix_float contingency_table);
     static unsigned int sum_row(int index, boost_matrix_float contingency_table);
+    static float compute_chi_2(boost_matrix_float & contingency_table, boost_matrix_float & contingency_theorical_table);
+    static unsigned int compute_liberty_degree(boost_matrix_float & contingency_table);
 
 
 
