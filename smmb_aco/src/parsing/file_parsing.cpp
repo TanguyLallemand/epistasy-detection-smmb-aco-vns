@@ -8,9 +8,9 @@ using namespace std;
 
 //TODO voir si un destructeur est nécessaire
 
-//=================================================
+//=============================================================================
 // data_parsing : constructeur
-//=================================================
+//=============================================================================
 data_parsing::data_parsing(string geno_filename, string pheno_filename, int header_size, char separator)
 {
     _geno_filename = geno_filename;
@@ -26,22 +26,26 @@ data_parsing::data_parsing(string geno_filename, string pheno_filename, int head
     parse_pheno();
 }
 
-//=================================================
+//=============================================================================
 // data_parsing : parse_geno
-//=================================================
+//=============================================================================
 void data_parsing::parse_geno()
 {
     _geno_matrix.resize( _row_number, _col_number);
     ifstream file(_geno_filename);
     string line;
-    for (size_t x = 0; x < _header_size; x++) {
+    for (size_t x = 0; x < _header_size; x++)
+    {
         getline(file, line);
     }
-    for (size_t i = 0; i < _geno_matrix.size1(); i++) {
+    for (size_t i = 0; i < _geno_matrix.size1(); i++)
+    {
         getline(file, line);
         int r=0;
-        for (size_t j = 0; j < line.size(); j++) {
-            if (line[j]!=',') {
+        for (size_t j = 0; j < line.size(); j++)
+        {
+            if (line[j]!=',')
+            {
                 _geno_matrix(i, r) = line[j]-48;
                 r++;
             }
@@ -49,18 +53,20 @@ void data_parsing::parse_geno()
     }
 }
 
-//=================================================
+//=============================================================================
 // data_parsing : parse_geno
-//=================================================
+//=============================================================================
 void data_parsing::parse_pheno()
 {
     _pheno_vector.resize(_row_number);
     ifstream file(_pheno_filename);
     string line;
-    for (size_t x = 0; x < _header_size; x++) {
+    for (size_t x = 0; x < _header_size; x++)
+    {
         getline(file, line);
     }
-    for (size_t i = 0; i < _pheno_vector.size(); i++) {
+    for (size_t i = 0; i < _pheno_vector.size(); i++)
+    {
         getline(file, line);
         _pheno_vector(i) = line[0]-48;
     }
@@ -75,13 +81,18 @@ void data_parsing::parse_snp_id()
     ifstream file(_geno_filename);
     string line;
     getline(file, line);
-    int r=0;
-    for (size_t i = 0; i < _snp_id_vector.size(); i++) {
-        while (line[r]!=_separator) {
-            _snp_id_vector(i) += line[r];
-            r++;
+    int i=0;
+
+    for (size_t r = 0; r < line.size(); r++)
+    {
+        if (line[r]==_separator)
+        {
+            i++;
         }
-        r++;
+        else
+        {
+            _snp_id_vector(i) += line[r];
+        }
     }
 }
 //=================================================
@@ -94,8 +105,10 @@ void data_parsing::get_line_nb()
     getline(file, temp);
     std::cout << temp << '\n';
     _row_number=0;
-    if (file) {
-        while (getline(file, temp)) {
+    if (file)
+    {
+        while (getline(file, temp))
+        {
             _row_number++;
         }
         //_row_number = _row_number - _header_size;
@@ -117,8 +130,10 @@ void data_parsing::get_col_nb()
     _col_number=1;
     getline(file, line);
     int lenght = line.size();
-    for (i = 0; i < lenght; i++) {
-        if (line[i]==_separator) {
+    for (i = 0; i < lenght; i++)
+    {
+        if (line[i]==_separator)
+        {
             _col_number++;
         }
     }
