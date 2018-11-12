@@ -43,14 +43,16 @@ void smmb_aco::update_tau()
         for (size_t j = 0; j < mem(i).size(); j++)
         {
             //_tau(i) = _tau(i) + (_lambda * mem(i, j));
-            _tau(i) = ((1-_rho) * _tau(i)) + _lambda * mem(i, j);
+            _tau(i) = ((1-_rho) * _tau(i)) + _lambda * mem(i)(j);
             //IDEA normalement la formule est bonne mais je trouve ça un peu con d'evaporer pour chaque stat dans la memoire (pour éviter ça je propose ce qui est en comment)
         }
     }
+    //repercuting changes on the distribution 
+    update_pheromon_distrib();
 }
 
 //=================================================
-// smmb_aco : update_distribution
+// smmb_aco : update_pheromon_distrib
 //=================================================
 void smmb_aco::update_pheromon_distrib()
 {
