@@ -72,7 +72,8 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
     int j = 0;
 
     //on boucle pour générer la markov blanket
-    while (markov_blanket_modified || (!(markov_blanket_a.empty()) && j<_n_it_n)) {
+    while (markov_blanket_modified || (!(markov_blanket_a.empty()) && j<_n_it_n))
+    {
         forward(markov_blanket_modified, markov_blanket_a, ant_subset);
         j++;
     }
