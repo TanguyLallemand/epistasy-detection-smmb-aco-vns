@@ -32,12 +32,7 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_vector_int _phenos_matrix, 
 
     void update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
 }
-//TODO remove it is just a test
-boost_vector_float smmb_aco::return_tau()
-{
-    std::cout << _tau << '\n';
-    return _tau;
-}
+
 //=================================================
 // smmb_aco : add_pheromon
 //=================================================
