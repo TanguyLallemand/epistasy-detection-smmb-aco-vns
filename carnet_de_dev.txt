@@ -16,8 +16,14 @@ changer la solution cradot du -48 dans le file_parsing.cpp
 pour le moment on garde car on veut du fonctionnel mais faudrais dans l'idéal trouver mieux <3
 
 changer la seed pour le sampling
+corriger la formule du calcul de taux de pheromones
+faire une hashtable pour stocker les résultats des test (mem_ant)
+chaque snp sera une clef et aura une liste de résultats associés
 
-
+fusionner les mem_a dans mem (globale) puis
+    pour mettre a jour tau :
+        pour X1 : _tau(X1) = (1 - rho) * _tau(X1) + _lambda * stat
+        on boucle pour toutes les valeurs de stats dans mem
 explication de l algo dans la publi
 
 L’algorithme SMMB est une approche originale ; c’est la première variation stochastique proposée
