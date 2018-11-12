@@ -114,53 +114,53 @@ unsigned int statistics::compute_liberty_degree(boost_matrix_float const& contin
 }
 
 
-boost_matrix_float statistics::contingency_table_conditionnal_chi_2(boost_vector_int const& geno_column, boost_vector_int const& _phenos_vector, boost_vector_int const& cond_genos_vector)//TODO quel type pour le vecteur de SNP?
+boost_matrix_float statistics::contingency_table_conditionnal_chi_2(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector, boost_vector_int const& cond_genos_vector)//TODO quel type pour le vecteur de SNP?
 {
 
-    unsigned n_obs = genos.size();
-    unsigned n_cond_genos = cond_genos_vector.size();
-    unsigned n_contingencies = pow(3, n_cond_genos);
-    liberty_degree = 2;
-    if(n_cond_genos != 0)
-        liberty_degree *= 3*n_cond_genos;
+	unsigned n_obs = _genos_matrix.size();
+	unsigned n_cond_genos = cond_genos_vector.size();
+	unsigned n_contingencies = pow(3, n_cond_genos);
+	liberty_degree = 2;
+	if(n_cond_genos != 0)
+		liberty_degree *= 3*n_cond_genos;
 
-    _contingencies = vector<Contingency>(n_contingencies);
+	_contingencies = vector<Contingency>(n_contingencies);
 
-    // Fill contingency table (one or multiple)
-    if(!cond_genos_indexes.empty())
-    {
-        blas::matrix_reference<blas_matrix> ref_genos_matrix = genos.data(); // get matrix from a column
-        for(unsigned i=0; i<n_obs; ++i)
-        {
-            // Put the current observation in the correct contingency table
-            unsigned contingency_index = 0;
-            unsigned j=0;
-            for(list<unsigned>::const_iterator it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j)
-                contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
-            Contingency& c = _contingencies[contingency_index];
-            c(phenos(i), genos(i)) += 1;
-        }
-    }
-    else
-    {
-        for(unsigned i=0; i<n_obs; ++i)
-        {
-            Contingency& c = _contingencies[0];
-            c(phenos, genos) += 1;
-        }
-    }
-
+	// Fill contingency table (one or multiple)
+	if(!cond_genos_indexes.empty())
+	{
+		// blas::matrix_reference<blas_matrix> ref_genos_matrix = _genos_matrix.data(); // get matrix from a column
+		for(unsigned i=0; i<n_obs; ++i)
+		{
+			// Put the current observation in the correct contingency table
+			unsigned contingency_index = 0;
+			unsigned j=0;
+			for(list<unsigned>::const_iterator it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j)
+				// contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
+				contingency_index += pow(3, j) * _genos_matrix(i, *it);
+			Contingency& c = _contingencies[contingency_index];
+			c(phenos(i), genos(i)) += 1;
+		}
+	}
+	else
+	{
+		for(unsigned i=0; i<n_obs; ++i)
+		{
+			Contingency& c = _contingencies[0];
+			c(phenos, genos) += 1;
+		}
+	}
 }
 
 float statistics::compute_conditionnal_chi_2(boost_matrix_float const& contingency, liberty_degree)
 {
-    float chi_2_result = 0;
-    for(unsigned i=0; i<_contingencies.size(); ++i)
-    {
-        G2_test_indep g2(_contingencies[i]);
-    }
-    boost::math::chi_squared_distribution<double> chi2_dist(liberty_degree);
-    _pval = 1 - boost::math::cdf(chi2_dist, _g2);
-    if(_pval == 0)
-        _pval = 2.0e-16;
+	float chi_2_result = 0;
+	for(unsigned i=0; i<_contingencies.size(); ++i)
+	{
+		G2_test_indep g2(_contingencies[i]);
+	}
+	boost::math::chi_squared_distribution<double> chi2_dist(liberty_degree);
+	_pval = 1 - boost::math::cdf(chi2_dist, _g2);
+	if(_pval == 0)
+		_pval = 2.0e-16;
 }
