@@ -51,8 +51,7 @@ private:
     void backward(bool & markov_blanket_modified ,list<unsigned> & markov_blanket_a);
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
-    void add_pheromon(int SNP_pos); //add pheromone on a good SNP
-    void evaporate(); //substract rho to all SNP pheromones
+    void update_tau(); //add pheromone on a good SNP
     void sub_sampling(boost_vector_float & sub_subset, boost_vector_float & ant_subset); //compute sub_subset
     void update_pheromon_distrib(); //update pheromons using _tau and _eta
 };

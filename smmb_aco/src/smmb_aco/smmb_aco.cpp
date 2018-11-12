@@ -34,20 +34,18 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_vector_int _phenos_matrix, 
 }
 
 //=================================================
-// smmb_aco : add_pheromon
+// smmb_aco : update_tau
 //=================================================
-void smmb_aco::add_pheromon(int SNP_pos)
+void smmb_aco::update_tau()
 {
-    _tau[SNP_pos] += _lambda;
-}
-
-//=================================================
-// smmb_aco : evaporate
-//=================================================
-void smmb_aco::evaporate()
-{
-    for (int i = 0; i < _tau.size(); i++) {
-        _tau[i] -= _rho;
+    for (size_t i = 0; i < _tau.size(); i++) {
+        //_tau(i) = (1-_rho) * _tau(i);
+        for (size_t j = 0; j < mem(i).size(); j++)
+        {
+            //_tau(i) = _tau(i) + (_lambda * mem(i, j));
+            _tau(i) = ((1-_rho) * _tau(i)) + _lambda * mem(i, j);
+            //IDEA normalement la formule est bonne mais je trouve ça un peu con d'evaporer pour chaque stat dans la memoire (pour éviter ça je propose ce qui est en comment)
+        }
     }
 }
 
@@ -57,7 +55,7 @@ void smmb_aco::evaporate()
 void smmb_aco::update_pheromon_distrib()
 {
     for (size_t i = 0; i < _pheromone_distrib.size(); i++) {
-        _pheromone_distrib(i) = pow(_tau[i], _alpha_phero) + pow(_eta[i], _beta_phero);
+        _pheromone_distrib(i) = pow(_tau[i], _alpha_phero) * pow(_eta[i], _beta_phero); //QUESTION bon j'ai refait la formule mais reste à voir si le fait qu'on fasse la distrib juste en divisant par la somme est correct car dans la publi c'est chelou (peut etre je sais juste pas lire le langage math)
     }
 }
 //=================================================
