@@ -12,39 +12,39 @@
 #include "global.hpp"
 int main(int argc, char* argv[])
 {
-    // Arguments
-    string genos_file = argv[1];
-    string phenos_file = argv[2];
+	// Arguments
+	string genos_file = argv[1];
+	string phenos_file = argv[2];
 
-    parameters_parsing params;
-    //params.list_parameters();
+	parameters_parsing params;
+	//params.list_parameters();
 
-    params.genos_file = genos_file;
-    params.phenos_file = phenos_file;
-    int header = params.header;
-    char separator = params.separator;
+	params.genos_file = genos_file;
+	params.phenos_file = phenos_file;
+	int header = params.header;
+	char separator = params.separator;
 
-    data_parsing data(genos_file, phenos_file, header, separator);
-    float pikachu;
-    pikachu = statistics::compute_p_value(data._geno_matrix, data._pheno_vector);
-    std::cout << pikachu << '\n';
-    std::cout << data._snp_id_vector << '\n';
-    // Instanciation de smmb_aco
-    smmb_aco test(data._geno_matrix, data._pheno_vector, params);
-    test.run();
-    //boost_matrix pikachu;
-    //pikachu = statistics::make_contingency_table(matrix_genos, matrix_phenos);
-    //std::cout << pikachu << '\n';
-    //boost_vector mordecai = test.return_tau();
-    //boost::numeric::ublas::vector<int> gg = TOOLS_HPP::sampling(params.aco_set_size, mordecai);
-    //smmb_aco.run();//exemple de call de la méthode smmb. Ca ne passe pas parce qu'il faut avoir une instance d ela classe avt...
+	data_parsing data(genos_file, phenos_file, header, separator);
+	float pikachu;
+	pikachu = statistics::compute_p_value(data._geno_matrix, data._pheno_vector);
+	std::cout << pikachu << '\n';
+	std::cout << data._snp_id_vector << '\n';
+	// Instanciation de smmb_aco
+	smmb_aco test(data._geno_matrix, data._pheno_vector, params);
+	test.run();
+	//boost_matrix pikachu;
+	//pikachu = statistics::make_contingency_table(matrix_genos, matrix_phenos);
+	//std::cout << pikachu << '\n';
+	//boost_vector mordecai = test.return_tau();
+	//boost::numeric::ublas::vector<int> gg = TOOLS_HPP::sampling(params.aco_set_size, mordecai);
+	//smmb_aco.run();//exemple de call de la méthode smmb. Ca ne passe pas parce qu'il faut avoir une instance d ela classe avt...
 
 
 /*Algo du main
 
-parser les parametres
-parser les fichiers et les charger en tant que matrice
-les passer a smmb_ACO
-ecrire les resultats
-*/
+   parser les parametres
+   parser les fichiers et les charger en tant que matrice
+   les passer a smmb_ACO
+   ecrire les resultats
+ */
 }
