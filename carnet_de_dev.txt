@@ -2,7 +2,6 @@
 - generation d'un dataset naif done
 - Pour evaluation a voir si on pourra parser facilemen,t des matrices en python sinon peut etre passer par du R si tu penses voir le lvl. je suis meme godlike
 -
-test3
 
 Pour demarrer le programm ./smmb_aco ../toy_dataset/genotype_toy_dataset.txt ../toy_dataset/phenotype_toy_dataset.txt
 
@@ -16,7 +15,8 @@ changer la solution cradot du -48 dans le file_parsing.cpp
 pour le moment on garde car on veut du fonctionnel mais faudrais dans l'idéal trouver mieux <3
 
 changer la seed pour le sampling
-corriger la formule du calcul de taux de pheromones
+corriger la formule du calcul de taux de pheromones //DONE
+
 faire une hashtable pour stocker les résultats des test (mem_ant)
 chaque snp sera une clef et aura une liste de résultats associés
 ajouter plus de flexibilite, genre le fichier des paramteres peut bouger
@@ -36,9 +36,9 @@ si pr >0.5 alors malade sinon sain
 
 
 fusionner les mem_a dans mem (globale) puis
-    pour mettre a jour tau :
-        pour X1 : _tau(X1) = (1 - rho) * _tau(X1) + _lambda * stat
-        on boucle pour toutes les valeurs de stats dans mem
+    pour mettre a jour tau : //DONE
+        pour X1 : _tau(X1) = (1 - rho) * _tau(X1) + _lambda * stat //DONE
+        on boucle pour toutes les valeurs de stats dans mem //DONE
 explication de l algo dans la publi
 
 L’algorithme SMMB est une approche originale ; c’est la première variation stochastique proposée
