@@ -30,13 +30,14 @@ private:
     int _subset_size; // taille du subset de variables echantillonnees à partir de _genos_matrix pour chaque fourmis (on echantillone donc les SNPs pas les individus)
     int _sub_subset_size; //taille d'une combinaison de variables echantillonnées parmi _subset_size
     int _n_it_n; // nombre d'itération maximales pour explorer l'espace de recherche
-    double _alpha_stat; // seuil de significativité
-    double _tau_0; // valeur initiale de phéromone de chaque variable, au debut des temps egalite parfaite car on a pas de connaissance. A traiter comme un vecteur
+    float _alpha_stat; // seuil de significativité
+    float _tau_0; // valeur initiale de phéromone de chaque variable, au debut des temps egalite parfaite car on a pas de connaissance. A traiter comme un vecteur
     //Mise a jour du taux de phéromones
-    double _rho; // taux d'évaporation
-    double _lambda; // values used in evaporation rates updates
-    double _alpha_phero; //TODO peut etre a rennomer // Deux constantes utilisées pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori. Y a peut etre des SNPs qu on connait et donc on lui donne une bonne note. Ca permet donc de regler le cursuer entre importance des phéromones et importance des connaissances a priori
-    double _beta_phero;
+    float _rho; // taux d'évaporation
+    float _lambda; // values used in evaporation rates updates
+    // Deux constantes utilisées pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori. Y a peut etre des SNPs qu on connait et donc on lui donne une bonne note. Ca permet donc de regler le curseur entre importance des phéromones et importance des connaissances a priori
+    float _alpha_phero;
+    float _beta_phero;
 
     boost::numeric::ublas::vector<boost_vector_float> mem;
     list<unsigned> _mem_ant;
