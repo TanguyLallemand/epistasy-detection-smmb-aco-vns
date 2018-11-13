@@ -19,6 +19,12 @@ changer la seed pour le sampling
 corriger la formule du calcul de taux de pheromones
 faire une hashtable pour stocker les résultats des test (mem_ant)
 chaque snp sera une clef et aura une liste de résultats associés
+ajouter plus de flexibilite, genre le fichier des paramteres peut bouger
+parallelisation a regarder, ne pas mettre le nbr de thread dans les parametres ou en dur dans le c++. On le met dans le launch_smmb_aco
+
+
+fichiers d entres:
+nom des variables entre virgules, autant de lignes que d individus et autant d ecolonnes que de variables et en plus le fichier des phenotypes
 
 fusionner les mem_a dans mem (globale) puis
     pour mettre a jour tau :
