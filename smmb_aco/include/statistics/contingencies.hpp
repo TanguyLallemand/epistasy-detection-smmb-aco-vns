@@ -20,7 +20,7 @@ public:
     //
     void make_contingency_table(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector);
     void make_contingency_theorical_table(boost_matrix_float contingency_table, boost_vector_int const& _phenos_vector);
-    // Common operations on contigencies
+    // Common operations on contingencies
     unsigned int sum_row(int index, boost_matrix_float const& contingency_table);
     unsigned int sum_col(int index, boost_matrix_float const& contingency_table);
 

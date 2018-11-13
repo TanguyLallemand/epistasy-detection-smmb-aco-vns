@@ -31,7 +31,7 @@
 * Return a contingency table
 */
 
-boost_matrix_float contigencies::make_contingency_table(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector)
+void contigencies::make_contingency_table(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector)
 {
 	// For every rows
 	for (size_t i = 0; i < _genos_matrix.size1(); i++)
@@ -41,7 +41,7 @@ boost_matrix_float contigencies::make_contingency_table(boost_matrix const& _gen
 		// Store genotype matrix value of current index in a variable
 		float index_col_of_contingency_table = _genos_matrix(i,0);
 		// Increment contingency table at cell following index of variables given as parameters
-		contingency_table.at_element(index_row_of_contingency_table, index_col_of_contingency_table) +=1;
+		_contingency_table.at_element(index_row_of_contingency_table, index_col_of_contingency_table) +=1;
 	}
 	return contingency_table;
 }
@@ -53,7 +53,7 @@ boost_matrix_float contigencies::make_contingency_table(boost_matrix const& _gen
 * Return a contingency table
 */
 
-boost_matrix_float contigencies::make_contingency_theorical_table(boost_matrix_float contingency_table, boost_vector_int const& _phenos_vector)
+void contigencies::make_contingency_theorical_table(boost_matrix_float contingency_table, boost_vector_int const& _phenos_vector)
 {
 	// // Initialisation of contingency table with floats
 	// boost_matrix_float contingency_theorical_table(2,3,0.0);
@@ -70,7 +70,6 @@ boost_matrix_float contigencies::make_contingency_theorical_table(boost_matrix_f
 			_contingency_theorical_table(i,j) = ((float)(sum_row(i,contingency_table) * (float)sum_col(j,contingency_table)) / (float)size_matrix);
 		}
 	}
-	return _contingency_theorical_table;
 }
 
 /*

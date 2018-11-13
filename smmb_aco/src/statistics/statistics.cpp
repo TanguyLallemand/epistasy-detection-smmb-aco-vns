@@ -23,21 +23,22 @@ float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vecto
 	float chi_2_result = 0;
 	float p_value = 0;
 	unsigned int liberty_degree = 0;
-	//Instanciate contigencies
-	contingencies(_genos_matrix, _phenos_vector);
+	// Instanciate contigencies
+	contingencies contingency_table = contingencies(2,3);
+	contingencies contingency_theorical_table = contingencies(2,3);
 	// Make a contingency table using datas
-	boost_matrix_float contingency_table = make_contingency_table(_genos_matrix, _phenos_vector);
+	contingency_table.make_contingency_table(_genos_matrix, _phenos_vector);
+	contingency_theorical_table.make_contingency_theorical_table(contingency_table, _phenos_vector);
+	// boost_matrix_float contingency_table = make_contingency_table(_genos_matrix, _phenos_vector);
 	//TODO peut etre passer ne parametre les tailles de la contignecy table
 	// Make a contingency table using datas
-	boost_matrix_float contingency_theorical_table = make_contingency_theorical_table(contingency_table, _phenos_vector);
-	// Debug
-	std::cout << contingency_table << '\n';
-	std::cout << contingency_theorical_table << '\n';
+	// boost_matrix_float contingency_theorical_table = make_contingency_theorical_table(contingency_table, _phenos_vector);
+
 
 	// Get chi square score for the two contingencies tables given
 	chi_2_result = compute_chi_2(contingency_table, contingency_theorical_table);
 	// Calculate liberty degree for contingency table
-	liberty_degree = compute_liberty_degree(contingency_table);
+	liberty_degree = contingency_table.compute_liberty_degree(contingency_table);
 	// Instanciate chi_squared_distribution with a given number of liberty degree
 	boost::math::chi_squared_distribution<float> chi_2_distribution(liberty_degree);
 	// Calculate p value following chi_squared_distribution generated and chi square score
