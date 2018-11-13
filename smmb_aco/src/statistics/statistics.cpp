@@ -182,9 +182,13 @@ boost_matrix_float statistics::contingency_table_conditionnal_chi_2(boost_matrix
 	if(n_cond_genos != 0)
 		liberty_degree *= 3*n_cond_genos;
 
-	_contingencies = vector<Contingency>(n_contingencies);
+	boost::numeric::ublas::vector<boost_matrix_float> contingencies_vector(n_contingencies):(2,3,0.0);
+	for (size_t i = 0; i <= n_contingencies; i++) {
+		contingencies_vector(i)(2,3,0.0);
+	}
 
-	// Fill contingency table (one or multiple)
+
+	//Fill contingency table (one or multiple)
 	if(!cond_genos_vector.empty())
 	{
 		// blas::matrix_reference<blas_matrix> ref_genos_matrix = _genos_matrix.data(); // get matrix from a column
@@ -193,10 +197,10 @@ boost_matrix_float statistics::contingency_table_conditionnal_chi_2(boost_matrix
 			// Put the current observation in the correct contingency table
 			unsigned contingency_index = 0;
 			unsigned j=0;
-			for(list<unsigned>::const_iterator it=cond_genos_vector.begin(); it!=cond_genos_vector.end(); ++it, ++j)
+			for(list<int>::const_iterator it=cond_genos_vector.begin(); it!=cond_genos_vector.end(); ++it, ++j)
 				// contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
 				contingency_index += pow(3, j) * _genos_matrix(i, *it);
-			Contingency& c = _contingencies[contingency_index];
+			Contingency& c = contingencies_vector[contingency_index];
 			c(_phenos_vector(i), _genos_matrix(i,0)) += 1;
 		}
 	}
@@ -204,20 +208,20 @@ boost_matrix_float statistics::contingency_table_conditionnal_chi_2(boost_matrix
 	{
 		for(unsigned i=0; i<n_obs; ++i)
 		{
-			Contingency& c = _contingencies[0];
+			Contingency& c = contingencies_vector(0);
 			c(_phenos_vector(i), _genos_matrix(i,0)) += 1;
 		}
 	}
-	compute_conditionnal_chi_2(boost_matrix_float contingency, liberty_degree);
+	compute_conditionnal_chi_2(boost_matrix_float contingency, liberty_degree, contingencies_vector);
 }
 
-float statistics::compute_conditionnal_chi_2(boost_matrix_float const& contingency, unsigned int liberty_degree)
+float statistics::compute_conditionnal_chi_2(boost_matrix_float const& contingency, unsigned int liberty_degree, vector<boost_matrix_float> & contingencies_vector)
 {
 	float chi_2_result = 0;
 	float p_value = 0;
-	for(unsigned i=0; i<_contingencies.size(); ++i)
+	for(unsigned i=0; i<contingencies_vector.size(); ++i)
 	{
-		G2_test_indep g2(_contingencies[i]);
+		G2_test_indep g2(contingencies_vector[i]);
 	}
 	boost::math::chi_squared_distribution<double> chi2_dist(liberty_degree);
 	p_value = 1 - boost::math::cdf(chi2_dist, chi_2_result);
