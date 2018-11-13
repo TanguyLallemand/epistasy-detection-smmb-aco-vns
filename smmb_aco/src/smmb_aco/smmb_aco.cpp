@@ -208,7 +208,7 @@ boost::numeric::ublas::vector<boost_vector_int> smmb_aco::get_all_combinations(b
     generate_combinations(temp, combi_list, subset);
 
     //reconvert the list of list to vector of vector
-    boost::numeric::ublas::vector<boost_vector_int> combi_vector(combi_list.size())
+    boost::numeric::ublas::vector<boost_vector_int> combi_vector(combi_list.size());
     int i = 0;
     for (list<list<int>>::iterator it=combi_list.begin(); it != combi_list.end(); ++it) {
         combi_vector(i).resize(it.size()); //TODO need to test this
@@ -227,11 +227,15 @@ void smmb_aco::generate_combinations(list<int> temp, list<list<int>> combi_list,
     for (list<int>::iterator it=subset.begin(); it != subset.end(); ++it)
     {
         //add current snp to the temp list
-        temp.push(*it);
+        temp.push_back(*it);
         //stocking the temp in the list of combinations
-        combi_list.push(temp);
+        combi_list.push_back(temp);
+        //copy the subset
+        list<int> next_subset = subset;
+        //remove the current x
+        next_subset.pop_front();
         //recursive call on the list without current x
-        generate_combinations(j, temp, combi_list, subset.pop_front());
+        generate_combinations(temp, combi_list, next_subset);
         //remove predecent snp
         temp.pop_back();
     }
