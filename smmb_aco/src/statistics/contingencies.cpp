@@ -36,7 +36,6 @@ void contingencies::make_contingency_table(boost_matrix const& _genos_matrix, bo
 		// Increment contingency table at cell following index of variables given as parameters
 		_contingency_table.at_element(index_row_of_contingency_table, index_col_of_contingency_table) +=1;
 	}
-    std::cout << _contingency_table << '\n';
 }
 
 
@@ -60,7 +59,6 @@ void contingencies::make_contingency_theorical_table(boost_vector_int const& _ph
 			_contingency_theorical_table(i,j) = ((float)(sum_row(i,_contingency_table) * (float)sum_col(j,_contingency_table)) / (float)size_matrix);
 		}
 	}
-    std::cout << _contingency_theorical_table << '\n';
 }
 
 /*
@@ -103,7 +101,7 @@ unsigned int contingencies::sum_row(int index, boost_matrix_float const& conting
 	return sum_row_of_contingency_table;
 }
 
-boost_matrix_float contingencies::return_contigency_table()
+boost_matrix_float contingencies::return_contingency_table()
 {
     return _contingency_table;
 }
