@@ -37,6 +37,7 @@ $(OBJDIR)/file_parsing.o \
 $(OBJDIR)/smmb_aco.o \
 $(OBJDIR)/parameters_parsing.o \
 $(OBJDIR)/tools.o \
+$(OBJDIR)/contingencies.o \
 $(OBJDIR)/statistics.o
 
 TARGET=$(BINDIR)/smmb_aco.exe
@@ -77,6 +78,10 @@ $(OBJDIR)/smmb_aco.o: ./$(SRCDIR)/smmb_aco/smmb_aco.cpp
 $(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled statistics.o"
+
+$(OBJDIR)/contingencies.o: ./$(SRCDIR)/statistics/contingencies.cpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled contingencies.o"
 
 #---------------------
 # Global

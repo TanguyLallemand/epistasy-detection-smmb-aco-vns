@@ -26,15 +26,12 @@ int main(int argc, char* argv[])
 
 	data_parsing data(genos_file, phenos_file, header, separator);
 	float pikachu;
+
 	pikachu = statistics::compute_p_value(data._geno_matrix, data._pheno_vector);
-	std::cout << pikachu << '\n';
-	std::cout << data._snp_id_vector << '\n';
 	// Instanciation de smmb_aco
 	smmb_aco test(data._geno_matrix, data._pheno_vector, params);
 	test.run();
-	//boost_matrix pikachu;
-	//pikachu = statistics::make_contingency_table(matrix_genos, matrix_phenos);
-	//std::cout << pikachu << '\n';
+
 	//boost_vector mordecai = test.return_tau();
 	//boost::numeric::ublas::vector<int> gg = TOOLS_HPP::sampling(params.aco_set_size, mordecai);
 	//smmb_aco.run();//exemple de call de la méthode smmb. Ca ne passe pas parce qu'il faut avoir une instance d ela classe avt...

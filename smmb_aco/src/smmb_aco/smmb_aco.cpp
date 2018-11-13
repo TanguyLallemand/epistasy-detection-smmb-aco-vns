@@ -94,7 +94,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     //sub_sampling from ant_subset
     sub_sampling(sub_subset, ant_subset);
     //on cherche la combinaison du sub_subset avec le meilleur score
-    best_combination_of_sub_subset();
+    // best_combination_of_sub_subset();
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)

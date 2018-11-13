@@ -9,7 +9,6 @@ Authors: Tanguy Lallemand M2BB
 #include <list>
 #include <boost/math/distributions/chi_squared.hpp>
 
-#include "parameters_parsing.hpp"
 #include "global.hpp"
 
 // liste des trucs à implémenter qui sont liés aux STATISTICS_HPP
@@ -21,30 +20,17 @@ Authors: Tanguy Lallemand M2BB
 class statistics
 {
 public:
-    // constructor
-    statistics(boost_matrix _genos_matrix, boost_vector_int _phenos_vector, parameters_parsing _params);
-    static boost_matrix_float make_contingency_table(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector);
     static float compute_p_value(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector);
-    static boost_matrix_float make_contingency_theorical_table(boost_matrix_float contingency_table, boost_vector_int const& _phenos_vector);
-    static unsigned int sum_col(int index, boost_matrix_float contingency_table);
-    static unsigned int sum_row(int index, boost_matrix_float contingency_table);
     static float compute_chi_2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table);
     static unsigned int compute_liberty_degree(boost_matrix_float const& contingency_table);
-    static boost_matrix_float contingency_table_conditionnal_chi_2(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector, boost_vector_string const& cond_genos_vector);
-    static float compute_conditionnal_chi_2(boost_matrix_float const& contingency, unsigned int liberty_degree, vector<boost_matrix_float> & contingencies_vector);
+    static float statistics::make_contingencies_chi_2_conditional_test_indep(boost_matrix_float const& _genos_matrix, boost_vector_int const& _phenos_vector);
+    static float statistics::compute_chi_2_conditional_test_indep();
 
 
 
 
 private:
 
-    // parameters_parsing _params;
-    //
-    // //variables initialisée par le constructeur à partir de params
-    // boost_vector_float _eta; // vecteur de poids indiquant des connaissances a priori pour les variables. A traiter comme un vecteur. Car on a peut etre une idee sur certain SNP, ces connaissances viendraient de publis, si on ne sais rien on met eta en uniforme. eta pourrait tres bien etre un fichier texte avec des connaissances a priori qui serait vectorisé
-    // boost_vector_float _tau;//tau doit etre un vecteur de la taille du nombre de SNP
-    // double _alpha_phero; // Deux constantes utilisées pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori. Y a peut etre des SNPs qu on connait et donc on lui donne une bonne note. Ca permet donc de regler le cursuer entre importance des phéromones et importance des connaissances a priori
-    // double _beta_phero;
 };
 
 #endif
