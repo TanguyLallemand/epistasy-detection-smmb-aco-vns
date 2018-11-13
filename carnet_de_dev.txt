@@ -25,6 +25,7 @@ parallelisation a regarder, ne pas mettre le nbr de thread dans les parametres o
 
 fichiers d entres:
 nom des variables entre virgules, autant de lignes que d individus et autant d ecolonnes que de variables et en plus le fichier des phenotypes
+On fait du random sur tout sauf les deux variables du pattern d epistasie sur les quels ont fait de la rgression logistique
 
 fusionner les mem_a dans mem (globale) puis
     pour mettre a jour tau :
