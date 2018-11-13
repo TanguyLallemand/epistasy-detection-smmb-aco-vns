@@ -197,7 +197,7 @@ void smmb_aco::sub_sampling(boost_vector_float & sub_subset, boost_vector_float 
 //=================================================
 // smmb_aco : get_all_combinations
 //=================================================
-list<list<int>> smmb_aco::get_all_combinations(boost_vector_int & sub_subset)
+boost::numeric::ublas::vector<boost_vector_int> smmb_aco::get_all_combinations(boost_vector_int & sub_subset)
 {
     //convert vector into list
     list<int> subset(sub_subset.begin(), sub_subset.end());
