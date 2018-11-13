@@ -5,6 +5,7 @@
 
 Pour demarrer le programm ./smmb_aco ../toy_dataset/genotype_toy_dataset.txt ../toy_dataset/phenotype_toy_dataset.txt
 
+Attention les launch doivent avoir en comment l ensemble de l explication des parametres
 
 chemins a changer:
 boost folder dans le makefile
@@ -27,7 +28,7 @@ fichiers d entres:
 nom des variables entre virgules, autant de lignes que d individus et autant d ecolonnes que de variables et en plus le fichier des phenotypes
 On fait du random sur tout sauf les deux variables du pattern d epistasie sur les quels ont fait de la rgression logistique. on simule X1 et X2. on a 3 valuers 0,1,2, donc 9 combianaisons possibles. Etant donne le modèle de regression, le calcul avec et Z>0.5. on en a par exemple 6 malade et 3 malade et apres on veut 5000 malades qu on prends dans les 6 configs et 3000 malades qu on prends dans les 3 configs
 
-z= alapha + beta_1 * X1 + beta_2 * X2 + beta_12 * X1 * X2
+z= alpha + beta_1 * X1 + beta_2 * X2 + beta_12 * X1 * X2
 
 pr = 1/ 1+exp(z)
 si pr >0.5 alors malade sinon sain
