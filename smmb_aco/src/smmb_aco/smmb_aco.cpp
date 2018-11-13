@@ -187,14 +187,52 @@ void smmb_aco::sub_sampling(boost_vector_float & sub_subset, boost_vector_float 
 }
 
 // //=================================================
-// // smmb_aco : sub_sampling
+// // smmb_aco : best_combination_of_sub_subset
 // //=================================================
 // void best_combination_of_sub_subset(boost_vector_int & sub_subset)
 // {
 //
 // }
-//
-// //=================================================
-// // smmb_aco : sub_sampling
-// //=================================================
-// boost::numeric::ublas::vector<boost_vector_int>
+
+//=================================================
+// smmb_aco : get_all_combinations
+//=================================================
+list<list<int>> smmb_aco::get_all_combinations(boost_vector_int & sub_subset)
+{
+    //convert vector into list
+    list<int> subset(sub_subset.begin(), sub_subset.end());
+    //the list of combinaisons we will return
+    list<list<int>> combi_list;
+
+    list<int> temp;
+    generate_combinations(temp, combi_list, subset);
+
+    //reconvert the list of list to vector of vector
+    boost::numeric::ublas::vector<boost_vector_int> combi_vector(combi_list.size())
+    int i = 0;
+    for (list<list<int>>::iterator it=combi_list.begin(); it != combi_list.end(); ++it) {
+        combi_vector(i).resize(it.size()); //TODO need to test this
+        combi_vector(i).assign(it.begin(), it.end());
+        i++;
+    }
+    return combi_vector;
+}
+
+//=================================================
+// smmb_aco : generate_combinations
+//=================================================
+void smmb_aco::generate_combinations(list<int> temp, list<list<int>> combi_list, list<int> subset)
+{
+    //iterate the subset list
+    for (list<int>::iterator it=subset.begin(); it != subset.end(); ++it)
+    {
+        //add current snp to the temp list
+        temp.push(*it);
+        //stocking the temp in the list of combinations
+        combi_list.push(temp);
+        //recursive call on the list without current x
+        generate_combinations(j, temp, combi_list, subset.pop_front());
+        //remove predecent snp
+        temp.pop_back();
+    }
+}
