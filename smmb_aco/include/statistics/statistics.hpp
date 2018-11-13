@@ -9,7 +9,6 @@ Authors: Tanguy Lallemand M2BB
 #include <list>
 #include <boost/math/distributions/chi_squared.hpp>
 
-#include "parameters_parsing.hpp"
 #include "global.hpp"
 
 // liste des trucs à implémenter qui sont liés aux STATISTICS_HPP
