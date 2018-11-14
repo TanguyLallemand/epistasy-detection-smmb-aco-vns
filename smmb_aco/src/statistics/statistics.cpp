@@ -86,14 +86,14 @@ unsigned int statistics::compute_liberty_degree(boost_matrix_float const& contin
 
 float statistics::make_contingencies_chi_2_conditional_test_indep(boost_matrix_float const& _genos_matrix, boost_vector_int const& _phenos_vector, std::list<unsigned> const& cond_genos_indexes)
 {
-    unsigned n_obs = _genos_matrix.size();
+    unsigned n_obs = _genos_matrix.size1();
     unsigned n_cond_genos = cond_genos_indexes.size();
 	boost_vector_float p_value(n_cond_genos);
     unsigned n_contingencies = pow(3, n_cond_genos);
-    _df = 2;
+    int _df = 2; // TODO à changer je sais pas d'ou tu le sors lui mais il est pas déclaré
     if(n_cond_genos != 0)
         _df *= 3*n_cond_genos;
-    contingencies_vector = vector<contingencies contingencies(2,3)>(n_contingencies);
+    contingencies_vector = boost::numeric::ublas::vector<contingencies contingencies(2,3)>(n_contingencies);
     // Fill contingency table (one or multiple)
     if(!cond_genos_indexes.empty())
     {
@@ -103,7 +103,7 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost_matrix_f
             // Put the current observation in the correct contingency table
             unsigned contingency_index = 0;
             unsigned j=0;
-            for(list<unsigned>::const_iterator it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j)
+            for(std::list<unsigned>::const_iterator it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j)
                 contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
 				// Make a contingency table using datas
 				contingencies_vector(contingency_index).make_contingency_table(_genos_matrix, _phenos_vector);
@@ -122,11 +122,11 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost_matrix_f
         }
     }
 	//compute it
-	boost_vector_float chi_2_score = compute_chi_2_conditional_test_indep(contingencies_vector);
+	float chi_2_score = compute_chi_2_conditional_test_indep(contingencies_vector);
 	return chi_2_score;
 }
-boost_vector_float statistics::compute_chi_2_conditional_test_indep(vector<contingencies> const& contingencies_vector)
-{	;
+static float statistics::compute_chi_2_conditional_test_indep(boost::numeric::ublas::vector<contingencies> const& contingencies_vector)
+{
 	int number_contingencies = contingencies_vector.size();
 	boost_vector_float p_value(number_contingencies);
 	// Calculate liberty degree for contingency table
