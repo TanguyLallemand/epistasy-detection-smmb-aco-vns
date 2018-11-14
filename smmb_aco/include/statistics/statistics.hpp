@@ -24,7 +24,7 @@ public:
     static float compute_chi_2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table);
     static unsigned int compute_liberty_degree(boost_matrix_float const& contingency_table);
     static float make_contingencies_chi_2_conditional_test_indep(boost_matrix_float const& _genos_matrix, boost_vector_int const& _phenos_vector, std::list<unsigned> const& cond_genos_indexes);
-    static float compute_chi_2_conditional_test_indep(boost::numeric::ublas::vector<contingencies> const& contingencies_vector);
+    //static float compute_chi_2_conditional_test_indep(boost::numeric::ublas::vector<contingencies contingencies(2,3)> const& contingencies_vector);
 
 
 

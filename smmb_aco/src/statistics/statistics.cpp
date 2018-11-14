@@ -116,31 +116,31 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost_matrix_f
         for(unsigned i=0; i<n_obs; ++i)
         {
             Contingency& c = contingencies_vector[0];
-            unsigned cr = phenos(i);
-            unsigned cc = genos(i);
+            unsigned cr = _phenos_vector(i);
+            unsigned cc = _genos_matrix(i);
             c(cr, cc) += 1;
         }
     }
 	//compute it
-	float chi_2_score = compute_chi_2_conditional_test_indep(contingencies_vector);
-	return chi_2_score;
+	// float chi_2_score = compute_chi_2_conditional_test_indep(contingencies_vector);
+	// return chi_2_score;
 }
-static float statistics::compute_chi_2_conditional_test_indep(boost::numeric::ublas::vector<contingencies> const& contingencies_vector)
-{
-	int number_contingencies = contingencies_vector.size();
-	boost_vector_float p_value(number_contingencies);
-	// Calculate liberty degree for contingency table
-	liberty_degree = compute_liberty_degree(contingency_table_content);
-	boost::math::chi_squared_distribution<double> chi2_dist(liberty_degree);
-	chi_2_score = 0;
-    for(unsigned i=0; i<contingencies_vector.size(); ++i)
-    {
-		// Get datas from contingencies class
-		boost_matrix_float contingency_table_content = contingencies_vector(i).return_contingency_table();
-		boost_matrix_float contingency_theorical_table_content = contingencies_vector(i).return_contingency_theorical_table();
-		// Get chi square score for the two contingencies tables given
-		chi_2_result = compute_chi_2(contingency_table_content, contingency_theorical_table_content);
-		p_value(i) = 1 - boost::math::cdf(chi2_dist, _g2);
-    }
-	return p_value;
-}
+// static float statistics::compute_chi_2_conditional_test_indep(boost::numeric::ublas::vector<contingencies contingencies(2,3)> const& contingencies_vector)
+// {
+// 	int number_contingencies = contingencies_vector.size();
+// 	boost_vector_float p_value(number_contingencies);
+// 	// Calculate liberty degree for contingency table
+// 	liberty_degree = compute_liberty_degree(contingency_table_content);
+// 	boost::math::chi_squared_distribution<double> chi2_dist(liberty_degree);
+// 	chi_2_score = 0;
+//     for(unsigned i=0; i<contingencies_vector.size(); ++i)
+//     {
+// 		// Get datas from contingencies class
+// 		boost_matrix_float contingency_table_content = contingencies_vector(i).return_contingency_table();
+// 		boost_matrix_float contingency_theorical_table_content = contingencies_vector(i).return_contingency_theorical_table();
+// 		// Get chi square score for the two contingencies tables given
+// 		chi_2_result = compute_chi_2(contingency_table_content, contingency_theorical_table_content);
+// 		p_value(i) = 1 - boost::math::cdf(chi2_dist, _g2);
+//     }
+// 	return p_value;
+// }
