@@ -99,7 +99,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     //searching for the best combination based on score
     list<unsigned> test;
     test.push_back(3, 10);
-    make_contingencies_chi_2_conditional_test_indep(_genos_matrix(5), _phenos_vector, test);
+    statistics::make_contingencies_chi_2_conditional_test_indep(_genos_matrix(5), _phenos_vector, test);
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
