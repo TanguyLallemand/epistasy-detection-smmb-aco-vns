@@ -97,6 +97,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     list<list<int>> combi_list;
     get_all_combinations(sub_subset, combi_list);
     //searching for the best combination based on score
+    
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
