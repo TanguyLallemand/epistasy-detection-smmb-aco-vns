@@ -119,7 +119,7 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
     }
     else
     {
-        for(unsigned i=0; i<n_obs; ++i)
+        for(unsigned i=0; i<number_obs_subset; ++i)
         {
             contingencies & c = contingencies_vector[0];
             unsigned cr = _phenos_column(i);
