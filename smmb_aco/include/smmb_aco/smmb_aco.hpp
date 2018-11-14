@@ -9,7 +9,7 @@ class smmb_aco
 {
 public:
     // constructeur
-    smmb_aco(boost_matrix _genos_matrix, boost_vector_int _phenos_matrix, parameters_parsing _params);
+    smmb_aco(boost_matrix _genos_matrix, boost_vector_int _pheno_vector, parameters_parsing _params);
 
     //fait tourner l'algo
     void run();
@@ -21,7 +21,7 @@ public:
 private:
     //objets récupérés en argument
     boost_matrix _genos_matrix;
-    boost_matrix _phenos_matrix;
+    boost_vector_int _pheno_vector;
     parameters_parsing _params;
 
     //variables initialisée par le constructeur à partir de params
