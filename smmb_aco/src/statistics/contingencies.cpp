@@ -10,12 +10,28 @@
 *
 *
 */
-
+contingencies::contingencies() : boost_matrix_float(2,3)
+{
+    for(unsigned i=0; i<size1(); ++i)
+    {
+        for(unsigned j=0; j<size2(); ++j)
+            this->at_element(i,j) = 0;
+    }
+}
 contingencies::contingencies(int a, int b) : boost_matrix_float(a,b)
 {
     // Initialisation contingency table with floats
      _contingency_table = boost_matrix_float(a,b,0.0);
      _contingency_theorical_table = boost_matrix_float(a,b,0.0);
+}
+
+contingencies::contingencies(contingencies const& m) : boost_matrix_float(m.size1(), m.size2())
+{
+    for (unsigned i = 0; i < size1(); ++i)
+    {
+        for (unsigned j = 0; j < size2(); ++j)
+            this->at_element(i, j) = m(i,j);
+    }
 }
 
 /*

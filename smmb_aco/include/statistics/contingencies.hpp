@@ -14,8 +14,10 @@ class contingencies : public boost_matrix_float
 {
 public:
     // Constructors
+    contingencies();
     contingencies(int a, int b);
     contingencies(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector);
+    contingencies(contingencies const& m);
 
     //
     void make_contingency_table(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector);
