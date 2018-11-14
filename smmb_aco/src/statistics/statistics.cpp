@@ -42,7 +42,6 @@ float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vecto
 	p_value = 1 - boost::math::cdf(chi_2_distribution, chi_2_result);
 	// Return calculated p_value
 	return p_value;
-
 }
 
 
@@ -84,21 +83,21 @@ unsigned int statistics::compute_liberty_degree(boost_matrix_float const& contin
 }
 
 
-/*
-float statistics::make_contingencies_chi_2_conditional_test_indep(boost_matrix_float const& _genos_matrix, boost_vector_int const& _phenos_vector)
+
+float statistics::make_contingencies_chi_2_conditional_test_indep(boost_matrix_float const& _genos_matrix, boost_vector_int const& _phenos_vector, std::list<unsigned> const& cond_genos_indexes)
 {
     unsigned n_obs = _genos_matrix.size();
+    unsigned n_cond_genos = cond_genos_indexes.size();
+	boost_vector_float p_value(n_cond_genos);
     unsigned n_contingencies = pow(3, n_cond_genos);
     _df = 2;
     if(n_cond_genos != 0)
         _df *= 3*n_cond_genos;
-
-    _contingencies = vector<Contingency>(n_contingencies);
-
+    contingencies_vector = vector<contingencies contingencies(2,3)>(n_contingencies);
     // Fill contingency table (one or multiple)
     if(!cond_genos_indexes.empty())
     {
-        blas::matrix_reference<blas_matrix> ref_genos_matrix = genos.data(); // get matrix from a column
+        boost::numeric::ublas::matrix_reference<boost_matrix> ref_genos_matrix = _genos_matrix.data(); // get matrix from a column
         for(unsigned i=0; i<n_obs; ++i)
         {
             // Put the current observation in the correct contingency table
@@ -106,35 +105,42 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost_matrix_f
             unsigned j=0;
             for(list<unsigned>::const_iterator it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j)
                 contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
-            Contingency& c = _contingencies[contingency_index];
-            unsigned cr = phenos(i);
-            unsigned cc = genos(i);
-            c(cr, cc) += 1;
+				// Make a contingency table using datas
+				contingencies_vector(contingency_index).make_contingency_table(_genos_matrix, _phenos_vector);
+				// Make associated contingency theorical table
+				contingencies_vector(contingency_index).make_contingency_theorical_table(_phenos_vector);
         }
     }
     else
     {
         for(unsigned i=0; i<n_obs; ++i)
         {
-            Contingency& c = _contingencies[0];
+            Contingency& c = contingencies_vector[0];
             unsigned cr = phenos(i);
             unsigned cc = genos(i);
             c(cr, cc) += 1;
         }
     }
 	//compute it
-	float chi_2_score = compute_chi_2_conditional_test_indep();
+	boost_vector_float chi_2_score = compute_chi_2_conditional_test_indep(contingencies_vector);
 	return chi_2_score;
 }
-float statistics::compute_chi_2_conditional_test_indep()
-{
+boost_vector_float statistics::compute_chi_2_conditional_test_indep(vector<contingencies> const& contingencies_vector)
+{	;
+	int number_contingencies = contingencies_vector.size();
+	boost_vector_float p_value(number_contingencies);
+	// Calculate liberty degree for contingency table
+	liberty_degree = compute_liberty_degree(contingency_table_content);
+	boost::math::chi_squared_distribution<double> chi2_dist(liberty_degree);
 	chi_2_score = 0;
-    for(unsigned i=0; i<_contingencies.size(); ++i)
+    for(unsigned i=0; i<contingencies_vector.size(); ++i)
     {
-        G2_test_indep g2(_contingencies[i]);
-        _g2 += g2.g2();
+		// Get datas from contingencies class
+		boost_matrix_float contingency_table_content = contingencies_vector(i).return_contingency_table();
+		boost_matrix_float contingency_theorical_table_content = contingencies_vector(i).return_contingency_theorical_table();
+		// Get chi square score for the two contingencies tables given
+		chi_2_result = compute_chi_2(contingency_table_content, contingency_theorical_table_content);
+		p_value(i) = 1 - boost::math::cdf(chi2_dist, _g2);
     }
-    boost::math::chi_squared_distribution<double> chi2_dist(_df);
-    _pval = 1 - boost::math::cdf(chi2_dist, _g2);
+	return p_value;
 }
-*/
