@@ -87,7 +87,7 @@ unsigned int statistics::compute_liberty_degree(boost_matrix_float const& contin
 
 float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric::ublas::matrix_column<boost::numeric::ublas::matrix<int>> const& _genos_column, boost::numeric::ublas::matrix_column<boost::numeric::ublas::matrix<int>> const& _phenos_column, std::list<unsigned> const& cond_genos_indexes)
 {
-    unsigned int n_obs = _genos_column.size();
+    unsigned int number_obs_subset = _genos_column.size();
     unsigned int n_cond_genos = cond_genos_indexes.size();
 	//boost_vector_float p_value(n_cond_genos);
     unsigned int n_contingencies = pow(3, n_cond_genos);
@@ -102,7 +102,7 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
     {
         boost::numeric::ublas::matrix<unsigned int> ref_genos_matrix;
 		ref_genos_matrix = _genos_column.data(); // get matrix from a column
-        for(unsigned i=0; i<n_obs; ++i)
+        for(unsigned i=0; i<number_obs_subset; ++i)
         {
             // Put the current observation in the correct contingency table
             unsigned int contingency_index = 0;
