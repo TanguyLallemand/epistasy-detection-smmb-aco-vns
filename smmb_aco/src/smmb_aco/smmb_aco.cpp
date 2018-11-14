@@ -90,15 +90,13 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     markov_blanket_modified = false;
 
     //sub_subset container (S in the pseudocode)
-    boost_vector_float sub_subset(_sub_subset_size, 0);
+    boost_vector_int sub_subset(_sub_subset_size, 0);
     //sub_sampling from ant_subset
     sub_sampling(sub_subset, ant_subset);
     //generating all the combination from the drawn sub_subset
     list<list<int>> combi_list;
-    combi_list = get_all_combinations(sub_subset)
+    get_all_combinations(sub_subset, combi_list);
     //searching for the best combination based on score
-    
-
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -171,15 +169,15 @@ void smmb_aco::run()
 //==============================================================================
 // smmb_aco : sub_sampling
 //==============================================================================
-void smmb_aco::sub_sampling(boost_vector_float & sub_subset, boost_vector_float & ant_subset)
+void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset)
 {
-    boost_vector_float small_distrib(ant_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
+    boost_vector_int small_distrib(ant_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
     //puis on recup les tau des snp du ant_subset
     for (size_t i = 0; i < ant_subset.size(); i++)
     {
         small_distrib (i) = _pheromone_distrib (ant_subset(i));
     }
-    boost_vector_float temp;
+    boost_vector_int temp;
     // on file le vecteur de proba a tools::sampling
     temp = tools::sampling(sub_subset.size(), small_distrib);
 
@@ -201,12 +199,10 @@ void smmb_aco::sub_sampling(boost_vector_float & sub_subset, boost_vector_float 
 //==============================================================================
 // smmb_aco : get_all_combinations
 //==============================================================================
-list<list<int>> smmb_aco::get_all_combinations(boost_vector_int & sub_subset)
+void smmb_aco::get_all_combinations(boost_vector_int & sub_subset, list<list<int>>  combi_list)
 {
     //convert vector into list
     list<int> subset(sub_subset.begin(), sub_subset.end());
-    //the list of combinaisons we will return
-    list<list<int>> combi_list;
 
     list<int> temp;
     generate_combinations(temp, combi_list, subset);
@@ -220,7 +216,6 @@ list<list<int>> smmb_aco::get_all_combinations(boost_vector_int & sub_subset)
     //     i++;
     // }
     //TODO might need to go for a vector of vector or vector of list
-    return combi_list;
 }
 
 //==============================================================================

@@ -53,8 +53,8 @@ private:
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
     void update_tau(); //add pheromone on a good SNP
-    void sub_sampling(boost_vector_float & sub_subset, boost_vector_float & ant_subset); //compute sub_subset
-    list<list<int>> get_all_combinations(boost_vector_int & sub_subset);
+    void sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset); //compute sub_subset
+    void get_all_combinations(boost_vector_int & sub_subset, list<list<int>> combi_list);
     void generate_combinations(list<int> temp, list<list<int>> combi_list, list<int> subset);
     void update_pheromon_distrib(); //update pheromons using _tau and _eta
 };
