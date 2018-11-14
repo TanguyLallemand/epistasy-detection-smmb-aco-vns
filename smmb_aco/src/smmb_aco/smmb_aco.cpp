@@ -98,7 +98,8 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     get_all_combinations(sub_subset, combi_list);
     //searching for the best combination based on score
     list<unsigned> test;
-    test.push_back(3, 10);
+    test.push_back(3);
+    test.push_back(10);
     statistics::make_contingencies_chi_2_conditional_test_indep(_genos_matrix(5), _phenos_vector, test);
         /*
         TODO
