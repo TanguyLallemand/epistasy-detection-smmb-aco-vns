@@ -197,7 +197,7 @@ void smmb_aco::sub_sampling(boost_vector_float & sub_subset, boost_vector_float 
 //==============================================================================
 // smmb_aco : get_all_combinations
 //==============================================================================
-boost::numeric::ublas::vector<boost_vector_int> smmb_aco::get_all_combinations(boost_vector_int & sub_subset)
+list<list<int>> smmb_aco::get_all_combinations(boost_vector_int & sub_subset)
 {
     //convert vector into list
     list<int> subset(sub_subset.begin(), sub_subset.end());
@@ -207,15 +207,16 @@ boost::numeric::ublas::vector<boost_vector_int> smmb_aco::get_all_combinations(b
     list<int> temp;
     generate_combinations(temp, combi_list, subset);
 
-    //reconvert the list of list to vector of vector
-    boost::numeric::ublas::vector<boost_vector_int> combi_vector(combi_list.size());
-    int i = 0;
-    for (list<list<int>>::iterator it=combi_list.begin(); it != combi_list.end(); ++it) {
-        combi_vector(i).resize(it.size()); //TODO need to test this
-        combi_vector(i).assign(it.begin(), it.end());
-        i++;
-    }
-    return combi_vector;
+    // //reconvert the list of list to vector of vector
+    // boost::numeric::ublas::vector<boost_vector_int> combi_vector(combi_list.size());
+    // int i = 0;
+    // for (list<list<int>>::iterator it=combi_list.begin(); it != combi_list.end(); ++it) {
+    //     combi_vector(i).resize(it.size()); //TODO need to test this
+    //     combi_vector(i).assign(it.begin(), it.end());
+    //     i++;
+    // }
+    //TODO might need to go for a vector of vector or vector of list
+    return combi_list;
 }
 
 //==============================================================================
