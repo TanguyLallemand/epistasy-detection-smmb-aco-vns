@@ -10,9 +10,9 @@
 
 using namespace std;
 
-//=================================================
+//==============================================================================
 // smmb_aco : constructeur
-//=================================================
+//==============================================================================
 smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_vector_int _phenos_matrix, parameters_parsing _params)
 {
     _n_it = _params.aco_n_iterations;
@@ -33,9 +33,9 @@ smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_vector_int _phenos_matrix, 
     void update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
 }
 
-//=================================================
+//==============================================================================
 // smmb_aco : update_tau
-//=================================================
+//==============================================================================
 void smmb_aco::update_tau()
 {
     for (size_t i = 0; i < _tau.size(); i++) {
@@ -51,18 +51,18 @@ void smmb_aco::update_tau()
     update_pheromon_distrib();
 }
 
-//=================================================
+//==============================================================================
 // smmb_aco : update_pheromon_distrib
-//=================================================
+//==============================================================================
 void smmb_aco::update_pheromon_distrib()
 {
     for (size_t i = 0; i < _pheromone_distrib.size(); i++) {
         _pheromone_distrib(i) = pow(_tau[i], _alpha_phero) * pow(_eta[i], _beta_phero); //QUESTION bon j'ai refait la formule mais reste à voir si le fait qu'on fasse la distrib juste en divisant par la somme est correct car dans la publi c'est chelou (peut etre je sais juste pas lire le langage math)
     }
 }
-//=================================================
+//==============================================================================
 // smmb_aco : learn_MB
-//=================================================
+//==============================================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
 void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a)
 {
@@ -81,9 +81,9 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
     //TODO voir si on en met un la finalement
 }
 
-//=================================================
+//==============================================================================
 // smmb_aco : forward //FIXME
-//=================================================
+//==============================================================================
 void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset)
 {
     //to break the loop if nothing modified
@@ -110,9 +110,9 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
 
 }
 
-//=================================================
+//==============================================================================
 // smmb_aco : backward
-//=================================================
+//==============================================================================
 void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a)
 {
     if (markov_blanket_modified) {
@@ -130,9 +130,9 @@ void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_
     }
 }
 
-//=================================================
+//==============================================================================
 // smmb_aco : run
-//=================================================
+//==============================================================================
 void smmb_aco::run()
 {
     // Initialization of Markov Blanket
@@ -164,9 +164,9 @@ void smmb_aco::run()
     }
 }
 
-//=================================================
+//==============================================================================
 // smmb_aco : sub_sampling
-//=================================================
+//==============================================================================
 void smmb_aco::sub_sampling(boost_vector_float & sub_subset, boost_vector_float & ant_subset)
 {
     boost_vector_float small_distrib(ant_subset.size()); //déclarer sous vecteur de proba pour les SNP de l'ant.
@@ -186,17 +186,17 @@ void smmb_aco::sub_sampling(boost_vector_float & sub_subset, boost_vector_float 
     }
 }
 
-// //=================================================
+// //===========================================================================
 // // smmb_aco : best_combination_of_sub_subset
-// //=================================================
+// //===========================================================================
 // void best_combination_of_sub_subset(boost_vector_int & sub_subset)
 // {
 //
 // }
 
-//=================================================
+//==============================================================================
 // smmb_aco : get_all_combinations
-//=================================================
+//==============================================================================
 boost::numeric::ublas::vector<boost_vector_int> smmb_aco::get_all_combinations(boost_vector_int & sub_subset)
 {
     //convert vector into list
@@ -218,9 +218,9 @@ boost::numeric::ublas::vector<boost_vector_int> smmb_aco::get_all_combinations(b
     return combi_vector;
 }
 
-//=================================================
+//==============================================================================
 // smmb_aco : generate_combinations
-//=================================================
+//==============================================================================
 void smmb_aco::generate_combinations(list<int> temp, list<list<int>> combi_list, list<int> subset)
 {
     //iterate the subset list
