@@ -14,8 +14,11 @@ using namespace std;
 //==============================================================================
 // smmb_aco : constructeur
 //==============================================================================
-smmb_aco::smmb_aco(boost_matrix _genos_matrix, boost_vector_int _pheno_vector, parameters_parsing _params)
-{ 
+smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, parameters_parsing _params)
+{
+    _genos_matrix = genos_matrix;
+    _pheno_vector = pheno_vector;
+
     _n_it = _params.aco_n_iterations;
     _n_ant = _params.aco_n_ants;
     _rho = _params.aco_rho;
@@ -103,6 +106,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     test.push_back(10);
     boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, 5);
     statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, test);
+    std::cout << "coucou u so strong" << '\n';
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)

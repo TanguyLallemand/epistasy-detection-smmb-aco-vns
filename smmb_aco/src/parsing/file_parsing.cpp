@@ -103,7 +103,6 @@ void data_parsing::get_line_nb()
     ifstream file(_pheno_filename);
     string temp;
     getline(file, temp);
-    std::cout << temp << '\n';
     _row_number=0;
     if (file)
     {

@@ -87,7 +87,14 @@ unsigned int statistics::compute_liberty_degree(boost_matrix_float const& contin
 
 float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric::ublas::matrix_column<boost::numeric::ublas::matrix<int>> const& _genos_column, boost_vector_int const& _phenos_vector, std::list<unsigned> const& cond_genos_indexes)
 {
-	boost::numeric::ublas::matrix_column<boost::numeric::ublas::matrix<int>> _phenos_column = _phenos_vector
+
+	boost_matrix temp_pheno_matrix (_phenos_vector.size(), 1);
+	for (size_t i = 0; i < _phenos_vector.size(); i++) {
+		temp_pheno_matrix(i, 0) = _phenos_vector(i);
+	}
+	std::cout << "jkb" << '\n';
+	boost::numeric::ublas::matrix_column<boost_matrix> _phenos_column (temp_pheno_matrix, 0);
+
     unsigned int number_obs_subset = _genos_column.size();
     unsigned int n_cond_genos = cond_genos_indexes.size();
 	//boost_vector_float p_value(n_cond_genos);
@@ -98,9 +105,11 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
         liberty_degree *= 3*n_cond_genos;
 
 	std::vector<contingencies> contingencies_vector = std::vector<contingencies>(n_contingencies);
+
     // Fill contingency table (one or multiple)
     if(!cond_genos_indexes.empty())
     {
+		std::cout << number_obs_subset << '\n';
         boost::numeric::ublas::matrix<unsigned int> ref_genos_matrix;
 		ref_genos_matrix = _genos_column.data(); // get matrix from a column
         for(unsigned i=0; i<number_obs_subset; ++i)
@@ -119,7 +128,7 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
     }
     else
     {
-        for(unsigned i=0; i<n_obs; ++i)
+        for(unsigned i=0; i<number_obs_subset; ++i)
         {
             contingencies & c = contingencies_vector[0];
             unsigned cr = _phenos_column(i);
