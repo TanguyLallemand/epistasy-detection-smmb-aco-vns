@@ -68,6 +68,7 @@ float statistics::compute_chi_2(boost_matrix_float const& contingency_table, boo
 			}
 		}
 	}
+	std::cout << chi_2_result << '\n';
 	chi_2_result *= 2;
 	return chi_2_result;
 }
