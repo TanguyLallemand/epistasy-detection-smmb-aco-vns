@@ -61,18 +61,15 @@ void contingencies::make_contingency_table(boost_matrix const& _genos_matrix, bo
 * Return a contingency table
 */
 
-void contingencies::make_contingency_theorical_table(boost_vector_int const& _phenos_vector)
+void contingencies::make_contingency_theorical_table(int size_pheno_vector)
 {
-	// // Initialisation of contingency table with floats
-	// boost_matrix_float contingency_theorical_table(2,3,0.0);
-	// Get vector's of phenotypes size
-	unsigned int size_matrix = _phenos_vector.size();
+	// // Initialisation of contingency table with float
 	for(unsigned i=0; i<_contingency_theorical_table.size1(); ++i)
 	{
 		for(unsigned j=0; j<_contingency_theorical_table.size2(); ++j)
 		{
 			// Theorical contingency table filling with float
-			_contingency_theorical_table(i,j) = ((float)(sum_row(i,_contingency_table) * (float)sum_col(j,_contingency_table)) / (float)size_matrix);
+			_contingency_theorical_table(i,j) = ((float)(sum_row(i,_contingency_table) * (float)sum_col(j,_contingency_table)) / (float)size_pheno_vector);
 		}
 	}
 }

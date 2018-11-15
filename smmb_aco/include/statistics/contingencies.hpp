@@ -21,7 +21,7 @@ public:
 
     //
     void make_contingency_table(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector);
-    void make_contingency_theorical_table(boost_vector_int const& _phenos_vector);
+    void make_contingency_theorical_table(int size_pheno_vector);
     // Common operations on contingencies
     //TODO a optimise, maybe with this object
     boost_matrix_float return_contingency_table();
