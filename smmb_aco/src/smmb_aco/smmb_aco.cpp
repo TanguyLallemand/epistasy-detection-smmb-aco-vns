@@ -34,7 +34,7 @@ smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, par
     _tau = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_tau_init);
     _pheromone_distrib = boost_vector_float(_genos_matrix.size2(), 0.0);
 
-    void update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
+    update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
 }
 
 //==============================================================================
@@ -61,7 +61,8 @@ void smmb_aco::update_tau()
 void smmb_aco::update_pheromon_distrib()
 {
     for (size_t i = 0; i < _pheromone_distrib.size(); i++) {
-        _pheromone_distrib(i) = pow(_tau[i], _alpha_phero) * pow(_eta[i], _beta_phero); //QUESTION bon j'ai refait la formule mais reste à voir si le fait qu'on fasse la distrib juste en divisant par la somme est correct car dans la publi c'est chelou (peut etre je sais juste pas lire le langage math)
+        _pheromone_distrib(i) = pow(_tau[i], _alpha_phero) + pow(_eta[i], _beta_phero);
+        //QUESTION bon j'ai refait la formule mais reste à voir si le fait qu'on fasse la distrib juste en divisant par la somme est correct car dans la publi c'est chelou (peut etre je sais juste pas lire le langage math)
     }
 }
 //==============================================================================
@@ -98,15 +99,32 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     //sub_sampling from ant_subset
     sub_sampling(sub_subset, ant_subset);
     //generating all the combination from the drawn sub_subset
-    list<list<int>> combi_list;
+    list<list<unsigned int>> combi_list;
     get_all_combinations(sub_subset, combi_list);
+
+    list<unsigned int> test;
+    unsigned yolo;
+    int i=0;
     //searching for the best combination based on score
-    list<unsigned> test;
-    test.push_back(3);
-    test.push_back(10);
-    boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, 5);
-    float fesse = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, test);
-    std::cout << fesse << '\n';
+    for (auto v : combi_list)
+    {
+        for (auto y : v) {
+            std::cout << y << ' ';
+        }
+        std::cout << '\n';
+    }
+
+    // test.push_back(3);
+    // test.push_back(10);
+    // boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, 5);
+    // float fesse = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, test);
+    // test = combi_list.back();
+    // yolo = test.back();
+    // std::cout << yolo << '\n';
+    // test.pop_back();
+    // yolo = test.back();
+    // std::cout << yolo << '\n';
+
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -209,14 +227,12 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
 //==============================================================================
 // smmb_aco : get_all_combinations
 //==============================================================================
-void smmb_aco::get_all_combinations(boost_vector_int & sub_subset, list<list<int>>  combi_list)
+void smmb_aco::get_all_combinations(boost_vector_int & sub_subset, list<list<unsigned int>> & combi_list)
 {
     //convert vector into list
-    list<int> subset(sub_subset.begin(), sub_subset.end());
-
-    list<int> temp;
+    list<unsigned int> subset(sub_subset.begin(), sub_subset.end());
+    list<unsigned int> temp;
     generate_combinations(temp, combi_list, subset);
-
     // //reconvert the list of list to vector of vector
     // boost::numeric::ublas::vector<boost_vector_int> combi_vector(combi_list.size());
     // int i = 0;
@@ -231,19 +247,19 @@ void smmb_aco::get_all_combinations(boost_vector_int & sub_subset, list<list<int
 //==============================================================================
 // smmb_aco : generate_combinations
 //==============================================================================
-void smmb_aco::generate_combinations(list<int> temp, list<list<int>> combi_list, list<int> subset)
+void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned int>> & combi_list, list<unsigned int> subset)
 {
+    //copy the subset
+    list<unsigned int> next_subset(subset);
     //iterate the subset list
-    for (list<int>::iterator it=subset.begin(); it != subset.end(); ++it)
+    for (auto h : subset)
     {
         //add current snp to the temp list
-        temp.push_back(*it);
+        temp.push_back(h);
         //stocking the temp in the list of combinations
         combi_list.push_back(temp);
-        //copy the subset
-        list<int> next_subset = subset;
         //remove the current x
-        next_subset.pop_front();
+        next_subset.remove(h);
         //recursive call on the list without current x
         generate_combinations(temp, combi_list, next_subset);
         //remove predecent snp
