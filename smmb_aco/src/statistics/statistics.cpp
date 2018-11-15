@@ -92,7 +92,6 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
 	for (size_t i = 0; i < _phenos_vector.size(); i++) {
 		temp_pheno_matrix(i, 0) = _phenos_vector(i);
 	}
-	std::cout << "jkb" << '\n';
 	boost::numeric::ublas::matrix_column<boost_matrix> _phenos_column (temp_pheno_matrix, 0);
 
     unsigned int number_obs_subset = _genos_column.size();
@@ -107,6 +106,7 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
 	std::vector<contingencies> contingencies_vector = std::vector<contingencies>(n_contingencies);
 
     // Fill contingency table (one or multiple)
+	// Fill multiple contingency_table
     if(!cond_genos_indexes.empty())
     {
         boost::numeric::ublas::matrix<unsigned int> ref_genos_matrix;
@@ -124,6 +124,7 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
 				c(cr, cc) += 1;
         }
     }
+	// Fill one contingency_table
     else
     {
         for(unsigned i=0; i<number_obs_subset; ++i)
@@ -134,7 +135,6 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
             c(cr, cc) += 1;
         }
     }
-
 	//compute it
 	float result = compute_chi_2_conditional_test_indep(contingencies_vector, liberty_degree, number_obs_subset);
 	return result;
@@ -144,30 +144,30 @@ float statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies
 {
 	int number_contingencies = contingencies_vector.size();
 	float p_value(number_contingencies);
-	boost::math::chi_squared_distribution<double> chi2_dist(liberty_degree);
+	boost::math::chi_squared_distribution<double> chi_2_distribution(liberty_degree);
 	float chi_2_score = 0;
-    for(unsigned i=0; i<contingencies_vector.size(); ++i)
+    for(unsigned i=0; i<number_contingencies; ++i)
     {
-		std::cout << contingencies_vector[i] << '\n';
 		boost_matrix_float contingency_theorical_table_content = statistics::make_contingency_theorical_table(number_obs_subset, contingencies_vector[i]);
 		chi_2_score += compute_chi_2(contingencies_vector[i], contingency_theorical_table_content);
     }
+	p_value = 1 - boost::math::cdf(chi_2_distribution, chi_2_score);
+	std::cout << p_value << '\n';
 	return chi_2_score;
 }
 
 boost_matrix_float statistics::make_contingency_theorical_table(int size_pheno_vector, boost_matrix_float contingency_table)
 {
+	// Initialisation of contingency table with float
 	boost_matrix_float contingency_theorical_table(2,3,0.0);
-	// // Initialisation of contingency table with float
 	for(unsigned i=0; i<contingency_theorical_table.size1(); ++i)
 	{
 		for(unsigned j=0; j<contingency_theorical_table.size2(); ++j)
 		{
 			// Theorical contingency table filling with float
-			contingency_theorical_table(i,j) = ((float)(statistics::sum_row(i,contingency_table) * (float)statistics::sum_col(j,contingency_table)) / (float)size_pheno_vector);
+			contingency_theorical_table(i,j) = ((float)(statistics::sum_row(i,contingency_table) * (float)statistics::sum_col(j,contingency_table)) / (float)statistics::sum_contingency_table(contingency_table));
 		}
 	}
-    std::cout << contingency_theorical_table << '\n';
 	return contingency_theorical_table;
 }
 
@@ -203,4 +203,14 @@ unsigned int statistics::sum_row(int index, boost_matrix_float const& contingenc
 	}
 	// Return sum of row
 	return sum_row_of_contingency_table;
+}
+
+unsigned int statistics::sum_contingency_table(boost_matrix_float const& contingency_table)
+{
+	unsigned int sum_contingency_table = 0;
+	for (size_t i = 0; i < contingency_table.size1(); i++)
+	{
+		sum_contingency_table += statistics::sum_row(i,contingency_table);
+	}
+	return sum_contingency_table;
 }

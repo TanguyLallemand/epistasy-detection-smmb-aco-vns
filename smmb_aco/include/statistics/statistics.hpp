@@ -28,7 +28,7 @@ public:
     static boost_matrix_float make_contingency_theorical_table(int size_pheno_vector, boost_matrix_float contingency_table);
     static unsigned int sum_col(int index, boost_matrix_float const& contingency_table);
     static unsigned int sum_row(int index, boost_matrix_float const& contingency_table);
-
+    static unsigned int sum_contingency_table(boost_matrix_float const& contingency_table);
 
 
 
