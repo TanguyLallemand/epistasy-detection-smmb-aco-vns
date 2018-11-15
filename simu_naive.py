@@ -98,13 +98,6 @@ def generate_genotype_dataset(output_directory, id, number_of_variable, number_o
 
 
 ###############################################################################
-# Generation of positive SNPs
-###############################################################################
-def generate_causals_SNPs(pattern_size, ):
-
-
-
-###############################################################################
 # Generation of phenotype dataset
 ###############################################################################
 
@@ -128,6 +121,17 @@ def generate_phenotype_dataset(output_directory, number_of_case, number_of_contr
     # Concatenate both arrays and print it as a csv file called phenotype_toy_dataset.txt
     np.savetxt(path,
                np.r_[[phenotype_header], phenotype_dataset], fmt='%s', delimiter=',')
+
+# ###############################################################################
+# # Generation of positive SNPs
+# ###############################################################################
+# def make_snp_causals(pattern_size, SNP_set, pheno_set, ):
+#
+# ###############################################################################
+# # regression
+# ###############################################################################
+# def multivariate_linear_regression():
+
 
 
 ###############################################################################
