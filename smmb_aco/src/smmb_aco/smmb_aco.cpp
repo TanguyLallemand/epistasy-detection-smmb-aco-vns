@@ -105,7 +105,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     list<unsigned int> test;
     unsigned yolo;
     int i=0;
-    //searching for the best combination based on score
+    //searching for the best combination based on score TODO déplacer dans une fonction peut etre 
     for (auto v : combi_list)
     {
         for (auto y : v) {
