@@ -105,8 +105,8 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     test.push_back(3);
     test.push_back(10);
     boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, 5);
-    statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, test);
-    std::cout << "coucou u so strong" << '\n';
+    float fesse = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, test);
+    std::cout << fesse << '\n';
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
