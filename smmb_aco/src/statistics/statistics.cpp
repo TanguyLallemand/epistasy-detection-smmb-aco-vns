@@ -68,7 +68,6 @@ float statistics::compute_chi_2(boost_matrix_float const& contingency_table, boo
 			}
 		}
 	}
-	std::cout << chi_2_result << '\n';
 	chi_2_result *= 2;
 	return chi_2_result;
 }
@@ -110,7 +109,6 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
     // Fill contingency table (one or multiple)
     if(!cond_genos_indexes.empty())
     {
-		std::cout << number_obs_subset << '\n';
         boost::numeric::ublas::matrix<unsigned int> ref_genos_matrix;
 		ref_genos_matrix = _genos_column.data(); // get matrix from a column
         for(unsigned i=0; i<number_obs_subset; ++i)
@@ -150,12 +148,59 @@ float statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies
 	float chi_2_score = 0;
     for(unsigned i=0; i<contingencies_vector.size(); ++i)
     {
-		contingencies_vector[i].make_contingency_theorical_table(number_obs_subset);
-		// Get datas from contingencies class
-		boost_matrix_float contingency_table_content = contingencies_vector[i].return_contingency_table();
-		boost_matrix_float contingency_theorical_table_content = contingencies_vector[i].return_contingency_theorical_table();
-
-		chi_2_score += chi_2_score + compute_chi_2(contingency_table_content, contingency_theorical_table_content);
+		std::cout << contingencies_vector[i] << '\n';
+		boost_matrix_float contingency_theorical_table_content = statistics::make_contingency_theorical_table(number_obs_subset, contingencies_vector[i]);
+		chi_2_score += compute_chi_2(contingencies_vector[i], contingency_theorical_table_content);
     }
 	return chi_2_score;
+}
+
+boost_matrix_float statistics::make_contingency_theorical_table(int size_pheno_vector, boost_matrix_float contingency_table)
+{
+	boost_matrix_float contingency_theorical_table(2,3,0.0);
+	// // Initialisation of contingency table with float
+	for(unsigned i=0; i<contingency_theorical_table.size1(); ++i)
+	{
+		for(unsigned j=0; j<contingency_theorical_table.size2(); ++j)
+		{
+			// Theorical contingency table filling with float
+			contingency_theorical_table(i,j) = ((float)(statistics::sum_row(i,contingency_table) * (float)statistics::sum_col(j,contingency_table)) / (float)size_pheno_vector);
+		}
+	}
+    std::cout << contingency_theorical_table << '\n';
+	return contingency_theorical_table;
+}
+
+unsigned int statistics::sum_col(int index, boost_matrix_float const& contingency_table)
+{
+	// Intialization of a variable to store sum
+	unsigned int sum_col_of_contingency_table = 0;
+	// For every row
+	for (size_t i = 0; i < contingency_table.size1(); i++)
+	{
+		// Add cell content to variable storing sum
+		sum_col_of_contingency_table += contingency_table(i, index);
+	}
+	// Return sum of column
+	return sum_col_of_contingency_table;
+}
+
+/*
+* contingencies::sum_row
+* Use a given index and a contingency table
+* Return sum of a given row
+*/
+
+unsigned int statistics::sum_row(int index, boost_matrix_float const& contingency_table)
+{
+	// Intialization of a variable to store sum
+	unsigned int sum_row_of_contingency_table = 0;
+	// For every column
+	for (size_t i = 0; i < contingency_table.size2(); i++)
+	{
+		// Add cell content to variable storing sum
+		sum_row_of_contingency_table += contingency_table(index, i);
+	}
+	// Return sum of row
+	return sum_row_of_contingency_table;
 }
