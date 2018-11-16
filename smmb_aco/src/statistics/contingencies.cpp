@@ -193,7 +193,7 @@ bool contingencies::reliable_test(boost_matrix_float const& contingency_table)
 // conditionnal chi 2
 //==============================================================================
 
-std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(std::list<unsigned> const& cond_genos_indexes, boost::numeric::ublas::matrix_column<boost::numeric::ublas::matrix<int>> const& _genos_column, boost::numeric::ublas::matrix_column<boost_matrix> const& _phenos_column, int number_obs_subset, std::vector<contingencies> contingencies_vector)
+std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(std::list<unsigned> const& cond_genos_indexes, boost_column const& _genos_column, boost_column const& _phenos_column, int number_obs_subset, std::vector<contingencies> contingencies_vector)
 {
     // Fill contingency table (one or multiple)
 	// Fill multiple contingency_table
