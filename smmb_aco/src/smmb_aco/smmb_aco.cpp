@@ -102,28 +102,33 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     list<list<unsigned int>> combi_list;
     get_all_combinations(sub_subset, combi_list);
 
-    list<unsigned int> test;
-    unsigned yolo;
-    int i=0;
-    //searching for the best combination based on score TODO déplacer dans une fonction peut etre 
+    float best_score = 0;
+    list<unsigned int> best_pattern;
+    //searching for the best combination based on score TODO déplacer dans une fonction peut etre
     for (auto v : combi_list)
     {
+        float score = 0;
         for (auto y : v) {
-            std::cout << y << ' ';
+            list<unsigned int> conditionnal_set = v;
+            //TODO need to append markov blanket to conditionnal_set
+            conditionnal_set.remove(y);
+            boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, y);
+            score += statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
+            std::cout << score << '\n';
+        }
+
+        if (score > best_score) {
+            best_score = score;
+            best_pattern = v;
+        }
+        std::cout << '\n';
+        std::cout << best_score << '\n';
+        std::cout << '\n';
+        for (auto fdg : best_pattern) {
+            std::cout << fdg << ' ';
         }
         std::cout << '\n';
     }
-
-    // test.push_back(3);
-    // test.push_back(10);
-    // boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, 5);
-    // float fesse = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, test);
-    // test = combi_list.back();
-    // yolo = test.back();
-    // std::cout << yolo << '\n';
-    // test.pop_back();
-    // yolo = test.back();
-    // std::cout << yolo << '\n';
 
         /*
         TODO
