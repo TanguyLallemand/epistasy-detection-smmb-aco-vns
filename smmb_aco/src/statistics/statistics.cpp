@@ -56,6 +56,11 @@ float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vecto
 float statistics::compute_chi_2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table)
 {
 	float chi_2_result = 0;
+	// Check if contingencies table are viable. In fact if one of their cell value are under 5 chi 2 cannot be compute because of reliability
+	if (!contingencies::reliable_test(contingency_table) || !contingencies::reliable_test(contingency_theorical_table))
+	{
+		return chi_2_result = 0.0;
+	}
 	for(unsigned i=0; i<contingency_table.size1(); ++i)
 	{
 		for(unsigned j=0; j<contingency_table.size2(); ++j)
@@ -147,6 +152,12 @@ float statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies
     {
 		// Build associated theorical table
 		boost_matrix_float contingency_theorical_table_content = contingencies::make_contingency_theorical_table_conditionnal(number_obs_subset, contingencies_vector[i]);
+		// Check if contingencies table are viable. In fact if one of their cell value are under 5 chi 2 cannot be compute because of reliability
+		if (!contingencies::reliable_test(contingencies_vector[i]) || !contingencies::reliable_test(contingency_theorical_table_content))
+		{
+			chi_2_score += 0.0;
+			break;
+		}
 		// Compute a chi 2 test
 		chi_2_score += compute_chi_2(contingencies_vector[i], contingency_theorical_table_content);
     }

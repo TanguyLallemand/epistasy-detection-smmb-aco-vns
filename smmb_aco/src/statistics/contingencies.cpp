@@ -167,6 +167,26 @@ unsigned int contingencies::sum_contingency_table(boost_matrix_float const& cont
 }
 
 //==============================================================================
+//contingencies::reliable_test
+//Use a contingency table
+//Return true if all cells have a number above 5, witch is a requirement for
+//chi 2 test. Else return false
+//==============================================================================
+
+bool contingencies::reliable_test(boost_matrix_float const& contingency_table)
+{
+	for(unsigned i=0; i<contingency_table.size1(); ++i)
+	{
+	   for(unsigned j=0; j<contingency_table.size2(); ++j)
+	   {
+           if(contingency_table(i,j) < 5)
+			   return false;
+	   }
+	}
+	return true;
+}
+
+//==============================================================================
 // Some static functions used in statistics.cpp for some required operations for
 // conditionnal chi 2
 //==============================================================================

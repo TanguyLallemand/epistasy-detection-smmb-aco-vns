@@ -32,6 +32,7 @@ public:
     static unsigned int sum_row(int index, boost_matrix_float const& contingency_table);
     static unsigned int sum_col(int index, boost_matrix_float const& contingency_table);
     static unsigned int sum_contingency_table(boost_matrix_float const& contingency_table);
+    static bool reliable_test(boost_matrix_float const& contingency_table);
     static boost_matrix_float make_contingency_theorical_table_conditionnal(int size_pheno_vector, boost_matrix_float contingency_table);
     static std::vector<contingencies> make_contingencies_table_conditionnal(std::list<unsigned> const& cond_genos_indexes, boost::numeric::ublas::matrix_column<boost::numeric::ublas::matrix<int>> const& _genos_column, boost::numeric::ublas::matrix_column<boost_matrix> const& _phenos_column, int number_obs_subset, std::vector<contingencies> contingencies_vector);
 
