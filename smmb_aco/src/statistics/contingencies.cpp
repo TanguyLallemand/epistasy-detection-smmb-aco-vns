@@ -6,7 +6,6 @@
 #include "global.hpp"
 #include "contingencies.hpp"
 //==============================================================================
-//
 // Constructors
 // contingencies() to init a contingency table with 2,3 dimension
 // contingencies(int a, int b) to init a two contingencies tables with

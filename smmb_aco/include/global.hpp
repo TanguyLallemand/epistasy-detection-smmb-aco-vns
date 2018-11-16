@@ -1,3 +1,7 @@
+/*
+Authors: Tanguy Lallemand M2BB
+         Jonathan Cruard M2BB
+*/
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 

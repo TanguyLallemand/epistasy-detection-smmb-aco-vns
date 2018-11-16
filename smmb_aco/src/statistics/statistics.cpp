@@ -10,8 +10,6 @@
 #include "statistics.hpp"
 #include "contingencies.hpp"
 
-
-
 //==============================================================================
 // statistics::compute_p_value
 // return p value
