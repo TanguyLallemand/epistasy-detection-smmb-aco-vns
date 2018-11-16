@@ -163,6 +163,7 @@ unsigned int contingencies::sum_contingency_table(boost_matrix_float const& cont
         // Add cell content to a variable storing sum of column
 		sum_contingency_table += sum_row(i,contingency_table);
 	}
+    // Return sum of column
 	return sum_contingency_table;
 }
 
@@ -175,10 +176,12 @@ unsigned int contingencies::sum_contingency_table(boost_matrix_float const& cont
 
 bool contingencies::reliable_test(boost_matrix_float const& contingency_table)
 {
+    // Iteration in contingency table
 	for(unsigned i=0; i<contingency_table.size1(); ++i)
 	{
 	   for(unsigned j=0; j<contingency_table.size2(); ++j)
 	   {
+           // Check if each cell of contingency table is >5, if not return false because chi 2 will not be reliable
            if(contingency_table(i,j) < 5)
 			   return false;
 	   }
@@ -244,7 +247,7 @@ boost_matrix_float contingencies::make_contingency_theorical_table_conditionnal(
 	{
 		for(unsigned j=0; j<contingency_theorical_table.size2(); ++j)
 		{
-			// Theorical contingency table filling with float
+			// Theorical contingency table filling with float following this formule: (sum of each row*sum of each column)²/sum of total contingency table
 			contingency_theorical_table(i,j) = ((float)(sum_row(i,contingency_table) * (float)sum_col(j,contingency_table)) / (float)sum_contingency_table(contingency_table));
 		}
 	}

@@ -137,6 +137,7 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
 // Use a vector of contigencies table, liberty degree and number of observation
 // Return chi 2 score from conditionnal chi 2
 //==============================================================================
+
 float statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies> contingencies_vector, unsigned int liberty_degree, unsigned int number_obs_subset)
 {
 	// Get number of contingencies table
