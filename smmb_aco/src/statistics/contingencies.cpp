@@ -19,6 +19,7 @@ contingencies::contingencies() : boost_matrix_float(2,3)
     for(unsigned i=0; i<size1(); ++i)
     {
         for(unsigned j=0; j<size2(); ++j)
+            // For current contingency table, init cell(i,j) with 0
             this->at_element(i,j) = 0;
     }
 }
@@ -34,6 +35,7 @@ contingencies::contingencies(contingencies const& m) : boost_matrix_float(m.size
     for (unsigned i = 0; i < size1(); ++i)
     {
         for (unsigned j = 0; j < size2(); ++j)
+        // For current contingency table, init cell(i,j) with m matrix content
             this->at_element(i, j) = m(i,j);
     }
 }
@@ -142,7 +144,7 @@ unsigned int contingencies::sum_row(int index, boost_matrix_float const& conting
 	// For every column
 	for (size_t i = 0; i < contingency_table.size2(); i++)
 	{
-		// Add cell content to variable storing sum
+		// Add cell content to a variable storing sum of row
 		sum_row_of_contingency_table += contingency_table(index, i);
 	}
 	// Return sum of row
@@ -158,6 +160,7 @@ unsigned int contingencies::sum_contingency_table(boost_matrix_float const& cont
 	unsigned int sum_contingency_table = 0;
 	for (size_t i = 0; i < contingency_table.size1(); i++)
 	{
+        // Add cell content to a variable storing sum of column
 		sum_contingency_table += sum_row(i,contingency_table);
 	}
 	return sum_contingency_table;
@@ -179,11 +182,16 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
         for(unsigned i=0; i<number_obs_subset; ++i)
         {
             // Put the current observation in the correct contingency table
+            // Intialization of iterator
             unsigned int contingency_index = 0;
             unsigned int j=0;
+            // Iterate tought cond_genos_indexes list
             for(std::list<unsigned>::const_iterator it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j)
+                // Find right contingency table
                 contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
+                // Init contingency table at right index
 				contingencies & c = contingencies_vector[contingency_index];
+                //Fill contigency table
 				unsigned cr = _phenos_column(i);
 				unsigned cc = _genos_column(i);
 				c(cr, cc) += 1;
@@ -194,6 +202,7 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
     {
         for(unsigned i=0; i<number_obs_subset; ++i)
         {
+            //Fill contigency table
             contingencies & c = contingencies_vector[0];
             unsigned cr = _phenos_column(i);
             unsigned cc = _genos_column(i);
