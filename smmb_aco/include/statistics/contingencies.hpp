@@ -19,8 +19,6 @@ public:
     contingencies();
     // contingencies(int a, int b) to init a two contingencies tables with 2,3 dimension
     contingencies(int a, int b);
-    // A suppr je crois je le rend obsolete pour l instant
-    // contingencies(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector);
     // contingencies(contingencies const& m) to init a contingency table with given contingency table's dimension
     contingencies(contingencies const& m);
 

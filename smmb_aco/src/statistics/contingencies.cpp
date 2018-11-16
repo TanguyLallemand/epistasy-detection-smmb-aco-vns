@@ -42,8 +42,7 @@ contingencies::contingencies(contingencies const& m) : boost_matrix_float(m.size
 //==============================================================================
 //Setters
 //==============================================================================
-
-
+//==============================================================================
 //==============================================================================
 // contingencies::make_contingency_table
 // Use geno matrix and phenos vector to build a contingency table
@@ -111,6 +110,7 @@ boost_matrix_float contingencies::return_contingency_theorical_table()
 // Some static functions used in contigencies.cpp and in statistics.cpp
 //==============================================================================
 //==============================================================================
+//==============================================================================
 // contingencies::sum_col
 // Use a given index and a contingency table
 // Return sum of a given column
@@ -150,9 +150,9 @@ unsigned int contingencies::sum_row(int index, boost_matrix_float const& conting
 	return sum_row_of_contingency_table;
 }
 //==============================================================================
-//contingencies::sum_contingency_table
-//Use a given index and a contingency table
-//Return sum of whole contingency table
+// contingencies::sum_contingency_table
+// Use a given index and a contingency table
+// Return sum of whole contingency table
 //==============================================================================
 unsigned int contingencies::sum_contingency_table(boost_matrix_float const& contingency_table)
 {
@@ -166,10 +166,10 @@ unsigned int contingencies::sum_contingency_table(boost_matrix_float const& cont
 }
 
 //==============================================================================
-//contingencies::reliable_test
-//Use a contingency table
-//Return true if all cells have a number above 5, witch is a requirement for
-//chi 2 test. Else return false
+// contingencies::reliable_test
+// Use a contingency table
+// Return true if all cells have a number above 5, witch is a requirement for
+// chi 2 test. Else return false
 //==============================================================================
 
 bool contingencies::reliable_test(boost_matrix_float const& contingency_table)
@@ -212,7 +212,7 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
                 contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
                 // Init contingency table at right index
 				contingencies & c = contingencies_vector[contingency_index];
-                //Fill contigency table
+                // Fill contigency table
 				unsigned cr = _phenos_column(i);
 				unsigned cc = _genos_column(i);
 				c(cr, cc) += 1;
@@ -223,7 +223,7 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
     {
         for(unsigned i=0; i<number_obs_subset; ++i)
         {
-            //Fill contigency table
+            // Fill contigency table
             contingencies & c = contingencies_vector[0];
             unsigned cr = _phenos_column(i);
             unsigned cc = _genos_column(i);
