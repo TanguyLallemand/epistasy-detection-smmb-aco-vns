@@ -57,6 +57,7 @@ float statistics::compute_chi_2(boost_matrix_float const& contingency_table, boo
 	// Check if contingencies table are viable. In fact if one of their cell value are under 5 chi 2 cannot be compute because of reliability
 	if (!contingencies::reliable_test(contingency_table) || !contingencies::reliable_test(contingency_theorical_table))
 	{
+		// TODO est ce qu on retourne vraiment 0?
 		return chi_2_result = 0.0;
 	}
 	for(unsigned i=0; i<contingency_table.size1(); ++i)
