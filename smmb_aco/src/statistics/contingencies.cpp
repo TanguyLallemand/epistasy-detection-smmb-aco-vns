@@ -163,7 +163,6 @@ unsigned int contingencies::sum_contingency_table(boost_matrix_float const& cont
         // Add cell content to a variable storing sum of column
 		sum_contingency_table += sum_row(i,contingency_table);
 	}
-    // Return sum of column
 	return sum_contingency_table;
 }
 
