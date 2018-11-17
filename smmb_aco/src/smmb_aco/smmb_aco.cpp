@@ -69,7 +69,7 @@ void smmb_aco::update_pheromon_distrib()
 // smmb_aco : learn_MB
 //==============================================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a)
+void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned int> & markov_blanket_a)
 {
     //to enter the loop on first iteration
     bool markov_blanket_modified = true;
@@ -89,7 +89,7 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
 //==============================================================================
 // smmb_aco : forward //FIXME
 //==============================================================================
-void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset)
+void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned int> & markov_blanket_a, boost_vector_float & ant_subset)
 {
     //to break the loop if nothing modified
     markov_blanket_modified = false;
@@ -104,32 +104,8 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
 
     float best_score = 0;
     list<unsigned int> best_pattern;
-    //searching for the best combination based on score TODO déplacer dans une fonction peut etre
-    for (auto v : combi_list)
-    {
-        float score = 0;
-        for (auto y : v) {
-            list<unsigned int> conditionnal_set = v;
-            //TODO need to append markov blanket to conditionnal_set
-            conditionnal_set.remove(y);
-            boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, y);
-            score += statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
-            std::cout << score << '\n';
-        }
-
-        if (score > best_score) {
-            best_score = score;
-            best_pattern = v;
-        }
-        std::cout << '\n';
-        std::cout << best_score << '\n';
-        std::cout << '\n';
-        for (auto fdg : best_pattern) {
-            std::cout << fdg << ' ';
-        }
-        std::cout << '\n';
-    }
-
+    //searching for the best combination based on score
+    best_combination(best_pattern, combi_list, markov_blanket_a /*, hashtable mem_ant*/);
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -221,14 +197,6 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
     }
 }
 
-// //===========================================================================
-// // smmb_aco : best_combination_of_sub_subset
-// //===========================================================================
-// void best_combination_of_sub_subset(boost_vector_int & sub_subset)
-// {
-//
-// }
-
 //==============================================================================
 // smmb_aco : get_all_combinations
 //==============================================================================
@@ -269,5 +237,34 @@ void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned
         generate_combinations(temp, combi_list, next_subset);
         //remove predecent snp
         temp.pop_back();
+    }
+}
+
+//==============================================================================
+// smmb_aco : best_combination
+//==============================================================================
+void smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned int> & markov_blanket_a/*, hashtable mem_ant*/)
+{
+    //stock the current best score
+    float best_score = 0;
+    //iterate through the list of pattern
+    for (auto current_pattern : pattern_list) {
+        float score = 0;
+        for (auto current_SNP : current_pattern) {
+            //setting up the list of conditionnals SNPs
+            list<unsigned int> conditionnal_set = current_pattern;
+            markov_blanket_a.sort();
+            conditionnal_set.sort();
+            conditionnal_set.merge(markov_blanket_a);
+            conditionnal_set.remove(current_SNP);
+            //making a matrix column ref to pass to the function
+            boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, current_SNP);
+            //calculating score of the current SNP of the pattern and add it to the pattern score
+            score += statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
+        }
+        if (score > best_score) {
+            best_score = score;
+            best_pattern = current_pattern;
+        }
     }
 }
