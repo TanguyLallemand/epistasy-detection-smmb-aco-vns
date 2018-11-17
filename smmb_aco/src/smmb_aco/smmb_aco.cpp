@@ -5,10 +5,11 @@
 #include <string>
 #include <map>
 #include <boost/numeric/ublas/io.hpp>
+#include <boost/numeric/ublas/matrix_proxy.hpp>
+
 #include "tools.hpp"
 #include "global.hpp"
 #include "statistics.hpp"
-#include <boost/numeric/ublas/matrix_proxy.hpp>
 
 using namespace std;
 
@@ -43,15 +44,26 @@ smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, par
 //==============================================================================
 void smmb_aco::update_tau()
 {
-    for (size_t i = 0; i < _tau.size(); i++) {
-        //_tau(i) = (1-_rho) * _tau(i);
-        for (size_t j = 0; j < mem(i).size(); j++)
-        {
-            //_tau(i) = _tau(i) + (_lambda * mem(i, j));
-            _tau(i) = ((1-_rho) * _tau(i)) + _lambda * mem(i)(j);
-            //IDEA normalement la formule est bonne mais je trouve ça un peu con d'evaporer pour chaque stat dans la memoire (pour éviter ça je propose ce qui est en comment)
+    //iterate through memory map
+    for (auto it = _mem.begin(); it != _mem.end(); it++) {
+        //evaporate the SNP selected
+        _tau(it->first) = (1-_rho) * _tau(it->first);
+        //iterate through the stat list of the SNP
+        for (auto stat : it->second) {
+            //add pheromon based on the score
+            _tau(it->first) = _tau(it->first) + (_lambda * stat);
         }
     }
+
+    // for (size_t i = 0; i < _tau.size(); i++) {
+    //     //_tau(i) = (1-_rho) * _tau(i);
+    //     for (size_t j = 0; j < _mem(i).size(); j++)
+    //     {
+    //         //_tau(i) = _tau(i) + (_lambda * _mem(i, j));
+    //         _tau(i) = ((1-_rho) * _tau(i)) + _lambda * _mem(i)(j);
+    //         //IDEA normalement la formule est bonne mais je trouve ça un peu con d'evaporer pour chaque stat dans la memoire (pour éviter ça je propose ce qui est en comment)
+    //     }
+    // }
     //repercuting changes on the distribution
     update_pheromon_distrib();
 }
@@ -106,7 +118,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned int> & mark
     float best_score = 0;
     list<unsigned int> best_pattern;
     //searching for the best combination based on score
-    best_combination(best_pattern, combi_list, markov_blanket_a, std::map<std::vector<unsigned>, float> _mem_ant);
+    best_combination(best_pattern, combi_list, markov_blanket_a/*, _mem_ant*/);
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -163,9 +175,9 @@ void smmb_aco::run()
             learn_MB(ant_subset, markov_blanket_a(a));
         }
         // Initialization of final variable
-        std::map<std::vector<unsigned>, float> mem;
+        std::map<std::vector<unsigned>, float> _mem;
         for (size_t a = 0; a < _n_ant; a++) {
-            mem.insert(mem.end(), _mem_ant.begin(), _mem_ant.end()); //ajouter(mem, mem_ant)
+            _mem.insert(_mem.end(), _mem_ant.begin(), _mem_ant.end()); //ajouter(_mem, mem_ant)
             if (!markov_blanket_a(a).empty())
             {
                 markov_blanket_s.splice(markov_blanket_s.end(), markov_blanket_a(a)); // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end // TODO a test
@@ -244,7 +256,7 @@ void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned
 //==============================================================================
 // smmb_aco : best_combination
 //==============================================================================
-void smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned int> & markov_blanket_a, std::map<std::vector<unsigned>, float> _mem_ant)
+void smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned int> & markov_blanket_a/*, std::map<unsigned, list<float>> _mem_ant*/)
 {
     //stock the current best score
     float best_score = 0;
