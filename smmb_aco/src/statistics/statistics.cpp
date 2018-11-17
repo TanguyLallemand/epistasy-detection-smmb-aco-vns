@@ -154,6 +154,7 @@ float statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies
 		// Check if contingencies table are viable. In fact if one of their cell value are under 5 chi 2 cannot be compute because of reliability
 		if (!contingencies::reliable_test(contingencies_vector[i]) || !contingencies::reliable_test(contingency_theorical_table_content))
 		{
+			//TODO a voir si c est ok
 			chi_2_score += 0.0;
 			break;
 		}
