@@ -218,6 +218,7 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
 				c(cr, cc) += 1;
         }
     }
+
 	// Fill one contingency_table
     else
     {

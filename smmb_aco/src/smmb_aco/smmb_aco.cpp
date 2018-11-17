@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <fstream>
 #include <string>
+#include <map>
 #include <boost/numeric/ublas/io.hpp>
 #include "tools.hpp"
 #include "global.hpp"
@@ -105,7 +106,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned int> & mark
     float best_score = 0;
     list<unsigned int> best_pattern;
     //searching for the best combination based on score
-    best_combination(best_pattern, combi_list, markov_blanket_a /*, hashtable mem_ant*/);
+    best_combination(best_pattern, combi_list, markov_blanket_a, std::map<std::vector<unsigned>, float> _mem_ant);
         /*
         TODO
         s = argument qui maximise sur l'ensemble s' inclus ou égale à S (je considere toutes les combinaisons non vides possibles dans S ). Le truc qui est maximise c'est score d'association(s', _phenos_matrix, MB_fourmis, memoire_fourmis)
@@ -157,12 +158,12 @@ void smmb_aco::run()
             boost_vector_float ant_subset;
             ant_subset = tools::sampling(_subset_size, _pheromone_distrib); //This is the list of SNP sampled for this ant. and the distribution given on copy not ref
             // Initialization of memory
-            list<unsigned> _mem_ant;
+            std::map<std::vector<unsigned>, float> _mem_ant;
             // Generate Markov Blanket and stock it in a temp variable
             learn_MB(ant_subset, markov_blanket_a(a));
         }
         // Initialization of final variable
-        list<unsigned> mem;
+        std::map<std::vector<unsigned>, float> mem;
         for (size_t a = 0; a < _n_ant; a++) {
             mem.insert(mem.end(), _mem_ant.begin(), _mem_ant.end()); //ajouter(mem, mem_ant)
             if (!markov_blanket_a(a).empty())
@@ -243,7 +244,7 @@ void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned
 //==============================================================================
 // smmb_aco : best_combination
 //==============================================================================
-void smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned int> & markov_blanket_a/*, hashtable mem_ant*/)
+void smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned int> & markov_blanket_a, std::map<std::vector<unsigned>, float> _mem_ant)
 {
     //stock the current best score
     float best_score = 0;
