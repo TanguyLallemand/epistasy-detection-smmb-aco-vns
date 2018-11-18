@@ -107,17 +107,17 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned int> & mark
     //to break the loop if nothing modified
     markov_blanket_modified = false;
 
-    //sub_subset container (S in the pseudocode)
+    // sub_subset container (S in the pseudocode)
     boost_vector_int sub_subset(_sub_subset_size, 0);
-    //sub_sampling from ant_subset
+    // sub_sampling from ant_subset
     sub_sampling(sub_subset, ant_subset);
-    //generating all the combination from the drawn sub_subset
+    // generating all the combination from the drawn sub_subset
     list<list<unsigned int>> combi_list;
     get_all_combinations(sub_subset, combi_list);
 
     float best_score = 0;
     list<unsigned int> best_pattern;
-    //searching for the best combination based on score
+    // searching for the best combination based on score
     best_combination(best_pattern, combi_list, markov_blanket_a/*, _mem_ant*/);
         /*
         TODO
@@ -142,7 +142,7 @@ void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_
     if (markov_blanket_modified) {
         for (size_t X = 0; X < markov_blanket_a.size(); X++) {
             //TODO: pour toute combinaison S non_vides inclus dans MB
-                //independance_test_conditionnal(X,T,S_0); //TODO: omg c est chaud ca
+                //independance_test_conditionnal(X,T,S_0);
                 // float p_valeur = statistics::compute_p_value(_genos_matrix, _phenos_matrix); //TODO temporaire pour voir si ça compile
                 // if (p_valeur>_alpha_stat) { //H_0: independance
                 //     auto i = std::find(begin(markov_blanket_a), end(markov_blanket_a), X);
@@ -176,7 +176,8 @@ void smmb_aco::run()
         }
         // Initialization of final variable
         std::map<std::vector<unsigned>, float> _mem;
-        for (size_t a = 0; a < _n_ant; a++) {
+        for (size_t a = 0; a < _n_ant; a++)
+        {
             _mem.insert(_mem.end(), _mem_ant.begin(), _mem_ant.end()); //ajouter(_mem, mem_ant)
             if (!markov_blanket_a(a).empty())
             {
