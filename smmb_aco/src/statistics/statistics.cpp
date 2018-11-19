@@ -154,14 +154,14 @@ boost_vector_float statistics::compute_chi_2_conditional_test_indep(std::vector<
 		if (!contingencies::reliable_test(contingencies_vector[i]) || !contingencies::reliable_test(contingency_theorical_table_content))
 		{
 			// If test is considered as not reliable, add 0 as chi 2 score
-			results(1) += 0.0;
+			results(0) += 0.0;
 			break;
 		}
 		// Compute a chi 2 test
-		results(1) += compute_chi_2(contingencies_vector[i], contingency_theorical_table_content);
+		results(0) += compute_chi_2(contingencies_vector[i], contingency_theorical_table_content);
     }
 	// Calculate associated p value
-	results(1) = 1 - boost::math::cdf(chi_2_distribution, chi_2_score);
+	results(1) = 1 - boost::math::cdf(chi_2_distribution, results(0));
 
 	return results;
 }
