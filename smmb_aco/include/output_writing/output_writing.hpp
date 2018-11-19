@@ -7,5 +7,6 @@ class output_writing
 {
 public:
 
+    void write_in_file();
 };
 #endif

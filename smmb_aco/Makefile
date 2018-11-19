@@ -18,6 +18,7 @@ INC=-I$(BOOST_FOLDER) \
  -I./include/parsing \
  -I./include/statistics \
  -I./include/tools \
+  -I./include/output_writing \
  -I./include/smmb_aco
 
 # Save compiler call
@@ -38,6 +39,7 @@ $(OBJDIR)/smmb_aco.o \
 $(OBJDIR)/parameters_parsing.o \
 $(OBJDIR)/tools.o \
 $(OBJDIR)/contingencies.o \
+$(OBJDIR)/output_writing.o \
 $(OBJDIR)/statistics.o
 
 TARGET=$(BINDIR)/smmb_aco.exe
@@ -48,16 +50,16 @@ $(TARGET): $(OBJ)
 	@g++ $^ -o $@ $(LFLAGS)
 	@echo "Compilation complete, executable produced."
 
-#---------------------
+#===============================================================================
 # Main
-#---------------------
+#===============================================================================
 $(OBJDIR)/main.o: ./$(SRCDIR)/main.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled main.o"
 
-#---------------------
+#===============================================================================
 # Parsing
-#---------------------
+#===============================================================================
 $(OBJDIR)/file_parsing.o: ./$(SRCDIR)/parsing/file_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled file_parsing.o"
@@ -65,16 +67,16 @@ $(OBJDIR)/file_parsing.o: ./$(SRCDIR)/parsing/file_parsing.cpp
 $(OBJDIR)/parameters_parsing.o: ./$(SRCDIR)/parsing/parameters_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled parameters_parsing.o"
-#---------------------
+#===============================================================================
 # Smmb_aco
-#---------------------
+#===============================================================================
 $(OBJDIR)/smmb_aco.o: ./$(SRCDIR)/smmb_aco/smmb_aco.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled smmb_aco.o"
 
-#---------------------
+#===============================================================================
 # Statistics
-#---------------------
+#===============================================================================
 $(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled statistics.o"
@@ -83,26 +85,32 @@ $(OBJDIR)/contingencies.o: ./$(SRCDIR)/statistics/contingencies.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled contingencies.o"
 
-#---------------------
+#===============================================================================
 # Global
-#---------------------
+#===============================================================================
 $(OBJDIR)/global.o: ./$(SRCDIR)/global.hpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled global.o"
 
-#---------------------
+#===============================================================================
 # Tools
-#---------------------
+#===============================================================================
 $(OBJDIR)/tools.o: ./$(SRCDIR)/tools/tools.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled tools.o"
 
+#===============================================================================
+# Output_writing
+#===============================================================================
+$(OBJDIR)/output_writing.o: ./$(SRCDIR)/output_writing/output_writing.cpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled output_writing.o"
 
 
 
-#---------------------
+#===============================================================================
 # PHONEY
-#---------------------
+#===============================================================================
 .PHONEY: clean
 clean:
 	@$(rm) $(OBJ)
