@@ -138,7 +138,7 @@ boost_vector_float statistics::make_contingencies_chi_2_conditional_test_indep(b
 //==============================================================================
 boost_vector_float statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies> contingencies_vector, unsigned int liberty_degree, unsigned int number_obs_subset)
 {
-	boost_vector_float results(2);
+	boost_vector_float results(2,0.0);
 	// Get number of contingencies table
 	int number_contingencies = contingencies_vector.size();
 	// Init p_value variable
