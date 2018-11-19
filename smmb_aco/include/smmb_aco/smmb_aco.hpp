@@ -40,11 +40,10 @@ private:
     float _alpha_phero;
     float _beta_phero;
 
-    std::map<unsigned, list<float>> _mem;
-    //boost::numeric::ublas::vector<boost_vector_float> mem;
-    boost::numeric::ublas::vector<std::map<std::vector<unsigned>, list<float>>> _mem_ant;
-    // std::map<std::vector<unsigned>, float> _mem_ant;
-    //QUESTION De ce que j'ai compris je propose ces types la pour les memoires mais qu'on valide ça
+    std::map<unsigned, float> _mem;
+
+    boost::numeric::ublas::vector<std::map<unsigned, float>> _mem_ant;
+
 
     //vecteur concernant les pheromones
     boost_vector_float _eta;
@@ -52,8 +51,8 @@ private:
     boost_vector_float _pheromone_distrib;
 
     // fonctions données par la prof
-    void learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a);
-    void forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset);
+    void learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::map<unsigned, float> & mem_ant_ref);
+    void forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::map<unsigned, float> & mem_ant_ref);
     void backward(bool & markov_blanket_modified ,list<unsigned> & markov_blanket_a);
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
@@ -61,7 +60,7 @@ private:
     void sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset); //compute sub_subset
     void get_all_combinations(boost_vector_int & sub_subset, list<list<unsigned int>> & combi_list);
     void generate_combinations(list<unsigned int> temp, list<list<unsigned int>> & combi_list, list<unsigned int> subset);
-    void best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned int> & markov_blanket_a/*, std::map<unsigned, list<float>> _mem_ant*/);
+    void best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned int> & markov_blanket_a, std::map<unsigned, float> & mem_ant_ref);
     void update_pheromon_distrib(); //update pheromons using _tau and _eta
 };
 #endif
