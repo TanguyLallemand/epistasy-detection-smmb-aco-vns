@@ -7,7 +7,7 @@
 #include "contingencies.hpp"
 //==============================================================================
 // Constructors
-//
+//==============================================================================
 //==============================================================================
 // contingencies() to init a contingency table with 2,3 dimension
 contingencies::contingencies() : boost_matrix_float(2,3)

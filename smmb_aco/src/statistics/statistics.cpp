@@ -58,15 +58,16 @@ float statistics::compute_chi_2(boost_matrix_float const& contingency_table, boo
 	{
 		return chi_2_result = 0.0;
 	}
+	// Iterate tought contingency table
 	for(unsigned i=0; i<contingency_table.size1(); ++i)
 	{
 		for(unsigned j=0; j<contingency_table.size2(); ++j)
 		{
+			// If cell is not equal to 0
 			if(contingency_table(i,j) != 0)
 			{
-				//TODO a verifier
-				chi_2_result = (float) pow(contingency_table(i,j)-contingency_theorical_table(i,j), 2.0) / contingency_theorical_table(i,j);
-				// chi_2_result += contingency_table(i,j) * log(div);
+				double div = (double) contingency_table(i,j) / contingency_theorical_table(i,j);
+				chi_2_result += contingency_table(i,j) * log(div);
 			}
 		}
 	}
@@ -99,7 +100,7 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
 	// Init a temporary boost matrix with size of _phenos_vector
 	boost_matrix temp_pheno_matrix (_phenos_vector.size(), 1);
 	for (size_t i = 0; i < _phenos_vector.size(); i++) {
-		// FIll temporary matrix
+		// Fill temporary matrix
 		temp_pheno_matrix(i, 0) = _phenos_vector(i);
 	}
 	// Init a matrix column and putting temp_pheno_matrix in it
@@ -116,8 +117,10 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
 	unsigned int liberty_degree = 2;
 	// Check if liberty_degree's default is sufficient or not
     if(n_cond_genos != 0)
+	{
 		// If not calculate right liberty_degree value
         liberty_degree *= 3*n_cond_genos;
+	}
 	// Init a vector of contingencies table with a size of previously determined number of necessary contingency table
 	std::vector<contingencies> contingencies_vector = std::vector<contingencies>(n_contingencies);
 	// Build contingencies table, this function will build all contingencies table
