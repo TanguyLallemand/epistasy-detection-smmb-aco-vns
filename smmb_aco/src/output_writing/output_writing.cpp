@@ -6,15 +6,14 @@
 #include "global.hpp"
 #include "output_writing.hpp"
 
-using std::ofstream;
-using std::cerr;
-using std::endl;
+using namespace std;
 
-void output_writing::write_in_file()
+void output_writing::write_in_file(string method_used)
 {
-    ofstream output_data;
-    // Open the file
-    output_data.open("./results/results.txt");
+    // Instanciate ofstream and open results.txt
+    ofstream output_data("./results/results.txt");
+    // // Open the file
+    // output_data.open("./results/results.txt");
     // Check if file has trouble to be opened
     if( !output_data )
     {
@@ -22,6 +21,8 @@ void output_writing::write_in_file()
       // Return an error code
       exit(1);
     }
+    // Output an header
+    output_data << "Method used: " << method_used << endl;
     boost_vector_int num;
     for (size_t i = 0; i < 5/*taille amtrix*/; i++)
     {

@@ -7,6 +7,6 @@ class output_writing
 {
 public:
 
-    void write_in_file();
+    static void write_in_file(string method_used);
 };
 #endif
