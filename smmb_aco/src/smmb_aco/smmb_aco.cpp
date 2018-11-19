@@ -112,16 +112,17 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
 
     float best_score = 0;
     list<unsigned> best_pattern;
-    // searching for the best combination based on score
-    best_combination(best_pattern, combi_list, markov_blanket_a, mem_ant_ref);
-        //TODO
-        //if (statistics::compute_p_value(best_pattern) << _alpha_stat) //rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut //Euh je ne sais pas si c est bon ca... je dois faire p_value(s) << _alpha_stat
-        {
 
-            std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), best_pattern.begin(), best_pattern.end(), std::back_inserter(markov_blanket_a));// union de MB_a et S je crois que c'est bon //QUESTION Clement lui il modifie directement la blanket de la fourmis du coup je sais pas trop quoi penser de ton unified, mais bon comme je comprend pas ta ligne je touche pas pour le moment
-            backward(markov_blanket_modified, markov_blanket_a);
-            markov_blanket_modified = true;
-        }
+    // searching for the best combination based on score and returning the score and p_value of the solution
+    boost_vector_float result = best_combination(best_pattern, combi_list, markov_blanket_a, mem_ant_ref);
+
+    if (result(1) < _alpha_stat) //rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
+    {
+
+        std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), best_pattern.begin(), best_pattern.end(), std::back_inserter(markov_blanket_a));// union de MB_a et S je crois que c'est bon //QUESTION Clement lui il modifie directement la blanket de la fourmis du coup je sais pas trop quoi penser de ton unified, mais bon comme je comprend pas ta ligne je touche pas pour le moment
+        backward(markov_blanket_modified, markov_blanket_a);
+        markov_blanket_modified = true;
+    }
 
 
 }
@@ -131,12 +132,15 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
 //==============================================================================
 void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a)
 {
-    for (size_t X = 0; X < markov_blanket_a.size(); X++) {
+    for (size_t X = 0; X < markov_blanket_a.size(); X++)
+    {
+
         //TODO: pour toute combinaison S non_vides inclus dans MB
+        statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
             //compute_chi_2_conditional_test_indep(X,T,S_0);
             // Return an array with in first cell, chi 2 score and in second cell, assoicated p_value
-            // int results = statistics::compute_p_value(_genos_matrix, _phenos_matrix); //TODO temporaire pour voir si ça compile
-            // if (results(1)>>_alpha_stat) { //H_0: independance
+            int result = statistics::compute_p_value(_genos_matrix, _phenos_matrix);
+            // if (result(1)>>_alpha_stat) { //H_0: independance
             //     auto i = std::find(begin(markov_blanket_a), end(markov_blanket_a), X);
             //     markov_blanket_a.erase(i);// MB <- MB\{x}; //veut dire MB prive de X en notation ensembliste
             //     break;
@@ -179,7 +183,7 @@ void smmb_aco::run()
         // Initialization of final variable
         for (size_t a = 0; a < _n_ant; a++)
         {
-            // Insert in global map current _mem.ant
+            // Insert in global map current _mem_ant
             _mem.insert(_mem_ant(a).begin(), _mem_ant(a).end());
             // If ant's markov blanket is not empty
             if (!_markov_blanket_a(a).empty())
@@ -256,14 +260,16 @@ void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned
 //==============================================================================
 // smmb_aco : best_combination
 //==============================================================================
-void smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, float> & mem_ant_ref)
+boost_vector_float smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, float> & mem_ant_ref)
 {
-    //stock the current best score
-    float best_score = 0;
+    //stock the current best_result
+    boost_vector_float best_result(2, 0);
     //iterate through the list of pattern
-    for (auto current_pattern : pattern_list) {
-        float score_pattern = 0;
-        for (auto current_SNP : current_pattern) {
+    for (auto current_pattern : pattern_list)
+    {
+        boost_vector_float result_pattern(2, 0);
+        for (auto current_SNP : current_pattern)
+        {
             //setting up the list of conditionnals SNPs
             list<unsigned int> conditionnal_set = current_pattern;
             markov_blanket_a.sort();
@@ -275,22 +281,23 @@ void smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<uns
             boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, current_SNP);
             //calculating score of the current SNP of the pattern and add it to the pattern score
             boost_vector_float result_SNP = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
-            float score_SNP = result_SNP(0);
+
             //stocking result in the ant_memory
-            mem_ant_ref.insert(std::pair<unsigned, float>(current_SNP, score_SNP));
-            // Voila comment get ta p value
-            float p_value = result_SNP(1);
+            mem_ant_ref.insert(std::pair<unsigned, float>(current_SNP, result_SNP(0)));
+
             //score of the pattern
-            if (score_SNP > score_pattern)
+            if (result_SNP(0) > result_pattern(0))
             {
-                score_pattern = score_SNP;
+                result_pattern = result_SNP;
             }
 
         }
         //if the score of the current pattern is better than the current one it become the current best pattern
-        if (score_pattern > best_score) {
-            best_score = score_pattern;
+        if (result_pattern(0) > best_result(0))
+        {
+            best_result = result_pattern;
             best_pattern = current_pattern;
         }
     }
+    return best_result;
 }
