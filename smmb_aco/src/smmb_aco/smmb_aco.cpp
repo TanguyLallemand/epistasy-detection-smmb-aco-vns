@@ -274,11 +274,12 @@ void smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<uns
             //making a matrix column ref to pass to the function
             boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, current_SNP);
             //calculating score of the current SNP of the pattern and add it to the pattern score
-            float score_SNP = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
-
+            boost_vector_float result_SNP = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
+            float score_SNP = result_SNP(0);
             //stocking result in the ant_memory
             mem_ant_ref.insert(std::pair<unsigned, float>(current_SNP, score_SNP));
-
+            // Voila comment get ta p value
+            float p_value = result_SNP(1);
             //score of the pattern
             if (score_SNP > score_pattern)
             {
