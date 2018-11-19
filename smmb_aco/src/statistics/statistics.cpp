@@ -4,8 +4,8 @@
  */
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/math/distributions/chi_squared.hpp>
-#include <iostream>
-#include <vector>
+
+
 
 #include "statistics.hpp"
 #include "contingencies.hpp"
@@ -154,7 +154,7 @@ float statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies
 		// Check if contingencies table are viable. In fact if one of their cell value are under 5 chi 2 cannot be compute because of reliability
 		if (!contingencies::reliable_test(contingencies_vector[i]) || !contingencies::reliable_test(contingency_theorical_table_content))
 		{
-			// If test is considered as not reliable, add 0 as chi 2 score 
+			// If test is considered as not reliable, add 0 as chi 2 score
 			chi_2_score += 0.0;
 			break;
 		}

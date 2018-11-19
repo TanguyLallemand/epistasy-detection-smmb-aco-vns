@@ -9,6 +9,9 @@ Authors: Tanguy Lallemand M2BB
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix_proxy.hpp>
 #include <string>
+#include <vector>
+#include <iostream>
+#include <list>
 //==============================================================================
 // Creation of boost aliases
 //==============================================================================

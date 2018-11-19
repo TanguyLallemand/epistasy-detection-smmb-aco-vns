@@ -6,8 +6,6 @@ Authors: Tanguy Lallemand M2BB
 #define CONTINGENCIES_HPP
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/math/distributions/chi_squared.hpp>
-#include <vector>
-#include <list>
 #include "global.hpp"
 
 
