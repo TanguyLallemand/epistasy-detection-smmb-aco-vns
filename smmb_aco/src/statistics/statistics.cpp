@@ -162,6 +162,8 @@ boost_vector_float statistics::compute_chi_2_conditional_test_indep(std::vector<
     }
 	// Calculate associated p value
 	results(1) = 1 - boost::math::cdf(chi_2_distribution, results(0));
+	std::cout << results(0) << '\n';
+	std::cout << results(1) << '\n';
 
 	return results;
 }
