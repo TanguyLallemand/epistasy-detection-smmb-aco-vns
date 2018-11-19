@@ -242,6 +242,7 @@ boost_matrix_float contingencies::make_contingency_theorical_table_conditionnal(
 {
 	// Initialisation of contingency table with float
 	boost_matrix_float contingency_theorical_table(2,3,0.0);
+    // Iterate tought two dimensions of contingency table
 	for(unsigned i=0; i<contingency_theorical_table.size1(); ++i)
 	{
 		for(unsigned j=0; j<contingency_theorical_table.size2(); ++j)
