@@ -95,7 +95,7 @@ unsigned int statistics::compute_liberty_degree(boost_matrix_float const& contin
 // Return chi 2 score from conditionnal chi 2
 //==============================================================================
 
-float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric::ublas::matrix_column<boost::numeric::ublas::matrix<int>> const& _genos_column, boost_vector_int const& _phenos_vector, std::list<unsigned> const& cond_genos_indexes)
+boost_vector_float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric::ublas::matrix_column<boost::numeric::ublas::matrix<int>> const& _genos_column, boost_vector_int const& _phenos_vector, std::list<unsigned> const& cond_genos_indexes)
 {
 	// Parse _phenos_vector to become a _phenos_column
 	// Init a temporary boost matrix with size of _phenos_vector
@@ -126,7 +126,7 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
 	contingencies_vector = contingencies::make_contingencies_table_conditionnal(cond_genos_indexes, _genos_column, _phenos_column, number_obs_subset, contingencies_vector);
 
 	//compute conditionnal chi 2, this function use contingencies table to build theorical table and will do a chi 2 test
-	float result = compute_chi_2_conditional_test_indep(contingencies_vector, liberty_degree, number_obs_subset);
+	boost_vector_float result = compute_chi_2_conditional_test_indep(contingencies_vector, liberty_degree, number_obs_subset);
 	// Return chi 2 scores
 	return result;
 }
