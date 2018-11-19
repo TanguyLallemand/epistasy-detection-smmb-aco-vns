@@ -136,14 +136,13 @@ float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric
 // Use a vector of contigencies table, liberty degree and number of observation
 // Return chi 2 score from conditionnal chi 2
 //==============================================================================
-int statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies> contingencies_vector, unsigned int liberty_degree, unsigned int number_obs_subset)
+boost_vector_float statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies> contingencies_vector, unsigned int liberty_degree, unsigned int number_obs_subset)
 {
+	boost_vector_float results(2);
 	// Get number of contingencies table
 	int number_contingencies = contingencies_vector.size();
 	// Init p_value variable
 	float p_value(number_contingencies);
-	// Init chi_2_score variable
-	float chi_2_score = 0;
 	// Generate a chi 2 distribution for a given liberty degree
 	boost::math::chi_squared_distribution<double> chi_2_distribution(liberty_degree);
 	// For every contingencies tables
@@ -155,13 +154,14 @@ int statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies> 
 		if (!contingencies::reliable_test(contingencies_vector[i]) || !contingencies::reliable_test(contingency_theorical_table_content))
 		{
 			// If test is considered as not reliable, add 0 as chi 2 score
-			chi_2_score += 0.0;
+			results(1) += 0.0;
 			break;
 		}
 		// Compute a chi 2 test
-		chi_2_score += compute_chi_2(contingencies_vector[i], contingency_theorical_table_content);
+		results(1) += compute_chi_2(contingencies_vector[i], contingency_theorical_table_content);
     }
 	// Calculate associated p value
-	p_value = 1 - boost::math::cdf(chi_2_distribution, chi_2_score);
-	return [chi_2_score, p_value];
+	results(1) = 1 - boost::math::cdf(chi_2_distribution, chi_2_score);
+
+	return results;
 }
