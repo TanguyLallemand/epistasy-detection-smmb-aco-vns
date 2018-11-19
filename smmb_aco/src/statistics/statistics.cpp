@@ -163,5 +163,5 @@ float statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies
     }
 	// Calculate associated p value
 	p_value = 1 - boost::math::cdf(chi_2_distribution, chi_2_score);
-	return chi_2_score;
+	return [chi_2_score, p_value];
 }
