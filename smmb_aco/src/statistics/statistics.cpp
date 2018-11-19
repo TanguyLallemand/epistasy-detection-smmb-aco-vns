@@ -17,7 +17,6 @@
 
 float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector)
 {
-	//TODO atention je ne redonnes pas le chi 2 score
 	// Intialization of variables
 	float chi_2_result = 0;
 	float p_value = 0;
@@ -57,7 +56,6 @@ float statistics::compute_chi_2(boost_matrix_float const& contingency_table, boo
 	// Check if contingencies table are viable. In fact if one of their cell value are under 5 chi 2 cannot be compute because of reliability
 	if (!contingencies::reliable_test(contingency_table) || !contingencies::reliable_test(contingency_theorical_table))
 	{
-		// TODO est ce qu on retourne vraiment 0?
 		return chi_2_result = 0.0;
 	}
 	for(unsigned i=0; i<contingency_table.size1(); ++i)

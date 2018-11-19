@@ -7,12 +7,9 @@
 #include "contingencies.hpp"
 //==============================================================================
 // Constructors
-// contingencies() to init a contingency table with 2,3 dimension
-// contingencies(int a, int b) to init a two contingencies tables with
-// 2,3 dimension
-// contingencies(contingencies const& m) to init a contingency table with given
-// contingency table's dimension
+//
 //==============================================================================
+// contingencies() to init a contingency table with 2,3 dimension
 contingencies::contingencies() : boost_matrix_float(2,3)
 {
     for(unsigned i=0; i<size1(); ++i)
@@ -22,13 +19,16 @@ contingencies::contingencies() : boost_matrix_float(2,3)
             this->at_element(i,j) = 0;
     }
 }
+// contingencies(int a, int b) to init a two contingencies tables with
+// 2,3 dimension
 contingencies::contingencies(int a, int b) : boost_matrix_float(a,b)
 {
     // Initialisation contingency table with floats
      _contingency_table = boost_matrix_float(a,b,0.0);
      _contingency_theorical_table = boost_matrix_float(a,b,0.0);
 }
-
+// contingencies(contingencies const& m) to init a contingency table with given
+// contingency table's dimension
 contingencies::contingencies(contingencies const& m) : boost_matrix_float(m.size1(), m.size2())
 {
     for (unsigned i = 0; i < size1(); ++i)
@@ -63,7 +63,6 @@ void contingencies::make_contingency_table(boost_matrix const& _genos_matrix, bo
 	}
 }
 
-
 //==============================================================================
 // contingencies::make_contingency_table
 // Use geno matrix and phenos vector to build a contingency table
@@ -86,25 +85,26 @@ void contingencies::make_contingency_theorical_table(int size_pheno_vector)
 //==============================================================================
 // Getters
 //==============================================================================
-
-
+//==============================================================================
 //==============================================================================
 // contingencies::return_contingency_table
 // Return a contingency table
 //==============================================================================
+
 boost_matrix_float contingencies::return_contingency_table()
 {
     return _contingency_table;
 }
+
 //==============================================================================
 // contingencies::return_contingency_theorical_table
 // Return a theorical contingency table
 //==============================================================================
+
 boost_matrix_float contingencies::return_contingency_theorical_table()
 {
     return _contingency_theorical_table;
 }
-
 
 //==============================================================================
 // Some static functions used in contigencies.cpp and in statistics.cpp
@@ -149,11 +149,13 @@ unsigned int contingencies::sum_row(int index, boost_matrix_float const& conting
 	// Return sum of row
 	return sum_row_of_contingency_table;
 }
+
 //==============================================================================
 // contingencies::sum_contingency_table
 // Use a given index and a contingency table
 // Return sum of whole contingency table
 //==============================================================================
+
 unsigned int contingencies::sum_contingency_table(boost_matrix_float const& contingency_table)
 {
 	unsigned int sum_contingency_table = 0;
@@ -218,7 +220,6 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
 				c(cr, cc) += 1;
         }
     }
-
 	// Fill one contingency_table
     else
     {
@@ -233,11 +234,13 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
     }
     return contingencies_vector;
 }
+
 //==============================================================================
 // contingencies::make_contingency_theorical_table_independant
 // Use a given index and a contingency table
 // Return associated theorical contingency table
 //==============================================================================
+
 boost_matrix_float contingencies::make_contingency_theorical_table_conditionnal(int size_pheno_vector, boost_matrix_float contingency_table)
 {
 	// Initialisation of contingency table with float
