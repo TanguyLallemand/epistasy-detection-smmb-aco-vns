@@ -5,7 +5,7 @@
 class tools
 {
 public:
-    static boost::numeric::ublas::vector<int> sampling(int subset_size, boost::numeric::ublas::vector<float> weight_vector, std::mt19937 rng);
+    static boost::numeric::ublas::vector<int> sampling(int subset_size, boost::numeric::ublas::vector<float> weight_vector, std::mt19937 & rng);
 };
 
 #endif

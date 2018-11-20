@@ -31,8 +31,8 @@ smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, par
     _subset_size = _params.aco_set_size;
     _sub_subset_size = _params.subset_size_small;
 
-    std::mt19937 _rng;
-
+    std::mt19937 _rng(1);
+    _rng.seed(2);
     //vecteur concernant les pheromones
     _eta = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_eta);
     _tau = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_tau_init);
