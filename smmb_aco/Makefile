@@ -23,9 +23,9 @@ INC=-I$(BOOST_FOLDER) \
 
 # Save compiler call
  CXX=g++ -o
- CXXFLAGS=-std=c++11 -DNDEBUG -g $(INC)
+# CXXFLAGS=-std=c++11 -DNDEBUG -g $(INC)
  #Intial call
-# CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -g $(INC)
+ CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -g $(INC)
  LFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -I$(BOOST_FOLDER) -lm
 # Save directory names
  SRCDIR=src
