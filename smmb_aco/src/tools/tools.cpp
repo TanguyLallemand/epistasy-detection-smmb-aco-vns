@@ -6,7 +6,11 @@
 //=================================================
 // tools : sampling
 //=================================================
+<<<<<<< HEAD
 boost::numeric::ublas::vector<int> tools::sampling(int subset_size, boost::numeric::ublas::vector<float> weight_vector, std::mt19937 rng) //generate a subset of SNP of _subset_size SNP according to weight_vector distribution
+=======
+boost::numeric::ublas::vector<int> tools::sampling(unsigned subset_size, boost::numeric::ublas::vector<float> weight_vector) //generate a subset of SNP of _subset_size SNP according to weight_vector distribution
+>>>>>>> 173d5fd185c4d44d4d63415ff6441d6a60be65fa
 {
 	boost::numeric::ublas::vector<int> SNP_picked (subset_size);
 	int nb;

@@ -42,8 +42,8 @@ public:
     // Some static functions used in statistics.cpp for some required operations
     // for conditionnal chi 2
     //==========================================================================
-    static boost_matrix_float make_contingency_theorical_table_conditionnal(int size_pheno_vector, boost_matrix_float contingency_table);
-    static std::vector<contingencies> make_contingencies_table_conditionnal(std::list<unsigned> const& cond_genos_indexes, boost_column const& _genos_column, boost_column const& _phenos_column, int number_obs_subset, std::vector<contingencies> contingencies_vector);
+    static boost_matrix_float make_contingency_theorical_table_conditionnal( boost_matrix_float contingency_table);
+    static std::vector<contingencies> make_contingencies_table_conditionnal(std::list<unsigned> const& cond_genos_indexes, boost_column const& _genos_column, boost_column const& _phenos_column, unsigned number_obs_subset, std::vector<contingencies> contingencies_vector);
 
     //==========================================================================
     // Class Variables
