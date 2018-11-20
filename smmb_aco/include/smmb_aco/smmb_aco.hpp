@@ -26,11 +26,11 @@ private:
     parameters_parsing _params;
 
     //variables initialisée par le constructeur à partir de params
-    int _n_it; // nombre d'itérations ACO
-    int _n_ant; // nb de fourmis
-    int _subset_size; // taille du subset de variables echantillonnees à partir de _genos_matrix pour chaque fourmis (on echantillone donc les SNPs pas les individus)
-    int _sub_subset_size; //taille d'une combinaison de variables echantillonnées parmi _subset_size
-    int _n_it_n; // nombre d'itération maximales pour explorer l'espace de recherche
+    unsigned _n_it; // nombre d'itérations ACO
+    unsigned _n_ant; // nb de fourmis
+    unsigned _subset_size; // taille du subset de variables echantillonnees à partir de _genos_matrix pour chaque fourmis (on echantillone donc les SNPs pas les individus)
+    unsigned _sub_subset_size; //taille d'une combinaison de variables echantillonnées parmi _subset_size
+    unsigned _n_it_n; // nombre d'itération maximales pour explorer l'espace de recherche
     float _alpha_stat; // seuil de significativité
     float _tau_0; // valeur initiale de phéromone de chaque variable, au debut des temps egalite parfaite car on a pas de connaissance. A traiter comme un vecteur
     //Mise a jour du taux de phéromones
@@ -58,8 +58,8 @@ private:
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
     void update_tau(); //add pheromone on a good SNP
-    void sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset); //compute sub_subset
-    void get_all_combinations(boost_vector_int & sub_subset, list<list<unsigned int>> & combi_list);
+    void sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset, list<unsigned> const& markov_blanket_a); //compute sub_subset
+    void get_all_combinations(boost_vector_int & sub_subset, list<list<unsigned>> & combi_list);
     void generate_combinations(list<unsigned int> temp, list<list<unsigned int>> & combi_list, list<unsigned int> subset);
     boost_vector_float best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, float> & mem_ant_ref);
     void update_pheromon_distrib(); //update pheromons using _tau and _eta

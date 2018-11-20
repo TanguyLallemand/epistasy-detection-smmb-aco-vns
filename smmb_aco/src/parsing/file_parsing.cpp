@@ -34,7 +34,7 @@ void data_parsing::parse_geno()
     _geno_matrix.resize( _row_number, _col_number);
     ifstream file(_geno_filename);
     string line;
-    for (size_t x = 0; x < _header_size; x++)
+    for (unsigned x = 0; x < _header_size; x++)
     {
         getline(file, line);
     }

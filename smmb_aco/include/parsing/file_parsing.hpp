@@ -20,7 +20,7 @@ public:
 private:
     //taken from arguments
     string _geno_filename, _pheno_filename;
-    int _header_size;
+    unsigned _header_size;
     char _separator;
 
 
