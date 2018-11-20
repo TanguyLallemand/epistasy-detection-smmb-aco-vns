@@ -194,7 +194,7 @@ bool contingencies::reliable_test(boost_matrix_float const& contingency_table)
 // conditionnal chi 2
 //==============================================================================
 
-std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(std::list<unsigned> const& cond_genos_indexes, boost_column const& _genos_column, boost_column const& _phenos_column, int number_obs_subset, std::vector<contingencies> contingencies_vector)
+std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(std::list<unsigned> const& cond_genos_indexes, boost_column const& _genos_column, boost_column const& _phenos_column, unsigned number_obs_subset, std::vector<contingencies> contingencies_vector)
 {
     // Fill contingency table (one or multiple)
 	// Fill multiple contingency_table
@@ -241,7 +241,7 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
 // Return associated theorical contingency table
 //==============================================================================
 
-boost_matrix_float contingencies::make_contingency_theorical_table_conditionnal(int size_pheno_vector, boost_matrix_float contingency_table)
+boost_matrix_float contingencies::make_contingency_theorical_table_conditionnal(boost_matrix_float contingency_table)
 {
 	// Initialisation of contingency table with float
 	boost_matrix_float contingency_theorical_table(2,3,0.0);
