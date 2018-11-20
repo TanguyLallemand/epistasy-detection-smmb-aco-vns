@@ -31,6 +31,8 @@ smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, par
     _subset_size = _params.aco_set_size;
     _sub_subset_size = _params.subset_size_small;
 
+    std::mt19937 _rng;
+    std::cout << _rng << '\n';
     //vecteur concernant les pheromones
     _eta = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_eta);
     _tau = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_tau_init);
@@ -174,6 +176,7 @@ void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_
 //==============================================================================
 void smmb_aco::run()
 {
+    std::cout << "run" << '\n';
     // Initialization of Markov Blanket
     list<unsigned> markov_blanket_s;
 
@@ -194,7 +197,7 @@ void smmb_aco::run()
             std::cout << ' ' << a << '\n';
             boost_vector_float ant_subset;
             //This is the list of SNP sampled for this ant. and the distribution given on copy not ref to modify it
-            ant_subset = tools::sampling(_subset_size, _pheromone_distrib);
+            ant_subset = tools::sampling(_subset_size, _pheromone_distrib, _rng);
 
             // Generate Markov Blanket
             learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant(a));
@@ -240,7 +243,7 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
 
     boost_vector_int temp;
     //giving the weight vector for the ant_subset to tools::sampling
-    temp = tools::sampling(sub_subset.size(), small_distrib);
+    temp = tools::sampling(sub_subset.size(), small_distrib, _rng);
 
     //taking the SNPs on index returned by tools::sampling in ant_subset
     for (size_t j = 0; j < temp.size(); j++)

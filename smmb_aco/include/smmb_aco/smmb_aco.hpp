@@ -3,6 +3,7 @@
 #include "global.hpp"
 #include <list>
 #include <map>
+#include <random>
 #include "parameters_parsing.hpp"
 using namespace std;
 
@@ -39,6 +40,9 @@ private:
     // Deux constantes utilisées pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori. Y a peut etre des SNPs qu on connait et donc on lui donne une bonne note. Ca permet donc de regler le curseur entre importance des phéromones et importance des connaissances a priori
     float _alpha_phero;
     float _beta_phero;
+
+    //rng seed
+    std::mt19937 _rng;
 
     std::map<unsigned, float> _mem;
 
