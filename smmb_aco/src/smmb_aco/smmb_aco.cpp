@@ -80,7 +80,7 @@ void smmb_aco::update_pheromon_distrib()
 //Return Markov Blanket sous optimale eventuellemenet vide
 void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::map<unsigned, float> & mem_ant_ref)
 {
-    // std::cout << "learn_MB" << '\n';
+    std::cout << "learn_MB" << '\n';
     //to enter the loop on first iteration
     bool markov_blanket_modified = true;
     //counter of iteration number
@@ -92,7 +92,7 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
         forward(markov_blanket_modified, markov_blanket_a, ant_subset, mem_ant_ref);
         j++;
     }
-    // std::cout << "fin" << '\n';
+    std::cout << "fin" << '\n';
     //backward(markov_blanket_modified, markov_blanket_a);
     //TODO voir si on en met un la finalement
 }
@@ -102,7 +102,7 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
 //==============================================================================
 void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::map<unsigned, float> & mem_ant_ref)
 {
-    // std::cout << "forward" << '\n';
+    std::cout << "forward" << '\n';
     //to break the loop if nothing modified
     markov_blanket_modified = false;
 
@@ -128,7 +128,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
         markov_blanket_modified = true;
     }
 
-// std::cout << "fin" << '\n';
+std::cout << "fin" << '\n';
 }
 
 //==============================================================================
@@ -136,7 +136,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
 //==============================================================================
 void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a)
 {
-    // std::cout << "backward" << '\n';
+    std::cout << "backward" << '\n';
     list<unsigned> iterate = markov_blanket_a;
     list<unsigned> save_markov = markov_blanket_a;
     for (auto current_SNP : iterate)
@@ -168,7 +168,7 @@ void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_
             }
         }
     }
-    // std::cout << "fin" << '\n';
+    std::cout << "fin" << '\n';
 }
 
 //==============================================================================
@@ -176,7 +176,7 @@ void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_
 //==============================================================================
 void smmb_aco::run()
 {
-    // std::cout << "run" << '\n';
+    std::cout << "run" << '\n';
     // Initialization of Markov Blanket
     list<unsigned> markov_blanket_s;
 
@@ -194,9 +194,9 @@ void smmb_aco::run()
         //TODO For every ants a parallelise : #pragma omp parallel for
         for (size_t a = 0; a < _n_ant; a++)
         {
-            // std::cout << "ant number" << '\n';
-            // std::cout << ' ' << a << '\n';
-            boost_vector_float ant_subset;
+            std::cout << "ant number" << '\n';
+            std::cout << ' ' << a << '\n';
+            boost_vector_float ant_subset(_subset_size);
             //This is the list of SNP sampled for this ant. and the distribution given on copy not ref to modify it
             ant_subset = tools::sampling(_subset_size, _pheromone_distrib, _rng);
 
@@ -221,7 +221,7 @@ void smmb_aco::run()
 
         update_tau();
     }
-    // std::cout << "fin" << '\n';
+    std::cout << "fin" << '\n';
 }
 
 //==============================================================================
@@ -229,7 +229,7 @@ void smmb_aco::run()
 //==============================================================================
 void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset, list<unsigned> const& markov_blanket_a)
 {
-    // std::cout << "sub_sampling" << '\n';
+    std::cout << "sub_sampling" << '\n';
     //sub weight vector associated to the ant_subset
     boost_vector_int small_distrib(ant_subset.size());
     //getting _tau values associated to the ant_subset
@@ -251,7 +251,7 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
     {
         sub_subset (j) = ant_subset(temp(j));
     }
-    // std::cout << "fin" << '\n';
+    std::cout << "fin" << '\n';
 }
 
 //==============================================================================
@@ -259,13 +259,13 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
 //==============================================================================
 void smmb_aco::get_all_combinations(boost_vector_int & sub_subset, list<list<unsigned>> & combi_list)
 {
-    // std::cout << "get_all_combinations" << '\n';
+    std::cout << "get_all_combinations" << '\n';
     //convert vector into list
     list<unsigned> subset(sub_subset.begin(), sub_subset.end());
     list<unsigned> temp;
     //recursive function to generate all non-empty combinations
     generate_combinations(temp, combi_list, subset);
-    // std::cout << "fin" << '\n';
+    std::cout << "fin" << '\n';
 }
 
 //==============================================================================
@@ -273,7 +273,7 @@ void smmb_aco::get_all_combinations(boost_vector_int & sub_subset, list<list<uns
 //==============================================================================
 void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned int>> & combi_list, list<unsigned int> subset)
 {
-    // std::cout << "generate_combinations" << '\n';
+    std::cout << "generate_combinations" << '\n';
     //copy the subset
     list<unsigned int> next_subset(subset);
     //iterate the subset list
@@ -290,7 +290,7 @@ void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned
         //remove predecent snp
         temp.pop_back();
     }
-    // std::cout << "fin" << '\n';
+    std::cout << "fin" << '\n';
 }
 
 //==============================================================================
@@ -298,32 +298,32 @@ void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned
 //==============================================================================
 boost_vector_float smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, float> & mem_ant_ref)
 {
-    // std::cout << "best_combination" << '\n';
+    std::cout << "best_combination" << '\n';
     //stock the current best_result
     boost_vector_float best_result(2, 0);
     //iterate through the list of pattern
     for (auto current_pattern : pattern_list)
     {
-        // std::cout << "/* message 1*/" << '\n';
+        std::cout << "/* message 1*/" << '\n';
         boost_vector_float result_pattern(2, 0);
         for (auto current_SNP : current_pattern)
         {
-            // std::cout << "/* message 2*/" << '\n';
+            std::cout << "/* message 2*/" << '\n';
             //setting up the list of conditionnals SNPs
             list<unsigned int> conditionnal_set = current_pattern;
             markov_blanket_a.sort();
             conditionnal_set.sort();
             conditionnal_set.merge(markov_blanket_a);
             conditionnal_set.remove(current_SNP);
-            // std::cout << "/* message 3*/" << '\n';
+            std::cout << "/* message 3*/" << '\n';
             //making a matrix column ref to pass to the function
-            // std::cout << current_SNP << '\n';
+            std::cout << current_SNP << '\n';
             boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, current_SNP);
 
-            // std::cout << "/* message 3.5*/" << '\n';
+            std::cout << "/* message 3.5*/" << '\n';
             //calculating score of the current SNP of the pattern and add it to the pattern score
             boost_vector_float result_SNP = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
-            // std::cout << "/* message 4*/" << '\n';
+            std::cout << "/* message 4*/" << '\n';
             //stocking result in the ant_memory
             mem_ant_ref.insert(std::pair<unsigned, float>(current_SNP, result_SNP(0)));
 
@@ -332,7 +332,7 @@ boost_vector_float smmb_aco::best_combination(list<unsigned int> & best_pattern,
             {
                 result_pattern = result_SNP;
             }
-            // std::cout << "/* message 5*/" << '\n';
+            std::cout << "/* message 5*/" << '\n';
         }
         //if the score of the current pattern is better than the current one it become the current best pattern
         if (result_pattern(0) > best_result(0))
@@ -341,6 +341,6 @@ boost_vector_float smmb_aco::best_combination(list<unsigned int> & best_pattern,
             best_pattern = current_pattern;
         }
     }
-    // std::cout << "fin" << '\n';
+    std::cout << "fin" << '\n';
     return best_result;
 }
