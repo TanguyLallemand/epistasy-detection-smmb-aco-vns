@@ -14,8 +14,8 @@ boost::numeric::ublas::vector<int> tools::sampling(int subset_size, boost::numer
 	for (size_t i = 0; i < subset_size; i++)
 	{
 		std::cout << "hash" << '\n';
-		boost::random::discrete_distribution<int,float> distrib(float weight_vector);
-		// std::cout << distrib << '\n';
+		boost::random::discrete_distribution<int,float> distrib(weight_vector);
+		std::cout << distrib << '\n';
 		nb = distrib(rng); //on pick 1 nbr avec la distrib obtenue
 		SNP_picked (i) = nb; // on stocke le nbr dans la liste
 		std::cout << SNP_picked << '\n';
