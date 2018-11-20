@@ -118,8 +118,19 @@ procedure backward(MB, T, alpha)
 
 */
 
+Le 20/11
+La Simulation naive:
+Les coefficients alpha beta1 beta2 et beta12 sont constant et ca determine une condition sous laquelle on simule les fichiers
+On doit simuler 3 conditions
 
-QUESTION
-Pour le calcul de la distrib c'est quoi la formule ?? (clement : tau^alpha + eta^beta, ^ = exponentiel)
-Argument qui maximise (s et s' dans le pseudocode) on comprend juste pas ce qu'il faut faire
-Mettre un backward à la fin de learnMB (après le while)
+pattern d epistasie de taille 2 -> 2 SNP causaux  (x1,x2) -> {0,1,2} * {0,1,2}
+
+y = alpha + beta_1*x_1 + beta_2*x_2 + beta_1_2 * x_1 *x_2
+pr = 1 / (1+exp(-y))
+si pr > 0.5 -< malade 1
+    =< non malade 0
+
+9 combinaisons a rendent malades {(0,1),(1,0),(1,1)}
+
+A propos des tables de contingences:
+Il faut compter le nombre de cases qui ne sont pas reliable mais pas cut le test
