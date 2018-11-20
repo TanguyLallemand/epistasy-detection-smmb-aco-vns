@@ -2,6 +2,7 @@
 #define SMMB_ACO_HPP
 #include "global.hpp"
 #include <list>
+#include <iostream>
 #include <map>
 #include <random>
 #include "parameters_parsing.hpp"

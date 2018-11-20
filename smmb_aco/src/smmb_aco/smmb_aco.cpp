@@ -107,10 +107,11 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     markov_blanket_modified = false;
 
     // sub_subset container (S in the pseudocode)
-    boost_vector_int sub_subset(_sub_subset_size, 0);
+    boost_vector_int sub_subset(_sub_subset_size);
+
     // sub_sampling from ant_subset
     sub_sampling(sub_subset, ant_subset, markov_blanket_a);
-
+    std::cout << "/* test */" << '\n';
     // generating all the combination from the drawn sub_subset
     list<list<unsigned int>> combi_list;
     get_all_combinations(sub_subset, combi_list);
@@ -231,7 +232,8 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
 {
     std::cout << "sub_sampling" << '\n';
     //sub weight vector associated to the ant_subset
-    boost_vector_int small_distrib(ant_subset.size());
+    boost_vector_float small_distrib(_subset_size);
+
     //getting _tau values associated to the ant_subset
     for (size_t i = 0; i < ant_subset.size(); i++)
     {
@@ -242,15 +244,17 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
         small_distrib(r) = 0;
     }
 
-    boost_vector_int temp;
+    boost_vector_int temp(_sub_subset_size);
+    
     //giving the weight vector for the ant_subset to tools::sampling
-    temp = tools::sampling(sub_subset.size(), small_distrib, _rng);
+    temp = tools::sampling(_sub_subset_size, small_distrib, _rng);
 
     //taking the SNPs on index returned by tools::sampling in ant_subset
-    for (size_t j = 0; j < temp.size(); j++)
+    for (size_t j = 0; j < _sub_subset_size; j++)
     {
         sub_subset (j) = ant_subset(temp(j));
     }
+    std::cout << sub_subset << '\n';
     std::cout << "fin" << '\n';
 }
 
