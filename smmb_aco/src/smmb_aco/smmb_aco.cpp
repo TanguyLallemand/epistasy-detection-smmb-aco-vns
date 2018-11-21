@@ -129,7 +129,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
         markov_blanket_modified = true;
     }
 
-std::cout << "fin" << '\n';
+std::cout << "fin forward" << '\n';
 }
 
 //==============================================================================
@@ -169,7 +169,7 @@ void smmb_aco::backward(bool & markov_blanket_modified, list<unsigned> & markov_
             }
         }
     }
-    std::cout << "fin" << '\n';
+    std::cout << "fin backward" << '\n';
 }
 
 //==============================================================================
