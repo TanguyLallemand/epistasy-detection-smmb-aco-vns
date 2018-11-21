@@ -306,7 +306,7 @@ void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned
 //==============================================================================
 // smmb_aco : best_combination
 //==============================================================================
-boost_vector_float smmb_aco::best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, float> & mem_ant_ref)
+boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, list<list<unsigned>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, float> & mem_ant_ref)
 {
     std::cout << "best_combination" << '\n';
     //stock the current best_result
