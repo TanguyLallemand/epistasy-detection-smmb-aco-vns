@@ -246,15 +246,15 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
         markov_blanket_a.pop_back();
     }
     std::cout << "/* small_distrib apres */" << '\n';
-    boost_vector_int temp(_sub_subset_size);
+    boost_vector_float temporary(_sub_subset_size, 0);
 
     //giving the weight vector for the ant_subset to tools::sampling
-    temp = tools::sampling(_sub_subset_size, small_distrib, _rng);
+    temporary = tools::sampling(_sub_subset_size, small_distrib, _rng);
     std::cout << "/* sampling apres */" << '\n';
     //taking the SNPs on index returned by tools::sampling in ant_subset
     for (size_t j = 0; j < _sub_subset_size; j++)
     {
-        sub_subset (j) = ant_subset(temp(j));
+        sub_subset (j) = ant_subset(temporary(j));
     }
     std::cout << sub_subset << '\n';
     std::cout << "fin" << '\n';
