@@ -228,7 +228,7 @@ void smmb_aco::run()
 //==============================================================================
 // smmb_aco : sub_sampling
 //==============================================================================
-void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset, list<unsigned> const& markov_blanket_a)
+void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset, list<unsigned> markov_blanket_a)
 {
     std::cout << "sub_sampling" << '\n';
     //sub weight vector associated to the ant_subset
@@ -240,8 +240,10 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
         small_distrib (i) = _pheromone_distrib (ant_subset(i));
     }
     //making markov blanket SNPs unpickable
-    for (size_t f = 0; f < markov_blanket_a.size(); f++) {
-        small_distrib(markov_blanket_a(f)) = 0;
+    while (!markov_blanket_a.empty())
+    {
+        small_distrib(markov_blanket_a.back()) = 0;
+        markov_blanket_a.pop_back();
     }
 
     boost_vector_int temp(_sub_subset_size);

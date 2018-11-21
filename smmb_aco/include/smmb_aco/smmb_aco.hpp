@@ -63,7 +63,7 @@ private:
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
     void update_tau(); //add pheromone on a good SNP
-    void sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset, list<unsigned> const& markov_blanket_a); //compute sub_subset
+    void sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset, list<unsigned> markov_blanket_a); //compute sub_subset
     void get_all_combinations(boost_vector_int & sub_subset, list<list<unsigned>> & combi_list);
     void generate_combinations(list<unsigned int> temp, list<list<unsigned int>> & combi_list, list<unsigned int> subset);
     boost_vector_float best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, float> & mem_ant_ref);
