@@ -240,12 +240,12 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
         small_distrib (i) = _pheromone_distrib (ant_subset(i));
     }
     //making markov blanket SNPs unpickable
-    for (auto r : markov_blanket_a) {
-        small_distrib(r) = 0;
+    for (size_t f = 0; f < markov_blanket_a.size(); f++) {
+        small_distrib(markov_blanket_a(f)) = 0;
     }
 
     boost_vector_int temp(_sub_subset_size);
-    
+
     //giving the weight vector for the ant_subset to tools::sampling
     temp = tools::sampling(_sub_subset_size, small_distrib, _rng);
 

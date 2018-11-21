@@ -15,10 +15,10 @@ boost::numeric::ublas::vector<int> tools::sampling(int subset_size, boost::numer
 	{
 		std::cout << "hash" << '\n';
 		boost::random::discrete_distribution<int,float> distrib(weight_vector);
-		std::cout << distrib << '\n';
+		// std::cout << distrib << '\n';
 		nb = distrib(rng); //on pick 1 nbr avec la distrib obtenue
 		SNP_picked (i) = nb; // on stocke le nbr dans la liste
-		std::cout << SNP_picked << '\n';
+		// std::cout << SNP_picked << '\n';
 		weight_vector (nb) = 0; //on passe le poids de celui qui est pick à 0 pour pas le repick
 		std::cout << "/* message */" << '\n';
 	}
