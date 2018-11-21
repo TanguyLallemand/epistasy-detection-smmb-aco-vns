@@ -333,6 +333,7 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
             std::cout << "/* message 3.5*/" << '\n';
             //calculating score of the current SNP of the pattern and add it to the pattern score
             boost_vector_float result_SNP(2,0);
+            std::cout << "/* message */" << '\n';
             result_SNP = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
             std::cout << "/* message 4*/" << '\n';
             //stocking result in the ant_memory
