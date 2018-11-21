@@ -90,9 +90,10 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
     while (markov_blanket_modified || (!(markov_blanket_a.empty()) && j<_n_it_n))
     {
         forward(markov_blanket_modified, markov_blanket_a, ant_subset, mem_ant_ref);
+        std::cout << "after forward" << '\n';
         j++;
     }
-    std::cout << "fin" << '\n';
+    std::cout << "fin learn_MB" << '\n';
     //backward(markov_blanket_modified, markov_blanket_a);
     //TODO voir si on en met un la finalement
 }
@@ -113,7 +114,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     sub_sampling(sub_subset, ant_subset, markov_blanket_a);
     std::cout << "/* test */" << '\n';
     // generating all the combination from the drawn sub_subset
-    list<list<unsigned int>> combi_list;
+    list<list<unsigned>> combi_list;
     get_all_combinations(sub_subset, combi_list);
 
     list<unsigned> best_pattern;
@@ -123,8 +124,11 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
 
     if (result(1) < _alpha_stat) //rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
     {
-
-        std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), best_pattern.begin(), best_pattern.end(), std::back_inserter(markov_blanket_a));// union de MB_a et S je crois que c'est bon //QUESTION Clement lui il modifie directement la blanket de la fourmis du coup je sais pas trop quoi penser de ton unified, mais bon comme je comprend pas ta ligne je touche pas pour le moment
+        //on peut juste append normalement car on pick jamais des snp déja dans la MB
+        for (auto i : best_pattern) {
+            markov_blanket_a.push_back(i);
+        }
+        // std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), best_pattern.begin(), best_pattern.end(), std::back_inserter(markov_blanket_a));// union de MB_a et S je crois que c'est bon //QUESTION Clement lui il modifie directement la blanket de la fourmis du coup je sais pas trop quoi penser de ton unified, mais bon comme je comprend pas ta ligne je touche pas pour le moment
         backward(markov_blanket_modified, markov_blanket_a);
         markov_blanket_modified = true;
     }
