@@ -52,7 +52,7 @@ contingencies::contingencies(contingencies const& m) : boost_matrix_float(m.size
 void contingencies::make_contingency_table(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector)
 {
 	// For every rows
-	for (size_t i = 0; i < _genos_matrix.size1(); i++)
+	for (size_t i = 0; i < _phenos_vector.size(); i++)
 	{
 		// Store phenotype vector of current index value in a variable
 		float index_row_of_contingency_table = _phenos_vector(i);
