@@ -247,7 +247,7 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
     }
     std::cout << "/* small_distrib apres */" << '\n';
     boost_vector_float temporary(_sub_subset_size, 0);
-
+    std::cout << small_distrib << '\n';
     //giving the weight vector for the ant_subset to tools::sampling
     temporary = tools::sampling(_sub_subset_size, small_distrib, _rng);
     std::cout << "/* sampling apres */" << '\n';
