@@ -233,24 +233,24 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
     std::cout << "sub_sampling" << '\n';
     //sub weight vector associated to the ant_subset
     boost_vector_float small_distrib(_subset_size);
-
     //getting _tau values associated to the ant_subset
     for (size_t i = 0; i < ant_subset.size(); i++)
     {
         small_distrib (i) = _pheromone_distrib (ant_subset(i));
     }
+    std::cout << "/* small_distrib avt */" << '\n';
     //making markov blanket SNPs unpickable
     while (!markov_blanket_a.empty())
     {
         small_distrib(markov_blanket_a.back()) = 0;
         markov_blanket_a.pop_back();
     }
-
+    std::cout << "/* small_distrib apres */" << '\n';
     boost_vector_int temp(_sub_subset_size);
 
     //giving the weight vector for the ant_subset to tools::sampling
     temp = tools::sampling(_sub_subset_size, small_distrib, _rng);
-
+    std::cout << "/* sampling apres */" << '\n';
     //taking the SNPs on index returned by tools::sampling in ant_subset
     for (size_t j = 0; j < _sub_subset_size; j++)
     {
