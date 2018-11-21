@@ -207,17 +207,22 @@ void smmb_aco::run()
 
             // Generate Markov Blanket
             learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant(a));
+
         }
 
         _mem.clear();
         // Initialization of final variable
+
         for (size_t a = 0; a < _n_ant; a++)
         {
+            std::cout << a << '\n';
             // Insert in global map current _mem_ant
-            _mem.insert(_mem_ant(a).begin(), _mem_ant(a).end());
+            _mem.insert(_mem_ant(a).begin(), _mem_ant(a).end()); //FIXME
+            std::cout << a << '\n';
             // If ant's markov blanket is not empty
             if (!_markov_blanket_a(a).empty())
             {
+                std::cout << "bite" << '\n';
                 // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end // TODO a test
                 markov_blanket_s.splice(markov_blanket_s.end(), _markov_blanket_a(a));
             }
