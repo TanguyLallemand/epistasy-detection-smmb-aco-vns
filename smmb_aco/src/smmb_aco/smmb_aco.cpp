@@ -1,17 +1,4 @@
 #include "smmb_aco.hpp"
-#include <iostream>
-#include <stdlib.h>
-#include <fstream>
-#include <string>
-#include <map>
-#include <boost/numeric/ublas/io.hpp>
-#include <boost/numeric/ublas/matrix_proxy.hpp>
-
-#include "tools.hpp"
-#include "global.hpp"
-#include "statistics.hpp"
-
-using namespace std;
 
 //==============================================================================
 // smmb_aco : constructeur
@@ -345,7 +332,7 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
             std::cout << "/* message 3.5*/" << '\n';
             //calculating score of the current SNP of the pattern and add it to the pattern score
             boost_vector_float result_SNP(2,0);
-            std::cout << "/* message */" << '\n';
+            std::cout << "/* message 3.6*/" << '\n';
             result_SNP = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
             std::cout << "/* message 4*/" << '\n';
             //stocking result in the ant_memory
