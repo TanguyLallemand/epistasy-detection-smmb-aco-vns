@@ -1,14 +1,9 @@
-#include <iostream>
-#include <stdlib.h>
-
-#include <boost/numeric/ublas/io.hpp>
-
 #include "parameters_parsing.hpp"
 #include "file_parsing.hpp"
 #include "smmb_aco.hpp"
 #include "tools.hpp"
 #include "statistics.hpp"
-#include <boost/numeric/ublas/matrix.hpp>
+
 #include "global.hpp"
 int main(int argc, char* argv[])
 {
@@ -25,9 +20,7 @@ int main(int argc, char* argv[])
 	char separator = params.separator;
 
 	data_parsing data(genos_file, phenos_file, header, separator);
-	float pikachu;
-
-	pikachu = statistics::compute_p_value(data._geno_matrix, data._pheno_vector);
+	
 	// Instanciation de smmb_aco
 	smmb_aco test(data._geno_matrix, data._pheno_vector, params);
 	test.run();
