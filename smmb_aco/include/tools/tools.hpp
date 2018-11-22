@@ -1,9 +1,8 @@
 #ifndef TOOLS_HPP
 #define TOOLS_HPP
-#include <random>
-#include <iostream>
-#include <boost/numeric/ublas/io.hpp>
+
 #include "global.hpp"
+
 class tools
 {
 public:

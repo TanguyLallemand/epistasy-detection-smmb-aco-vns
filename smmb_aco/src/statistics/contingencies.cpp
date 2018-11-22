@@ -2,8 +2,6 @@
    Authors: Tanguy Lallemand M2BB
          Jonathan Cruard M2BB
  */
-#include <boost/numeric/ublas/io.hpp>
-#include "global.hpp"
 #include "contingencies.hpp"
 //==============================================================================
 // Constructors

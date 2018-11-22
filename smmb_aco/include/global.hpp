@@ -5,13 +5,30 @@ Authors: Tanguy Lallemand M2BB
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
+#include <boost/math/distributions/chi_squared.hpp>
+#include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/matrix_proxy.hpp>
+#include <boost/numeric/ublas/vector.hpp>
+#include <boost/random/discrete_distribution.hpp>
+
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
+#include <iostream>
+#include <iterator>
+#include <list>
+#include <map>
+#include <random>
+#include <sstream>
+#include <stdlib.h>
 #include <string>
 #include <vector>
-#include <iostream>
-#include <list>
+
+using namespace std;
+
 //==============================================================================
 // Creation of boost aliases
 //==============================================================================

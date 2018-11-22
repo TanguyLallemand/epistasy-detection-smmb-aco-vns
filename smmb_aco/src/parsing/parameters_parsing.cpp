@@ -1,16 +1,5 @@
 #include "parameters_parsing.hpp"
 
-#include <sstream>
-#include <algorithm>
-#include <iterator>
-#include <iostream>
-#include <fstream>
-#include <cstdlib>
-#include <cmath>
-
-using namespace std;
-
-
 //=================================================
 // Constructor
 //=================================================

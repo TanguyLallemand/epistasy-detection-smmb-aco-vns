@@ -1,12 +1,11 @@
 #ifndef SMMB_ACO_HPP
 #define SMMB_ACO_HPP
+
 #include "global.hpp"
-#include <list>
-#include <iostream>
-#include <map>
-#include <random>
+
+#include "statistics.hpp"
+#include "tools.hpp"
 #include "parameters_parsing.hpp"
-using namespace std;
 
 class smmb_aco
 {

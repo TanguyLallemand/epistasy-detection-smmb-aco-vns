@@ -1,10 +1,8 @@
 #ifndef PARAMETERS_PARSING_HPP
 #define PARAMETERS_PARSING_HPP
 
-#include <string>
-#include <vector>
+#include "global.hpp"
 
-using namespace std;
 class parameters_parsing
 {
 public:
