@@ -5,7 +5,6 @@ Authors: Tanguy Lallemand M2BB
 #ifndef STATISTICS_HPP
 #define STATISTICS_HPP
 
-#include <boost/math/distributions/chi_squared.hpp>
 #include "contingencies.hpp"
 #include "global.hpp"
 

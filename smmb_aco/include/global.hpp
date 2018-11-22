@@ -5,10 +5,11 @@ Authors: Tanguy Lallemand M2BB
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
 
-#include <boost/numeric/ublas/matrix.hpp>
-#include <boost/numeric/ublas/vector.hpp>
-#include <boost/numeric/ublas/matrix_proxy.hpp>
+#include <boost/math/distributions/chi_squared.hpp>
 #include <boost/numeric/ublas/io.hpp>
+#include <boost/numeric/ublas/matrix.hpp>
+#include <boost/numeric/ublas/matrix_proxy.hpp>
+#include <boost/numeric/ublas/vector.hpp>
 
 #include <fstream>
 #include <iostream>

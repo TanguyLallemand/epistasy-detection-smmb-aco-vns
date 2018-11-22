@@ -4,8 +4,7 @@ Authors: Tanguy Lallemand M2BB
 */
 #ifndef CONTINGENCIES_HPP
 #define CONTINGENCIES_HPP
-#include <boost/numeric/ublas/io.hpp>
-#include <boost/math/distributions/chi_squared.hpp>
+
 #include "global.hpp"
 
 
