@@ -27,7 +27,7 @@ smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, par
     //initialisation of the markov_blanket_a to number of ant
     boost::numeric::ublas::vector<list<unsigned>> _markov_blanket_a(_n_ant);
     //initialisation of the _mem_ant to number of ant
-    boost::numeric::ublas::vector<std::map<unsigned, float>> _mem_ant(_n_ant);
+    boost::numeric::ublas::vector<std::unordered_map<unsigned, float>> _mem_ant(_n_ant);
 
     update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
 }
@@ -66,7 +66,7 @@ void smmb_aco::update_pheromon_distrib()
 // smmb_aco : learn_MB
 //==============================================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::map<unsigned, list<float>> & mem_ant_ref)
+void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::unordered_map<unsigned, list<float>> & mem_ant_ref)
 {
     std::cout << "learn_MB" << '\n';
     //to enter the loop on first iteration
@@ -89,7 +89,7 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
 //==============================================================================
 // smmb_aco : forward //FIXME
 //==============================================================================
-void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::map<unsigned, list<float>> & mem_ant_ref)
+void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::unordered_map<unsigned, list<float>> & mem_ant_ref)
 {
     std::cout << "forward" << '\n';
     //to break the loop if nothing modified
@@ -181,7 +181,7 @@ void smmb_aco::run()
         //initialisation of the markov_blanket_a to number of ant
         _markov_blanket_a.resize(_n_ant, false);
         //initialisation of the _mem_ant to number of ant
-        boost::numeric::ublas::vector<std::map<unsigned, list<float>>> _mem_ant(_n_ant);
+        _mem_ant.resize(_n_ant, false);
         //_markov_blanket_a.clear();
         //_mem_ant.clear();
 
@@ -198,10 +198,10 @@ void smmb_aco::run()
             learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant(a));
 
         }
-std::cout << _mem.size() << '\n';
-        _mem.erase(_mem.begin(), _mem.end());
+        std::cout << _mem.size() << '\n';
+        _mem.clear();
         // Initialization of final variable
-std::cout << "clear" << '\n';
+        std::cout << "clear" << '\n';
         for (size_t a = 0; a < _n_ant; a++)
         {
             std::cout << a << '\n';
@@ -300,7 +300,7 @@ void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned
 //==============================================================================
 // smmb_aco : best_combination
 //==============================================================================
-boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, list<list<unsigned>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, list<float>> & mem_ant_ref)
+boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, list<list<unsigned>> const& pattern_list, list<unsigned> & markov_blanket_a, std::unordered_map<unsigned, list<float>> & mem_ant_ref)
 {
     std::cout << "best_combination" << '\n';
     //stock the current best_result

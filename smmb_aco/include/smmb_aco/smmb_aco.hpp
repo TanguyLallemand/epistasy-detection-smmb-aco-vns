@@ -56,8 +56,8 @@ private:
     boost_vector_float _pheromone_distrib;
 
     // main functions
-    void learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::map<unsigned, list<float>> & mem_ant_ref);
-    void forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::map<unsigned, list<float>> & mem_ant_ref);
+    void learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::unordered_map<unsigned, list<float>> & mem_ant_ref);
+    void forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::unordered_map<unsigned, list<float>> & mem_ant_ref);
     void backward(list<unsigned> & markov_blanket_a);
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
@@ -65,7 +65,7 @@ private:
     void sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset, list<unsigned> markov_blanket_a); //compute sub_subset
     void get_all_combinations(boost_vector_int & sub_subset, list<list<unsigned>> & combi_list);
     void generate_combinations(list<unsigned int> temp, list<list<unsigned int>> & combi_list, list<unsigned int> subset);
-    boost_vector_float best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, list<float>> & mem_ant_ref);
+    boost_vector_float best_combination(list<unsigned int> & best_pattern, list<list<unsigned int>> const& pattern_list, list<unsigned> & markov_blanket_a, std::unordered_map<unsigned, list<float>> & mem_ant_ref);
     void update_pheromon_distrib(); //update pheromons using _tau and _eta
 };
 #endif
