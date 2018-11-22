@@ -5,20 +5,20 @@
 //==============================================================================
 smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, parameters_parsing _params)
 {
-    this->_genos_matrix = genos_matrix;
-    this->_pheno_vector = pheno_vector;
+    _genos_matrix = genos_matrix;
+    _pheno_vector = pheno_vector;
 
-    this->_n_it_n = _params.aco_n_iterations;
-    this->_n_ant = _params.aco_n_ants;
-    this->_rho = _params.aco_rho;
-    this->_lambda = _params.aco_lambda;
-    this->_alpha_phero = _params.aco_alpha;
-    this->_beta_phero = _params.aco_beta;
-    this->_alpha_stat = _params.alpha;
-    this->_subset_size = _params.aco_set_size;
-    this->_sub_subset_size = _params.subset_size_small;
+    _n_it_n = _params.aco_n_iterations;
+    _n_ant = _params.aco_n_ants;
+    _rho = _params.aco_rho;
+    _lambda = _params.aco_lambda;
+    _alpha_phero = _params.aco_alpha;
+    _beta_phero = _params.aco_beta;
+    _alpha_stat = _params.alpha;
+    _subset_size = _params.aco_set_size;
+    _sub_subset_size = _params.subset_size_small;
 
-    this->_rng.seed(2);
+    _rng.seed(2);
     //vecteur concernant les pheromones
     _eta = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_eta);
     _tau = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_tau_init);
@@ -27,7 +27,7 @@ smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, par
     //initialisation of the markov_blanket_a to number of ant
     boost::numeric::ublas::vector<list<unsigned>> _markov_blanket_a(_n_ant);
     //initialisation of the _mem_ant to number of ant
-    this->_mem_ant.resize(_n_ant);
+    _mem_ant.resize(_n_ant);
 
     update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
 }
@@ -71,8 +71,6 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
     for (size_t i = 0; i < _tau.size(); i++) {
         mem_ant_ref[i].clear();
     }
-
-    // std::cout << "learn_MB" << '\n';
     //to enter the loop on first iteration
     bool markov_blanket_modified = true;
     //counter of iteration number
@@ -85,13 +83,12 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
         // std::cout << "after forward" << '\n';
         j++;
     }
-    // std::cout << "fin learn_MB" << '\n';
     //backward(markov_blanket_modified, markov_blanket_a);
     //TODO voir si on en met un la finalement
 }
 
 //==============================================================================
-// smmb_aco : forward //FIXME
+// smmb_aco : forward
 //==============================================================================
 void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::unordered_map<unsigned, list<float>> & mem_ant_ref)
 {

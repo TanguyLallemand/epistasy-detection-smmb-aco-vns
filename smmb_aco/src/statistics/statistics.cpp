@@ -122,9 +122,7 @@ boost_vector_float statistics::make_contingencies_chi_2_conditional_test_indep(b
 	contingencies_vector = contingencies::make_contingencies_table_conditionnal(cond_genos_indexes, _genos_column, _phenos_column, number_obs_subset, contingencies_vector);
 
 	//compute conditionnal chi 2, this function use contingencies table to build theorical table and will do a chi 2 test
-	// std::cout << "result coucou" << '\n';
 	boost_vector_float result = compute_chi_2_conditional_test_indep(contingencies_vector, liberty_degree);
-	// std::cout << result << '\n';
 	// Return chi 2 scores
 	return result;
 }
