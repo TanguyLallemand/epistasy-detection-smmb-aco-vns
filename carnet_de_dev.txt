@@ -1,7 +1,3 @@
-- A priori il faut utiliser la librairie boost qu on peut avoir a la l'addresse: http://www.boost.org/users/history/version_1_61_0.html
-- generation d'un dataset naif done
-- Pour evaluation a voir si on pourra parser facilemen,t des matrices en python sinon peut etre passer par du R si tu penses voir le lvl. je suis meme godlike
--
 
 Pour demarrer le programm ./smmb_aco ../toy_dataset/genotype_toy_dataset.txt ../toy_dataset/phenotype_toy_dataset.txt
 
@@ -16,7 +12,6 @@ changer la solution cradot du -48 dans le file_parsing.cpp
 pour le moment on garde car on veut du fonctionnel mais faudrais dans l'idéal trouver mieux <3
 
 changer la seed pour le sampling
-corriger la formule du calcul de taux de pheromones //DONE
 
 faire une hashtable pour stocker les résultats des test (mem_ant)
 chaque snp sera une clef et aura une liste de résultats associés
