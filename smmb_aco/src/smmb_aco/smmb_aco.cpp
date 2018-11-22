@@ -27,7 +27,7 @@ smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, par
     //initialisation of the markov_blanket_a to number of ant
     boost::numeric::ublas::vector<list<unsigned>> _markov_blanket_a(_n_ant);
     //initialisation of the _mem_ant to number of ant
-    boost::numeric::ublas::vector<std::unordered_map<unsigned, float>> _mem_ant(_n_ant);
+    this->_mem_ant.resize(_n_ant);
 
     update_pheromon_distrib(); //Initialization of the distribution for SNP sampling
 }
@@ -68,6 +68,10 @@ void smmb_aco::update_pheromon_distrib()
 //Return Markov Blanket sous optimale eventuellemenet vide
 void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::unordered_map<unsigned, list<float>> & mem_ant_ref)
 {
+    for (size_t i = 0; i < _tau.size(); i++) {
+        mem_ant_ref[i].clear();
+    }
+
     std::cout << "learn_MB" << '\n';
     //to enter the loop on first iteration
     bool markov_blanket_modified = true;
@@ -177,11 +181,12 @@ void smmb_aco::run()
     for (size_t i = 0; i < _n_it_n; i++)
     {
         std::cout << _tau << '\n';
+        std::cout << "testtest" << '\n';
         //on each iteration reinitialization of ant memory and MB
         //initialisation of the markov_blanket_a to number of ant
         _markov_blanket_a.resize(_n_ant, false);
         //initialisation of the _mem_ant to number of ant
-        _mem_ant.resize(_n_ant, false);
+
         //_markov_blanket_a.clear();
         //_mem_ant.clear();
 
@@ -195,11 +200,15 @@ void smmb_aco::run()
             ant_subset = tools::sampling(_subset_size, _pheromone_distrib, _rng);
 
             // Generate Markov Blanket
-            learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant(a));
+            learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant[a]);
 
         }
         std::cout << _mem.size() << '\n';
-        _mem.clear();
+
+        for (size_t i = 0; i < _tau.size(); i++) {
+            _mem[i].clear();
+        }
+
         // Initialization of final variable
         std::cout << "clear" << '\n';
         for (size_t a = 0; a < _n_ant; a++)
@@ -207,7 +216,7 @@ void smmb_aco::run()
             std::cout << a << '\n';
 
             // Insert in global map current _mem_ant
-            for (auto const& it : _mem_ant(a))
+            for (auto const& it : _mem_ant[a])
             {
                 std::cout << "connard" << '\n';
 
@@ -217,7 +226,8 @@ void smmb_aco::run()
                     std::cout << "/* key */" << '\n';
                     std::cout << it.first << '\n';
                     std::cout << &it2 << '\n';
-                    if (it2 != NULL) {
+                    if (it2 != NULL)
+                    {
                         std::cout << it2 << '\n';
 
                         _mem[it.first].push_back(it2);

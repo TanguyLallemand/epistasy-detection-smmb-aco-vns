@@ -46,7 +46,7 @@ private:
 
     std::unordered_map<unsigned, list<float>> _mem;
 
-    boost::numeric::ublas::vector<std::unordered_map<unsigned, list<float>>> _mem_ant;
+    vector<std::unordered_map<unsigned, list<float>>> _mem_ant;
 
     boost::numeric::ublas::vector<list<unsigned>> _markov_blanket_a;
 
