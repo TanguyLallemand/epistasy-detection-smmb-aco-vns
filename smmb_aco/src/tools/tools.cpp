@@ -1,9 +1,5 @@
 #include "tools.hpp"
-#include <boost/numeric/ublas/vector.hpp>
-#include <boost/random/discrete_distribution.hpp>
-#include <iostream>
-#include <random>
-#include <ctime>
+
 //=================================================
 // tools : sampling
 //=================================================

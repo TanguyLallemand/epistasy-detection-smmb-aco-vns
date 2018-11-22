@@ -1,10 +1,4 @@
 #include "file_parsing.hpp"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <boost/numeric/ublas/io.hpp>
-#include "global.hpp"
-using namespace std;
 
 //TODO voir si un destructeur est nécessaire
 

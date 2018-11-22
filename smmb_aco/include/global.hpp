@@ -10,12 +10,19 @@ Authors: Tanguy Lallemand M2BB
 #include <boost/numeric/ublas/matrix.hpp>
 #include <boost/numeric/ublas/matrix_proxy.hpp>
 #include <boost/numeric/ublas/vector.hpp>
+#include <boost/random/discrete_distribution.hpp>
 
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
 #include <fstream>
 #include <iostream>
+#include <iterator>
 #include <list>
 #include <map>
 #include <random>
+#include <sstream>
 #include <stdlib.h>
 #include <string>
 #include <vector>

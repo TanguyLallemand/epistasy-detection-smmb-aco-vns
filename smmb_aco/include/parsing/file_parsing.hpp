@@ -1,10 +1,7 @@
 #ifndef FILE_PARSING_HPP
 #define FILE_PARSING_HPP
 
-#include <string>
-#include <boost/numeric/ublas/matrix.hpp>
 #include "global.hpp"
-using namespace std;
 
 class data_parsing
 {
