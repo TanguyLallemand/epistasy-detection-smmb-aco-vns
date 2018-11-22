@@ -205,13 +205,31 @@ void smmb_aco::run()
         for (size_t a = 0; a < _n_ant; a++)
         {
             std::cout << a << '\n';
+
             // Insert in global map current _mem_ant
-            _mem.insert(_mem_ant(a).begin(), _mem_ant(a).end()); //FIXME
+            for (unordered_map<unsigned, list<float>>::const_iterator it = _mem_ant(a).begin(); it != _mem_ant(a).end(); it++)
+            {
+                std::cout << "connard" << '\n';
+                list<float> temp;
+
+                temp = it->second;
+
+
+                for (list<float>::const_iterator it2 = temp.begin(); it2 != temp.end(); it2++)
+                {
+                    std::cout << "/* key */" << '\n';
+                    std::cout << it->first << '\n';
+                    std::cout << *it2 << '\n';
+                    //add pheromon based on the score
+                    _mem[it->first].push_back(*it2);
+                    std::cout << "/* mes */" << '\n';
+                }
+            }
             std::cout << a << '\n';
             // If ant's markov blanket is not empty
             if (!_markov_blanket_a(a).empty())
             {
-                // std::cout << "bite" << '\n';
+                std::cout << "bite" << '\n';
                 // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end // TODO a test
                 markov_blanket_s.splice(markov_blanket_s.end(), _markov_blanket_a(a));
             }
@@ -275,13 +293,13 @@ void smmb_aco::get_all_combinations(boost_vector_int & sub_subset, list<list<uns
 //==============================================================================
 // smmb_aco : generate_combinations
 //==============================================================================
-void smmb_aco::generate_combinations(list<unsigned int> temp, list<list<unsigned int>> & combi_list, list<unsigned int> subset)
+void smmb_aco::generate_combinations(list<unsigned> temp, list<list<unsigned>> & combi_list, list<unsigned> subset)
 {
     std::cout << "generate_combinations" << '\n';
     //copy the subset
-    list<unsigned int> next_subset(subset);
+    list<unsigned> next_subset(subset);
     //iterate the subset list
-    for (auto h : subset)
+    for (list<unsigned>::const_iterator h : subset)
     {
         //add current snp to the temp list
         temp.push_back(h);
@@ -312,7 +330,7 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
         for (auto current_SNP : current_pattern)
         {
             //setting up the list of conditionnals SNPs
-            list<unsigned int> conditionnal_set = current_pattern;
+            list<unsigned> conditionnal_set = current_pattern;
             markov_blanket_a.sort();
             conditionnal_set.sort();
             conditionnal_set.merge(markov_blanket_a);
