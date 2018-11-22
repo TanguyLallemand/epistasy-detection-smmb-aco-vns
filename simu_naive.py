@@ -94,6 +94,7 @@ def generate_genotype_with_linear_regression(number_of_patient, pattern_size):
     array_of_beta = [-0.1, -0.2, -0.3, -0.4, -0.5, -0.6, -0.7, -
                      0.8, -0.9, -1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
     possible_values = [0, 1, 2]
+
     while mean != 0.5:
         print(mean)
         associated_phenotype = []
