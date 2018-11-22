@@ -8,6 +8,7 @@ import numpy as np
 import pandas as pd
 import random
 import string
+from math import exp
 
 
 ###############################################################################
@@ -21,31 +22,46 @@ def get_arguments():
     parser = argparse.ArgumentParser()
     # Add all arguments in parser
     parser.add_argument(
-        "-o", "--output", help="Give an output directory", type=str, action='store', required=True)
+        "-o", "--output",
+        help="Give an output directory",
+        type=str,
+        action='store',
+        required=True)
     parser.add_argument(
-        "-p", "--prefix", help="Common prefix for files", type=str, action='store', required=True)
+        "-p", "--prefix",
+        help="Common prefix for files",
+        type=str,
+        action='store',
+        required=True)
     parser.add_argument(
-        "-f", "--file", help="Number of file to generate", type=int, required=True)
+        "-f", "--file",
+        help="Number of file to generate",
+        type=int,
+        required=True)
     parser.add_argument(
-        "-v", "--variable", help="Number of variable to generate", type=int, required=True)
+        "-v", "--variable",
+        help="Number of variable to generate",
+        type=int,
+        required=True)
     parser.add_argument(
-        "-pa", "--case", help="Number of case to generate", type=int, required=True)
+        "-pa", "--case",
+        help="Number of case to generate",
+        type=int,
+        required=True)
     parser.add_argument(
-        "-c", "--control", help="Number of control to generate", type=int, required=True)
+        "-c", "--control",
+        help="Number of control to generate",
+        type=int,
+        required=True)
+    parser.add_argument(
+        "-s", "--size_pattern",
+        help="Size of epistasis pattern to generate",
+        type=int,
+        required=True)
     # Parse arguments
     args = parser.parse_args()
     # Return parsed args
     return args
-
-###############################################################################
-# Function to generate ID using characters and digits
-###############################################################################
-
-
-def generate_id(common_prefix, i):
-    # Generate an ID by joining common prefix and an iterator
-    id = ''.join(common_prefix + str(i))
-    return id
 
 ###############################################################################
 # This function permit to create an output directory if it does not exist
@@ -70,31 +86,79 @@ def check_output_directory(output_directory):
         else:
             raise
 
+
+# Linear regression for phenotypes generation (for the two last genotypes columns)
+def generate_genotype_with_linear_regression(number_of_patient):
+    mean = 0
+    while mean != 0.5:
+        pheno_list = []
+        genotype_linearly_generated_dataset = {}
+        for i in range(0, number_of_patient):
+            array_of_beta = [-0.1, -0.2, -0.3, -0.4, -0.5, -0.6, -0.7, -
+                             0.8, -0.9, -1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+            possible_values = [0, 1, 2]
+            x_list = []
+            list_of_beta = []
+            y_list = []
+            for j in range(args.pattern_size):
+                k = random.choice(possible_values)
+                x_list.append(k)
+            for j in range(args.pattern_size):
+                k = random.choice(beta_val_list)
+                list_of_beta.append(k)
+            for j in range(0, args.pattern_size):
+                y = (list_of_beta[j]) * (x_list[j])
+                y_list.append(y)
+            y = sum(y_list)
+            p = 1 / (1 + exp(-y))
+            if p >= 0.5:
+                pheno_list.append(1)
+            elif p < 0.5:
+                pheno_list.append(0)
+            genotype_linearly_generated_dataset[i] = x_list
+        mean = (sum(pheno_list) / number_of_patient)
+
+    return [list(genotype_linearly_generated_dataset.values()), pheno_list]
 ###############################################################################
 # Generation of genotype dataset
 ###############################################################################
 
 
-def generate_genotype_dataset(output_directory, id, number_of_variable, number_of_patient):
+def generate_genotype_dataset(output_directory, id, number_of_variable, number_of_patient, pattern_size):
 
     # Intitialisation array of ID
-    genotype_id = []
+    random_genotype_id = []
+    causal_genotype_id = []
     # Check if output directory exist
     check_output_directory(output_directory)
     # Generate path to save txt file
     path = './' + output_directory + '/genotype_toy_dataset' + id + '.txt'
+    non_causal = number_of_variable - pattern_size
     # Generate id of variables
-    for j in range(0, number_of_variable):
+    for j in range(0, number_of_variable - non_causal):
         # Join "SNP" string with iterator
-        genotype_id.append(''.join('SNP' + str(j)))
+        random_genotype_id.append(''.join('SNP-N-' + str(j)))
 
+    for j in range(0, pattern_size):
+        # Join "SNP" string with iterator
+        causal_genotype_id.append(''.join('SNP-C-' + str(j)))
     # Generate dataset
-    genotype_dataset = np.random.randint(
-        3, size=(number_of_patient, number_of_variable))
-
+    random_genotype_dataset = np.random.randint(
+        3, size=(number_of_patient, non_causal))
+    # Merge SNP header with random generated matrix
+    matrix_random_genotypes = numpy.vstack(
+        [random_genotype_id, genotype_dataset])
+    # Generate last SNP which are causaux
+    results = generate_genotype_with_linear_regression(number_of_patient)
+    linear_regression_genotype_dataset=np.array(results[0])
+    # Merge SNP header with linear generated matrix
+    matrix_linear_genotypes = numpy.vstack(
+        [causal_genotype_id, matrix_random_genotypes])
+    # Merge both matrix into one
+    genotype_dataset=numpy.column_stack([matrix_linear_genotypes,matrix_random_genotypes])
     # Concatenate both arrays and print it as a csv file called genotype_toy_dataset.txt
     np.savetxt(path,
-               np.r_[[genotype_id], genotype_dataset], fmt='%s', delimiter=',')
+               np.r_[genotype_dataset], fmt='%s', delimiter=',')
 
 
 ###############################################################################
@@ -122,17 +186,6 @@ def generate_phenotype_dataset(output_directory, number_of_case, number_of_contr
     np.savetxt(path,
                np.r_[[phenotype_header], phenotype_dataset], fmt='%s', delimiter=',')
 
-# ###############################################################################
-# # Generation of positive SNPs
-# ###############################################################################
-# def make_snp_causals(pattern_size, SNP_set, pheno_set, ):
-#
-# ###############################################################################
-# # regression
-# ###############################################################################
-# def multivariate_linear_regression():
-
-
 
 ###############################################################################
 # Main function
@@ -140,6 +193,8 @@ def generate_phenotype_dataset(output_directory, number_of_case, number_of_contr
 
 
 def main():
+    id_non_causal[]
+    id_causaux[]
     # Get variables from arguments
     args = get_arguments()
     # Get argument passed to script
@@ -149,15 +204,14 @@ def main():
     number_of_variable = args.variable
     number_of_case = args.case
     number_of_control = args.control
+    size_pattern = args.size_pattern
     # Calculate number of patient
     number_of_patients = number_of_case + number_of_control
     # A loop to generate number of genotype file asked
     for i in range(0, number_of_file):
-        # Generate an ID for current file in construction
-        id = generate_id(common_prefix, i)
         # Generate datas and save it in a CSV file
         generate_genotype_dataset(
-            output_directory, id, number_of_variable, number_of_patients)
+            output_directory, id, number_of_variable, number_of_patients, size_pattern)
     # Generate one phenotype dataset linked to generated dataset
     generate_phenotype_dataset(
         output_directory, number_of_case, number_of_control, common_prefix)
