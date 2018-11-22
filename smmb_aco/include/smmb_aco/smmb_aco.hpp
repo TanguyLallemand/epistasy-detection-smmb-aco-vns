@@ -44,11 +44,15 @@ private:
     //rng seed
     std::mt19937 _rng;
 
-    std::unordered_map<unsigned, list<float>> _mem;
+    std::map<unsigned, list<float>> _mem;
 
-    vector<std::unordered_map<unsigned, list<float>>> _mem_ant;
+    vector<map<unsigned, list<float>>> _mem_ant;
 
     boost::numeric::ublas::vector<list<unsigned>> _markov_blanket_a;
+
+    // stocking the result of each run with pattern as key and occurence count of it
+    map<vector<unsigned>, unsigned> markov_blanket_s;
+
 
     //vecteur concernant les pheromones
     boost_vector_float _eta;
@@ -56,8 +60,8 @@ private:
     boost_vector_float _pheromone_distrib;
 
     // main functions
-    void learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::unordered_map<unsigned, list<float>> & mem_ant_ref);
-    void forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::unordered_map<unsigned, list<float>> & mem_ant_ref);
+    void learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::map<unsigned, list<float>> & mem_ant_ref);
+    void forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::map<unsigned, list<float>> & mem_ant_ref);
     void backward(list<unsigned> & markov_blanket_a);
 
     //fonctions qui pourrait rendre le code lisible et modulaire (by JON)
@@ -65,7 +69,7 @@ private:
     void sub_sampling(boost_vector_int & sub_subset, boost_vector_int const& ant_subset, list<unsigned> markov_blanket_a); //compute sub_subset
     void get_all_combinations(boost_vector_int & sub_subset, list<list<unsigned>> & combi_list);
     void generate_combinations(list<unsigned> temp, list<list<unsigned>> & combi_list, list<unsigned> subset);
-    boost_vector_float best_combination(list<unsigned> & best_pattern, list<list<unsigned>> const& pattern_list, list<unsigned> & markov_blanket_a, std::unordered_map<unsigned, list<float>> & mem_ant_ref);
+    boost_vector_float best_combination(list<unsigned> & best_pattern, list<list<unsigned>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, list<float>> & mem_ant_ref);
     void update_pheromon_distrib(); //update pheromons using _tau and _eta
 };
 #endif

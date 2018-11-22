@@ -66,7 +66,7 @@ void smmb_aco::update_pheromon_distrib()
 // smmb_aco : learn_MB
 //==============================================================================
 //Return Markov Blanket sous optimale eventuellemenet vide
-void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::unordered_map<unsigned, list<float>> & mem_ant_ref)
+void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov_blanket_a, std::map<unsigned, list<float>> & mem_ant_ref)
 {
     for (size_t i = 0; i < _tau.size(); i++) {
         mem_ant_ref[i].clear();
@@ -90,7 +90,7 @@ void smmb_aco::learn_MB(boost_vector_float & ant_subset, list<unsigned> & markov
 //==============================================================================
 // smmb_aco : forward
 //==============================================================================
-void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::unordered_map<unsigned, list<float>> & mem_ant_ref)
+void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_blanket_a, boost_vector_float & ant_subset, std::map<unsigned, list<float>> & mem_ant_ref)
 {
     // std::cout << "forward" << '\n';
     //to break the loop if nothing modified
@@ -118,7 +118,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
             markov_blanket_a.push_back(i);
         }
         markov_blanket_modified = true;
-        // std::set_union (markov_blanket_a.begin(), markov_blanket_a.end(), best_pattern.begin(), best_pattern.end(), std::back_inserter(markov_blanket_a));// union de MB_a et S je crois que c'est bon //QUESTION Clement lui il modifie directement la blanket de la fourmis du coup je sais pas trop quoi penser de ton unified, mais bon comme je comprend pas ta ligne je touche pas pour le moment
+        // union de MB_a et S je crois que c'est bon //QUESTION Clement lui il modifie directement la blanket de la fourmis du coup je sais pas trop quoi penser de ton unified, mais bon comme je comprend pas ta ligne je touche pas pour le moment
         backward(markov_blanket_a);
 
     }
@@ -171,9 +171,8 @@ void smmb_aco::backward(list<unsigned> & markov_blanket_a)
 //==============================================================================
 void smmb_aco::run()
 {
-    // std::cout << "run" << '\n';
     // Initialization of Markov Blanket
-    list<unsigned> markov_blanket_s;
+    // list<unsigned> markov_blanket_s;
 
     for (size_t i = 0; i < _n_it_n; i++)
     {
@@ -217,10 +216,13 @@ void smmb_aco::run()
             }
 
             // If ant's markov blanket is not empty
-            if (!_markov_blanket_a(a).empty())
+            if (!_markov_blanket_a(a).empty()) //FIXME
             {
+                boost_vector_int tempo (_markov_blanket_a(a).begin, _markov_blanket_a(a).end());
+                markov_blanket_s[tempo]+=1;
+
                 // move at the end of MB_s MB_a alternatively we can do MB_s.insert(MB_s.end(), MB_a.begin(), MB_a.end()); to copy MB_a content at MB_s end // TODO a test
-                markov_blanket_s.splice(markov_blanket_s.end(), _markov_blanket_a(a));
+                // markov_blanket_s.splice(markov_blanket_s.end(), _markov_blanket_a(a));
             }
             //post traitement; //TODO
 
@@ -228,6 +230,7 @@ void smmb_aco::run()
         //add pheromon based on the score
         update_tau();
     }
+    //post treatment
 }
 
 //==============================================================================
@@ -296,7 +299,7 @@ void smmb_aco::generate_combinations(list<unsigned> temp, list<list<unsigned>> &
 //==============================================================================
 // smmb_aco : best_combination
 //==============================================================================
-boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, list<list<unsigned>> const& pattern_list, list<unsigned> & markov_blanket_a, std::unordered_map<unsigned, list<float>> & mem_ant_ref)
+boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, list<list<unsigned>> const& pattern_list, list<unsigned> & markov_blanket_a, std::map<unsigned, list<float>> & mem_ant_ref)
 {
     //stock the current best_result
     boost_vector_float best_result(2, 0);
@@ -320,7 +323,7 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
             boost_vector_float result_SNP(2,0);
             result_SNP = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
             //stocking result in the ant_memory
-            mem_ant_ref[current_SNP].push_back((float)result_SNP(0));
+            mem_ant_ref[current_SNP].push_back(result_SNP(0));
 
             //score of the pattern
             if (result_SNP(0) > result_pattern(0))
