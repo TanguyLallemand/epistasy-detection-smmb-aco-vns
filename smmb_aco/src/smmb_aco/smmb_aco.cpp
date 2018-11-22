@@ -42,11 +42,11 @@ void smmb_aco::update_tau()
         _tau(i) = (1-_rho) * _tau(i);
     }
     //iterate through memory map
-    for (auto it = _mem.begin(); it != _mem.end(); it++)
+    for (auto const& it : _mem)
     {
-        for (auto score : it->second) {
+        for (auto const& score : it.second) {
             //add pheromon based on the score
-            _tau(it->first) = _tau(it->first) + (_lambda * score);
+            _tau(it.first) = _tau(it.first) + (_lambda * score);
         }
     }
     //repercuting changes on the distribution
@@ -113,7 +113,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & markov_b
     if (result(1) < _alpha_stat) //rejet de l hypothese d'independance donc si on rejette on est en dependance ce qu on veut
     {
         //on peut juste append normalement car on pick jamais des snp déja dans la MB
-        for (auto i : best_pattern) {
+        for (auto const& i : best_pattern) {
             markov_blanket_a.push_back(i);
         }
         markov_blanket_modified = true;
@@ -133,14 +133,14 @@ void smmb_aco::backward(list<unsigned> & markov_blanket_a)
     std::cout << "backward" << '\n';
     list<unsigned> iterate = markov_blanket_a;
     list<unsigned> save_markov = markov_blanket_a;
-    for (auto current_SNP : iterate)
+    for (auto const& current_SNP : iterate)
     {
         list<unsigned> MB_minus_current_SNP = save_markov;
         MB_minus_current_SNP.remove(current_SNP);
 
         boost_vector_int vector_MB(MB_minus_current_SNP.size());
         int i=0;
-        for (auto value : MB_minus_current_SNP)
+        for (auto const& value : MB_minus_current_SNP)
         {
             vector_MB(i) = value;
             i++;
@@ -150,7 +150,7 @@ void smmb_aco::backward(list<unsigned> & markov_blanket_a)
         get_all_combinations(vector_MB, combi_list);
         boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, current_SNP);
         boost_vector_float result;
-        for (auto combi : combi_list)
+        for (auto const& combi : combi_list)
         {
             // Return an array with in first cell, chi 2 score and in second cell, assoicated p_value
             result = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, combi);
@@ -207,21 +207,24 @@ void smmb_aco::run()
             std::cout << a << '\n';
 
             // Insert in global map current _mem_ant
-            for (unordered_map<unsigned, list<float>>::const_iterator it = _mem_ant(a).begin(); it != _mem_ant(a).end(); it++)
+            for (auto const& it : _mem_ant(a))
             {
                 std::cout << "connard" << '\n';
-                list<float> temp;
 
-                temp = it->second;
-
-
-                for (list<float>::const_iterator it2 = temp.begin(); it2 != temp.end(); it2++)
+                for (auto const& it2 : it.second)
                 {
+
                     std::cout << "/* key */" << '\n';
-                    std::cout << it->first << '\n';
-                    std::cout << *it2 << '\n';
+                    std::cout << it.first << '\n';
+                    std::cout << &it2 << '\n';
+                    if (it2 != NULL) {
+                        std::cout << it2 << '\n';
+
+                        _mem[it.first].push_back(it2);
+                    }
+
                     //add pheromon based on the score
-                    _mem[it->first].push_back(*it2);
+
                     std::cout << "/* mes */" << '\n';
                 }
             }
@@ -299,7 +302,7 @@ void smmb_aco::generate_combinations(list<unsigned> temp, list<list<unsigned>> &
     //copy the subset
     list<unsigned> next_subset(subset);
     //iterate the subset list
-    for (list<unsigned>::const_iterator h : subset)
+    for (auto const& h : subset)
     {
         //add current snp to the temp list
         temp.push_back(h);
@@ -324,10 +327,10 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
     //stock the current best_result
     boost_vector_float best_result(2, 0);
     //iterate through the list of pattern
-    for (auto current_pattern : pattern_list)
+    for (auto const& current_pattern : pattern_list)
     {
         boost_vector_float result_pattern(2, 0);
-        for (auto current_SNP : current_pattern)
+        for (auto const& current_SNP : current_pattern)
         {
             //setting up the list of conditionnals SNPs
             list<unsigned> conditionnal_set = current_pattern;
@@ -343,8 +346,8 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
             boost_vector_float result_SNP(2,0);
             result_SNP = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
             //stocking result in the ant_memory
-            mem_ant_ref[current_SNP].push_back(result_SNP(0));
-
+            mem_ant_ref[current_SNP].push_back((float)result_SNP(0));
+            // std::cout << mem_ant_ref[26].back() << '\n';
             //score of the pattern
             if (result_SNP(0) > result_pattern(0))
             {
