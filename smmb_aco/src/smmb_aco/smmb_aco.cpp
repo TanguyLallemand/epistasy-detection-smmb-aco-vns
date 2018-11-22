@@ -5,21 +5,20 @@
 //==============================================================================
 smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, parameters_parsing _params)
 {
-    _genos_matrix = genos_matrix;
-    _pheno_vector = pheno_vector;
+    this->_genos_matrix = genos_matrix;
+    this->_pheno_vector = pheno_vector;
 
-    _n_it_n = _params.aco_n_iterations;
-    _n_ant = _params.aco_n_ants;
-    _rho = _params.aco_rho;
-    _lambda = _params.aco_lambda;
-    _alpha_phero = _params.aco_alpha;
-    _beta_phero = _params.aco_beta;
-    _alpha_stat = _params.alpha;
-    _subset_size = _params.aco_set_size;
-    _sub_subset_size = _params.subset_size_small;
+    this->_n_it_n = _params.aco_n_iterations;
+    this->_n_ant = _params.aco_n_ants;
+    this->_rho = _params.aco_rho;
+    this->_lambda = _params.aco_lambda;
+    this->_alpha_phero = _params.aco_alpha;
+    this->_beta_phero = _params.aco_beta;
+    this->_alpha_stat = _params.alpha;
+    this->_subset_size = _params.aco_set_size;
+    this->_sub_subset_size = _params.subset_size_small;
 
-    std::mt19937 _rng(1);
-    _rng.seed(2);
+    this->_rng.seed(2);
     //vecteur concernant les pheromones
     _eta = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_eta);
     _tau = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_tau_init);
@@ -199,10 +198,10 @@ void smmb_aco::run()
             learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant(a));
 
         }
-
-        _mem.clear();
+std::cout << _mem.size() << '\n';
+        _mem.erase(_mem.begin(), _mem.end());
         // Initialization of final variable
-
+std::cout << "clear" << '\n';
         for (size_t a = 0; a < _n_ant; a++)
         {
             std::cout << a << '\n';

@@ -44,9 +44,9 @@ private:
     //rng seed
     std::mt19937 _rng;
 
-    std::map<unsigned, list<float>> _mem;
+    std::unordered_map<unsigned, list<float>> _mem;
 
-    boost::numeric::ublas::vector<std::map<unsigned, list<float>>> _mem_ant;
+    boost::numeric::ublas::vector<std::unordered_map<unsigned, list<float>>> _mem_ant;
 
     boost::numeric::ublas::vector<list<unsigned>> _markov_blanket_a;
 

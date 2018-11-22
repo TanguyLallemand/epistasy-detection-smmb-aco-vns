@@ -25,6 +25,7 @@ Authors: Tanguy Lallemand M2BB
 #include <sstream>
 #include <stdlib.h>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 using namespace std;
