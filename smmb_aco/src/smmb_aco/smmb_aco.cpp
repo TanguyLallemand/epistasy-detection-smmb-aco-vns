@@ -221,7 +221,8 @@ void smmb_aco::run()
         }
 
         update_tau();
-        // std::cout << i << '\n';
+
+        std::cout << i << '\n';
     }
     std::cout << "fin run" << '\n';
 }
