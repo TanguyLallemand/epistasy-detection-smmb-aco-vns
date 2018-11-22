@@ -89,6 +89,8 @@ def check_output_directory(output_directory):
 ###############################################################################
 # Generation of causal genotype dataset
 ###############################################################################
+
+
 def generate_genotype_with_linear_regression(number_of_patient, pattern_size):
     mean = 0
     array_of_beta = [-0.1, -0.2, -0.3, -0.4, -0.5, -0.6, -0.7, -
@@ -132,7 +134,7 @@ def generate_genotype_dataset(output_directory, number_of_variable, number_of_pa
 
     random_genotype_id = []
     causal_genotype_id = []
-    linear_regression_genotype_dataset=np.array(causal_genotype_SNPs)
+    linear_regression_genotype_dataset = np.array(causal_genotype_SNPs)
     # Check if output directory exist
     check_output_directory(output_directory)
     # Generate path to save txt file
@@ -155,7 +157,8 @@ def generate_genotype_dataset(output_directory, number_of_variable, number_of_pa
     matrix_linear_genotypes = np.vstack(
         [causal_genotype_id, linear_regression_genotype_dataset])
     # Merge both matrix into one
-    genotype_dataset=np.column_stack([matrix_random_genotypes,matrix_linear_genotypes])
+    genotype_dataset = np.column_stack(
+        [matrix_random_genotypes, matrix_linear_genotypes])
     # Concatenate both arrays and print it as a csv file called genotype_toy_dataset.txt
     np.savetxt(path,
                np.r_[genotype_dataset], fmt='%s', delimiter=',')
@@ -197,17 +200,22 @@ def main():
     size_pattern = args.size_pattern
     # Calculate number of patient
     number_of_patients = number_of_case + number_of_control
-    results_of_regression = generate_genotype_with_linear_regression(number_of_patients, size_pattern)
-    causal_genotype_SNPs = results_of_regression[0]
-    causal_phenotype_SNPs = results_of_regression[1]
     # A loop to generate number of genotype file asked
     for i in range(0, number_of_file):
+        # Generate a genotype matrix with causal SNPs
+        results_of_regression = generate_genotype_with_linear_regression(
+            number_of_patients, size_pattern)
+        # Parse results
+        # Get genotype dataset
+        causal_genotype_SNPs = results_of_regression[0]
+        # Get phenotype dataset
+        causal_phenotype_SNPs = results_of_regression[1]
         # Generate datas and save it in a CSV file
         generate_genotype_dataset(
             output_directory, number_of_variable, number_of_patients, common_prefix, size_pattern, causal_genotype_SNPs)
-    # Generate one phenotype dataset linked to generated dataset
-    generate_phenotype_dataset(
-        output_directory, number_of_case, number_of_control, common_prefix, causal_phenotype_SNPs)
+        # Generate one phenotype dataset linked to generated dataset
+        generate_phenotype_dataset(
+            output_directory, number_of_case, number_of_control, common_prefix, causal_phenotype_SNPs)
 
 
 # Execution of main function
