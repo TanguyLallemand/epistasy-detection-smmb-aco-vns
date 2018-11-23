@@ -16,6 +16,15 @@ creer une solution intiale
     retourner s, la meilleur solution rencontrer dans M*/
 
 /*
+function generate_neighborhood()
+{   TODO
+    1<=k<=k_max
+    return N_k
+}
+function create_initial_solution
+{   TODO
+
+}
 function neighborhood_change(x,x',k)
 {
     if f(x') < f(x)
