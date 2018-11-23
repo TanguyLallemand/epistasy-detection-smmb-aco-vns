@@ -1,3 +1,9 @@
+// A determiner: le type de x et de k
+// Un peu de biblio
+/*
+
+*/
+
 /*
 C'est un vnd un peu ameliore via une perturbation
 
@@ -13,16 +19,19 @@ creer une solution intiale
             sinon
                 k++
         memoriser l'optimum local obtenue dans M
-    retourner s, la meilleur solution rencontrer dans M*/
+    retourner s, la meilleur solution rencontrer dans M
+*/
 
+
+// Definition de fonctions
 /*
 function generate_neighborhood()
-{   TODO
+{   TODO detreminer le type de l espace des solution N_k
     1<=k<=k_max
     return N_k
 }
 function create_initial_solution
-{   TODO
+{   TODO cette fonction consiste a tirer en random une solution au hasard
 
 }
 function neighborhood_change(x,x',k)
