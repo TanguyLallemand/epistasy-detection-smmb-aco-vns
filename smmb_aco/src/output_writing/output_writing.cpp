@@ -1,12 +1,5 @@
-#include <iostream>
-#include <fstream>
-// For exit function
-#include <cstdlib>
-
-#include "global.hpp"
 #include "output_writing.hpp"
 
-using namespace std;
 
 void output_writing::write_in_file(string method_used)
 {
