@@ -89,7 +89,7 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
     unsigned j = 0;
 
     //loop to generate the markov blanket //TODO check the condition
-    while (markov_blanket_modified || (!MB_a_ref.empty() && j<_n_it_n))
+    while ((MB_a_ref.empty() && j<_n_it_n) && (markov_blanket_modified))
     {
         forward(markov_blanket_modified, MB_a_ref, ant_subset, mem_ant_ref);
         j++;
