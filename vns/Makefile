@@ -16,10 +16,7 @@ BOOST_FOLDER = ../../boost_1_61_0
 INC=-I$(BOOST_FOLDER) \
  -I./include \
  -I./include/parsing \
- -I./include/statistics \
- -I./include/tools \
-  -I./include/output_writing \
- -I./include/smmb_aco
+ -I./include/vns
 
 # Save compiler call
  CXX=g++ -o
@@ -34,6 +31,7 @@ INC=-I$(BOOST_FOLDER) \
  rm=rm -f
 #Give .o files to create
 OBJ=$(OBJDIR)/main.o \
+$(OBJDIR)/parameters_parsing.o
 $(OBJDIR)/vns.o
 
 TARGET=$(BINDIR)/vns.exe
@@ -56,7 +54,14 @@ $(OBJDIR)/main.o: ./$(SRCDIR)/main.cpp
 #===============================================================================
 $(OBJDIR)/vns.o: ./$(SRCDIR)/vns/vns.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "Compiled file_parsing.o"
+	@echo "Compiled vns.o"
+
+#===============================================================================
+# Parameters_parsing
+#===============================================================================
+$(OBJDIR)/parameters_parsing.o: ./$(SRCDIR)/parsing/parameters_parsing.cpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled parameters_parsing.o"
 
 
 
