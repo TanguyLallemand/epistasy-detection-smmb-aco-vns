@@ -7,9 +7,15 @@ class variable_neightborhood_search {
 
 public:
     variable_neightborhood_search(parameters_parsing _params);
+
+    void run(int x, int l_max, int k_max, int n_it_max);
 private:
-    /* data */
     int _n_it_max;
     int _k_max;
+
+    void neighborhood_change(int x, int second_x, int k);
+    void shake(int x, int k);
+    void variable_neighborhood_descent(int x, int k_max);
+
 };
 #endif
