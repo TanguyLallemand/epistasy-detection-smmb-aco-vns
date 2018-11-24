@@ -31,7 +31,7 @@ INC=-I$(BOOST_FOLDER) \
  rm=rm -f
 #Give .o files to create
 OBJ=$(OBJDIR)/main.o \
-$(OBJDIR)/parameters_parsing.o
+$(OBJDIR)/parameters_parsing.o \
 $(OBJDIR)/vns.o
 
 TARGET=$(BINDIR)/vns.exe
