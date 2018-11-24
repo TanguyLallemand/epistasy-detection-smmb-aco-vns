@@ -1,2 +1,11 @@
+# number of header lines in the genotype file
+header 1
+
+# separation between fields in the genotype file
+separator ,
+
+# alpha type I error rate
+alpha 0.05
+
 # Max runs
 max_it 40
