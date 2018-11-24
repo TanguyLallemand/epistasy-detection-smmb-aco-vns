@@ -1,7 +1,8 @@
 #ifndef VNS_HPP
 #define VNS_HPP
-#include "parameters_parsing.hpp"
 
+#include "parameters_parsing.hpp"
+#include "global.hpp"
 
 class variable_neightborhood_search {
 

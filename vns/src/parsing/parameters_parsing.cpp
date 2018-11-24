@@ -70,12 +70,3 @@ vector<string> parameters_parsing::split(string const& s, char delim)
         tokens.push_back(item);
     return tokens;
 }
-
-//=================================================
-// parameters_parsing : update_subset_size_large
-//=================================================
-void parameters_parsing::update_subset_size_large(unsigned const& n_genos)
-{
-    if(aco_set_size == 0)
-        aco_set_size = sqrt(n_genos);
-}
