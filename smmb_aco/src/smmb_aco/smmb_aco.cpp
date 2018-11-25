@@ -21,7 +21,7 @@ smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, par
     this->_sub_subset_size = _params.subset_size_small;
 
     //Initialization of the rng seed
-    this->_rng.seed(2);
+    this->_rng.seed(54);
 
     //Initialization of vectors for pheromons
     this->_eta = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_eta);
@@ -70,6 +70,7 @@ void smmb_aco::update_pheromon_distrib()
         _pheromone_distrib(i) = pow(_tau(i), _alpha_phero) + pow(_eta(i), _beta_phero);
     }
 }
+
 //==============================================================================
 // smmb_aco : learn_MB
 //==============================================================================
@@ -254,29 +255,35 @@ void smmb_aco::run()
                 }
             }
 
-            // If ant's markov blanket is not empty
+            // If ant's markov blanket is not empty save it into _markov_blanket_s
             if (!_markov_blanket_a(a).empty()) //FIXME
             {
                 _markov_blanket_a(a).sort();
-                test[_markov_blanket_a(a)] += 1;
+                _markov_blanket_s[_markov_blanket_a(a)] += 1;
                 //save the ant MB ant at the end of MB list
-                _markov_blanket_s.push_back(_markov_blanket_a(a));
             }
         }
         //add pheromon based on the score
         update_tau();
     }
-    std::cout << "fin run" << '\n';
 
-    for (auto good : test) {
+    std::cout << "fin run" << '\n';
+    // save the scores for patterns in _markov_blanket_s into _stats_results
+    score_for_final_results();
+
+    //TODO verbose temporaire pour afficher les résultats
+    int st = 0;
+    for (auto good : _markov_blanket_s) {
         std::cout << "pattern" << '\n';
         for (auto go : good.first) {
             std::cout << go << ' ';
         }
         std::cout << '\n';
-        std::cout << "occurences" << '\n';
-        std::cout << good.second << '\n';
+        std::cout << "occurences " << "score " << "p-value"<< '\n';
+        std::cout << good.second << " " << _stats_results(st)(0) << " " << _stats_results(st)(1) << '\n';
+        st++;
     }
+
     //post treatment
 }
 
@@ -404,4 +411,31 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
     }
     // std::cout << "fin best_combination" << '\n';
     return best_result;
+}
+
+//==============================================================================
+// smmb_aco : score_for_final_results
+//==============================================================================
+void smmb_aco::score_for_final_results() {
+
+    _stats_results.resize(_markov_blanket_s.size());
+
+    unsigned st=0;
+    for (auto pattern : _markov_blanket_s)
+    {
+        _stats_results(st) = boost_vector_float(2, 1);
+        for (auto snp : pattern.first)
+        {
+            boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, snp);
+            list<unsigned> conditionnal_set = pattern.first;
+            conditionnal_set.remove(snp);
+
+            boost_vector_float temp_res =  statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
+            if (temp_res(1) < _stats_results(st)(1) )
+            {
+                _stats_results(st) = temp_res;
+            }
+        }
+        st++;
+    }
 }

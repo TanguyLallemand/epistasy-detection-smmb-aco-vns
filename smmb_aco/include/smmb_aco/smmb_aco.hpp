@@ -44,15 +44,19 @@ private:
     //rng seed
     std::mt19937 _rng;
 
+    //global memory of processed tests through 1 iteration
     std::map<unsigned, list<float>> _mem;
 
+    //every case of the vector is the memory of 1 ant
     boost::numeric::ublas::vector<map<unsigned, list<float>>> _mem_ant;
 
+    //1 case is best MB found by the corresponding ant
     boost::numeric::ublas::vector<list<unsigned>> _markov_blanket_a;
 
     // stocking the result of each run with pattern as key and occurence count of it
-    list<list<unsigned>> _markov_blanket_s;
-    map<list<unsigned>, unsigned> test;
+    map<list<unsigned>, unsigned> _markov_blanket_s;
+    //associated vector of scores
+    boost::numeric::ublas::vector<boost_vector_float> _stats_results;
 
     //vecteur concernant les pheromones
     boost_vector_float _eta;
@@ -71,5 +75,7 @@ private:
     void generate_combinations(list<unsigned> temp, list<list<unsigned>> & combi_list, list<unsigned> subset);
     boost_vector_float best_combination(list<unsigned> & best_pattern, list<list<unsigned>> const& pattern_list, list<unsigned> & MB_a_ref, std::map<unsigned, list<float>> & mem_ant_ref);
     void update_pheromon_distrib(); //update pheromons using _tau and _eta
+
+    void score_for_final_results();
 };
 #endif
