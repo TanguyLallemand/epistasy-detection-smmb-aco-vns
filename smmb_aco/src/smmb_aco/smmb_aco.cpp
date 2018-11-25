@@ -267,11 +267,14 @@ void smmb_aco::run()
         update_tau();
     }
     std::cout << "fin run" << '\n';
+
     for (auto good : test) {
+        std::cout << "pattern" << '\n';
         for (auto go : good.first) {
             std::cout << go << ' ';
         }
         std::cout << '\n';
+        std::cout << "occurences" << '\n';
         std::cout << good.second << '\n';
     }
     //post treatment
