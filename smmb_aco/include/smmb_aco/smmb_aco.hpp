@@ -52,7 +52,7 @@ private:
 
     // stocking the result of each run with pattern as key and occurence count of it
     list<list<unsigned>> _markov_blanket_s;
-
+    map<list<unsigned>, unsigned> test;
 
     //vecteur concernant les pheromones
     boost_vector_float _eta;

@@ -257,6 +257,8 @@ void smmb_aco::run()
             // If ant's markov blanket is not empty
             if (!_markov_blanket_a(a).empty()) //FIXME
             {
+                _markov_blanket_a(a).sort();
+                test[_markov_blanket_a(a)] += 1;
                 //save the ant MB ant at the end of MB list
                 _markov_blanket_s.push_back(_markov_blanket_a(a));
             }
@@ -265,6 +267,13 @@ void smmb_aco::run()
         update_tau();
     }
     std::cout << "fin run" << '\n';
+    for (auto good : test) {
+        for (auto go : good.first) {
+            std::cout << go << ' ';
+        }
+        std::cout << '\n';
+        std::cout << good.second << '\n';
+    }
     //post treatment
 }
 
