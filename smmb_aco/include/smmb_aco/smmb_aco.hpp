@@ -77,5 +77,6 @@ private:
     void update_pheromon_distrib(); //update pheromons using _tau and _eta
 
     void score_for_final_results();
+    void show_results();
 };
 #endif

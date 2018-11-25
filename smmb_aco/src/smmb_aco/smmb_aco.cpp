@@ -271,19 +271,8 @@ void smmb_aco::run()
     // save the scores for patterns in _markov_blanket_s into _stats_results
     score_for_final_results();
 
-    //TODO verbose temporaire pour afficher les résultats
-    int st = 0;
-    for (auto good : _markov_blanket_s) {
-        std::cout << "pattern" << '\n';
-        for (auto go : good.first) {
-            std::cout << go << ' ';
-        }
-        std::cout << '\n';
-        std::cout << "occurences " << "score " << "p-value"<< '\n';
-        std::cout << good.second << " " << _stats_results(st)(0) << " " << _stats_results(st)(1) << '\n';
-        st++;
-    }
-
+    //print results of the run to terminal
+    show_results();
     //post treatment
 }
 
@@ -436,6 +425,27 @@ void smmb_aco::score_for_final_results() {
                 _stats_results(st) = temp_res;
             }
         }
+        st++;
+    }
+}
+
+//==============================================================================
+// smmb_aco : show_results
+//==============================================================================
+void smmb_aco::show_results()
+{
+    //TODO verbose temporaire pour afficher les résultats
+    int st = 0;
+    for (auto good : _markov_blanket_s)
+    {
+        std::cout << "pattern" << '\n';
+        for (auto go : good.first)
+        {
+            std::cout << go << ' ';
+        }
+        std::cout << '\n';
+        std::cout << "occurences " << "score " << "p-value"<< '\n';
+        std::cout << good.second << " " << _stats_results(st)(0) << " " << _stats_results(st)(1) << '\n';
         st++;
     }
 }
