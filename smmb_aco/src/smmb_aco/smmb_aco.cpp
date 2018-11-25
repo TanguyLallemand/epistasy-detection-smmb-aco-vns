@@ -3,11 +3,12 @@
 //==============================================================================
 // smmb_aco : constructeur
 //==============================================================================
-smmb_aco::smmb_aco(boost_matrix genos_matrix, boost_vector_int pheno_vector, parameters_parsing _params)
+smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing _params)
 {
     //stocking datas in members objects
-    this->_genos_matrix = genos_matrix;
-    this->_pheno_vector = pheno_vector;
+    this->_genos_matrix = dataset._geno_matrix;
+    this->_pheno_vector = dataset._pheno_vector;
+    this->_snp_id = dataset._snp_id_vector;
 
     //stocking parameters in members variables
     this->_n_it_n = _params.aco_n_iterations;
@@ -448,4 +449,12 @@ void smmb_aco::show_results()
         std::cout << good.second << " " << _stats_results(st)(0) << " " << _stats_results(st)(1) << '\n';
         st++;
     }
+}
+
+//==============================================================================
+// smmb_aco : save_results
+//==============================================================================
+void save_results()
+{
+
 }

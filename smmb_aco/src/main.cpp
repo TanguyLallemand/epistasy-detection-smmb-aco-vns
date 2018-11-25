@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 	data_parsing data(genos_file, phenos_file, header, separator);
 
 	// Instanciation de smmb_aco
-	smmb_aco test(data._geno_matrix, data._pheno_vector, params);
+	smmb_aco test(data, params);
 	test.run();
 	// std::cout << "fin des temps" << '\n';
 	//boost_vector mordecai = test.return_tau();

@@ -3,6 +3,7 @@
 
 #include "global.hpp"
 
+#include "file_parsing.hpp"
 #include "statistics.hpp"
 #include "tools.hpp"
 #include "parameters_parsing.hpp"
@@ -11,7 +12,7 @@ class smmb_aco
 {
 public:
     // constructeur
-    smmb_aco(boost_matrix _genos_matrix, boost_vector_int _pheno_vector, parameters_parsing _params);
+    smmb_aco(data_parsing dataset, parameters_parsing _params);
 
     //fait tourner l'algo
     void run();
@@ -24,6 +25,7 @@ private:
     //objets récupérés en argument
     boost_matrix _genos_matrix;
     boost_vector_int _pheno_vector;
+    boost_vector_string _snp_id;
     parameters_parsing _params;
 
     //variables initialisée par le constructeur à partir de params
