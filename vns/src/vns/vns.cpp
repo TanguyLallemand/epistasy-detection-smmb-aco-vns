@@ -16,7 +16,7 @@ void variable_neightborhood_search::shake(int x, int k)
 
 }
 
-void variable_neightborhood_search::variable_neighborhood_descent(int x, int k_max)
+void variable_neightborhood_search::variable_neighborhood_descent(int x, int k_max) // This is the VND phase
 {
 
 }
