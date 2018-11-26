@@ -129,3 +129,10 @@ si pr > 0.5 -< malade 1
 
 A propos des tables de contingences:
 Il faut compter le nombre de cases qui ne sont pas reliable mais pas cut le test
+
+
+Post traitement:
+output > trier par score decroissant
+
+MB_S = MB_S union MB // c'est donc un truc du genre {{x1,x2,x17}, {x3,x4,x17}}
+Ca conviendrai pour le format une passe mais pas 2 passe, on doit aplatir puis renvoyer a run
