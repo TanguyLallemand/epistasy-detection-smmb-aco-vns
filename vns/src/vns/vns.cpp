@@ -3,7 +3,7 @@
 variable_neightborhood_search::variable_neightborhood_search(parameters_parsing _params)
 {
     this->_n_it_max = _params.n_it_max;
-    //_k_max;
+    this->_k_max = _params.k_max;
 }
 
 void variable_neightborhood_search::neighborhood_change(int x, int second_x, int k)
