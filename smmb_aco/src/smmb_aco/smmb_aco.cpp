@@ -23,7 +23,7 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing _params)
     this->_sub_subset_size = _params.subset_size_small;
 
     //Initialization of the rng seed
-    this->_rng.seed(54);
+    this->_rng.seed(time(NULL));
 
     //Initialization of vectors for pheromons
     this->_eta = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_eta);
