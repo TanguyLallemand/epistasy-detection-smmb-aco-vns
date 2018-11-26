@@ -5,7 +5,7 @@
 C'est un vnd un peu ameliore via une perturbation
 
 Selectionner une architecture de voisinnage N_k 1<=k<=k_max
-creer une solution intiale
+creer une solution initiale
     tant que non condition fin
         k<-1
         tant que k<k_max

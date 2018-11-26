@@ -11,6 +11,16 @@ public:
 
     void run(int x, int l_max, int k_max, int n_it_max);
 private:
+    //neighborhood map
+    map<list<unsigned>, list<list<unsigned>>> _neighborhood;
+
+    //neighborhood initialisation
+    void generate_patterns();
+    void generate_patterns(list<unsigned> temp, list<unsigned> snp_list);
+    void set_neighbors();
+
+
+
     int _n_it_max;
     int _k_max;
 
