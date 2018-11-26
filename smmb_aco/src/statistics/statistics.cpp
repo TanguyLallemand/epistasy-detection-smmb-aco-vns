@@ -4,53 +4,20 @@
  */
 #include "statistics.hpp"
 
-//==============================================================================
-// statistics::compute_p_value
-// return p value
-//==============================================================================
-
-float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector)
-{
-	// Intialization of variables
-	float chi_2_result = 0;
-	float p_value = 0;
-	unsigned int liberty_degree = 0;
-	// Instanciate contigencies
-	contingencies contingency_table = contingencies(2,3);
-	// Make a contingency table using datas
-	contingency_table.make_contingency_table(_genos_matrix, _phenos_vector);
-	// Make associated contingency theorical table
-	contingency_table.make_contingency_theorical_table(_phenos_vector.size());
-	// Get datas from contingencies class
-	boost_matrix_float contingency_table_content = contingency_table.return_contingency_table();
-	boost_matrix_float contingency_theorical_table_content = contingency_table.return_contingency_theorical_table();
-	// Get chi square score for the two contingencies tables given
-	chi_2_result = compute_chi_2(contingency_table_content, contingency_theorical_table_content);
-	// Calculate liberty degree for contingency table
-	liberty_degree = compute_liberty_degree(contingency_table_content);
-	// Instanciate chi_squared_distribution with a given number of liberty degree
-	boost::math::chi_squared_distribution<float> chi_2_distribution(liberty_degree);
-	// Calculate p value following chi_squared_distribution generated and chi square score
-	p_value = 1 - boost::math::cdf(chi_2_distribution, chi_2_result);
-	// Return calculated p_value
-	return p_value;
-}
-
-
 
 //==============================================================================
-// statistics::compute_chi_2
+// statistics::compute_g_2
 // Use a given contingency table and a theorical contingency table
-// Return chi 2 score
+// Return g 2 score
 //==============================================================================
 
-float statistics::compute_chi_2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table)
+float statistics::compute_g_2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table)
 {
-	float chi_2_result = 0;
-	// Check if contingencies table are viable. In fact if one of their cell value are under 5 chi 2 cannot be compute because of reliability
+	float g_2_result = 0;
+	// Check if contingencies table are viable. In fact if one of their cell value are under 5 g 2 cannot be compute because of reliability
 	if (!contingencies::reliable_test(contingency_table) || !contingencies::reliable_test(contingency_theorical_table))
 	{
-		return chi_2_result = 0.0;
+		return g_2_result = 0.0;
 	}
 	// Iterate tought contingency table
 	for(unsigned i=0; i<contingency_table.size1(); ++i)
@@ -61,35 +28,23 @@ float statistics::compute_chi_2(boost_matrix_float const& contingency_table, boo
 			if(contingency_table(i,j) != 0)
 			{
 				double div = (double) contingency_table(i,j) / contingency_theorical_table(i,j);
-				chi_2_result += contingency_table(i,j) * log(div);
+				g_2_result += contingency_table(i,j) * log(div);
 			}
 		}
 	}
-	chi_2_result *= 2;
-	return chi_2_result;
+	g_2_result *= 2;
+	return g_2_result;
 }
 
-//==============================================================================
-// statistics::compute_liberty_degree
-// Use a given contingency table
-// Return liberty degree for this table
-//==============================================================================
-
-unsigned statistics::compute_liberty_degree(boost_matrix_float const& contingency_table)
-{
-	// Calculate liberty degree for chi 2 test, using (nbr_line-1)*(nbr_column-1)
-	unsigned int liberty_degree = (contingency_table.size1() - 1) * (contingency_table.size2() - 1);
-	return liberty_degree;
-}
 
 //==============================================================================
-// statistics::make_contingencies_chi_2_conditional_test_indep
+// statistics::make_contingencies_g_2_conditional_test_indep
 // Use a given matrix_column of genotype matrix, vector of phenotypes, and
 // cond_genos_indexes
-// Return chi 2 score from conditionnal chi 2
+// Return g 2 score from conditionnal g 2
 //==============================================================================
 
-boost_vector_float statistics::make_contingencies_chi_2_conditional_test_indep(boost::numeric::ublas::matrix_column<boost::numeric::ublas::matrix<int>> const& _genos_column, boost_vector_int const& _phenos_vector, std::list<unsigned> const& cond_genos_indexes)
+boost_vector_float statistics::make_contingencies_g_2_conditional_test_indep(boost::numeric::ublas::matrix_column<boost::numeric::ublas::matrix<int>> const& _genos_column, boost_vector_int const& _phenos_vector, std::list<unsigned> const& cond_genos_indexes)
 {
 	// Parse _phenos_vector to become a _phenos_column
 	// Init a temporary boost matrix with size of _phenos_vector
@@ -121,42 +76,42 @@ boost_vector_float statistics::make_contingencies_chi_2_conditional_test_indep(b
 	// Build contingencies table, this function will build all contingencies table
 	contingencies_vector = contingencies::make_contingencies_table_conditionnal(cond_genos_indexes, _genos_column, _phenos_column, number_obs_subset, contingencies_vector);
 
-	//compute conditionnal chi 2, this function use contingencies table to build theorical table and will do a chi 2 test
-	boost_vector_float result = compute_chi_2_conditional_test_indep(contingencies_vector, liberty_degree);
-	// Return chi 2 scores
+	//compute conditionnal g 2, this function use contingencies table to build theorical table and will do a g 2 test
+	boost_vector_float result = compute_g_2_conditional_test_indep(contingencies_vector, liberty_degree);
+	// Return g 2 scores
 	return result;
 }
 
 //==============================================================================
-// statistics::compute_chi_2_conditional_test_indep
+// statistics::compute_g_2_conditional_test_indep
 // Use a vector of contigencies table, liberty degree and number of observation
-// Return chi 2 score from conditionnal chi 2
+// Return g 2 score from conditionnal g 2
 //==============================================================================
-boost_vector_float statistics::compute_chi_2_conditional_test_indep(std::vector<contingencies> contingencies_vector, unsigned int liberty_degree)
+boost_vector_float statistics::compute_g_2_conditional_test_indep(std::vector<contingencies> contingencies_vector, unsigned int liberty_degree)
 {
-	// Init a vector that will store in first cell chi 2 score and in second cell associated p value
+	// Init a vector that will store in first cell g 2 score and in second cell associated p value
 	boost_vector_float results(3,0);
 	// Get number of contingencies table
 	unsigned number_contingencies = contingencies_vector.size();
-	// Generate a chi 2 distribution for a given liberty degree
-	boost::math::chi_squared_distribution<double> chi_2_distribution(liberty_degree);
+	// Generate a g 2 distribution for a given liberty degree
+	boost::math::chi_squared_distribution<double> g_2_distribution(liberty_degree);
 	// For every contingencies tables
     for(unsigned i=0; i<number_contingencies; ++i)
     {
 		// Build associated theorical table
 		boost_matrix_float contingency_theorical_table_content = contingencies::make_contingency_theorical_table_conditionnal(contingencies_vector[i]);
-		// Check if contingencies table are viable. In fact if one of their cell value are under 5 chi 2 cannot be compute because of reliability
+		// Check if contingencies table are viable. In fact if one of their cell value are under 5 g 2 cannot be compute because of reliability
 		if (!contingencies::reliable_test(contingencies_vector[i]) || !contingencies::reliable_test(contingency_theorical_table_content))
 		{
 			// If test is considered as not reliable count it
 			results(2) += 1;
 			break;
 		}
-		// Compute a chi 2 test
-		results(0) = compute_chi_2(contingencies_vector[i], contingency_theorical_table_content);
+		// Compute a g 2 test
+		results(0) = compute_g_2(contingencies_vector[i], contingency_theorical_table_content);
     }
 	// Calculate associated p value
-	results(1) = 1 - boost::math::cdf(chi_2_distribution, results(0));
+	results(1) = 1 - boost::math::cdf(g_2_distribution, results(0));
 
 	return results;
 }

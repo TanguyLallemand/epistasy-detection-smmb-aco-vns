@@ -188,8 +188,8 @@ void smmb_aco::backward(list<unsigned> & MB_a_ref)
             //stocking result of the test
             boost_vector_float result(2, 0.0);
 
-            // Return an array with in first cell, chi 2 score and in second cell, associated p_value
-            result = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, combi);
+            // Return an array with in first cell, g 2 score and in second cell, associated p_value
+            result = statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, combi);
 
             //if the p-value is not significant entering here
             if (result(1) > _alpha_stat)
@@ -385,7 +385,7 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
 
             //calculating score of the current SNP of the pattern and add it to the pattern score
             boost_vector_float result_SNP(2, 0.0);
-            result_SNP = statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
+            result_SNP = statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
             //stocking result in the ant_memory
             mem_ant_ref[current_SNP].push_back(result_SNP(0));
 
@@ -423,7 +423,7 @@ void smmb_aco::score_for_final_results() {
             list<unsigned> conditionnal_set = pattern.first;
             conditionnal_set.remove(snp);
 
-            boost_vector_float temp_res =  statistics::make_contingencies_chi_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
+            boost_vector_float temp_res =  statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
             if (temp_res(1) < _stats_results(st)(1) )
             {
                 _stats_results(st) = temp_res;
