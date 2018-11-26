@@ -6,6 +6,7 @@ Attention les launch doivent avoir en comment l ensemble de l explication des pa
 chemins a changer:
 boost folder dans le makefile
 
+TODO prendre en compte le nombre de test pas reliable
 
 changer la solution cradot du -48 dans le file_parsing.cpp
 (code ascii tout ça tout ça)
