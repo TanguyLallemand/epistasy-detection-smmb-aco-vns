@@ -27,6 +27,7 @@ private:
     boost_vector_int _pheno_vector;
     boost_vector_string _snp_id;
     parameters_parsing _params;
+    string _filename;
 
     //variables initialisée par le constructeur à partir de params
     unsigned _n_it; // nombre d'itérations ACO
@@ -80,5 +81,6 @@ private:
 
     void score_for_final_results();
     void show_results();
+    void save_results();
 };
 #endif

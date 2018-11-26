@@ -1,0 +1,5 @@
+# Result from smmbaco 
+# Pattern || occurences || G2-score || p-value
+{SNP-N-5} || 1874 || 7.93663 || 0.0189053
+{SNP-N-12} || 17 || 4.15332 || 0.125348
+{SNP-C-1} || 1755 || 9.08802 || 0.0106307

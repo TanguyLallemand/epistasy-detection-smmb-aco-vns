@@ -14,9 +14,11 @@ public:
     boost_vector_int _pheno_vector;
     boost_vector_string _snp_id_vector;
 
+    string _geno_filename, _pheno_filename;
+
 private:
     //taken from arguments
-    string _geno_filename, _pheno_filename;
+
     unsigned _header_size;
     char _separator;
 
