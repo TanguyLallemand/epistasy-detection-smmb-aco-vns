@@ -13,5 +13,5 @@ int main(int argc, char* argv[])
 	std::string phenos_file = argv[2];
 
     parameters_parsing params;
-    variable_neightborhood_search vns(params);
+    //variable_neightborhood_search vns(params);
 }
