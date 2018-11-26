@@ -1,4 +1,2 @@
 # Result from smmbaco 
 # Pattern || occurences || G2-score || p-value
-{SNP10,SNP18} || 148 || 14.4218 || 0.0252634
-{SNP17} || 3197 || 6.3602 || 0.0415814

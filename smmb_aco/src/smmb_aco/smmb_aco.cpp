@@ -212,7 +212,7 @@ void smmb_aco::run()
 
     for (size_t i = 0; i < _n_it_n; i++)
     {
-        std::cout << "iteration # " << i << '\n';
+        std::cout << "iteration #" << i << '\n';
         std::cout << "tau vector" << '\n';
         std::cout << _tau << '\n';
 
@@ -221,7 +221,8 @@ void smmb_aco::run()
             _markov_blanket_a(i).clear();
         }
 
-        //TODO For every ants a parallelise : #pragma omp parallel for
+        //TODO For every ants a parallelise :
+        #pragma omp parallel for
         //iterating through ants
         for (size_t a = 0; a < _n_ant; a++)
         {
