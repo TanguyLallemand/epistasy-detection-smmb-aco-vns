@@ -1,27 +1,27 @@
 #include "vns.hpp"
 
-variable_neightborhood_search::variable_neightborhood_search(parameters_parsing _params)
+vns::vns(parameters_parsing _params)
 {
     this->_n_it_max = _params.n_it_max;
     this->_k_max = _params.k_max;
 }
 
-void variable_neightborhood_search::neighborhood_change(int x, int second_x, int k)
+void vns::neighborhood_change(int x, int second_x, int k)
 {
 
 }
 
-void variable_neightborhood_search::shake(int x, int k)
+void vns::shake(int x, int k)
 {
 
 }
 
-void variable_neightborhood_search::variable_neighborhood_descent(int x, int k_max) // This is the VND phase
+void vns::variable_neighborhood_descent(int x, int k_max) // This is the VND phase
 {
 
 }
 
-void variable_neightborhood_search::run(int x, int l_max, int k_max, int n_it_max)
+void vns::run(int x, int l_max, int k_max, int n_it_max)
 {
     int iterator = 0;
     int second_x;

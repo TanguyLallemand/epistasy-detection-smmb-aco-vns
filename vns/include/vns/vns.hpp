@@ -4,10 +4,10 @@
 #include "parameters_parsing.hpp"
 #include "global.hpp"
 
-class variable_neightborhood_search {
+class vns {
 
 public:
-    variable_neightborhood_search(parameters_parsing _params);
+    vns(parameters_parsing _params);
 
     void run(int x, int l_max, int k_max, int n_it_max);
 private:
