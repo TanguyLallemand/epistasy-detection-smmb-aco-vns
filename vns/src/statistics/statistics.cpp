@@ -95,12 +95,11 @@ void statistics::init_combinations()
 {
 
 	vector<unsigned> _possible_values = {0, 1, 2};
-	unsigned _size_of_pattern;
-	vector<vector<unsigned> > _all_combinations;
-	_size_of_pattern = 3;
+	unsigned _size_of_pattern = 3;
+	vector<vector<unsigned>> _all_combinations;
     std::vector<unsigned> tuple;
-    tuple.reserve(_size_of_pattern); //avoids needless allocations
-    recursive_combination(_size_of_pattern, 0, _size_of_pattern, tuple, _possible_values, _all_combinations);
+
+	recursive_combination(_size_of_pattern, tuple, _possible_values, _all_combinations);
 
 
 	cout << "Total Combinations: " << _all_combinations.size() << endl;
@@ -117,21 +116,20 @@ void statistics::init_combinations()
 }
 
 
-void statistics::recursive_combination(unsigned step_val, unsigned array_index, unsigned _size_of_pattern, std::vector<unsigned> tuple, vector<unsigned> const& _possible_values, vector<vector<unsigned> > & _all_combinations)
+void statistics::recursive_combination(unsigned _size_of_pattern, std::vector<unsigned> tuple, vector<unsigned> const& _possible_values, vector<vector<unsigned>> & _all_combinations)
 {
-    if (step_val == 0)
-    {
-        _all_combinations.push_back(tuple); // final combination
-        return;
+    for (auto i : _possible_values)
+	{
+    	tuple.push_back(i);
+		if (tuple.size()<_size_of_pattern){
+			recursive_combination(_size_of_pattern, tuple, _possible_values, _all_combinations);
+		}
+		else
+		{
+			_all_combinations.push_back(tuple);
+		}
+		tuple.pop_back();
     }
-    for (unsigned i = array_index; i < _size_of_pattern; i++)
-    {
-        tuple.push_back(_possible_values[i]);
-        recursive_combination(step_val - 1, i + 1, _size_of_pattern, tuple, _possible_values, _all_combinations);
-        tuple.pop_back();
-    }
-
-    return;
 }
 
 void statistics::test()

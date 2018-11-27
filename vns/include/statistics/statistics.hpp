@@ -31,12 +31,12 @@ public:
 
 
     //==========================================================================
-    // Tools for generate contingencies tables
+    // Tools to generate contingencies tables
     //==========================================================================
 
 
     static void init_combinations();
-    static void recursive_combination(unsigned step_val, unsigned array_index, unsigned _size_of_pattern, std::vector<unsigned> tuple, vector<unsigned> const& _possible_values, vector<vector<unsigned> > & _all_combinations);
+    static void recursive_combination(unsigned _size_of_pattern, std::vector<unsigned> tuple, vector<unsigned> const& _possible_values, vector<vector<unsigned>> & _all_combinations);
 
     static void test();
 
