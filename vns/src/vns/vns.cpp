@@ -61,23 +61,23 @@ void vns::run()
     //initialisation of patterns and their neighbors
     generate_patterns();
 
-    //selecting starting pattern
-    int index_pattern = rand() % (pattern_list.size());
-
-    //initialisation of starting pattern
-    list<unsigned> x = pattern_list[index_pattern];
-    //TODO ici on doit tester le pattern de départ
-    float x_score = 0;
-
-    list<unsigned> second_x;
-
-    list<unsigned> third_x;
-    float third_x_score = 0;
-
-    int iterator = 0;
-
-    while (_n_it_max > iterator)
+    for (size_t i = 0; i < _n_it_max; i++)
     {
+        //selecting starting pattern
+        int index_pattern = rand() % (pattern_list.size());
+
+        //initialisation of starting pattern
+        list<unsigned> x = pattern_list[index_pattern];
+        //TODO ici on doit tester le pattern de départ
+        float x_score = 0;
+
+        list<unsigned> second_x;
+        list<unsigned> third_x;
+
+        float third_x_score = 0;
+
+        int iterator = 0;
+
         int k = 0;
         while (k < _k_max)
         {
@@ -90,6 +90,7 @@ void vns::run()
             if (third_x_score > x_score)
             {
                 x = third_x;
+                x_score = third_x_score;
                 k = 0;
             }
             else
@@ -97,7 +98,19 @@ void vns::run()
                 k++;
             }
         }
-        iterator++;
+
+        //saving the local optimum
+        auto current_opti = _optimum_set.find(x);
+        if (current_opti->second.size() == 0)
+        {
+            current_opti->second = {1,x_score};
+        }
+        else
+        {
+            current_opti->second[0] += 1;
+            current_opti->second[1] = x_score;
+        }
+
     }
 }
 

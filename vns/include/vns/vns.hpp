@@ -24,6 +24,9 @@ private:
     //neighborhood map
     map<list<unsigned>, vector<vector<list<unsigned>>>> _neighborhood;
 
+    //result map
+    map<list<unsigned>, vector<float>> _optimum_set;
+
     //neighborhood initialisation
     void generate_patterns();
     void generate_patterns(list<unsigned> temp, list<unsigned> snp_list);
