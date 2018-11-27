@@ -20,7 +20,7 @@ private:
     string _filename;
 
     //neighborhood map
-    map<list<unsigned>, list<list<unsigned>>> _neighborhood;
+    map<list<unsigned>, vector<list<list<unsigned>>>> _neighborhood;
 
     //neighborhood initialisation
     void generate_patterns();

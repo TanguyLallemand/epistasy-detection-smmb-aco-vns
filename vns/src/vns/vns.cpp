@@ -10,7 +10,7 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     this->_genos_matrix = dataset._geno_matrix;
     this->_pheno_vector = dataset._pheno_vector;
     this->_snp_id = dataset._snp_id_vector;
-    this->_filename = dataset._geno_filename.substr (14, dataset._geno_filename.length());
+    this->_filename = dataset._geno_filename.substr(14, dataset._geno_filename.length());
 }
 
 //==============================================================================
@@ -42,13 +42,21 @@ void vns::variable_neighborhood_descent(int x, int k_max) // This is the VND pha
 //==============================================================================
 void vns::run(int x, int l_max, int k_max, int n_it_max)
 {
+    //initialisation of patterns and their neighbors
+    generate_patterns();
+
+    //selecting starting pattern
+    int testi = rand() % (_neighborhood.size()-1);
+
+
+
     int iterator = 0;
     int second_x;
     int third_x;
-    while (n_it_max > iterator)
+    while (_n_it_max > iterator)
     {
         int k = 1;
-        while (k != k_max)
+        while (k != _k_max)
         {
             shake(x, k);
             variable_neighborhood_descent(second_x, l_max);
@@ -78,7 +86,7 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
 {
     //TODO changer le 3 par une variable globale qu'on passe en arg pour la taille max du pattern recherché
     //if we are on the size_pattern recursive call we don't go deeper
-    if (temp.size() < 3)
+    if (temp.size() < _k_max)
     {
         for (auto snp : snp_list)
         {
@@ -125,28 +133,34 @@ void vns::set_neighbors()
     //iterating all patterns
     for (auto current : _neighborhood)
     {
-        //iterating all patterns to find neighbors for current
-        for (auto candidat_neighbor : _neighborhood)
+        //iterate to generate list of pattern on a certain distance
+        for (size_t i = 0; i < _k_max; i++)
         {
-            //finding the number of common values needed to be neighbors
-            unsigned neighbors_score = max(current.first.size(), candidat_neighbor.first.size())-1;
-
-            //counting common values between vectors
-            unsigned common_values = 0;
-            for (auto s : current.first)
+            //each box of the vector contains neighbor with a different distance to the associated pattern
+            current.second.resize(_k_max);
+            //iterating all patterns to find neighbors for current at i+1 distance
+            for (auto candidat_neighbor : _neighborhood)
             {
-                auto test = find(candidat_neighbor.first.begin(), candidat_neighbor.first.end(), s);
-                if (*test != s)
+                //finding the number of common values needed to be neighbors at current distance
+                unsigned neighbors_score = max(current.first.size(), candidat_neighbor.first.size())-i-1;
+
+                //counting common values between vectors
+                unsigned common_values = 0;
+                for (auto s : current.first)
                 {
-                    common_values+=1;
+                    auto test = find(candidat_neighbor.first.begin(), candidat_neighbor.first.end(), s);
+                    if (*test != s)
+                    {
+                        common_values+=1;
+                    }
                 }
-            }
 
-            //if the 2 sets have only 1 difference they are neighbors
-            if (neighbors_score == common_values)
-            {
-                //append the new neighbor to the list
-                current.second.push_back(candidat_neighbor.first);
+                //if the 2 sets have only 1 difference they are neighbors
+                if (neighbors_score == common_values)
+                {
+                    //append the new neighbor to the list of neighbors with i+1 distance
+                    current.second[i].push_back(candidat_neighbor.first);
+                }
             }
         }
     }
