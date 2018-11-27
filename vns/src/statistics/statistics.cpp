@@ -16,7 +16,8 @@ float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vecto
 	float p_value = 0;
 	unsigned int liberty_degree = 0;
 
-	boost_vector_int subset;
+
+
 
 	//
 	// // Instanciate contigencies
@@ -90,29 +91,51 @@ unsigned statistics::compute_liberty_degree(boost_matrix_float const& contingenc
 // statistics : get_all_combinations
 //==============================================================================
 
-void statistics::init_combinations(unsigned size_of_pattern, vector<vector<unsigned> > & all_combinations, vector<unsigned> & possible_values)
+void statistics::init_combinations()
 {
+
+	vector<unsigned> _possible_values = {0, 1, 2};
+	unsigned _size_of_pattern;
+	vector<vector<unsigned> > _all_combinations;
+	_size_of_pattern = 3;
     std::vector<unsigned> tuple;
-    tuple.reserve(size_of_pattern); //avoids needless allocations
-    recursive_combination(size_of_pattern, 0, tuple, size_of_pattern, all_combinations, possible_values);
+    tuple.reserve(_size_of_pattern); //avoids needless allocations
+    recursive_combination(_size_of_pattern, 0, _size_of_pattern, tuple, _possible_values, _all_combinations);
+
+
+	cout << "Total Combinations: " << _all_combinations.size() << endl;
+
+	for (int i=0; i < _all_combinations.size(); i++)
+	{
+		cout << "{";
+		for (int j=0; j < _size_of_pattern; j++)
+		{
+			cout << _all_combinations[i][j] << " ";
+		}
+		cout << "}" << endl;
+	}
 }
 
 
-void statistics::recursive_combination(unsigned step_val, unsigned array_index, std::vector<unsigned> tuple, unsigned size_of_pattern, vector<vector<unsigned> > & all_combinations, vector<unsigned> & possible_values)
+void statistics::recursive_combination(unsigned step_val, unsigned array_index, unsigned _size_of_pattern, std::vector<unsigned> tuple, vector<unsigned> const& _possible_values, vector<vector<unsigned> > & _all_combinations)
 {
-	std::cout << step_val << '\n';
     if (step_val == 0)
     {
-        all_combinations.push_back(tuple); //<==We have the final combination
+        _all_combinations.push_back(tuple); // final combination
         return;
     }
-
-    for (unsigned i = array_index; i < size_of_pattern; i++)
+    for (unsigned i = array_index; i < _size_of_pattern; i++)
     {
-        tuple.push_back(possible_values[i]);
-        recursive_combination(step_val - 1, i + 1, tuple, size_of_pattern, all_combinations, possible_values);
+        tuple.push_back(_possible_values[i]);
+        recursive_combination(step_val - 1, i + 1, _size_of_pattern, tuple, _possible_values, _all_combinations);
         tuple.pop_back();
     }
 
     return;
+}
+
+void statistics::test()
+{
+	init_combinations();
+
 }
