@@ -14,7 +14,8 @@ public:
     char separator;
     float alpha;
 
-    unsigned n_it_max;
+    unsigned _n_it_max;
+    unsigned _k_max;
 
     string genos_file;
     string phenos_file;
