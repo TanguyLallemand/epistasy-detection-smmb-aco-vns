@@ -16,29 +16,27 @@ float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vecto
 	float p_value = 0;
 	unsigned int liberty_degree = 0;
 
-	// Container for all combinations of the current sub_subset
-	list<list<unsigned>> combi_list;
-
-	get_all_combinations(boost_vector_int & subset, list<list<unsigned>> & combi_list);
-    generate_combinations(list<unsigned> temp, list<list<unsigned>> & combi_list, list<unsigned> subset);
+	int k = 3;
+	vector<unsigned> combinations;
+	get_all_combinations(0, k, combinations);
 
 	// Instanciate contigencies
-	contingencies contingency_table = contingencies(2,size.combi_list());
+	contingencies contingency_table = contingencies(2,combinations.size());
 	// Make a contingency table using datas
-	contingency_table.make_contingency_table(subset, _phenos_vector);
-	// Make associated contingency theorical table
-	contingency_table.make_contingency_theorical_table(_phenos_vector.size());
-	// Get datas from contingencies class
-	boost_matrix_float contingency_table_content = contingency_table.return_contingency_table();
-	boost_matrix_float contingency_theorical_table_content = contingency_table.return_contingency_theorical_table();
-	// Get g 2 square score for the two contingencies tables given
-	g2_result = compute_g2(contingency_table_content, contingency_theorical_table_content);
-	// Calculate liberty degree for contingency table
-	liberty_degree = compute_liberty_degree(contingency_table_content);
-	// Instanciate g_squared_distribution with a given number of liberty degree
-	boost::math::chi_squared_distribution<float> g2_distribution(liberty_degree);
-	// Calculate p value following g_squared_distribution generated and g square score
-	p_value = 1 - boost::math::cdf(g2_distribution, g2_result);
+	// contingency_table.make_contingency_table(subset, _phenos_vector);
+	// // Make associated contingency theorical table
+	// contingency_table.make_contingency_theorical_table(_phenos_vector.size());
+	// // Get datas from contingencies class
+	// boost_matrix_float contingency_table_content = contingency_table.return_contingency_table();
+	// boost_matrix_float contingency_theorical_table_content = contingency_table.return_contingency_theorical_table();
+	// // Get g 2 square score for the two contingencies tables given
+	// g2_result = compute_g2(contingency_table_content, contingency_theorical_table_content);
+	// // Calculate liberty degree for contingency table
+	// liberty_degree = compute_liberty_degree(contingency_table_content);
+	// // Instanciate g_squared_distribution with a given number of liberty degree
+	// boost::math::chi_squared_distribution<float> g2_distribution(liberty_degree);
+	// // Calculate p value following g_squared_distribution generated and g square score
+	// p_value = 1 - boost::math::cdf(g2_distribution, g2_result);
 	// Return calculated p_value
 	return p_value;
 }
@@ -90,38 +88,21 @@ unsigned statistics::compute_liberty_degree(boost_matrix_float const& contingenc
 }
 
 //==============================================================================
-// smmb_aco : get_all_combinations
+// statistics : get_all_combinations
 //==============================================================================
-void smmb_aco::get_all_combinations(boost_vector_int & subset, list<list<unsigned>> & combi_list)
+void statistics::get_all_combinations(int offset, int k, vector<unsigned> & combinations)
 {
-    //convert vector into list
-    list<unsigned> subset(subset.begin(), subset.end());
-    //temporary list that we will append to combi list every time it is modified
-    list<unsigned> temp;
-    //recursive function to generate all non-empty combinations
-    generate_combinations(temp, combi_list, subset);
-}
+	vector<int> possible_values {0,1,2};
+	if (k == 0) {
+	  std::cout << "/* 21message */" << '\n';
+	  return;
+	}
+	std::cout << "/* message */" << '\n';
+	for (int i = offset; i <= possible_values.size() - k; ++i)
+	{
+		combinations.push_back(possible_values[i]);
+		get_all_combinations(i+1, k-1, combinations);
+		combinations.pop_back();
+	}
 
-
-//==============================================================================
-// smmb_aco : generate_combinations
-//==============================================================================
-void smmb_aco::generate_combinations(list<unsigned> temp, list<list<unsigned>> & combi_list, list<unsigned> subset)
-{
-    //copy the subset for next iteration
-    list<unsigned> next_subset(subset);
-    //iterate the subset list
-    for (auto const& h : subset)
-    {
-        //add current snp to the temp list
-        temp.push_back(h);
-        //stocking the temp in the list of combinations
-        combi_list.push_back(temp);
-        //remove the current x
-        next_subset.remove(h);
-        //recursive call on the list without current x
-        generate_combinations(temp, combi_list, next_subset);
-        //remove predecent snp
-        temp.pop_back();
-    }
 }

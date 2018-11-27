@@ -35,8 +35,8 @@ public:
     //==========================================================================
 
 
-    void get_all_combinations(boost_vector_int & subset, list<list<unsigned>> & combi_list);
-    void generate_combinations(list<unsigned> temp, list<list<unsigned>> & combi_list, list<unsigned> subset);
+    static void get_all_combinations(int offset, int k, vector<unsigned> & combinations);
+
 };
 
 #endif
