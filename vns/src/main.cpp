@@ -14,12 +14,25 @@ int main(int argc, char* argv[])
 	std::string phenos_file = argv[2];
 
     parameters_parsing params;
-	int k = 3;
-	std::vector<unsigned> combinations(pow(k,3));
-	std::cout << combinations.size() << '\n';
-	statistics::get_all_combinations(0, k, combinations);
-	for (size_t i = 0; i < combinations.size(); i++) {
-		std::cout << combinations[i] << '\n';
+
+
+	unsigned size_of_pattern = 3;
+	vector<unsigned> possible_values {0,1,2,3,4};
+	vector<vector<unsigned> > all_combinations;
+
+	statistics::init_combinations(size_of_pattern, all_combinations, possible_values);
+	cout << "Total Combinations: " << all_combinations.size() << endl;
+
+	for (int i=0; i < all_combinations.size(); i++)
+	{
+		cout << "{";
+		for (int j=0; j < size_of_pattern; j++)
+		{
+			cout << all_combinations[i][j] << " ";
+		}
+		cout << "}" << endl;
 	}
+
+	return 0;
     //variable_neightborhood_search vns(params);
 }

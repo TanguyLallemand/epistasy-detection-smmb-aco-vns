@@ -35,7 +35,8 @@ public:
     //==========================================================================
 
 
-    static void get_all_combinations(int offset, int k, vector<unsigned> & combinations);
+    static void init_combinations(unsigned size_of_pattern, vector<vector<unsigned> > & all_combinations, vector<unsigned> & possible_values);
+    static void recursive_combination(unsigned step_val, unsigned array_index, std::vector<unsigned> tuple, unsigned size_of_pattern, vector<vector<unsigned> > & all_combinations, vector<unsigned> & possible_values);
 
 };
 
