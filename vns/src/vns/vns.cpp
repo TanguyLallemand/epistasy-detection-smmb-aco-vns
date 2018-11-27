@@ -1,26 +1,45 @@
 #include "vns.hpp"
 
-vns::vns(parameters_parsing _params)
+vns::vns(data_parsing dataset, parameters_parsing _params)
 {
+    //params unpacking
     this->_n_it_max = _params._n_it_max;
     this->_k_max = _params._k_max;
+
+    //unpacking datas
+    this->_genos_matrix = dataset._geno_matrix;
+    this->_pheno_vector = dataset._pheno_vector;
+    this->_snp_id = dataset._snp_id_vector;
+    this->_filename = dataset._geno_filename.substr (14, dataset._geno_filename.length());
 }
 
+//==============================================================================
+//vns : neighborhood_change
+//==============================================================================
 void vns::neighborhood_change(int x, int second_x, int k)
 {
 
 }
 
+//==============================================================================
+//vns : shake
+//==============================================================================
 void vns::shake(int x, int k)
 {
 
 }
 
+//==============================================================================
+//vns : variable_neighborhood_descent
+//==============================================================================
 void vns::variable_neighborhood_descent(int x, int k_max) // This is the VND phase
 {
 
 }
 
+//==============================================================================
+//vns : run
+//==============================================================================
 void vns::run(int x, int l_max, int k_max, int n_it_max)
 {
     int iterator = 0;
@@ -40,13 +59,21 @@ void vns::run(int x, int l_max, int k_max, int n_it_max)
     //return x;
 }
 
+//==============================================================================
+//vns : generate_patterns
+//==============================================================================
 void vns::generate_patterns()
 {
     list<unsigned> temp;
+    list<unsigned> snp_list(_genos_matrix.size2());
+    iota(snp_list.begin(), snp_list.end(), 0);
     generate_patterns(temp, snp_list);
     set_neighbors();
 }
 
+//==============================================================================
+//vns : generate_patterns
+//==============================================================================
 void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
 {
     //TODO changer le 3 par une variable globale qu'on passe en arg pour la taille max du pattern recherché
@@ -62,7 +89,7 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
             _neighborhood[temp];
 
             //copy the list of snp
-            next_snp_list = snp_list;
+            list<unsigned> next_snp_list = snp_list;
 
             //remove snp added to temp pattern
             next_snp_list.remove(snp);
@@ -90,7 +117,10 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
     }
 }
 
-void vns::set_neighbors();
+//==============================================================================
+//vns : set_neighbors
+//==============================================================================
+void vns::set_neighbors()
 {
     //iterating all patterns
     for (auto current : _neighborhood)
@@ -105,7 +135,8 @@ void vns::set_neighbors();
             unsigned common_values = 0;
             for (auto s : current.first)
             {
-                if (find(candidat_neighbor.first.begin(), candidat_neighbor.first.end(), s))
+                auto test = find(candidat_neighbor.first.begin(), candidat_neighbor.first.end(), s);
+                if (*test != s)
                 {
                     common_values+=1;
                 }
