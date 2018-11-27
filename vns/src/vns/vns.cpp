@@ -16,7 +16,7 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
 //==============================================================================
 //vns : neighborhood_change
 //==============================================================================
-void vns::neighborhood_change(int x, int second_x, int k)
+void vns::neighborhood_change(list<unsigned> x, list<unsigned> second_x, int k)
 {
 
 }
@@ -24,15 +24,19 @@ void vns::neighborhood_change(int x, int second_x, int k)
 //==============================================================================
 //vns : shake
 //==============================================================================
-void vns::shake(int x, int k)
+list<unsigned> vns::shake(list<unsigned> x)
 {
+    int index_pattern = rand() % (_neighborhood[x][0].size());
 
+    list<unsigned> x2 = _neighborhood[x][0][index_pattern];
+    
+    return x2;
 }
 
 //==============================================================================
 //vns : variable_neighborhood_descent
 //==============================================================================
-void vns::variable_neighborhood_descent(int x, int k_max) // This is the VND phase
+void vns::variable_neighborhood_descent(list<unsigned> x, int k_max) // This is the VND phase
 {
 
 }
@@ -40,27 +44,38 @@ void vns::variable_neighborhood_descent(int x, int k_max) // This is the VND pha
 //==============================================================================
 //vns : run
 //==============================================================================
-void vns::run(int x, int l_max, int k_max, int n_it_max)
+void vns::run(int l_max)
 {
     //initialisation of patterns and their neighbors
     generate_patterns();
 
     //selecting starting pattern
-    int testi = rand() % (_neighborhood.size()-1);
+    int index_pattern = rand() % (pattern_list.size());
 
+    //initialisation of starting pattern
+    list<unsigned> x = pattern_list[index_pattern];
+    float x_score = 0;
 
+    list<unsigned> second_x;
+    float second_x_score = 0;
+
+    list<unsigned> third_x;
+    float third_x_score = 0;
 
     int iterator = 0;
-    int second_x;
-    int third_x;
+
     while (_n_it_max > iterator)
     {
-        int k = 1;
-        while (k != _k_max)
+        int k = 0;
+        while (k < _k_max)
         {
-            shake(x, k);
+            second_x = shake(x);
             variable_neighborhood_descent(second_x, l_max);
             neighborhood_change(x, third_x, k);
+            if (third_x_score > x_score)
+            {
+                x = third_x;
+            }
         }
         iterator++;
     }
@@ -84,8 +99,7 @@ void vns::generate_patterns()
 //==============================================================================
 void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
 {
-    //TODO changer le 3 par une variable globale qu'on passe en arg pour la taille max du pattern recherché
-    //if we are on the size_pattern recursive call we don't go deeper
+    //if we are on the _k_max recursive call we don't go deeper
     if (temp.size() < _k_max)
     {
         for (auto snp : snp_list)
@@ -115,6 +129,9 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
         {
             //add the snp to the pattern
             temp.push_back(snp);
+
+            //add the pattern to the vector
+            pattern_list.push_back(temp);
 
             //create the entry in the map for current pattern
             _neighborhood[temp];

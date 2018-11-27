@@ -11,7 +11,7 @@ class vns
 public:
     vns(data_parsing dataset, parameters_parsing _params);
 
-    void run(int x, int l_max, int k_max, int n_it_max);
+    void run(int l_max);
 private:
     //input datas
     boost_matrix _genos_matrix;
@@ -19,8 +19,10 @@ private:
     boost_vector_string _snp_id;
     string _filename;
 
+    //vector of patterns
+    vector<list<unsigned>> pattern_list;
     //neighborhood map
-    map<list<unsigned>, vector<list<list<unsigned>>>> _neighborhood;
+    map<list<unsigned>, vector<vector<list<unsigned>>>> _neighborhood;
 
     //neighborhood initialisation
     void generate_patterns();
@@ -31,9 +33,9 @@ private:
     int _n_it_max;
     int _k_max;
 
-    void neighborhood_change(int x, int second_x, int k);
-    void shake(int x, int k);
-    void variable_neighborhood_descent(int x, int k_max);
+    void neighborhood_change(list<unsigned> x, list<unsigned> second_x, int k);
+    list<unsigned> shake(list<unsigned> x);
+    void variable_neighborhood_descent(list<unsigned> x, int k_max);
 
 };
 #endif
