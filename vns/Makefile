@@ -16,6 +16,7 @@ BOOST_FOLDER = ../../boost_1_61_0
 INC=-I$(BOOST_FOLDER) \
  -I./include \
  -I./include/parsing \
+ -I./include/statistics \
  -I./include/vns
 
 # Save compiler call
@@ -32,6 +33,8 @@ INC=-I$(BOOST_FOLDER) \
 #Give .o files to create
 OBJ=$(OBJDIR)/main.o \
 $(OBJDIR)/parameters_parsing.o \
+$(OBJDIR)/statistics.o \
+$(OBJDIR)/contingencies.o \
 $(OBJDIR)/vns.o
 
 TARGET=$(BINDIR)/vns.exe
@@ -63,7 +66,19 @@ $(OBJDIR)/parameters_parsing.o: ./$(SRCDIR)/parsing/parameters_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled parameters_parsing.o"
 
+#===============================================================================
+# Statistics
+#===============================================================================
+$(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled statistics.o"
 
+#===============================================================================
+# Statistics
+#===============================================================================
+$(OBJDIR)/contingencies.o: ./$(SRCDIR)/statistics/contingencies.cpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled contingencies.o"
 
 #===============================================================================
 # PHONEY
