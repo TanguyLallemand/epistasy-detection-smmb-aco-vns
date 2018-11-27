@@ -11,7 +11,7 @@ class vns
 public:
     vns(data_parsing dataset, parameters_parsing _params);
 
-    void run(int l_max);
+    void run();
 private:
     //input datas
     boost_matrix _genos_matrix;
@@ -32,10 +32,11 @@ private:
 
     int _n_it_max;
     int _k_max;
+    int _l_max;
 
     void neighborhood_change(list<unsigned> x, list<unsigned> second_x, int k);
     list<unsigned> shake(list<unsigned> x);
-    void variable_neighborhood_descent(list<unsigned> x, int k_max);
+    float variable_neighborhood_descent(list<unsigned> second_x, list<unsigned> & third_x);
 
 };
 #endif

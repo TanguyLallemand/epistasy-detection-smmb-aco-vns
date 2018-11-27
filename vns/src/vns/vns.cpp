@@ -29,22 +29,34 @@ list<unsigned> vns::shake(list<unsigned> x)
     int index_pattern = rand() % (_neighborhood[x][0].size());
 
     list<unsigned> x2 = _neighborhood[x][0][index_pattern];
-    
+
     return x2;
 }
 
 //==============================================================================
 //vns : variable_neighborhood_descent
 //==============================================================================
-void vns::variable_neighborhood_descent(list<unsigned> x, int k_max) // This is the VND phase
+float vns::variable_neighborhood_descent(list<unsigned> second_x, list<unsigned> & third_x) // This is the VND phase
 {
+    float score, best_score = 0;
 
+    for (auto neighbor_iterator : _neighborhood[second_x][0])
+    {
+        //TODO calcul du score de neighbor_iterator
+
+        if (score > best_score)
+        {
+            best_score = score;
+            third_x = neighbor_iterator;
+        }
+    }
+    return best_score;
 }
 
 //==============================================================================
 //vns : run
 //==============================================================================
-void vns::run(int l_max)
+void vns::run()
 {
     //initialisation of patterns and their neighbors
     generate_patterns();
@@ -54,10 +66,10 @@ void vns::run(int l_max)
 
     //initialisation of starting pattern
     list<unsigned> x = pattern_list[index_pattern];
+    //TODO ici on doit tester le pattern de départ
     float x_score = 0;
 
     list<unsigned> second_x;
-    float second_x_score = 0;
 
     list<unsigned> third_x;
     float third_x_score = 0;
@@ -69,17 +81,24 @@ void vns::run(int l_max)
         int k = 0;
         while (k < _k_max)
         {
+            //take a random neighbor of x
             second_x = shake(x);
-            variable_neighborhood_descent(second_x, l_max);
-            neighborhood_change(x, third_x, k);
+
+            //searching for the best neighbor of second_x
+            third_x_score = variable_neighborhood_descent(second_x, third_x);
+
             if (third_x_score > x_score)
             {
                 x = third_x;
+                k = 0;
+            }
+            else
+            {
+                k++;
             }
         }
         iterator++;
     }
-    //return x;
 }
 
 //==============================================================================
