@@ -1,6 +1,7 @@
 // A determiner: le type de x et de k
 // Un peu de biblio
-
+/*
+generer une architecture de voisinage: un solution est un pattern.  les voisins */
 /*
 C'est un vnd un peu ameliore via une perturbation
 
@@ -23,8 +24,8 @@ creer une solution initiale
 // Definition de fonctions
 /*
 function generate_neighborhood()
-{   //TODO detreminer le type de l espace des solution N_k
-    1<=k<=k_max
+{   //TODO detreminer le type de l espace des solution N_k tel que 1<=k<=k_max
+
     return N_k
 }
 function create_initial_solution
