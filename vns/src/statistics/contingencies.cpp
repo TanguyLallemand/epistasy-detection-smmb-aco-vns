@@ -37,17 +37,22 @@ contingencies::contingencies(contingencies const& m) : boost_matrix_float(m.size
 // Return a contingency table
 //==============================================================================
 
-void contingencies::make_contingency_table(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector)
+void contingencies::make_contingency_table(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector, vector<vector<unsigned>> all_combinations)
 {
 	// For every rows
 	for (size_t i = 0; i < _phenos_vector.size(); i++)
 	{
-		// Store phenotype vector of current index value in a variable
-		float index_row_of_contingency_table = _phenos_vector(i);
-		// Store genotype matrix value of current index in a variable
-		float index_col_of_contingency_table = _genos_matrix(i,0);
-		// Increment contingency table at cell following index of variables given as parameters
-		_contingency_table.at_element(index_row_of_contingency_table, index_col_of_contingency_table) +=1;
+        // Build pattern from
+        int vector_pattern[] = {};
+        for(size_t j = 0; j < all_combinations.size(); j++)
+        {
+            auto index = find(all_combinations[j].begin(), all_combinations[j].end(), vector_pattern);
+            if(all_combinations[j].end() != index)
+            {
+        		// Increment contingency table at cell following index of variables given as parameters: index of row is given by phenotype, index of genotype is given by searching pattern in all possible combinations
+        		_contingency_table.at_element(_phenos_vector(i), index) +=1;
+            }
+        }
 	}
 }
 

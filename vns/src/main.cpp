@@ -16,7 +16,6 @@ int main(int argc, char* argv[])
     parameters_parsing params;
 
 
-	statistics::test();
 
 	return 0;
     //variable_neightborhood_search vns(params);

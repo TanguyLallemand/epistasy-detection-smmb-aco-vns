@@ -9,9 +9,11 @@
 // return p value
 //==============================================================================
 
-float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector)
+boost_vector_float statistics::compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector)
 {
 	// Intialization of variables
+	boost_vector_float results(3);
+	boost_vector_float temp_result(2);
 	float g2_result = 0;
 	float p_value = 0;
 	unsigned int liberty_degree = 0;
@@ -19,28 +21,28 @@ float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vecto
 	vector<vector<unsigned>> all_combinations;
 	all_combinations = init_combinations();
 
-
-
-
 	// Instanciate contigencies
 	contingencies contingency_table = contingencies(2,all_combinations.size());
 	// Make a contingency table using datas
-	contingency_table.make_contingency_table(subset, _phenos_vector);
+	contingency_table.make_contingency_table(pattern_datas, _phenos_vector, all_combinations);
 	// Make associated contingency theorical table
 	contingency_table.make_contingency_theorical_table(_phenos_vector.size());
 	// Get datas from contingencies class
 	boost_matrix_float contingency_table_content = contingency_table.return_contingency_table();
 	boost_matrix_float contingency_theorical_table_content = contingency_table.return_contingency_theorical_table();
 	// Get g 2 square score for the two contingencies tables given
-	g2_result = compute_g2(contingency_table_content, contingency_theorical_table_content);
+	temp_result = compute_g2(contingency_table_content, contingency_theorical_table_content);
+	// Parse results
+	results[0] = temp_result[0];
+	results[2] = temp_result[1];
 	// Calculate liberty degree for contingency table
 	liberty_degree = compute_liberty_degree(contingency_table_content);
 	// Instanciate g_squared_distribution with a given number of liberty degree
 	boost::math::chi_squared_distribution<float> g2_distribution(liberty_degree);
 	// Calculate p value following g_squared_distribution generated and g square score
-	p_value = 1 - boost::math::cdf(g2_distribution, g2_result);
+	results[1] = 1 - boost::math::cdf(g2_distribution, g2_result);
 	// Return calculated p_value
-	return p_value;
+	return results;
 }
 
 
@@ -51,14 +53,10 @@ float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vecto
 // Return g 2 score
 //==============================================================================
 
-float statistics::compute_g2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table)
+boost_vector_float statistics::compute_g2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table)
 {
-	float g2_result = 0;
-	// Check if contingencies table are viable. In fact if one of their cell value are under 5 g 2 cannot be compute because of reliability
-	if (!contingencies::reliable_test(contingency_table) || !contingencies::reliable_test(contingency_theorical_table))
-	{
-		return g2_result = 0.0;
-	}
+	boost_vector_float g2_result(2);
+
 	// Iterate tought contingency table
 	for(unsigned i=0; i<contingency_table.size1(); ++i)
 	{
@@ -68,11 +66,16 @@ float statistics::compute_g2(boost_matrix_float const& contingency_table, boost_
 			if(contingency_table(i,j) != 0)
 			{
 				double div = (double) contingency_table(i,j) / contingency_theorical_table(i,j);
-				g2_result += contingency_table(i,j) * log(div);
+				g2_result[0] += contingency_table(i,j) * log(div);
+				// Check if contingencies table are viable. In fact if one of their cell value are under 5 g2 test appear to be non reliable
+					if (contingency_table(i,j) < 5 )
+					{
+						g2_result[1] += 1;
+					}
 			}
 		}
 	}
-	g2_result *= 2;
+	g2_result[0] *= 2;
 	return g2_result;
 }
 

@@ -23,7 +23,7 @@ public:
     //==========================================================================
     // Setters
     //==========================================================================
-    void make_contingency_table(boost_matrix const& _genos_matrix, boost_vector_int const& _phenos_vector);
+    void make_contingency_table(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector, vector<vector<unsigned>> all_combinations);
     void make_contingency_theorical_table(int size_pheno_vector);
     //==========================================================================
     // Getters
