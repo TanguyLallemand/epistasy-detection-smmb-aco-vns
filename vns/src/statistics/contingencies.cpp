@@ -52,7 +52,7 @@ void contingencies::make_contingency_table(vector<boost::numeric::ublas::matrix_
             if(all_combinations[j].end() != it)
             {
                 auto index = std::distance(all_combinations.begin(), it);
-        		// Increment contingency table at cell following index of variables given as parameters: index of row is given by phenotype, index of genotype is given by searching pattern in all possible combinations
+        		// Increment contingency table at cell following index of variables given as parameters: index of row is given by phenotype, index of column is given by index of found pattern in all possible combinations
         		_contingency_table.at_element(_phenos_vector(i), index) +=1;
             }
         }
