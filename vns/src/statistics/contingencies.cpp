@@ -46,9 +46,12 @@ void contingencies::make_contingency_table(vector<boost::numeric::ublas::matrix_
         int vector_pattern[] = {};
         for(size_t j = 0; j < all_combinations.size(); j++)
         {
-            auto index = find(all_combinations[j].begin(), all_combinations[j].end(), vector_pattern);
-            if(all_combinations[j].end() != index)
+            // Searching for vector_pattern in all_combinations
+            auto it = find(all_combinations[j].begin(), all_combinations[j].end(), vector_pattern);
+            // If find return a result
+            if(all_combinations[j].end() != it)
             {
+                auto index = std::distance(all_combinations.begin(), it);
         		// Increment contingency table at cell following index of variables given as parameters: index of row is given by phenotype, index of genotype is given by searching pattern in all possible combinations
         		_contingency_table.at_element(_phenos_vector(i), index) +=1;
             }
@@ -64,7 +67,7 @@ void contingencies::make_contingency_table(vector<boost::numeric::ublas::matrix_
 
 void contingencies::make_contingency_theorical_table(int size_pheno_vector)
 {
-	// // Initialisation of contingency table with float
+	// Iterating tought two dimensions of matrix
 	for(unsigned i=0; i<_contingency_theorical_table.size1(); ++i)
 	{
 		for(unsigned j=0; j<_contingency_theorical_table.size2(); ++j)
