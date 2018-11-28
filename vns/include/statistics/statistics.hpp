@@ -35,10 +35,9 @@ public:
     //==========================================================================
 
 
-    static void init_combinations();
+    static vector<vector<unsigned>> init_combinations();
     static void recursive_combination(unsigned _size_of_pattern, std::vector<unsigned> tuple, vector<unsigned> const& _possible_values, vector<vector<unsigned>> & _all_combinations);
 
-    static void test();
 
 
 

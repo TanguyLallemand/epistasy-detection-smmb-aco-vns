@@ -18,7 +18,7 @@ INC=-I$(BOOST_FOLDER) \
  -I./include/parsing \
  -I./include/statistics \
  -I./include/tools \
-  -I./include/output_writing \
+ -I./include/output_writing \
  -I./include/smmb_aco
 
 # Save compiler call

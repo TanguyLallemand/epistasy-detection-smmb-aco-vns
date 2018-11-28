@@ -16,29 +16,31 @@ float statistics::compute_p_value(boost_matrix const& _genos_matrix, boost_vecto
 	float p_value = 0;
 	unsigned int liberty_degree = 0;
 
+	vector<vector<unsigned>> all_combinations;
+	all_combinations = init_combinations();
 
 
 
-	//
-	// // Instanciate contigencies
-	// contingencies contingency_table = contingencies(2,combinations.size());
-	// // Make a contingency table using datas
-	// //contingency_table.make_contingency_table(subset, _phenos_vector);
-	// // Make associated contingency theorical table
-	// contingency_table.make_contingency_theorical_table(_phenos_vector.size());
-	// // Get datas from contingencies class
-	// boost_matrix_float contingency_table_content = contingency_table.return_contingency_table();
-	// boost_matrix_float contingency_theorical_table_content = contingency_table.return_contingency_theorical_table();
-	// // Get g 2 square score for the two contingencies tables given
-	// g2_result = compute_g2(contingency_table_content, contingency_theorical_table_content);
-	// // Calculate liberty degree for contingency table
-	// liberty_degree = compute_liberty_degree(contingency_table_content);
-	// // Instanciate g_squared_distribution with a given number of liberty degree
-	// boost::math::chi_squared_distribution<float> g2_distribution(liberty_degree);
-	// // Calculate p value following g_squared_distribution generated and g square score
-	// p_value = 1 - boost::math::cdf(g2_distribution, g2_result);
-	// // Return calculated p_value
-	// return p_value;
+
+	// Instanciate contigencies
+	contingencies contingency_table = contingencies(2,all_combinations.size());
+	// Make a contingency table using datas
+	contingency_table.make_contingency_table(subset, _phenos_vector);
+	// Make associated contingency theorical table
+	contingency_table.make_contingency_theorical_table(_phenos_vector.size());
+	// Get datas from contingencies class
+	boost_matrix_float contingency_table_content = contingency_table.return_contingency_table();
+	boost_matrix_float contingency_theorical_table_content = contingency_table.return_contingency_theorical_table();
+	// Get g 2 square score for the two contingencies tables given
+	g2_result = compute_g2(contingency_table_content, contingency_theorical_table_content);
+	// Calculate liberty degree for contingency table
+	liberty_degree = compute_liberty_degree(contingency_table_content);
+	// Instanciate g_squared_distribution with a given number of liberty degree
+	boost::math::chi_squared_distribution<float> g2_distribution(liberty_degree);
+	// Calculate p value following g_squared_distribution generated and g square score
+	p_value = 1 - boost::math::cdf(g2_distribution, g2_result);
+	// Return calculated p_value
+	return p_value;
 }
 
 
@@ -91,33 +93,26 @@ unsigned statistics::compute_liberty_degree(boost_matrix_float const& contingenc
 // statistics : get_all_combinations
 //==============================================================================
 
-void statistics::init_combinations()
+vector<vector<unsigned>> statistics::init_combinations()
 {
-
+	// Add possible values for genotype
 	vector<unsigned> _possible_values = {0, 1, 2};
+	// Get size of pattern
 	unsigned _size_of_pattern = 3;
+	// initialisation of structure storing possible combinations
 	vector<vector<unsigned>> _all_combinations;
+	// initialisation of a temporary vector storing a genotype combination
     std::vector<unsigned> tuple;
-
+	// Launch recursive function
 	recursive_combination(_size_of_pattern, tuple, _possible_values, _all_combinations);
 
-
-	cout << "Total Combinations: " << _all_combinations.size() << endl;
-
-	for (int i=0; i < _all_combinations.size(); i++)
-	{
-		cout << "{";
-		for (int j=0; j < _size_of_pattern; j++)
-		{
-			cout << _all_combinations[i][j] << " ";
-		}
-		cout << "}" << endl;
-	}
+	return _all_combinations;
 }
 
 
 void statistics::recursive_combination(unsigned _size_of_pattern, std::vector<unsigned> tuple, vector<unsigned> const& _possible_values, vector<vector<unsigned>> & _all_combinations)
 {
+	// Iterate tought list of possible values
     for (auto i : _possible_values)
 	{
     	tuple.push_back(i);
@@ -130,10 +125,4 @@ void statistics::recursive_combination(unsigned _size_of_pattern, std::vector<un
 		}
 		tuple.pop_back();
     }
-}
-
-void statistics::test()
-{
-	init_combinations();
-
 }
