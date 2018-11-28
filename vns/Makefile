@@ -33,6 +33,7 @@ INC=-I$(BOOST_FOLDER) \
 #Give .o files to create
 OBJ=$(OBJDIR)/main.o \
 $(OBJDIR)/parameters_parsing.o \
+$(OBJDIR)/file_parsing.o \
 $(OBJDIR)/statistics.o \
 $(OBJDIR)/contingencies.o \
 $(OBJDIR)/vns.o
@@ -65,6 +66,13 @@ $(OBJDIR)/vns.o: ./$(SRCDIR)/vns/vns.cpp
 $(OBJDIR)/parameters_parsing.o: ./$(SRCDIR)/parsing/parameters_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
 	@echo "Compiled parameters_parsing.o"
+
+#===============================================================================
+# file_parsing
+#===============================================================================
+$(OBJDIR)/file_parsing.o: ./$(SRCDIR)/parsing/file_parsing.cpp
+	@$(CXX) $@ -c $< $(CXXFLAGS)
+	@echo "Compiled file_parsing.o"
 
 #===============================================================================
 # Statistics
