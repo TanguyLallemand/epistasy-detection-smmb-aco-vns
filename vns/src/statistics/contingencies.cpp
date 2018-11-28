@@ -39,24 +39,26 @@ contingencies::contingencies(contingencies const& m) : boost_matrix_float(m.size
 
 void contingencies::make_contingency_table(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector, vector<vector<unsigned>> all_combinations)
 {
-	// For every rows
-	for (size_t i = 0; i < _phenos_vector.size(); i++)
-	{
-        // Build pattern from
-        int vector_pattern[] = {};
-        for(size_t j = 0; j < all_combinations.size(); j++)
+    // For every rows
+    for (size_t i = 0; i < _phenos_vector.size(); i++)
+    {
+        for (size_t f = 0; f < pattern_datas.size(); f++)
         {
-            // Searching for vector_pattern in all_combinations
-            size_t index = std::distance( all_combinations.begin(), find(all_combinations[j].begin(), all_combinations[j].end(), vector_pattern));
-            // If find return a result
-            if(index >= all_combinations.size())
-            {
-                //auto index = std::distance(all_combinations.begin(), it);
-        		// Increment contingency table at cell following index of variables given as parameters: index of row is given by phenotype, index of column is given by index of found pattern in all possible combinations
-        		_contingency_table.at_element(_phenos_vector(i), index) +=1;
-            }
+            vector<unsigned> vector_pattern;
+            vector_pattern.push_back(pattern_datas[i](f));
         }
-	}
+        // Build pattern from
+
+        // Searching for vector_pattern in all_combinations
+        auto it = find(all_combinations.begin(), all_combinations.end(), vector_pattern);
+        // If find return a result
+        if(all_combinations.end() != it)
+        {
+            auto index = std::distance(all_combinations.begin(), it);
+            // Increment contingency table at cell following index of variables given as parameters: index of row is given by phenotype, index of column is given by index of found pattern in all possible combinations
+            _contingency_table.at_element(_phenos_vector(i), index) +=1;
+        }
+    }
 }
 
 //==============================================================================
