@@ -11,6 +11,7 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     this->_phenos_vector = dataset._pheno_vector;
     this->_snp_id = dataset._snp_id_vector;
     this->_filename = dataset._geno_filename.substr(14, dataset._geno_filename.length());
+    //TODO changer ça c'est vomitif
 }
 
 //==============================================================================
@@ -59,7 +60,6 @@ void vns::run()
                 k++;
             }
         }
-
         //saving the local optimum
         save_local_optimum(x, x_score);
     }
