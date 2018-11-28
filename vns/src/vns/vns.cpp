@@ -14,46 +14,6 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
 }
 
 //==============================================================================
-//vns : neighborhood_change
-//==============================================================================
-void vns::neighborhood_change(list<unsigned> x, list<unsigned> second_x, int k)
-{
-
-}
-
-//==============================================================================
-//vns : shake
-//==============================================================================
-list<unsigned> vns::shake(list<unsigned> x)
-{
-    int index_pattern = rand() % (_neighborhood[x][0].size());
-
-    list<unsigned> x2 = _neighborhood[x][0][index_pattern];
-
-    return x2;
-}
-
-//==============================================================================
-//vns : variable_neighborhood_descent
-//==============================================================================
-vector<float> vns::variable_neighborhood_descent(list<unsigned> const& second_x, list<unsigned> & third_x)
-{
-    vector<float> score, best_score;
-
-    for (auto neighbor_iterator : _neighborhood[second_x][0])
-    {
-        //TODO calcul du score de neighbor_iterator
-
-        if (score > best_score)
-        {
-            best_score = score;
-            third_x = neighbor_iterator;
-        }
-    }
-    return best_score;
-}
-
-//==============================================================================
 //vns : run
 //==============================================================================
 void vns::run()
@@ -101,25 +61,11 @@ void vns::run()
 
         //saving the local optimum
         save_local_optimum(x, x_score);
-
     }
+    write_result_file();
 }
 
-//==============================================================================
-//vns : generate_patterns
-//==============================================================================
-void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
-{
-    auto current_opti = _optimum_set.find(x);
-    if (current_opti->second.size() == 0)
-    {
-        current_opti->second = {1,x_score[0], x_score[1], x_score[2]};
-    }
-    else
-    {
-        current_opti->second[0] += 1;
-    }
-}
+
 //==============================================================================
 //vns : generate_patterns
 //==============================================================================
@@ -218,5 +164,53 @@ void vns::set_neighbors()
                 }
             }
         }
+    }
+}
+
+//==============================================================================
+//vns : variable_neighborhood_descent
+//==============================================================================
+vector<float> vns::variable_neighborhood_descent(list<unsigned> const& second_x, list<unsigned> & third_x)
+{
+    vector<float> score, best_score;
+
+    for (auto neighbor_iterator : _neighborhood[second_x][0])
+    {
+        //TODO calcul du score de neighbor_iterator
+
+        if (score > best_score)
+        {
+            best_score = score;
+            third_x = neighbor_iterator;
+        }
+    }
+    return best_score;
+}
+
+//==============================================================================
+//vns : shake
+//==============================================================================
+list<unsigned> vns::shake(list<unsigned> x)
+{
+    int index_pattern = rand() % (_neighborhood[x][0].size());
+
+    list<unsigned> x2 = _neighborhood[x][0][index_pattern];
+
+    return x2;
+}
+
+//==============================================================================
+//vns : save_local_optimum
+//==============================================================================
+void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
+{
+    auto current_opti = _optimum_set.find(x);
+    if (current_opti->second.size() == 0)
+    {
+        current_opti->second = {1,x_score[0], x_score[1], x_score[2]};
+    }
+    else
+    {
+        current_opti->second[0] += 1;
     }
 }
