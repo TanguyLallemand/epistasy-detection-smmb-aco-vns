@@ -5,7 +5,7 @@
 //==============================================================================
 parameters_parsing::parameters_parsing()
 {
-    ifstream file("smmb_aco/parameters/parameters.txt");
+    ifstream file("vns/parameters/parameters.txt");
     if(file)
     {
         string line;
