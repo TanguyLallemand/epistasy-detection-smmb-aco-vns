@@ -4,6 +4,7 @@
 #include "parameters_parsing.hpp"
 #include "file_parsing.hpp"
 #include "global.hpp"
+#include "statistics.hpp"
 
 class vns
 {
@@ -15,7 +16,7 @@ public:
 private:
     //input datas
     boost_matrix _genos_matrix;
-    boost_vector_int _pheno_vector;
+    boost_vector_int _phenos_vector;
     boost_vector_string _snp_id;
     string _filename;
 
@@ -43,5 +44,7 @@ private:
 
     void save_local_optimum(list<unsigned> & x, vector<float> & x_score);
     void write_result_file();
+    vector<float> test_pattern(list<unsigned> const& pattern);
+
 };
 #endif

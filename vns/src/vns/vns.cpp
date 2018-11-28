@@ -8,7 +8,7 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
 
     //unpacking datas
     this->_genos_matrix = dataset._geno_matrix;
-    this->_pheno_vector = dataset._pheno_vector;
+    this->_phenos_vector = dataset._pheno_vector;
     this->_snp_id = dataset._snp_id_vector;
     this->_filename = dataset._geno_filename.substr(14, dataset._geno_filename.length());
 }
@@ -28,8 +28,9 @@ void vns::run()
 
         //initialisation of starting pattern
         list<unsigned> x = pattern_list[index_pattern];
-        //TODO ici on doit tester le pattern de départ
         vector<float> x_score(3);
+
+        x_score = test_pattern(x);
 
         list<unsigned> second_x;
         list<unsigned> third_x;
@@ -47,7 +48,7 @@ void vns::run()
             //searching for the best neighbor of second_x
             third_x_score = variable_neighborhood_descent(second_x, third_x);
 
-            if (third_x_score > x_score)
+            if (third_x_score[0] > x_score[0])
             {
                 x = third_x;
                 x_score = third_x_score;
@@ -176,9 +177,9 @@ vector<float> vns::variable_neighborhood_descent(list<unsigned> const& second_x,
 
     for (auto neighbor_iterator : _neighborhood[second_x][0])
     {
-        //TODO calcul du score de neighbor_iterator
+        score = test_pattern(neighbor_iterator);
 
-        if (score > best_score)
+        if (score[0] > best_score[0])
         {
             best_score = score;
             third_x = neighbor_iterator;
@@ -243,4 +244,21 @@ void vns::write_result_file()
         }
         output_file << "\n";
     }
+}
+
+//==============================================================================
+//vns : test_pattern
+//==============================================================================
+vector<float> vns::test_pattern(list<unsigned> const& pattern)
+{
+    vector<boost::numeric::ublas::matrix_column<boost_matrix>> pattern_datas;
+
+    for (auto snp : pattern)
+    {
+        boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, snp);
+        pattern_datas.push_back(mc);
+    }
+    vector<float> result = statistics::compute_p_value(pattern_datas, _phenos_vector);
+
+    return result;
 }
