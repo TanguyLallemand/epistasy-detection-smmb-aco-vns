@@ -18,8 +18,8 @@ public:
     //==========================================================================
 
 
-    static boost_vector_float compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector);
-    static boost_vector_float compute_g2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table);
+    static  vector<float> compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector);
+    static  vector<float> compute_g2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table);
 
 
     //==========================================================================

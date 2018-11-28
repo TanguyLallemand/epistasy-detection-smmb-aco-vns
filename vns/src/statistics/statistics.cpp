@@ -9,11 +9,11 @@
 // return p value
 //==============================================================================
 
-boost_vector_float statistics::compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector)
+ vector<float> statistics::compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector)
 {
 	// Intialization of variables
-	boost_vector_float results(3);
-	boost_vector_float temp_result(2);
+	 vector<float> results(3);
+	 vector<float> temp_result(2);
 	float g2_result = 0;
 	float p_value = 0;
 	unsigned int liberty_degree = 0;
@@ -53,9 +53,9 @@ boost_vector_float statistics::compute_p_value(vector<boost::numeric::ublas::mat
 // Return g 2 score
 //==============================================================================
 
-boost_vector_float statistics::compute_g2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table)
+ vector<float> statistics::compute_g2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table)
 {
-	boost_vector_float g2_result(2);
+	 vector<float> g2_result(2);
 
 	// Iterate tought contingency table
 	for(unsigned i=0; i<contingency_table.size1(); ++i)
