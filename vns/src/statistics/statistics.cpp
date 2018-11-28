@@ -9,7 +9,7 @@
 // return an array with g2_score, p value and number of non reliable tests
 //==============================================================================
 
- vector<float> statistics::compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector, unsigned pattern_size)
+ vector<float> statistics::compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector)
 {
 	// Intialization of variables
 	// Initialization of vector to store results
@@ -20,7 +20,7 @@
 	// Init structure storing all possible combinations
 	vector<vector<unsigned>> all_combinations;
 	// Get all combinations
-	all_combinations = init_combinations(pattern_size);
+	all_combinations = init_combinations(pattern_datas.size());
 
 	// Instanciate contigencies
 	contingencies contingency_table = contingencies(2,all_combinations.size());
