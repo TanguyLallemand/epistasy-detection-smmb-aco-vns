@@ -18,7 +18,7 @@ public:
     //==========================================================================
 
 
-    static  vector<float> compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector);
+    static  vector<float> compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector, unsigned pattern_size);
     static  vector<float> compute_g2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table);
 
 
@@ -35,7 +35,7 @@ public:
     //==========================================================================
 
 
-    static vector<vector<unsigned>> init_combinations();
+    static vector<vector<unsigned>> init_combinations(unsigned pattern_size);
     static void recursive_combination(unsigned _size_of_pattern, std::vector<unsigned> tuple, vector<unsigned> const& _possible_values, vector<vector<unsigned>> & _all_combinations);
 
 

@@ -6,20 +6,21 @@
 
 //==============================================================================
 // statistics::compute_p_value
-// return p value
+// return an array with g2_score, p value and number of non reliable tests
 //==============================================================================
 
- vector<float> statistics::compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector)
+ vector<float> statistics::compute_p_value(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector, unsigned pattern_size)
 {
 	// Intialization of variables
-	 vector<float> results(3);
-	 vector<float> temp_result(2);
-	float g2_result = 0;
-	float p_value = 0;
-	unsigned int liberty_degree = 0;
+	// Initialization of vector to store results
+	vector<float> results(3);
+	vector<float> temp_result(2);
 
+	unsigned int liberty_degree = 0;
+	// Init structure storing all possible combinations
 	vector<vector<unsigned>> all_combinations;
-	all_combinations = init_combinations();
+	// Get all combinations
+	all_combinations = init_combinations(pattern_size);
 
 	// Instanciate contigencies
 	contingencies contingency_table = contingencies(2,all_combinations.size());
@@ -40,7 +41,7 @@
 	// Instanciate g_squared_distribution with a given number of liberty degree
 	boost::math::chi_squared_distribution<float> g2_distribution(liberty_degree);
 	// Calculate p value following g_squared_distribution generated and g square score
-	results[1] = 1 - boost::math::cdf(g2_distribution, g2_result);
+	results[1] = 1 - boost::math::cdf(g2_distribution, results[0]);
 	// Return calculated p_value
 	return results;
 }
@@ -65,6 +66,7 @@
 			// If cell is not equal to 0
 			if(contingency_table(i,j) != 0)
 			{
+				// Calculate g2 test score
 				double div = (double) contingency_table(i,j) / contingency_theorical_table(i,j);
 				g2_result[0] += contingency_table(i,j) * log(div);
 				// Check if contingencies table are viable. In fact if one of their cell value are under 5 g2 test appear to be non reliable
@@ -94,24 +96,31 @@ unsigned statistics::compute_liberty_degree(boost_matrix_float const& contingenc
 
 //==============================================================================
 // statistics : get_all_combinations
+// Generate all combination of pattern in a recursive fashion following pattern
+// size
+// return all combinations
 //==============================================================================
 
-vector<vector<unsigned>> statistics::init_combinations()
+vector<vector<unsigned>> statistics::init_combinations(unsigned pattern_size)
 {
 	// Add possible values for genotype
 	vector<unsigned> _possible_values = {0, 1, 2};
 	// Get size of pattern
-	unsigned _size_of_pattern = 3;
+	// unsigned _size_of_pattern = pattern_size;
 	// initialisation of structure storing possible combinations
 	vector<vector<unsigned>> _all_combinations;
 	// initialisation of a temporary vector storing a genotype combination
     std::vector<unsigned> tuple;
 	// Launch recursive function
-	recursive_combination(_size_of_pattern, tuple, _possible_values, _all_combinations);
+	recursive_combination(pattern_size, tuple, _possible_values, _all_combinations);
 
 	return _all_combinations;
 }
 
+//==============================================================================
+// statistics : recursive_combination
+// Generate a pattern, recursive fashion
+//==============================================================================
 
 void statistics::recursive_combination(unsigned _size_of_pattern, std::vector<unsigned> tuple, vector<unsigned> const& _possible_values, vector<vector<unsigned>> & _all_combinations)
 {
