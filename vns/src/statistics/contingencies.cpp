@@ -42,12 +42,11 @@ void contingencies::make_contingency_table(vector<boost::numeric::ublas::matrix_
     // For every rows
     for (size_t i = 0; i < _phenos_vector.size(); i++)
     {
+        vector<unsigned> vector_pattern;
         for (size_t f = 0; f < pattern_datas.size(); f++)
         {
-            vector<unsigned> vector_pattern;
             vector_pattern.push_back(pattern_datas[i](f));
         }
-        // Build pattern from
 
         // Searching for vector_pattern in all_combinations
         auto it = find(all_combinations.begin(), all_combinations.end(), vector_pattern);
