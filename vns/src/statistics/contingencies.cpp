@@ -15,17 +15,18 @@ contingencies::contingencies(int a, int b) : boost_matrix_float(a,b)
      _contingency_table = boost_matrix_float(a,b,0.0);
      _contingency_theorical_table = boost_matrix_float(a,b,0.0);
 }
-// contingencies(contingencies const& m) to init a contingency table with given
-// contingency table's dimension
-contingencies::contingencies(contingencies const& m) : boost_matrix_float(m.size1(), m.size2())
-{
-    for (unsigned i = 0; i < size1(); ++i)
-    {
-        for (unsigned j = 0; j < size2(); ++j)
-        // For current contingency table, init cell(i,j) with m matrix content
-            this->at_element(i, j) = m(i,j);
-    }
-}
+// TODO a priori a supprime seems to be useless
+// // contingencies(contingencies const& m) to init a contingency table with given
+// // contingency table's dimension
+// contingencies::contingencies(contingencies const& m) : boost_matrix_float(m.size1(), m.size2())
+// {
+//     for (unsigned i = 0; i < size1(); ++i)
+//     {
+//         for (unsigned j = 0; j < size2(); ++j)
+//         // For current contingency table, init cell(i,j) with m matrix content
+//             this->at_element(i, j) = m(i,j);
+//     }
+// }
 
 //==============================================================================
 //Setters
