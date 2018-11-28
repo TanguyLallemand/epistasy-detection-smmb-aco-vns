@@ -461,7 +461,7 @@ void smmb_aco::save_results()
 {
     std::cout << _filename << '\n';
     //create the output file
-    ofstream output_file("/home/ehorion/M2BB/epistasy_detection/toy_results/" + _filename + "smmb_aco.txt");
+    ofstream output_file("/home/ehorion/M2BB/epistasy_detection/toy_results/smmb_aco_result/" + _filename + "smmb_aco.txt");
 
     output_file << "# Result from smmbaco \n";
     output_file << "# Pattern || occurences || G2-score || p-value\n";

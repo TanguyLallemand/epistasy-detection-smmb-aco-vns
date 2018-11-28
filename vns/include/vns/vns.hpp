@@ -42,6 +42,6 @@ private:
     vector<float> variable_neighborhood_descent(list<unsigned> const& second_x, list<unsigned> & third_x);
 
     void save_local_optimum(list<unsigned> & x, vector<float> & x_score);
-
+    void write_result_file();
 };
 #endif

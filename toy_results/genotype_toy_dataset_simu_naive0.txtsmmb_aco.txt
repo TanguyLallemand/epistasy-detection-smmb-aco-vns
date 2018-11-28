@@ -1,2 +1,0 @@
-# Result from smmbaco 
-# Pattern || occurences || G2-score || p-value

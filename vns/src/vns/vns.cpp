@@ -207,10 +207,40 @@ void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
     auto current_opti = _optimum_set.find(x);
     if (current_opti->second.size() == 0)
     {
-        current_opti->second = {1,x_score[0], x_score[1], x_score[2]};
+        current_opti->second = {1, x_score[0], x_score[1], x_score[2]};
     }
     else
     {
         current_opti->second[0] += 1;
+    }
+}
+
+//==============================================================================
+//vns : save_local_optimum
+//==============================================================================
+void vns::write_result_file()
+{
+    //create the output file
+    ofstream output_file("/home/ehorion/M2BB/epistasy_detection/toy_results/vns_result/" + _filename + "vns.txt");
+
+    output_file << "# Result from vns \n";
+    output_file << "# Pattern || occurences || chi2-score || p-value || unreliable case\n";
+
+    for (auto const& pattern : _optimum_set)
+    {
+        output_file << "{";
+        for (auto const& snp : pattern.first)
+        {
+            output_file << _snp_id(snp);
+            if (snp!=pattern.first.back()) {
+                output_file << ",";
+            }
+        }
+        output_file << "}";
+        for (auto stat : pattern.second)
+        {
+            output_file << " || " << stat;
+        }
+        output_file << "\n";
     }
 }
