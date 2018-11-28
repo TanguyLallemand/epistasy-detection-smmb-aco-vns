@@ -3,7 +3,9 @@
 #include <string>
 
 #include "parameters_parsing.hpp"
+#include "file_parsing.hpp"
 #include "vns.hpp"
+#include "contingencies.hpp"
 #include "statistics.hpp"
 #include "global.hpp"
 
@@ -15,7 +17,16 @@ int main(int argc, char* argv[])
 
     parameters_parsing params;
 
+	params.genos_file = genos_file;
+	params.phenos_file = phenos_file;
+	int header = params.header;
+	char separator = params.separator;
 
+	data_parsing data(genos_file, phenos_file, header, separator);
+	//la ligne 25 explose
+	// Instanciation de vns push stp
+	vns test(data, params);
+	test.run();
 
 	return 0;
     //variable_neightborhood_search vns(params);
