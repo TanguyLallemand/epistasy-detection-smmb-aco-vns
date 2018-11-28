@@ -36,9 +36,9 @@ list<unsigned> vns::shake(list<unsigned> x)
 //==============================================================================
 //vns : variable_neighborhood_descent
 //==============================================================================
-float vns::variable_neighborhood_descent(list<unsigned> second_x, list<unsigned> & third_x) // This is the VND phase
+vector<float> vns::variable_neighborhood_descent(list<unsigned> const& second_x, list<unsigned> & third_x)
 {
-    float score, best_score = 0;
+    vector<float> score, best_score;
 
     for (auto neighbor_iterator : _neighborhood[second_x][0])
     {
@@ -69,12 +69,12 @@ void vns::run()
         //initialisation of starting pattern
         list<unsigned> x = pattern_list[index_pattern];
         //TODO ici on doit tester le pattern de départ
-        float x_score = 0;
+        vector<float> x_score(3);
 
         list<unsigned> second_x;
         list<unsigned> third_x;
 
-        float third_x_score = 0;
+        vector<float> third_x_score(3);
 
         int iterator = 0;
 
@@ -100,20 +100,26 @@ void vns::run()
         }
 
         //saving the local optimum
-        auto current_opti = _optimum_set.find(x);
-        if (current_opti->second.size() == 0)
-        {
-            current_opti->second = {1,x_score};
-        }
-        else
-        {
-            current_opti->second[0] += 1;
-            current_opti->second[1] = x_score;
-        }
+        save_local_optimum(x, x_score);
 
     }
 }
 
+//==============================================================================
+//vns : generate_patterns
+//==============================================================================
+void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
+{
+    auto current_opti = _optimum_set.find(x);
+    if (current_opti->second.size() == 0)
+    {
+        current_opti->second = {1,x_score[0], x_score[1], x_score[2]};
+    }
+    else
+    {
+        current_opti->second[0] += 1;
+    }
+}
 //==============================================================================
 //vns : generate_patterns
 //==============================================================================

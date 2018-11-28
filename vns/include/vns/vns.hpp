@@ -39,7 +39,9 @@ private:
 
     void neighborhood_change(list<unsigned> x, list<unsigned> second_x, int k);
     list<unsigned> shake(list<unsigned> x);
-    float variable_neighborhood_descent(list<unsigned> second_x, list<unsigned> & third_x);
+    vector<float> variable_neighborhood_descent(list<unsigned> const& second_x, list<unsigned> & third_x);
+
+    void save_local_optimum(list<unsigned> & x, vector<float> & x_score);
 
 };
 #endif
