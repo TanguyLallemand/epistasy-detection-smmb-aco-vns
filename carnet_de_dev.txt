@@ -7,18 +7,16 @@ smmb_aco
     -implementer one-pass/two-pass
 vns
     -voir si une itération est suffisante ou pas
-    
 
 
 
-Pour demarrer le programm ./smmb_aco ../toy_dataset/genotype_toy_dataset.txt ../toy_dataset/phenotype_toy_dataset.txt
 
 Attention les launch doivent avoir en comment l ensemble de l explication des parametres
 
 chemins a changer:
 boost folder dans le makefile
 
-TODO prendre en compte le nombre de test pas reliable
+
 
 changer la solution cradot du -48 dans le file_parsing.cpp
 (code ascii tout ça tout ça)
