@@ -47,6 +47,7 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing _params)
 //==============================================================================
 void smmb_aco::run()
 {
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
     std::cout << "run" << '\n';
 
     for (size_t i = 0; i < _n_it_n; i++)
@@ -147,6 +148,10 @@ void smmb_aco::run()
         score_for_final_results();
         //print results of the run to terminal
         show_results();
+        // Save time
+        std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+        // Calculate time of execution
+        this -> _duration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
         //post treatment
         save_results();
     }
@@ -477,13 +482,13 @@ void smmb_aco::show_results()
     int st = 0;
     for (auto good : _markov_blanket_s)
     {
-        std::cout << "pattern" << '\n';
+        std::cout << "Pattern" << '\n';
         for (auto go : good.first)
         {
             std::cout << go << ' ';
         }
         std::cout << '\n';
-        std::cout << "occurences " << "score " << "p-value"<< '\n';
+        std::cout << "Occurences " << "Score " << "p-value"<< '\n';
         std::cout << good.second << " " << _stats_results(st)(0) << " " << _stats_results(st)(1) << '\n';
         st++;
     }
@@ -500,8 +505,8 @@ void smmb_aco::save_results()
     //create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt");
 
-    output_file << "# Result from smmbaco \n";
-    output_file << "# Pattern || occurences || G2-score || p-value\n";
+    output_file << "# Result from SMMB-ACO \n";
+    output_file << "# Pattern || Occurences || G2-score || p-value\n";
     unsigned tu = 0;
     for (auto const& pattern : _markov_blanket_s)
     {
@@ -517,4 +522,6 @@ void smmb_aco::save_results()
         output_file << _stats_results(tu)(0) << " || " << _stats_results(tu)(1) << '\n';
         tu++;
     }
+    std::cout << "# Time of execution: " << _duration << "seconds" << endl;
+    output_file << "# Time of execution: " << _duration;
 }

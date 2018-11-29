@@ -13,6 +13,7 @@ Authors: Tanguy Lallemand M2BB
 #include <boost/random/discrete_distribution.hpp>
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <ctime>

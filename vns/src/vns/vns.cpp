@@ -86,7 +86,7 @@ void vns::run()
         save_local_optimum(x, x_score);
     }
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-    double _duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+    double _duration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
     // Write results in a file
     write_result_file();
 }
@@ -226,7 +226,7 @@ void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
 void vns::write_result_file()
 {
     std::cout << "Write_result_file" << '\n';
-    std::cout << "Time of execution:" << _duration;
+    std::cout << "Time of execution:" << _duration << "seconds" << endl;
     //create the output file
     size_t lastindex = _filename.find_last_of(".");
     string filename_without_extension = _filename.substr(0, lastindex);
@@ -255,7 +255,7 @@ void vns::write_result_file()
         }
         output_file << "\n";
     }
-    output_file << "# Time of execution:" << _duration;
+    output_file << "# Time of execution:" << _duration << "seconds" << endl;
 }
 
 //==============================================================================

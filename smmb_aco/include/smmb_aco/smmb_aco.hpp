@@ -34,19 +34,23 @@ private:
     unsigned _n_ant; // nb de fourmis
     unsigned _subset_size; // taille du subset de variables echantillonnees à partir de _genos_matrix pour chaque fourmis (on echantillone donc les SNPs pas les individus)
     unsigned _sub_subset_size; //taille d'une combinaison de variables echantillonnées parmi _subset_size
-    // nombre d'itération maximales pour explorer l'espace de recherche
+    // maximum number of iterations to explore the research space
     unsigned _n_it_n;
     float _alpha_stat; // seuil de significativité
     float _tau_0; // valeur initiale de phéromone de chaque variable, au debut des temps egalite parfaite car on a pas de connaissance. A traiter comme un vecteur
     //Mise a jour du taux de phéromones
-    float _rho; // taux d'évaporation
+    // evaporation rate
+    float _rho;
     float _lambda; // values used in evaporation rates updates
-    // Deux constantes utilisées pour ajuster les poids respectifs entre les taux de phéromones et les connaissances a priori. Y a peut etre des SNPs qu on connait et donc on lui donne une bonne note. Ca permet donc de regler le curseur entre importance des phéromones et importance des connaissances a priori
+
+    // Two constants used to adjust the respective weights between pheromone levels and a priori knowledge. There may be SNPs that we know and therefore we give it a good rating. It therefore makes it possible to adjust the cursor between the importance of pheromones and the importance of knowledge a priori
     float _alpha_phero;
     float _beta_phero;
 
     string _output_directory;
     string _output_prefix;
+
+    double _duration;
 
 
     //rng seed
