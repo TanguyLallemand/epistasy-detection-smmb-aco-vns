@@ -21,16 +21,17 @@ void vns::run()
 {
     //initialisation of patterns and their neighbors
     generate_patterns();
-    std::cout << "patterns generated" << '\n';
-    for (size_t i = 0; i < 1; i++)
+
+    #pragma omp parallel for
+    for (size_t i = 0; i < _n_it_max; i++)
     {
         std::cout << "iteration # : " << i << '\n';
         //selecting starting pattern
         int index_pattern = rand() % (_pattern_list.size());
-        std::cout << "random pick" << '\n';
+
         //initialisation of starting pattern
         list<unsigned> x = _pattern_list[index_pattern];
-        std::cout << "getting corresponding pattern" << '\n';
+
         vector<float> x_score(3);
         x_score = test_pattern(x);
         vector<list<unsigned>> x_neighbors;
@@ -81,7 +82,6 @@ void vns::run()
 //==============================================================================
 void vns::generate_patterns()
 {
-    std::cout << "hello" << '\n';
     list<unsigned> temp;
     list<unsigned> snp_list(_genos_matrix.size2());
     iota(snp_list.begin(), snp_list.end(), 0);
@@ -93,7 +93,6 @@ void vns::generate_patterns()
 //==============================================================================
 void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
 {
-    // std::cout << "rekt me more" << '\n';
 
     if (temp.size() < 3)
     {
@@ -126,7 +125,6 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
 //==============================================================================
 void vns::set_neighbors(list<unsigned> const& pattern, vector<list<unsigned>> & neighbors)
 {
-    std::cout << "set_neighbors" << '\n';
     neighbors.clear();
     //iterating all patterns to find neighbors for current at i+1 distance
     for (auto candidat_neighbor : _pattern_list)
@@ -152,7 +150,6 @@ void vns::set_neighbors(list<unsigned> const& pattern, vector<list<unsigned>> & 
             neighbors.push_back(candidat_neighbor);
         }
     }
-    std::cout << "fin set_neighbors" << '\n';
 }
 
 //==============================================================================
@@ -160,7 +157,6 @@ void vns::set_neighbors(list<unsigned> const& pattern, vector<list<unsigned>> & 
 //==============================================================================
 vector<float> vns::variable_neighborhood_descent(vector<list<unsigned>> const& neighbors, list<unsigned> & third_x)
 {
-    std::cout << "vnd" << '\n';
     vector<float> score, best_score = {0,0,0};
 
     for (auto neighbor_iterator : neighbors)
@@ -173,7 +169,6 @@ vector<float> vns::variable_neighborhood_descent(vector<list<unsigned>> const& n
             third_x = neighbor_iterator;
         }
     }
-    std::cout << "fin vnd" << '\n';
     return best_score;
 }
 
@@ -182,11 +177,10 @@ vector<float> vns::variable_neighborhood_descent(vector<list<unsigned>> const& n
 //==============================================================================
 list<unsigned> vns::shake(vector<list<unsigned>> neighbors)
 {
-    std::cout << "shake" << '\n';
     int index_pattern = rand() % (neighbors.size());
 
     list<unsigned> x2 = neighbors[index_pattern];
-    std::cout << "fin shake" << '\n';
+
     return x2;
 }
 
@@ -195,8 +189,6 @@ list<unsigned> vns::shake(vector<list<unsigned>> neighbors)
 //==============================================================================
 void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
 {
-    std::cout << "save_local_optimum" << '\n';
-
     auto current_opti = _optimum_set.find(x);
     if(_optimum_set.end() != current_opti)
     {
@@ -206,7 +198,6 @@ void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
     {
         _optimum_set[x] = {1, x_score[0], x_score[1], x_score[2]};
     }
-    std::cout << "fin save_local_optimum" << '\n';
 }
 
 //==============================================================================
@@ -239,7 +230,6 @@ void vns::write_result_file()
         }
         output_file << "\n";
     }
-    std::cout << "fin write_result_file" << '\n';
 }
 
 //==============================================================================
