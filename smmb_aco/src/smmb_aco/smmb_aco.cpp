@@ -43,6 +43,116 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing _params)
 }
 
 //==============================================================================
+// smmb_aco : run
+//==============================================================================
+void smmb_aco::run()
+{
+    std::cout << "run" << '\n';
+
+    for (size_t i = 0; i < _n_it_n; i++)
+    {
+        std::cout << "iteration #" << i << '\n';
+        std::cout << "tau vector" << '\n';
+        std::cout << _tau << '\n';
+
+        //reinitialisation of the MB of each ant (avoiding core dump by doing it one by one)
+        for (size_t k = 0; k < _markov_blanket_a.size(); k++) {
+            _markov_blanket_a(i).clear();
+        }
+
+        //TODO For every ants a parallelise :
+        #pragma omp parallel for
+        //iterating through ants
+        for (size_t a = 0; a < _n_ant; a++)
+        {
+            // std::cout << "ant counter" << '\n';
+            // std::cout << a << '\n';
+            //container for the ant subset
+            boost_vector_int ant_subset(_subset_size);
+
+            //assigning a subset of _subset_size SNPs
+            ant_subset = tools::sampling(_subset_size, _pheromone_distrib, _rng);
+
+            // std::cout << "ant_subset" << '\n';
+            // std::cout << ant_subset << '\n';
+            //generate MB from the ant subset
+            learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant(a));
+        }
+
+        // clearing the global memory (one by one to avoid core dump)
+        for (size_t i = 0; i < _tau.size(); i++) {
+            _mem[i].clear();
+        }
+
+        // Initialization of final variables
+        for (size_t a = 0; a < _n_ant; a++)
+        {
+            //merging memory of all ants into global memory
+            for (auto const& it : _mem_ant(a))
+            {
+                //iterate map of the current ant
+                for (auto const& it2 : it.second)
+                {
+                    _mem[it.first].push_back(it2);
+                }
+            }
+
+            // If ant's markov blanket is not empty save it into _markov_blanket_s
+            if (!_markov_blanket_a(a).empty()) //FIXME
+            {
+                _markov_blanket_a(a).sort();
+                _markov_blanket_s[_markov_blanket_a(a)] += 1;
+                //save the ant MB ant at the end of MB list
+            }
+        }
+        //add pheromon based on the score
+        update_tau();
+    }
+
+    list<unsigned> new_set;
+    for (auto d : _markov_blanket_s)
+    {
+        for (auto d2 : d.first)
+        {
+            if (find(new_set.begin(), new_set.end(), d2) != new_set.end())
+            {
+                new_set.push_back(d2);
+            }
+        }
+    }
+
+    if ((_params.n_smmb_aco_runs > 1) && (new_set.size() > 20))
+    {
+        _params.n_smmb_aco_runs--;
+
+        for (auto v : new_set)
+        {
+            if (find(new_set.begin(), new_set.end(), v) != new_set.end())
+            {
+                _tau[v] = 100;
+            }
+            else
+            {
+                _tau[v] = 0;
+                _eta[v] = 0;
+            }
+        }
+        _markov_blanket_s.clear();
+
+        run();
+    }
+    else
+    {
+        // save the scores for patterns in _markov_blanket_s into _stats_results
+        score_for_final_results();
+        //print results of the run to terminal
+        show_results();
+        //post treatment
+        save_results();
+    }
+}
+
+//==============================================================================
 // smmb_aco : update_tau
 //==============================================================================
 void smmb_aco::update_tau()
@@ -144,7 +254,6 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & MB_a_ref
         // entering backward phase to remove worst SNPs of the MB
         backward(MB_a_ref);
     }
-    // std::cout << "fin forward" << '\n';
 }
 
 //==============================================================================
@@ -205,82 +314,6 @@ void smmb_aco::backward(list<unsigned> & MB_a_ref)
     // std::cout << "fin backward" << '\n';
 }
 
-//==============================================================================
-// smmb_aco : run
-//==============================================================================
-void smmb_aco::run()
-{
-    std::cout << "run" << '\n';
-
-    for (size_t i = 0; i < _n_it_n; i++)
-    {
-        std::cout << "iteration #" << i << '\n';
-        std::cout << "tau vector" << '\n';
-        std::cout << _tau << '\n';
-
-        //reinitialisation of the MB of each ant (avoiding core dump by doing it one by one)
-        for (size_t k = 0; k < _markov_blanket_a.size(); k++) {
-            _markov_blanket_a(i).clear();
-        }
-
-        //TODO For every ants a parallelise :
-        #pragma omp parallel for
-        //iterating through ants
-        for (size_t a = 0; a < _n_ant; a++)
-        {
-            // std::cout << "ant counter" << '\n';
-            // std::cout << a << '\n';
-            //container for the ant subset
-            boost_vector_int ant_subset(_subset_size);
-
-            //assigning a subset of _subset_size SNPs
-            ant_subset = tools::sampling(_subset_size, _pheromone_distrib, _rng);
-
-            // std::cout << "ant_subset" << '\n';
-            // std::cout << ant_subset << '\n';
-            //generate MB from the ant subset
-            learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant(a));
-        }
-
-        // clearing the global memory (one by one to avoid core dump)
-        for (size_t i = 0; i < _tau.size(); i++) {
-            _mem[i].clear();
-        }
-
-        // Initialization of final variables
-        for (size_t a = 0; a < _n_ant; a++)
-        {
-            //merging memory of all ants into global memory
-            for (auto const& it : _mem_ant(a))
-            {
-                //iterate map of the current ant
-                for (auto const& it2 : it.second)
-                {
-                    _mem[it.first].push_back(it2);
-                }
-            }
-
-            // If ant's markov blanket is not empty save it into _markov_blanket_s
-            if (!_markov_blanket_a(a).empty()) //FIXME
-            {
-                _markov_blanket_a(a).sort();
-                _markov_blanket_s[_markov_blanket_a(a)] += 1;
-                //save the ant MB ant at the end of MB list
-            }
-        }
-        //add pheromon based on the score
-        update_tau();
-    }
-
-    std::cout << "fin run" << '\n';
-    // save the scores for patterns in _markov_blanket_s into _stats_results
-    score_for_final_results();
-
-    //print results of the run to terminal
-    show_results();
-    //post treatment
-    save_results();
-}
 
 //==============================================================================
 // smmb_aco : sub_sampling
