@@ -53,15 +53,15 @@ void smmb_aco::run()
 
     for (size_t i = 0; i < _n_it_n; i++)
     {
-        std::cout << "iteration #" << i << '\n';
-        std::cout << "tau vector" << '\n';
+        std::cout << "Iteration #" << i << '\n';
+        std::cout << "Tau vector" << '\n';
         std::cout << _tau << '\n';
 
         // Reinitialisation of the MB of each ant (avoiding core dump by doing it one by one)
         for (size_t k = 0; k < _markov_blanket_a.size(); k++) {
             _markov_blanket_a(i).clear();
         }
-        //Parallelization
+        // Parallelization
         #pragma omp parallel for
         // Iterating through ants
         for (size_t a = 0; a < _n_ant; a++)
@@ -88,6 +88,7 @@ void smmb_aco::run()
                 // Iterate map of the current ant
                 for (auto const& it2 : it.second)
                 {
+                    // Save map of current ant in global memory
                     _mem[it.first].push_back(it2);
                 }
             }
@@ -125,7 +126,6 @@ void smmb_aco::run()
     {
         // Put n_smmb_aco_runs to 1 to avoid an infinite loop
         _params.n_smmb_aco_runs--;
-
         for (auto v : new_set)
         {
             // Search for SNPs contained in new set
@@ -170,16 +170,14 @@ void smmb_aco::update_tau()
     for (size_t i = 0; i < _tau.size(); i++) {
         _tau(i) = (1-_rho) * _tau(i);
     }
-
     // Iterate through memory map
     for (auto const& it : _mem)
     {
         for (auto const& score : it.second) {
-            //add pheromon based on the score for each SNP in _mem
+            // Add pheromon based on the score for each SNP in _mem
             _tau(it.first) = _tau(it.first) + (_lambda * score);
         }
     }
-
     // Repercuting changes on pheromon distribution
     update_pheromon_distrib();
 }
@@ -206,13 +204,10 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
     {
         mem_ant_ref[i].clear();
     }
-
     // Initialization at true to enter the loop on first iteration
     bool markov_blanket_modified = true;
-
     // Counter of iterations
     unsigned j = 0;
-
     // Loop to generate the markov blanket //TODO check the condition
     while ((MB_a_ref.empty() && j<_n_it_n) && (markov_blanket_modified))
     {
@@ -230,22 +225,16 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & MB_a_ref
 {
     // To break the loop if nothing modified
     markov_blanket_modified = false;
-
     // Initialization of sub_subset container at right size with zeros
     boost_vector_int sub_subset(_sub_subset_size, 0);
-
     // Sub_sampling from ant_subset not taking SNPs already in the MB of this ant
     sub_sampling(sub_subset, ant_subset, MB_a_ref);
-
     // Container for all combinations of the current sub_subset
     list<list<unsigned>> combi_list;
-
     // Generating all the combinations from the drawn sub_subset
     get_all_combinations(sub_subset, combi_list);
-
     // Container to save the best pattern found by best_combination()
     list<unsigned> best_pattern;
-
     // Searching for the best combination based on score and returning the score and p_value of the solution
     boost_vector_float result(2, 0.0);
     result = best_combination(best_pattern, combi_list, MB_a_ref, mem_ant_ref);
@@ -259,7 +248,6 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & MB_a_ref
         }
         // Markov blanket has been modified we need an other loop run
         markov_blanket_modified = true;
-
         // Entering backward phase to remove worst SNPs of the MB
         backward(MB_a_ref);
     }
@@ -277,13 +265,10 @@ void smmb_aco::backward(list<unsigned> & MB_a_ref)
     {
         // Creating a copy of the current MB
         list<unsigned> MB_minus_current_SNP = MB_a_ref;
-
         // Removing the current SNP from the current MB
         MB_minus_current_SNP.remove(current_SNP);
-
         // Converting current MB without current SNP to a vector
         boost_vector_int vector_MB(MB_minus_current_SNP.size());
-
         // Counter for index to recopy MB into a vector
         int i=0;
         // Stocking MB in vector
@@ -294,22 +279,18 @@ void smmb_aco::backward(list<unsigned> & MB_a_ref)
         }
         // Stocking the list of combination for the MB minus current SNP
         list<list<unsigned>> combi_list;
-
         // Generating all the combination from the drawn sub_subset
         get_all_combinations(vector_MB, combi_list);
 
         //reference to the column of the current SNP
         boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, current_SNP);
-
         //iterating the combination list
         for (auto const& combi : combi_list)
         {
             //stocking result of the test
             boost_vector_float result(2, 0.0);
-
             // Return an array with in first cell, g 2 score and in second cell, associated p_value
             result = statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, combi);
-
             // If the p-value is not significant entering here
             if (result(1) > _alpha_stat)
             {
@@ -329,7 +310,6 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
 {
     //sub weight vector associated to the ant_subset
     boost_vector_float small_distrib(_subset_size);
-
     // Getting _tau values associated to the ant_subset SNPs
     for (size_t i = 0; i < ant_subset.size(); i++)
     {
@@ -345,10 +325,8 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
 
     // Stocking the position of picked SNP in ant_subset
     boost_vector_int temporary(_sub_subset_size, 0);
-
     // Pisking SNPs in the ant subset
     temporary = tools::sampling(_sub_subset_size, small_distrib, _rng);
-
     // Taking the SNPs on index returned by tools::sampling in ant_subset
     for (size_t j = 0; j < _sub_subset_size; j++)
     {
@@ -363,10 +341,8 @@ void smmb_aco::get_all_combinations(boost_vector_int & sub_subset, list<list<uns
 {
     // Convert vector into list
     list<unsigned> subset(sub_subset.begin(), sub_subset.end());
-
     // Temporary list that we will append to combi list every time it is modified
     list<unsigned> temp;
-
     // Recursive function to generate all non-empty combinations
     generate_combinations(temp, combi_list, subset);
 }
@@ -384,16 +360,12 @@ void smmb_aco::generate_combinations(list<unsigned> temp, list<list<unsigned>> &
     {
         // Add current SNP to the temp list
         temp.push_back(h);
-
         // Stocking the temp in the list of combinations
         combi_list.push_back(temp);
-
         // Remove the current x
         next_subset.remove(h);
-
         // Recursive call on the list without current x
         generate_combinations(temp, combi_list, next_subset);
-
         // Remove predecent SNP
         temp.pop_back();
     }
@@ -406,7 +378,6 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
 {
     // Stock the current best_result
     boost_vector_float best_result(2, 0);
-
     // Iterate through the list of pattern
     for (auto const& current_pattern : pattern_list)
     {
@@ -415,26 +386,17 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
         {
             // Setting up the list of conditionnals SNPs
             list<unsigned> conditionnal_set = current_pattern;
-
             MB_a_ref.sort();
-
             conditionnal_set.sort();
-
             conditionnal_set.merge(MB_a_ref);
-
             conditionnal_set.remove(current_SNP);
-
             // Making a matrix column ref to pass to the function
             boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, current_SNP);
-
             // Calculating score of the current SNP of the pattern and add it to the pattern score
             boost_vector_float result_SNP(2, 0.0);
-
             result_SNP = statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
-
             // Stocking result in the ant_memory
             mem_ant_ref[current_SNP].push_back(result_SNP(0));
-
             // Score of the pattern
             if (result_SNP(0) > result_pattern(0))
             {
@@ -457,22 +419,16 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
 void smmb_aco::score_for_final_results()
 {
     _stats_results.resize(_markov_blanket_s.size());
-    
     unsigned st=0;
-    
     for (auto pattern : _markov_blanket_s)
     {
         _stats_results(st) = boost_vector_float(2, 1);
         for (auto snp : pattern.first)
         {
             boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, snp);
-            
             list<unsigned> conditionnal_set = pattern.first;
-            
             conditionnal_set.remove(snp);
-            
             boost_vector_float temp_res =  statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
-            
             if (temp_res(1) < _stats_results(st)(1) )
             {
                 _stats_results(st) = temp_res;
@@ -487,7 +443,7 @@ void smmb_aco::score_for_final_results()
 //==============================================================================
 void smmb_aco::show_results()
 {
-    //TODO verbose temporaire pour afficher les résultats
+    // Verbose used in debug process
     int st = 0;
     for (auto good : _markov_blanket_s)
     {
@@ -508,12 +464,13 @@ void smmb_aco::show_results()
 //==============================================================================
 void smmb_aco::save_results()
 {
+    // Search for "." and get index
     size_t lastindex = _filename.find_last_of(".");
+    // Remove extension of given filename
     string filename_without_extension = _filename.substr(0, lastindex);
-    std::cout << filename_without_extension << '\n';
-    //create the output file
+    // Create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt");
-
+    // Fill output file with pattern, number of occurence and associated g2 score and p-value
     output_file << "# Result from SMMB-ACO \n";
     output_file << "# Pattern || Occurences || G2-score || p-value\n";
     unsigned tu = 0;
@@ -531,6 +488,6 @@ void smmb_aco::save_results()
         output_file << _stats_results(tu)(0) << " || " << _stats_results(tu)(1) << '\n';
         tu++;
     }
-    std::cout << "# Time of execution: " << _duration << "seconds" << endl;
     output_file << "# Time of execution: " << _duration;
+    std::cout << "### SMMB_ACO has finished please see results in: " << '\n' << _output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt" << '\n';
 }
