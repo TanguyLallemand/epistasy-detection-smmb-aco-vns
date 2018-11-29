@@ -11,7 +11,8 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     this->_phenos_vector = dataset._pheno_vector;
     this->_snp_id = dataset._snp_id_vector;
     this->_filename = dataset._geno_filename.substr(14, dataset._geno_filename.length());
-    //TODO changer ça c'est vomitif
+
+    srand (time(NULL));
 }
 
 //==============================================================================
@@ -31,6 +32,12 @@ void vns::run()
 
         //initialisation of starting pattern
         list<unsigned> x = _pattern_list[index_pattern];
+        std::cout << "starting pattern" << '\n';
+        for (auto test : x)
+        {
+            std::cout << test << ' ';
+        }
+        std::cout << '\n';
 
         vector<float> x_score(3);
         x_score = test_pattern(x);
@@ -54,7 +61,6 @@ void vns::run()
             second_x = shake(x_neighbors);
             set_neighbors(second_x, second_x_neighbors);
 
-            std::cout << "VND" << '\n';
             //searching for the best neighbor of second_x
             third_x_score = variable_neighborhood_descent(second_x_neighbors, third_x);
 
@@ -93,13 +99,15 @@ void vns::generate_patterns()
 //==============================================================================
 void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
 {
-
     if (temp.size() < 3)
     {
         for (auto snp : snp_list)
         {
             //add the snp to the pattern
             temp.push_back(snp);
+
+            //add the pattern to the vector
+            _pattern_list.push_back(temp);
 
             //copy the list of snp
             list<unsigned> next_snp_list = snp_list;
@@ -114,9 +122,11 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
             temp.pop_back();
         }
     }
-
-    //add the pattern to the vector
-    _pattern_list.push_back(temp);
+    else
+    {
+        //add the pattern to the vector
+        _pattern_list.push_back(temp);
+    }
 
 }
 

@@ -8,7 +8,7 @@ separator ,
 alpha 0.05
 
 # Max runs
-max_it 10
+max_it 4
 
 # k Max
 k_max 40
