@@ -18,13 +18,13 @@ output_prefix result_
 # Parameters of SMMB
 ################################################################################
 
-# alpha type I error rate
+# Alpha type I error rate
 alpha 0.05
 
-# number of consecutive runs of SMMB-ACO
+# Number of consecutive runs of SMMB-ACO
 n_smmb_aco_runs 1#2
 
-# precision used in adaptative permutations
+# Precision used in adaptative permutations
 precision 0.1
 
 # Number of iterations in ACO
@@ -36,7 +36,7 @@ aco_n_ants 100
 # Number of snps sampled in each ant
 aco_set_size 10
 
-# size of the smallest subset, k (draw in Algorithm 2)
+# Size of the smallest subset, k (draw in Algorithm 2)
 subset_size_small 3
 
 # Maximal number of iterations if there is no convergence (top level procedure of SMMB algorithm)
