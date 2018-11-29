@@ -94,7 +94,7 @@ void vns::generate_patterns()
 void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
 {
     // std::cout << "rekt me more" << '\n';
-    //if we are on the _k_max recursive call we don't go deeper
+
     if (temp.size() < 3)
     {
         for (auto snp : snp_list)
@@ -115,20 +115,10 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
             temp.pop_back();
         }
     }
-    else
-    {
-        for (auto snp : snp_list)
-        {
-            //add the snp to the pattern
-            temp.push_back(snp);
-            std::cout << "np" << '\n';
-            //add the pattern to the vector
-            _pattern_list.push_back(temp);
+    
+    //add the pattern to the vector
+    _pattern_list.push_back(temp);
 
-            //remove current snp from the list to let the next one come
-            temp.pop_back();
-        }
-    }
 }
 
 //==============================================================================
@@ -257,7 +247,7 @@ vector<float> vns::test_pattern(list<unsigned> const& pattern)
 {
     std::cout << "test_pattern" << '\n';
     vector<boost::numeric::ublas::matrix_column<boost_matrix>> pattern_datas;
-
+    std::cout << pattern.size() << '\n';
     for (auto snp : pattern)
     {
         boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, snp);

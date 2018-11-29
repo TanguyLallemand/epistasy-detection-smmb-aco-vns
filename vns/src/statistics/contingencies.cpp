@@ -40,15 +40,20 @@ contingencies::contingencies(int a, int b) : boost_matrix_float(a,b)
 
 void contingencies::make_contingency_table(vector<boost::numeric::ublas::matrix_column<boost_matrix>> const& pattern_datas, boost_vector_int const& _phenos_vector, vector<vector<unsigned>> all_combinations)
 {
+    std::cout << "make_contingency_table" << '\n';
     // For every rows
     for (size_t i = 0; i < _phenos_vector.size(); i++)
     {
+        std::cout << i << '\n';
         vector<unsigned> vector_pattern;
+        std::cout << pattern_datas.size() << '\n';
         for (size_t f = 0; f < pattern_datas.size(); f++)
         {
+            std::cout << pattern_datas[i](f);
+
             vector_pattern.push_back(pattern_datas[i](f));
         }
-
+        std::cout << '\n';
         // Searching for vector_pattern in all_combinations
         auto it = find(all_combinations.begin(), all_combinations.end(), vector_pattern);
         // If find return a result
@@ -59,6 +64,7 @@ void contingencies::make_contingency_table(vector<boost::numeric::ublas::matrix_
             _contingency_table.at_element(_phenos_vector(i), index) +=1;
         }
     }
+    std::cout << "fin make_contingency_table" << '\n';
 }
 
 //==============================================================================
