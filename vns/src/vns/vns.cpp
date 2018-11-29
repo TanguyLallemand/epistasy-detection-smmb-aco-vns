@@ -5,6 +5,8 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     //params unpacking
     this->_n_it_max = _params._n_it_max;
     this->_k_max = _params._k_max;
+    this->_output_directory = _params.output_directory;
+    this->_output_prefix = _params.output_prefix;
 
     //unpacking datas
     this->_genos_matrix = dataset._geno_matrix;
@@ -20,17 +22,19 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
 //==============================================================================
 void vns::run()
 {
-    //initialisation of patterns and their neighbors
+    std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+    // Initialisation of patterns and their neighbors
     generate_patterns();
-
+    // Parallelization
     #pragma omp parallel for
+
     for (size_t i = 0; i < _n_it_max; i++)
     {
         std::cout << "iteration # : " << i << '\n';
-        //selecting starting pattern
+        // Selecting starting pattern
         int index_pattern = rand() % (_pattern_list.size());
 
-        //initialisation of starting pattern
+        // Initialization of starting pattern
         list<unsigned> x = _pattern_list[index_pattern];
         std::cout << "starting pattern" << '\n';
         for (auto test : x)
@@ -38,10 +42,12 @@ void vns::run()
             std::cout << test << ' ';
         }
         std::cout << '\n';
-
+        // Initialization of vector to store g2 test's results
         vector<float> x_score(3);
         x_score = test_pattern(x);
+        // Initialization of vector of list to store neighbors
         vector<list<unsigned>> x_neighbors;
+        // Initialization of neighbors
         set_neighbors(x, x_neighbors);
 
 
@@ -57,11 +63,11 @@ void vns::run()
         int k = 0;
         while (k < _k_max)
         {
-            //take a random neighbor of x
+            // Take a random neighbor of x
             second_x = shake(x_neighbors);
             set_neighbors(second_x, second_x_neighbors);
 
-            //searching for the best neighbor of second_x
+            // Searching for the best neighbor of second_x
             third_x_score = variable_neighborhood_descent(second_x_neighbors, third_x);
 
             if (third_x_score[0] > x_score[0])
@@ -76,9 +82,12 @@ void vns::run()
                 k++;
             }
         }
-        //saving the local optimum
+        // Saving the local optimum
         save_local_optimum(x, x_score);
     }
+    std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+    double _duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
+    // Write results in a file
     write_result_file();
 }
 
@@ -88,6 +97,7 @@ void vns::run()
 //==============================================================================
 void vns::generate_patterns()
 {
+    // Initialization of list to store SNP
     list<unsigned> temp;
     list<unsigned> snp_list(_genos_matrix.size2());
     iota(snp_list.begin(), snp_list.end(), 0);
@@ -103,28 +113,28 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
     {
         for (auto snp : snp_list)
         {
-            //add the snp to the pattern
+            // Add the snp to the pattern
             temp.push_back(snp);
 
-            //add the pattern to the vector
+            // Add the pattern to the vector
             _pattern_list.push_back(temp);
 
-            //copy the list of snp
+            // Copy the list of snp
             list<unsigned> next_snp_list = snp_list;
 
-            //remove snp added to temp pattern
+            // Remove snp added to temp pattern
             next_snp_list.remove(snp);
 
-            //recursive call to get next pattern
+            // Recursive call to get next pattern
             generate_patterns(temp, next_snp_list);
 
-            //remove current snp from the list to let the next one come
+            // Remove current snp from the list to let the next one come
             temp.pop_back();
         }
     }
     else
     {
-        //add the pattern to the vector
+        // Add the pattern to the vector
         _pattern_list.push_back(temp);
     }
 
@@ -215,9 +225,14 @@ void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
 //==============================================================================
 void vns::write_result_file()
 {
-    std::cout << "write_result_file" << '\n';
+    std::cout << "Write_result_file" << '\n';
+    std::cout << "Time of execution:" << _duration;
     //create the output file
-    ofstream output_file("/home/ehorion/M2BB/epistasy_detection/toy_results/vns_result/" + _filename + "vns.txt");
+    size_t lastindex = _filename.find_last_of(".");
+    string filename_without_extension = _filename.substr(0, lastindex);
+    std::cout << filename_without_extension << '\n';
+    //create the output file
+    ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_vns.txt");
 
     output_file << "# Result from vns \n";
     output_file << "# Pattern || occurences || chi2-score || p-value || unreliable case\n";
@@ -240,6 +255,7 @@ void vns::write_result_file()
         }
         output_file << "\n";
     }
+    output_file << "# Time of execution:" << _duration;
 }
 
 //==============================================================================

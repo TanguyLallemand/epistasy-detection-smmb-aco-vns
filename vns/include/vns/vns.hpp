@@ -19,6 +19,8 @@ private:
     boost_vector_int _phenos_vector;
     boost_vector_string _snp_id;
     string _filename;
+    string _output_directory;
+    string _output_prefix;
 
     //vector of patterns
     vector<list<unsigned>> _pattern_list;
@@ -31,7 +33,7 @@ private:
     void generate_patterns(list<unsigned> temp, list<unsigned> snp_list);
     void set_neighbors();
 
-
+    double _duration;
     int _n_it_max;
     int _k_max;
     int _l_max;
