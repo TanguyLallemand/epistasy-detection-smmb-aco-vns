@@ -21,19 +21,25 @@ void vns::run()
 {
     //initialisation of patterns and their neighbors
     generate_patterns();
-
+    std::cout << "patterns generated" << '\n';
     for (size_t i = 0; i < _n_it_max; i++)
     {
+        std::cout << "iteration # : " << i << '\n';
         //selecting starting pattern
-        int index_pattern = rand() % (pattern_list.size());
-
+        int index_pattern = rand() % (_pattern_list.size());
+        std::cout << "random pick" << '\n';
         //initialisation of starting pattern
-        list<unsigned> x = pattern_list[index_pattern];
+        list<unsigned> x = _pattern_list[index_pattern];
+        std::cout << "getting corresponding pattern" << '\n';
         vector<float> x_score(3);
-
         x_score = test_pattern(x);
+        vector<list<unsigned>> x_neighbors;
+        set_neighbors(x, x_neighbors);
+
 
         list<unsigned> second_x;
+        vector<list<unsigned>> second_x_neighbors;
+
         list<unsigned> third_x;
 
         vector<float> third_x_score(3);
@@ -44,14 +50,17 @@ void vns::run()
         while (k < _k_max)
         {
             //take a random neighbor of x
-            second_x = shake(x);
+            second_x = shake(x_neighbors);
+            set_neighbors(second_x, second_x_neighbors);
 
+            std::cout << "VND" << '\n';
             //searching for the best neighbor of second_x
-            third_x_score = variable_neighborhood_descent(second_x, third_x);
+            third_x_score = variable_neighborhood_descent(second_x_neighbors, third_x);
 
             if (third_x_score[0] > x_score[0])
             {
                 x = third_x;
+                set_neighbors(x, x_neighbors);
                 x_score = third_x_score;
                 k = 0;
             }
@@ -72,11 +81,11 @@ void vns::run()
 //==============================================================================
 void vns::generate_patterns()
 {
+    std::cout << "hello" << '\n';
     list<unsigned> temp;
     list<unsigned> snp_list(_genos_matrix.size2());
     iota(snp_list.begin(), snp_list.end(), 0);
     generate_patterns(temp, snp_list);
-    set_neighbors();
 }
 
 //==============================================================================
@@ -84,16 +93,14 @@ void vns::generate_patterns()
 //==============================================================================
 void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
 {
+    // std::cout << "rekt me more" << '\n';
     //if we are on the _k_max recursive call we don't go deeper
-    if (temp.size() < _k_max)
+    if (temp.size() < 3)
     {
         for (auto snp : snp_list)
         {
             //add the snp to the pattern
             temp.push_back(snp);
-
-            //create the entry in the map for current pattern
-            _neighborhood[temp];
 
             //copy the list of snp
             list<unsigned> next_snp_list = snp_list;
@@ -114,12 +121,9 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
         {
             //add the snp to the pattern
             temp.push_back(snp);
-
+            std::cout << "np" << '\n';
             //add the pattern to the vector
-            pattern_list.push_back(temp);
-
-            //create the entry in the map for current pattern
-            _neighborhood[temp];
+            _pattern_list.push_back(temp);
 
             //remove current snp from the list to let the next one come
             temp.pop_back();
@@ -130,52 +134,46 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
 //==============================================================================
 //vns : set_neighbors
 //==============================================================================
-void vns::set_neighbors()
+void vns::set_neighbors(list<unsigned> const& pattern, vector<list<unsigned>> & neighbors)
 {
-    //iterating all patterns
-    for (auto current : _neighborhood)
+    std::cout << "set_neighbors" << '\n';
+    neighbors.clear();
+    //iterating all patterns to find neighbors for current at i+1 distance
+    for (auto candidat_neighbor : _pattern_list)
     {
-        //iterate to generate list of pattern on a certain distance
-        for (size_t i = 0; i < _k_max; i++)
+        //finding the number of common values needed to be neighbors at current distance
+        unsigned neighbors_score = max(pattern.size(), candidat_neighbor.size())-1;
+
+        //counting common values between vectors
+        unsigned common_values = 0;
+        for (auto s : pattern)
         {
-            //each box of the vector contains neighbor with a different distance to the associated pattern
-            current.second.resize(_k_max);
-            //iterating all patterns to find neighbors for current at i+1 distance
-            for (auto candidat_neighbor : _neighborhood)
+            auto test = find(candidat_neighbor.begin(), candidat_neighbor.end(), s);
+            if (*test != s)
             {
-                //finding the number of common values needed to be neighbors at current distance
-                unsigned neighbors_score = max(current.first.size(), candidat_neighbor.first.size())-i-1;
-
-                //counting common values between vectors
-                unsigned common_values = 0;
-                for (auto s : current.first)
-                {
-                    auto test = find(candidat_neighbor.first.begin(), candidat_neighbor.first.end(), s);
-                    if (*test != s)
-                    {
-                        common_values+=1;
-                    }
-                }
-
-                //if the 2 sets have only 1 difference they are neighbors
-                if (neighbors_score == common_values)
-                {
-                    //append the new neighbor to the list of neighbors with i+1 distance
-                    current.second[i].push_back(candidat_neighbor.first);
-                }
+                common_values+=1;
             }
         }
+
+        //if the 2 sets have only 1 difference they are neighbors
+        if (neighbors_score == common_values)
+        {
+            //append the new neighbor to the list of neighbors with i+1 distance
+            neighbors.push_back(candidat_neighbor);
+        }
     }
+    std::cout << "fin set_neighbors" << '\n';
 }
 
 //==============================================================================
 //vns : variable_neighborhood_descent
 //==============================================================================
-vector<float> vns::variable_neighborhood_descent(list<unsigned> const& second_x, list<unsigned> & third_x)
+vector<float> vns::variable_neighborhood_descent(vector<list<unsigned>> const& neighbors, list<unsigned> third_x)
 {
-    vector<float> score, best_score;
+    std::cout << "vnd" << '\n';
+    vector<float> score, best_score = {0,0,0};
 
-    for (auto neighbor_iterator : _neighborhood[second_x][0])
+    for (auto neighbor_iterator : neighbors)
     {
         score = test_pattern(neighbor_iterator);
 
@@ -185,18 +183,20 @@ vector<float> vns::variable_neighborhood_descent(list<unsigned> const& second_x,
             third_x = neighbor_iterator;
         }
     }
+    std::cout << "fin vnd" << '\n';
     return best_score;
 }
 
 //==============================================================================
 //vns : shake
 //==============================================================================
-list<unsigned> vns::shake(list<unsigned> x)
+list<unsigned> vns::shake(vector<list<unsigned>> neighbors)
 {
-    int index_pattern = rand() % (_neighborhood[x][0].size());
+    std::cout << "shake" << '\n';
+    int index_pattern = rand() % (neighbors.size());
 
-    list<unsigned> x2 = _neighborhood[x][0][index_pattern];
-
+    list<unsigned> x2 = neighbors[index_pattern];
+    std::cout << "fin shake" << '\n';
     return x2;
 }
 
@@ -205,6 +205,7 @@ list<unsigned> vns::shake(list<unsigned> x)
 //==============================================================================
 void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
 {
+    std::cout << "save_local_optimum" << '\n';
     auto current_opti = _optimum_set.find(x);
     if (current_opti->second.size() == 0)
     {
@@ -214,6 +215,7 @@ void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
     {
         current_opti->second[0] += 1;
     }
+    std::cout << "fin save_local_optimum" << '\n';
 }
 
 //==============================================================================
@@ -221,6 +223,7 @@ void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
 //==============================================================================
 void vns::write_result_file()
 {
+    std::cout << "write_result_file" << '\n';
     //create the output file
     ofstream output_file("/home/ehorion/M2BB/epistasy_detection/toy_results/vns_result/" + _filename + "vns.txt");
 
@@ -244,6 +247,7 @@ void vns::write_result_file()
         }
         output_file << "\n";
     }
+    std::cout << "fin write_result_file" << '\n';
 }
 
 //==============================================================================
@@ -251,6 +255,7 @@ void vns::write_result_file()
 //==============================================================================
 vector<float> vns::test_pattern(list<unsigned> const& pattern)
 {
+    std::cout << "test_pattern" << '\n';
     vector<boost::numeric::ublas::matrix_column<boost_matrix>> pattern_datas;
 
     for (auto snp : pattern)
@@ -259,6 +264,6 @@ vector<float> vns::test_pattern(list<unsigned> const& pattern)
         pattern_datas.push_back(mc);
     }
     vector<float> result = statistics::compute_p_value(pattern_datas, _phenos_vector);
-
+    std::cout << "fin test_pattern" << '\n';
     return result;
 }

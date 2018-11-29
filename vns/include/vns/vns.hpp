@@ -21,9 +21,7 @@ private:
     string _filename;
 
     //vector of patterns
-    vector<list<unsigned>> pattern_list;
-    //neighborhood map
-    map<list<unsigned>, vector<vector<list<unsigned>>>> _neighborhood;
+    vector<list<unsigned>> _pattern_list;
 
     //result map
     map<list<unsigned>, vector<float>> _optimum_set;
@@ -38,9 +36,9 @@ private:
     int _k_max;
     int _l_max;
 
-    void neighborhood_change(list<unsigned> x, list<unsigned> second_x, int k);
-    list<unsigned> shake(list<unsigned> x);
-    vector<float> variable_neighborhood_descent(list<unsigned> const& second_x, list<unsigned> & third_x);
+    void set_neighbors(list<unsigned> const& pattern, vector<list<unsigned>> & neighbors);
+    list<unsigned> shake(vector<list<unsigned>> neighbors);
+    vector<float> variable_neighborhood_descent(vector<list<unsigned>> const& neighbors, list<unsigned> third_x);
 
     void save_local_optimum(list<unsigned> & x, vector<float> & x_score);
     void write_result_file();
