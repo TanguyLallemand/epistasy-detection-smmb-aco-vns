@@ -5,6 +5,8 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     //params unpacking
     this->_n_it_max = _params._n_it_max;
     this->_k_max = _params._k_max;
+    this->_output_directory = _params.output_directory;
+    this->_output_prefix = _params.output_prefix;
 
     //unpacking datas
     this->_genos_matrix = dataset._geno_matrix;
@@ -217,7 +219,11 @@ void vns::write_result_file()
 {
     std::cout << "write_result_file" << '\n';
     //create the output file
-    ofstream output_file("/home/ehorion/M2BB/epistasy_detection/toy_results/vns_result/" + _filename + "vns.txt");
+    size_t lastindex = _filename.find_last_of(".");
+    string filename_without_extension = _filename.substr(0, lastindex);
+    std::cout << filename_without_extension << '\n';
+    //create the output file
+    ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_vns.txt");
 
     output_file << "# Result from vns \n";
     output_file << "# Pattern || occurences || chi2-score || p-value || unreliable case\n";

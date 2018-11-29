@@ -45,10 +45,10 @@ void parameters_parsing::import_line(string const& line)
     }
 
     else if(key == "output_directory")
-        output_directory = atof(value.c_str());
+        output_directory = value;
 
     else if(key == "output_prefix")
-        output_prefix = atof(value.c_str());
+        output_prefix = value;
 
     else if(key == "alpha")
         alpha = atof(value.c_str());

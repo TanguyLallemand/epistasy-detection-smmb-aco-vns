@@ -19,6 +19,8 @@ private:
     boost_vector_int _phenos_vector;
     boost_vector_string _snp_id;
     string _filename;
+    string _output_directory;
+    string _output_prefix;
 
     //vector of patterns
     vector<list<unsigned>> _pattern_list;
