@@ -1,3 +1,7 @@
+################################################################################
+# Parameters of data structure and project architecture
+################################################################################
+
 # number of header lines in the genotype file
 header 1
 
@@ -9,6 +13,10 @@ output_directory ./smmb_aco/outputs/
 
 # Prefix of output files
 output_prefix result_
+
+################################################################################
+# Parameters of SMMB
+################################################################################
 
 # alpha type I error rate
 alpha 0.05
@@ -39,7 +47,10 @@ n_trials_to_learn_mbs 30
 # To palliate this problem, one coerces the exploration of the subset of K variables through n_trials_to_learn_1_mb.
 n_trials_to_learn_1_mb 100
 
+################################################################################
 # Parameters for ACO optimization
+################################################################################
+
 #   Parameters related to evaporation rates
 #     tau_init: value to initiate evaporation rates
 aco_tau_init 100
