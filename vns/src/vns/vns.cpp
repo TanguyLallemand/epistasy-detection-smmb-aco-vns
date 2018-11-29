@@ -115,7 +115,7 @@ void vns::generate_patterns(list<unsigned> temp, list<unsigned> snp_list)
             temp.pop_back();
         }
     }
-    
+
     //add the pattern to the vector
     _pattern_list.push_back(temp);
 
@@ -197,13 +197,16 @@ void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
 {
     std::cout << "save_local_optimum" << '\n';
     auto current_opti = _optimum_set.find(x);
-    if (current_opti->second.size() == 0)
+    if(_optimum_set.end() != current_opti)
     {
-        current_opti->second = {1, x_score[0], x_score[1], x_score[2]};
-    }
-    else
-    {
-        current_opti->second[0] += 1;
+        if (current_opti->second.size() == 0)
+        {
+            current_opti->second = {1, x_score[0], x_score[1], x_score[2]};
+        }
+        else
+        {
+            current_opti->second[0] += 1;
+        }
     }
     std::cout << "fin save_local_optimum" << '\n';
 }
