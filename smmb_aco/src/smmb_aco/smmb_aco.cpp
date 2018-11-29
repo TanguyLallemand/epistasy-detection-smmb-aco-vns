@@ -22,6 +22,11 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing _params)
     this->_subset_size = _params.aco_set_size;
     this->_sub_subset_size = _params.subset_size_small;
 
+    this->_output_prefix = _params.output_prefix;
+    this->_output_directory = _params.output_directory;
+    std::cout << "/* message */" << '\n';
+    std::cout << _output_prefix << '\n';
+    std::cout << _output_directory << '\n';
     //Initialization of the rng seed
     this->_rng.seed(time(NULL));
 

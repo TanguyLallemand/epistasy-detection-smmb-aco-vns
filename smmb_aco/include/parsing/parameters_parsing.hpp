@@ -8,10 +8,7 @@ class parameters_parsing
 public:
     parameters_parsing();
     void import_line(std::string const& line);
-    void list_parameters() const;
-    void update_subset_size_large(unsigned const& n_genos);
 
-// Parameters given in the OPTIONS.txt file
 // Reachable from any class that include the current header (Option_file_parsing.hpp)
     int header;
     char separator;
@@ -41,6 +38,9 @@ public:
 
     string genos_file;
     string phenos_file;
+
+    string output_directory;
+    string output_prefix;
 
 
 private:

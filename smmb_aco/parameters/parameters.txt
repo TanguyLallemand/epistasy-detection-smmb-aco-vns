@@ -4,6 +4,12 @@ header 1
 # separation between fields in the genotype file
 separator ,
 
+# Path of output directory
+output_directory ./output
+
+# Prefix of output files
+output_prefix result_
+
 # alpha type I error rate
 alpha 0.05
 

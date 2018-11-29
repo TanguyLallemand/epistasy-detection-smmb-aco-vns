@@ -43,6 +43,13 @@ void parameters_parsing::import_line(string const& line)
         else
             separator = value.at(0);
     }
+
+    else if(key == "output_directory")
+        output_directory = atof(value.c_str());
+
+    else if(key == "output_prefix")
+        output_prefix = atof(value.c_str());
+
     else if(key == "alpha")
         alpha = atof(value.c_str());
 

@@ -20,6 +20,10 @@ public:
     string genos_file;
     string phenos_file;
 
+    string output_directory;
+    string output_prefix;
+
+
 
 private:
     std::vector<std::string> split(std::string const& s, char delim);

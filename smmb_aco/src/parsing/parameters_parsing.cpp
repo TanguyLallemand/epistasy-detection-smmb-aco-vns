@@ -43,6 +43,13 @@ void parameters_parsing::import_line(string const& line)
         else
             separator = value.at(0);
     }
+
+    else if(key == "output_directory")
+        output_directory = value;
+
+    else if(key == "output_prefix")
+        output_prefix = value;
+
     else if(key == "alpha")
         alpha = atof(value.c_str());
 
@@ -110,29 +117,4 @@ vector<string> parameters_parsing::split(string const& s, char delim)
     while (getline(ss, item, delim))
         tokens.push_back(item);
     return tokens;
-}
-
-//=================================================
-// parameters_parsing : list_parameters
-//=================================================
-void parameters_parsing::list_parameters() const
-{
-    cout << "########### PARAMETERS ###########\n" << "header => " << header << endl
-    << "separator => " << separator << endl
-    << "alpha => " << alpha << endl
-    << "precision => " << precision << endl
-    << "aco_set_size => " << aco_set_size << endl
-    << "subset_size_small => " << subset_size_small << endl
-    << "n_trials_to_learn_mbs => " << n_trials_to_learn_mbs << endl
-    << "n_trials_to_learn_1_mb => " << n_trials_to_learn_1_mb << endl
-    << "#################################" << endl;
-}
-
-//=================================================
-// parameters_parsing : update_subset_size_large
-//=================================================
-void parameters_parsing::update_subset_size_large(unsigned const& n_genos)
-{
-    if(aco_set_size == 0)
-        aco_set_size = sqrt(n_genos);
 }
