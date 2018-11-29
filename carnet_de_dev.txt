@@ -1,3 +1,15 @@
+TODO upgrades ideas
+-remodeler le système d'input ouput
+-ajouter le temps de process dans les fichiers d'output
+-commenter plus
+
+smmb_aco
+    -implementer one-pass/two-pass
+vns
+    -voir si une itération est suffisante ou pas
+    
+
+
 
 Pour demarrer le programm ./smmb_aco ../toy_dataset/genotype_toy_dataset.txt ../toy_dataset/phenotype_toy_dataset.txt
 
@@ -12,10 +24,6 @@ changer la solution cradot du -48 dans le file_parsing.cpp
 (code ascii tout ça tout ça)
 pour le moment on garde car on veut du fonctionnel mais faudrais dans l'idéal trouver mieux <3
 
-changer la seed pour le sampling
-
-faire une hashtable pour stocker les résultats des test (mem_ant)
-chaque snp sera une clef et aura une liste de résultats associés
 ajouter plus de flexibilite, genre le fichier des paramteres peut bouger
 parallelisation a regarder, ne pas mettre le nbr de thread dans les parametres ou en dur dans le c++. On le met dans le launch_smmb_aco
 
@@ -28,15 +36,6 @@ z= alpha + beta_1 * X1 + beta_2 * X2 + beta_12 * X1 * X2
 
 pr = 1/ 1+exp(z)
 si pr >0.5 alors malade sinon sain
-
-
-
-
-fusionner les mem_a dans mem (globale) puis
-    pour mettre a jour tau : //DONE
-        pour X1 : _tau(X1) = (1 - rho) * _tau(X1) + _lambda * stat //DONE
-        on boucle pour toutes les valeurs de stats dans mem //DONE
-explication de l algo dans la publi
 
 L’algorithme SMMB est une approche originale ; c’est la première variation stochastique proposée
 pour le calcul d’une couverture de Markov : de multiples couvertures sont calculées sur des versions
