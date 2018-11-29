@@ -24,9 +24,6 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing _params)
 
     this->_output_prefix = _params.output_prefix;
     this->_output_directory = _params.output_directory;
-    std::cout << "/* message */" << '\n';
-    std::cout << _output_prefix << '\n';
-    std::cout << _output_directory << '\n';
     //Initialization of the rng seed
     this->_rng.seed(time(NULL));
 
