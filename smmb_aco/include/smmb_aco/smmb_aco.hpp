@@ -89,7 +89,7 @@ private:
     void backward(list<unsigned> & MB_a_ref);
 
     //==========================================================================
-    //Functions permitting to add more modularity
+    //Functions for modularity
     //==========================================================================
     // Permit to add pheromones on a good SNP
     void update_tau();
