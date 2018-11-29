@@ -4,7 +4,8 @@ TODO upgrades ideas
 -commenter plus
 
 smmb_aco
-    -implementer one-pass/two-pass
+    -implementer one-pass/two-pass //DONE
+    -faire sortir les resultats de smmbaco dans toy_results
 vns
     -voir si une itération est suffisante ou pas
 
