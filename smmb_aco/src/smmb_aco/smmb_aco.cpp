@@ -464,9 +464,11 @@ void smmb_aco::show_results()
 //==============================================================================
 void smmb_aco::save_results()
 {
-    std::cout << _filename << '\n';
+    size_t lastindex = _filename.find_last_of(".");
+    string filename_without_extension = _filename.substr(0, lastindex);
+    std::cout << filename_without_extension << '\n';
     //create the output file
-    ofstream output_file("/home/ehorion/M2BB/epistasy_detection/toy_results/smmb_aco_result/" + _filename + "smmb_aco.txt");
+    ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt");
 
     output_file << "# Result from smmbaco \n";
     output_file << "# Pattern || occurences || G2-score || p-value\n";
