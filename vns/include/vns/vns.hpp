@@ -33,7 +33,7 @@ private:
     void generate_patterns(list<unsigned> temp, list<unsigned> snp_list);
     void set_neighbors();
 
-
+    double _duration;
     int _n_it_max;
     int _k_max;
     int _l_max;
