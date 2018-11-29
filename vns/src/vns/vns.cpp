@@ -22,7 +22,7 @@ void vns::run()
     //initialisation of patterns and their neighbors
     generate_patterns();
     std::cout << "patterns generated" << '\n';
-    for (size_t i = 0; i < _n_it_max; i++)
+    for (size_t i = 0; i < 1; i++)
     {
         std::cout << "iteration # : " << i << '\n';
         //selecting starting pattern
@@ -158,7 +158,7 @@ void vns::set_neighbors(list<unsigned> const& pattern, vector<list<unsigned>> & 
 //==============================================================================
 //vns : variable_neighborhood_descent
 //==============================================================================
-vector<float> vns::variable_neighborhood_descent(vector<list<unsigned>> const& neighbors, list<unsigned> third_x)
+vector<float> vns::variable_neighborhood_descent(vector<list<unsigned>> const& neighbors, list<unsigned> & third_x)
 {
     std::cout << "vnd" << '\n';
     vector<float> score, best_score = {0,0,0};
@@ -196,17 +196,15 @@ list<unsigned> vns::shake(vector<list<unsigned>> neighbors)
 void vns::save_local_optimum(list<unsigned> & x, vector<float> & x_score)
 {
     std::cout << "save_local_optimum" << '\n';
+
     auto current_opti = _optimum_set.find(x);
     if(_optimum_set.end() != current_opti)
     {
-        if (current_opti->second.size() == 0)
-        {
-            current_opti->second = {1, x_score[0], x_score[1], x_score[2]};
-        }
-        else
-        {
-            current_opti->second[0] += 1;
-        }
+        current_opti->second[0] += 1;
+    }
+    else
+    {
+        _optimum_set[x] = {1, x_score[0], x_score[1], x_score[2]};
     }
     std::cout << "fin save_local_optimum" << '\n';
 }
@@ -228,6 +226,7 @@ void vns::write_result_file()
         output_file << "{";
         for (auto const& snp : pattern.first)
         {
+            std::cout << _snp_id(snp) << '\n';
             output_file << _snp_id(snp);
             if (snp!=pattern.first.back()) {
                 output_file << ",";
@@ -248,15 +247,13 @@ void vns::write_result_file()
 //==============================================================================
 vector<float> vns::test_pattern(list<unsigned> const& pattern)
 {
-    std::cout << "test_pattern" << '\n';
     vector<boost::numeric::ublas::matrix_column<boost_matrix>> pattern_datas;
-    std::cout << pattern.size() << '\n';
     for (auto snp : pattern)
     {
         boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, snp);
         pattern_datas.push_back(mc);
     }
     vector<float> result = statistics::compute_p_value(pattern_datas, _phenos_vector);
-    std::cout << "fin test_pattern" << '\n';
+
     return result;
 }

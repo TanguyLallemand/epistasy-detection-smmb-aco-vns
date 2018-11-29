@@ -38,7 +38,7 @@ private:
 
     void set_neighbors(list<unsigned> const& pattern, vector<list<unsigned>> & neighbors);
     list<unsigned> shake(vector<list<unsigned>> neighbors);
-    vector<float> variable_neighborhood_descent(vector<list<unsigned>> const& neighbors, list<unsigned> third_x);
+    vector<float> variable_neighborhood_descent(vector<list<unsigned>> const& neighbors, list<unsigned> & third_x);
 
     void save_local_optimum(list<unsigned> & x, vector<float> & x_score);
     void write_result_file();

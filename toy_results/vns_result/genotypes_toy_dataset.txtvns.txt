@@ -1,0 +1,3 @@
+# Result from vns 
+# Pattern || occurences || chi2-score || p-value || unreliable case
+{N9,M0P8,M0P7} || 1 || 118.763 || 0 || 0
