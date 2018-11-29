@@ -6,9 +6,9 @@ SMMB-ACO is a programm permitting to find epistasy patterns using Multiple Marko
 In order to compile this method a makefile was given at the root of SMMB-ACO's folder. Please notice that a general makefile was generated at the project's root permitting to produce and executable including both methods.
 ### Preparation of pre requist
 In the makefile please change BOOST_FOLDER value with path of the installed boost library on current workstation.
-Moreover, please check if current g++ version is compatible with C++11 functionalities (version >= 5.0). Please also check boost library. Authors cannot garanty compatibility with other boost version even if boost version seems to be compatible. For this method version 1.61.0 was employed.
+Moreover, please check if current g++ version is compatible with C++11 functionalities (version >= 5.0). Please also check boost library. Authors cannot guaranty compatibility with other boost version even if boost version seems to be compatible. For this method version 1.61.0 was employed.
 ### Compilation
-To compile this method, please call thoses lines a the root of the project:
+To compile this method, please call those lines a the root of the project:
 
     cd smmb_aco
     make
@@ -19,17 +19,17 @@ I a recompilation is needed use:
 
 Execute program with:
 
-    ./smmb_aco.exe
-<!-- TODO mettre ici le call de smmb -->
+    ./smmb_aco.exe <path_to_genotype_dataset> <path_to_phenotype_dataset>
+
 ## Parameters
-Parameters of this programms are stored in parameters folder into a file called parameters.txt. This file is commented to permit an easy setup for particular needs.
+Parameters of this program are stored in parameters folder into a file called parameters.txt. This file is commented to permit an easy setup for particular needs.
 ## Launch the analysis of the toy dataset
-With this project is provided a python script allowing a simple launch on every platform equiped with python. This script will launch programm on a naive dataset with default configuration given by authors.
+With this project is provided a python script allowing a simple launch on every platform equipped with python. This script will launch program on a naive dataset with default configuration given by authors.
 To execute this script please call:
 
-    ./launch_toy_dataset_analysis.py
+    ./launch_smmbaco_toy_example.py
 ## Expected output
-This method give as output a txt file gathering all results. Those results can be checked using our evaluaton tool given in evaluation folder.
+This method give as output a txt file gathering all results. Those results can be checked using our evaluation tool given in evaluation folder.
 Using toy dataset:
 <!-- TODO mettre ce qu on attend -->
 ## Authors
