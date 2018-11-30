@@ -9,7 +9,7 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing _params)
     this->_genos_matrix = dataset._geno_matrix;
     this->_pheno_vector = dataset._pheno_vector;
     this->_snp_id = dataset._snp_id_vector;
-    this->_filename = dataset._geno_filename.substr (14, dataset._geno_filename.length());
+    this->_filename = dataset._geno_filename.substr (14, dataset._geno_filename.length()); //TODO changer ça c'est vomitif
 
     // Storing parameters in members variables
     this->_n_it_n = _params.aco_n_iterations;
@@ -47,7 +47,7 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing _params)
 //==============================================================================
 void smmb_aco::run()
 {
-    // Get actual time to measure time of run
+    // Get actual time to measure running time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
     std::cout << "###Run Of SMMB-ACO###" << '\n';
 
@@ -58,7 +58,8 @@ void smmb_aco::run()
         std::cout << _tau << '\n';
 
         // Reinitialisation of the MB of each ant (avoiding core dump by doing it one by one)
-        for (size_t k = 0; k < _markov_blanket_a.size(); k++) {
+        for (size_t k = 0; k < _markov_blanket_a.size(); k++)
+        {
             _markov_blanket_a(i).clear();
         }
         //Parallelization
@@ -75,7 +76,8 @@ void smmb_aco::run()
         }
 
         // Clearing the global memory (one by one to avoid core dump)
-        for (size_t i = 0; i < _tau.size(); i++) {
+        for (size_t i = 0; i < _tau.size(); i++)
+        {
             _mem[i].clear();
         }
 
@@ -93,21 +95,21 @@ void smmb_aco::run()
             }
 
             // If ant's markov blanket is not empty save it into _markov_blanket_s
-            if (!_markov_blanket_a(a).empty()) //FIXME
+            if (!_markov_blanket_a(a).empty())
             {
                 // Sort markov blanket of current ant
                 _markov_blanket_a(a).sort();
-                // Save the ant MB ant at the end of MB list
+                // if the ant MB is already known this add 1 to occurences number else it create the entry in the map
                 _markov_blanket_s[_markov_blanket_a(a)] += 1;
 
             }
         }
-        // Add pheromon based on the score
+        // Add pheromon based on the results of tests performed on last iteration
         update_tau();
     }
-    // Init a list new set to store SNPs to compute on it
+
+    // listing all different SNPs in MB_s
     list<unsigned> new_set;
-    // Iterate tought previous markov blanket to build new data set
     for (auto d : _markov_blanket_s)
     {
         for (auto d2 : d.first)
@@ -123,7 +125,7 @@ void smmb_aco::run()
     // If user asked for SMMB-ACO in two pass and if dataset is enought wide
     if ((_params.n_smmb_aco_runs > 1) && (new_set.size() > 20))
     {
-        // Put n_smmb_aco_runs to 1 to avoid an infinite loop
+        // Put n_smmb_aco_runs to 1 to stop above next time
         _params.n_smmb_aco_runs--;
 
         for (auto v : new_set)
@@ -136,7 +138,7 @@ void smmb_aco::run()
             }
             else
             {
-                // If SNPs are not in dataset used in the second run of SMMB_ACO their pheromon are init at zero permitting to avoid to picking them
+                // If SNPs are not in dataset used in the second run of SMMB_ACO their pheromon are initialised to 0 : they can't be picked anymore
                 _tau[v] = 0;
                 _eta[v] = 0;
             }
@@ -278,7 +280,7 @@ void smmb_aco::backward(list<unsigned> & MB_a_ref)
         // Creating a copy of the current MB
         list<unsigned> MB_minus_current_SNP = MB_a_ref;
 
-        // Removing the current SNP from the current MB
+        // Removing the current SNP from the MB copy
         MB_minus_current_SNP.remove(current_SNP);
 
         // Converting current MB without current SNP to a vector
@@ -333,6 +335,7 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
     // Getting _tau values associated to the ant_subset SNPs
     for (size_t i = 0; i < ant_subset.size(); i++)
     {
+        //if SNPs are already in the ant MB we won't pick them again
         if ((std::find(MB_a_ref.begin(), MB_a_ref.end(), ant_subset(i)) != MB_a_ref.end()))
         {
             small_distrib(i) = 0;
@@ -346,7 +349,7 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
     // Stocking the position of picked SNP in ant_subset
     boost_vector_int temporary(_sub_subset_size, 0);
 
-    // Pisking SNPs in the ant subset
+    // Picking SNPs in the ant subset
     temporary = tools::sampling(_sub_subset_size, small_distrib, _rng);
 
     // Taking the SNPs on index returned by tools::sampling in ant_subset
@@ -427,7 +430,7 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
             // Making a matrix column ref to pass to the function
             boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, current_SNP);
 
-            // Calculating score of the current SNP of the pattern and add it to the pattern score
+            // Calculating score of the current SNP of the pattern
             boost_vector_float result_SNP(2, 0.0);
 
             result_SNP = statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
@@ -441,7 +444,7 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
                 result_pattern = result_SNP;
             }
         }
-        // If the score of the current pattern is better than the current one it become the current best pattern
+        // If the score of the current pattern is better than the current best it become the best pattern
         if (result_pattern(0) > best_result(0))
         {
             best_result = result_pattern;
@@ -454,25 +457,26 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
 //==============================================================================
 // smmb_aco : score_for_final_results
 //==============================================================================
+// calcula
 void smmb_aco::score_for_final_results()
 {
     _stats_results.resize(_markov_blanket_s.size());
-    
+
     unsigned st=0;
-    
+
     for (auto pattern : _markov_blanket_s)
     {
         _stats_results(st) = boost_vector_float(2, 1);
         for (auto snp : pattern.first)
         {
             boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, snp);
-            
+
             list<unsigned> conditionnal_set = pattern.first;
-            
+
             conditionnal_set.remove(snp);
-            
+
             boost_vector_float temp_res =  statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
-            
+
             if (temp_res(1) < _stats_results(st)(1) )
             {
                 _stats_results(st) = temp_res;
