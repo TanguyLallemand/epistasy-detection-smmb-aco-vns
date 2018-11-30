@@ -22,16 +22,16 @@ If a recompilation is needed use:
 Execute program with:
 
     ./smmb_aco.exe <path_to_genotype_dataset> <path_to_phenotype_dataset>
-    
+
 ## Summary of files of this project
 
 | Module         | Files              | Usability                                                                                                  | Inputs                                                                                                                                                         | Outputs                                                                                       |
 |----------------|--------------------|------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| Parsing        | file_parsing       | Allows to parse file containing dataset.                                                                   | Files names given as argument in program's call                                                                                                                |  One boost matrix containing all genotype data One boost vector containing all phenotype data |
+| Parsing        | file_parsing       | Allows to parse file containing dataset.                                                                   | Files names given as argument in program's call                                                                                                                |  One boost matrix containing all genotype data <br> One boost vector containing all phenotype data |
 | Parsing        | parameters_parsing | Allows to parse parameters and save them in parameters class                                               | Will use ./parameters/parameters.txt                                                                                                                           | Class object with all parameters as class variables                                           |
-| Smmb aco       | smmb_aco           | Core of this project allows to run smmb-aco's algorithm                                                    | Parameters object Matrix of genotype data Vector of phenotype data                                                                                             | Final markov blanket                                                                          |
-| Statistics     | statistics         | Used to do g2 conditionnal test of independance                                                            | Matrix column of genotype (subset of genotype matrix with only tested SNPs) Vector of phenotype Indexes of tested SNPs                                         |  g2 score and associated p-value Number of cell considered s non reliable because n<5         |
-| Statistics     | contingencies      |  Build observed and expected contingencies table,   some functions usefull to work on contingencies tables | Matrix column of genotype (subset of genotype matrix with only tested SNPs) Vector of phenotype  Indexes of tested SNPs Number of observation in tested subset |  One observed contingency table One expected contingency table                                |
+| Smmb aco       | smmb_aco           | Core of this project allows to run smmb-aco's algorithm                                                    | Parameters object <br> Matrix of genotype data Vector of phenotype data                                                                                             | Final markov blanket                                                                          |
+| Statistics     | statistics         | Used to do g2 conditional test of independence                                                            | Matrix column of genotype (subset of genotype matrix with only tested SNPs) <br> Vector of phenotype <br> Indexes of tested SNPs                                         |  g2 score and associated p-value Number of cell considered s non reliable because n<5         |
+| Statistics     | contingencies      |  Build observed and expected contingencies table,<br>   some functions useful to work on contingencies tables | Matrix column of genotype (subset of genotype matrix with only tested SNPs) Vector of phenotype  Indexes of tested SNPs Number of observation in tested subset |  One observed contingency table <br> One expected contingency table                                |
 | Output writing | output_writing     | Can save algorithm's results in file                                                                       | Markov blanket and associated score                                                                                                                            | Final result file                                                                             |
 | Tools          | tools              |   Used to generate random discrete distribution used to pick   SNPs when building subset                   |  Weight vector size of subset in construction Random seed                                                                                                      | Subset of SNPs for every ant                                                                  |
 
@@ -52,6 +52,7 @@ Using toy dataset:
 <!-- TODO mettre ce qu on attend -->
 ## Built With
 -   [BOOST](https://www.boost.org/) - peer-reviewed portable C++ source libraries
+
 ## Authors
 Tanguy Lallemand
 Jonathan Cruard
