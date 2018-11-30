@@ -211,7 +211,7 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
     // Counter of iterations
     unsigned j = 0;
     // Loop to generate the markov blanket //TODO check the condition
-    while ((MB_a_ref.empty() && j<_n_it_n) && (markov_blanket_modified))
+    while ((MB_a_ref.empty() && j<_n_it) || (markov_blanket_modified))
     {
         forward(markov_blanket_modified, MB_a_ref, ant_subset, mem_ant_ref);
         j++;
@@ -355,6 +355,7 @@ void smmb_aco::get_all_combinations(boost_vector_int & sub_subset, list<list<uns
 //==============================================================================
 // smmb_aco : generate_combinations
 //==============================================================================
+// recursively generate all non empty possible combinations from a set of snp
 void smmb_aco::generate_combinations(list<unsigned> temp, list<list<unsigned>> & combi_list, list<unsigned> subset)
 {
     // Copy the subset for next iteration
@@ -422,7 +423,7 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
 //==============================================================================
 // smmb_aco : score_for_final_results
 //==============================================================================
-// calcula
+// calculating the score of the final selected patterns to print them in output file
 void smmb_aco::score_for_final_results()
 {
     _stats_results.resize(_markov_blanket_s.size());
@@ -438,7 +439,7 @@ void smmb_aco::score_for_final_results()
             list<unsigned> conditionnal_set = pattern.first;
             conditionnal_set.remove(snp);
             boost_vector_float temp_res =  statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
-            if (temp_res(1) < _stats_results(st)(1) )
+            if (temp_res(1) < _stats_results(st)(1))
             {
                 _stats_results(st) = temp_res;
             }

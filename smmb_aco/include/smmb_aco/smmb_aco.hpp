@@ -15,10 +15,8 @@ public:
     // Constructor
     //==========================================================================
     smmb_aco(data_parsing dataset, parameters_parsing _params);
-    // Permit to run SMMB_ACO
+    // running SMMB_ACO
     void run();
-
-    boost_vector_float return_tau();
 
 private:
     //==========================================================================
@@ -33,7 +31,7 @@ private:
     // Variables initialized by the constructor from parameters
     //==========================================================================
     // Number of ACO iterations
-    unsigned _n_it;
+    unsigned _n_it_n;
     // Number of ants
     unsigned _n_ant;
     // Size of the subset of sampled variables from _genos_matrix for each ants (so SNPs are sampled not individuals)
@@ -41,7 +39,7 @@ private:
     // Size of a combination of variables sampled from _subset_size
     unsigned _sub_subset_size;
     // Maximum number of iterations to explore the research space
-    unsigned _n_it_n;
+    unsigned _n_it;
     // Significance threshold
     float _alpha_stat;
     // Initial pheromone value of each variable, at the beginning of the time perfect equality because we have no knowledge. To be treated as a vector
