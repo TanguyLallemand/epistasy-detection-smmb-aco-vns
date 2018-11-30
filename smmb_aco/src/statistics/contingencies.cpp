@@ -37,6 +37,73 @@ contingencies::contingencies(contingencies const& m) : boost_matrix_float(m.size
     }
 }
 
+//==============================================================================
+// Some static functions used in statistics.cpp for some required operations for
+// conditionnal chi 2
+//==============================================================================
+
+std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(std::list<unsigned> const& cond_genos_indexes, boost_column const& _genos_column, boost_column const& _phenos_column, unsigned number_obs_subset, std::vector<contingencies> contingencies_vector)
+{
+    // Fill contingency table (one or multiple)
+	// Fill multiple contingency_table
+    if(!cond_genos_indexes.empty())
+    {
+        boost::numeric::ublas::matrix<unsigned int> ref_genos_matrix;
+		ref_genos_matrix = _genos_column.data(); // get matrix from a column
+        for(unsigned i=0; i<number_obs_subset; ++i)
+        {
+            // Put the current observation in the correct contingency table
+            // Intialization of iterator
+            unsigned int contingency_index = 0;
+            unsigned int j=0;
+            // Iterate tought cond_genos_indexes list
+            for(std::list<unsigned>::const_iterator it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j)
+                // Find right contingency table
+                contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
+                // Init contingency table at right index
+				contingencies & c = contingencies_vector[contingency_index];
+                // Fill contigency table
+				unsigned cr = _phenos_column(i);
+				unsigned cc = _genos_column(i);
+				c(cr, cc) += 1;
+        }
+    }
+	// Fill one contingency_table
+    else
+    {
+        for(unsigned i=0; i<number_obs_subset; ++i)
+        {
+            // Fill contigency table
+            contingencies & c = contingencies_vector[0];
+            unsigned cr = _phenos_column(i);
+            unsigned cc = _genos_column(i);
+            c(cr, cc) += 1;
+        }
+    }
+    return contingencies_vector;
+}
+
+//==============================================================================
+// contingencies::make_contingency_theorical_table_independant
+// Use a given index and a contingency table
+// Return associated theorical contingency table
+//==============================================================================
+
+boost_matrix_float contingencies::make_contingency_theorical_table_conditionnal(boost_matrix_float contingency_table)
+{
+	// Initialisation of contingency table with float
+	boost_matrix_float contingency_theorical_table(2,3,0.0);
+    // Iterate tought two dimensions of contingency table
+	for(unsigned i=0; i<contingency_theorical_table.size1(); ++i)
+	{
+		for(unsigned j=0; j<contingency_theorical_table.size2(); ++j)
+		{
+			// Theorical contingency table filling with float following this formule: (sum of each row*sum of each column)²/sum of total contingency table
+			contingency_theorical_table(i,j) = ((float)(sum_row(i,contingency_table) * (float)sum_col(j,contingency_table)) / (float)sum_contingency_table(contingency_table));
+		}
+	}
+	return contingency_theorical_table;
+}
 
 //==============================================================================
 // Some static functions used in contigencies.cpp and in statistics.cpp
@@ -119,72 +186,4 @@ bool contingencies::reliable_test(boost_matrix_float const& contingency_table)
 	   }
 	}
 	return true;
-}
-
-//==============================================================================
-// Some static functions used in statistics.cpp for some required operations for
-// conditionnal chi 2
-//==============================================================================
-
-std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(std::list<unsigned> const& cond_genos_indexes, boost_column const& _genos_column, boost_column const& _phenos_column, unsigned number_obs_subset, std::vector<contingencies> contingencies_vector)
-{
-    // Fill contingency table (one or multiple)
-	// Fill multiple contingency_table
-    if(!cond_genos_indexes.empty())
-    {
-        boost::numeric::ublas::matrix<unsigned int> ref_genos_matrix;
-		ref_genos_matrix = _genos_column.data(); // get matrix from a column
-        for(unsigned i=0; i<number_obs_subset; ++i)
-        {
-            // Put the current observation in the correct contingency table
-            // Intialization of iterator
-            unsigned int contingency_index = 0;
-            unsigned int j=0;
-            // Iterate tought cond_genos_indexes list
-            for(std::list<unsigned>::const_iterator it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j)
-                // Find right contingency table
-                contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
-                // Init contingency table at right index
-				contingencies & c = contingencies_vector[contingency_index];
-                // Fill contigency table
-				unsigned cr = _phenos_column(i);
-				unsigned cc = _genos_column(i);
-				c(cr, cc) += 1;
-        }
-    }
-	// Fill one contingency_table
-    else
-    {
-        for(unsigned i=0; i<number_obs_subset; ++i)
-        {
-            // Fill contigency table
-            contingencies & c = contingencies_vector[0];
-            unsigned cr = _phenos_column(i);
-            unsigned cc = _genos_column(i);
-            c(cr, cc) += 1;
-        }
-    }
-    return contingencies_vector;
-}
-
-//==============================================================================
-// contingencies::make_contingency_theorical_table_independant
-// Use a given index and a contingency table
-// Return associated theorical contingency table
-//==============================================================================
-
-boost_matrix_float contingencies::make_contingency_theorical_table_conditionnal(boost_matrix_float contingency_table)
-{
-	// Initialisation of contingency table with float
-	boost_matrix_float contingency_theorical_table(2,3,0.0);
-    // Iterate tought two dimensions of contingency table
-	for(unsigned i=0; i<contingency_theorical_table.size1(); ++i)
-	{
-		for(unsigned j=0; j<contingency_theorical_table.size2(); ++j)
-		{
-			// Theorical contingency table filling with float following this formule: (sum of each row*sum of each column)²/sum of total contingency table
-			contingency_theorical_table(i,j) = ((float)(sum_row(i,contingency_table) * (float)sum_col(j,contingency_table)) / (float)sum_contingency_table(contingency_table));
-		}
-	}
-	return contingency_theorical_table;
 }
