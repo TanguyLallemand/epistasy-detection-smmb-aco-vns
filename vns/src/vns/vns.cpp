@@ -18,7 +18,7 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
 }
 
 //==============================================================================
-//vns : run
+// vns : run
 //==============================================================================
 void vns::run()
 {
@@ -74,20 +74,20 @@ void vns::run()
 
 
 //==============================================================================
-//vns : generate_starting_pattern
+// vns : generate_starting_pattern
 //==============================================================================
 vector<unsigned> vns::generate_starting_pattern()
 {
     // Initialization of list to store the pattern
     vector<unsigned> pattern;
-    //random pick of the pattern size up to _max_size (TODO fixed to 3 for now)
+    // Random pick of the pattern size up to _max_size (TODO fixed to 3 for now)
     std::uniform_int_distribution<int> distribution(1,3);
     unsigned size_pattern = distribution(_rng);
 
-    // fill the pattern with size_pattern different SNPs
+    // Fill the pattern with size_pattern different SNPs
     for (size_t i = 0; i < size_pattern; i++)
     {
-        // pick a random SNP
+        // Pick a random SNP
         std::uniform_int_distribution<int> distribution(0,_genos_matrix.size2()-1);
         unsigned new_SNP = distribution(_rng);
 
@@ -95,7 +95,8 @@ vector<unsigned> vns::generate_starting_pattern()
         {
             std::cout << "loop 1" << '\n';
             std::cout << new_SNP << '\n';
-            for (auto tut : pattern) {
+            for (auto tut : pattern)
+            {
                 std::cout << tut;
             }
             std::cout << '\n';
@@ -109,7 +110,7 @@ vector<unsigned> vns::generate_starting_pattern()
 }
 
 //==============================================================================
-//vns : local_search
+// vns : local_search
 //==============================================================================
 vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & third_x)
 {
@@ -139,7 +140,7 @@ vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & th
 }
 
 //==============================================================================
-//vns : shake
+// vns : shake
 //==============================================================================
 vector<unsigned> vns::shake(vector<unsigned> pattern)
 {
@@ -150,7 +151,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
     // make sure we won't do a forbiden change in the pattern
     if (pattern.size()==1)
     {
-        // produce 0 or 1
+        // Produce 0 or 1
         std::uniform_int_distribution<int> distribution(0,1);
     }
     else
@@ -158,12 +159,12 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
         // _max_size (TODO fixed to 3 for now)
         if (pattern.size()==3)
         {
-            // produce 1 or 2
+            // Produce 1 or 2
             std::uniform_int_distribution<int> distribution(1,2);
         }
         else
         {
-            // produce 0, 1 or 2
+            // Produce 0, 1 or 2
             std::uniform_int_distribution<int> distribution(0,2);
         }
     }
@@ -171,23 +172,23 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
 
     switch (mutation_type)
     {
-        // this case will add an snp to the pattern
+        // This case will add an snp to the pattern
         case 0:
         {
-            // pick a random SNP
+            // Pick a random SNP
             unsigned new_SNP = distribution_snp(_rng);
 
-            // repick while the snp is already in the pattern
+            // Repick while the snp is already in the pattern
             while (find(pattern.begin(), pattern.end(), new_SNP) != pattern.end())
             {
                 std::cout << "loop 2" << '\n';
                 unsigned new_SNP = distribution_snp(_rng);
             }
-            //ajoute le snp
+            // add SNP
             pattern.push_back(new_SNP);
         }
         break;
-        // this case will change an snp from the pattern
+        // This case will change an snp from the pattern
         case 1:
         {
             unsigned SNP_to_change = distribution_pattern(_rng);
@@ -202,7 +203,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
             pattern[SNP_to_change]= new_SNP;
         }
         break;
-        // this case will remove an snp to the pattern
+        // This case will remove an snp to the pattern
         case 2: //delete
         {
             unsigned SNP_to_remove = distribution_pattern(_rng);
@@ -218,7 +219,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
 }
 
 //==============================================================================
-//vns : save_local_optimum
+// vns : save_local_optimum
 //==============================================================================
 void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 {
@@ -234,17 +235,17 @@ void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 }
 
 //==============================================================================
-//vns : save_local_optimum
+// vns : save_local_optimum
 //==============================================================================
 void vns::write_result_file()
 {
     std::cout << "Write_result_file" << '\n';
     std::cout << "Time of execution:" << _duration << "seconds" << endl;
-    //create the output file
+    // Create the output file
     size_t lastindex = _filename.find_last_of(".");
     string filename_without_extension = _filename.substr(0, lastindex);
     std::cout << filename_without_extension << '\n';
-    //create the output file
+    // Create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_vns.txt");
 
     output_file << "# Result from vns \n";
@@ -272,7 +273,7 @@ void vns::write_result_file()
 }
 
 //==============================================================================
-//vns : test_pattern
+// vns : test_pattern
 //==============================================================================
 vector<float> vns::test_pattern(vector<unsigned> const& pattern)
 {
