@@ -30,8 +30,11 @@ With this project is provided a python script allowing a simple launch on every 
 To execute this script please call:
 
     ./launch_smmbaco_toy_example.py
+
 ## Expected output
-This method give as output a txt file gathering all results. Those results can be checked using our evaluation tool given in evaluation folder.
+This method give as output a text file gathering all results.
+<!-- TODO mettre un exemple -->
+Those results can be checked using our evaluation tool given in evaluation folder.
 Using toy dataset:
 <!-- TODO mettre ce qu on attend -->
 ## Authors
