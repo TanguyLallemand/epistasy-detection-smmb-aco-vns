@@ -22,29 +22,23 @@ private:
     string _output_directory;
     string _output_prefix;
 
-    //vector of patterns
-    vector<list<unsigned>> _pattern_list;
-
     //result map
-    map<list<unsigned>, vector<float>> _optimum_set;
-
-    //neighborhood initialisation
-    void generate_patterns();
-    void generate_patterns(list<unsigned> temp, list<unsigned> snp_list);
-    void set_neighbors();
+    map<vector<unsigned>, vector<float>> _optimum_set;
 
     double _duration;
     int _n_it_max;
     int _k_max;
     int _l_max;
 
-    void set_neighbors(list<unsigned> const& pattern, vector<list<unsigned>> & neighbors);
-    list<unsigned> shake(vector<list<unsigned>> neighbors);
-    vector<float> variable_neighborhood_descent(vector<list<unsigned>> const& neighbors, list<unsigned> & third_x);
+    std::mt19937 _rng;
 
-    void save_local_optimum(list<unsigned> & x, vector<float> & x_score);
+    vector<unsigned> shake(vector<unsigned> pattern);
+    vector<float> local_search(vector<unsigned> second_x, vector<unsigned> & third_x);
+
+    void save_local_optimum(vector<unsigned> & x, vector<float> & x_score);
     void write_result_file();
-    vector<float> test_pattern(list<unsigned> const& pattern);
+    vector<float> test_pattern(vector<unsigned> const& pattern);
+    vector<unsigned> generate_starting_pattern();
 
 };
 #endif
