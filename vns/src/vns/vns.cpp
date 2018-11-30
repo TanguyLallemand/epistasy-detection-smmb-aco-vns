@@ -99,7 +99,6 @@ vector<unsigned> vns::generate_starting_pattern()
                 std::cout << tut;
             }
             std::cout << '\n';
-            std::uniform_int_distribution<int> distribution(0,_genos_matrix.size2()-1);
             unsigned new_SNP = distribution(_rng);
         }
 

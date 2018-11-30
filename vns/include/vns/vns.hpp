@@ -31,6 +31,7 @@ private:
     int _l_max;
 
     std::mt19937 _rng;
+    std::mt19937 _rng2;
 
     vector<unsigned> shake(vector<unsigned> pattern);
     vector<float> local_search(vector<unsigned> second_x, vector<unsigned> & third_x);
