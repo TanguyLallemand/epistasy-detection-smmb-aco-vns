@@ -22,6 +22,7 @@ If a recompilation is needed use:
 Execute program with:
 
     ./smmb_aco.exe <path_to_genotype_dataset> <path_to_phenotype_dataset>
+    
 ## Summary of files of this project
 
 | Module         | Files              | Usability                                                                                                  | Inputs                                                                                                                                                         | Outputs                                                                                       |
