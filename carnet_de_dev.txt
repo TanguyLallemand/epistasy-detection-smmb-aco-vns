@@ -7,7 +7,8 @@ smmb_aco
     -implementer one-pass/two-pass //DONE
     -faire sortir les resultats de smmbaco dans toy_results
 vns
-    -voir si une itération est suffisante ou pas
+    -voir si on peut opti en empechant de repasser par des combi récemment testée
+    -autres optis?
 
 
 
