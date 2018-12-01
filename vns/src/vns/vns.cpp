@@ -100,7 +100,7 @@ vector<unsigned> vns::generate_starting_pattern()
                 std::cout << tut;
             }
             std::cout << '\n';
-            unsigned new_SNP = distribution(_rng);
+            new_SNP = distribution(_rng);
         }
 
         pattern.push_back(new_SNP);
@@ -182,7 +182,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
             while (find(pattern.begin(), pattern.end(), new_SNP) != pattern.end())
             {
                 std::cout << "loop 2" << '\n';
-                unsigned new_SNP = distribution_snp(_rng);
+                new_SNP = distribution_snp(_rng);
             }
             // add SNP
             pattern.push_back(new_SNP);
@@ -198,7 +198,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
             while (find(pattern.begin(), pattern.end(), new_SNP) != pattern.end())
             {
                 std::cout << "loop 3" << '\n';
-                unsigned new_SNP = distribution_snp(_rng);
+                new_SNP = distribution_snp(_rng);
             }
             pattern[SNP_to_change]= new_SNP;
         }
