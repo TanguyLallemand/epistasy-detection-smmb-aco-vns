@@ -25,7 +25,7 @@ void vns::run()
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
 
     // Parallelization
-    // #pragma omp parallel for
+    #pragma omp parallel for
 
     for (size_t i = 0; i < _n_it_max; i++)
     {
@@ -223,6 +223,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
 //==============================================================================
 void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 {
+    sort(x.begin(), x.end()); 
     auto current_opti = _optimum_set.find(x);
     if(_optimum_set.end() != current_opti)
     {
