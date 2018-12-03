@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-
 # -*- coding: utf-8 -*-
 # Authors: Tanguy Lallemand M2BB
 #          Jonathan Cruard M2BB
 
 import numpy as np
 import pandas as pd
-from random import *
 import string
-from math import exp
 import itertools
+import re
+import os
+# Import errno to handle with errors during directory creation
+from errno import EEXIST
+from math import exp
+from random import *
 
 
 ################################################################################
@@ -70,10 +73,6 @@ def get_arguments():
 
 
 def check_output_directory(output_directory):
-    import re
-    import os
-    # Import errno to handle with errors during directory creation
-    from errno import EEXIST
     # Get current path and add sub directory name
     # Get current directory path
     my_path = os.getcwd() + '/' + output_directory
@@ -81,11 +80,16 @@ def check_output_directory(output_directory):
     try:
         # Make a directory following path given
         os.mkdir(my_path)
+    #  Allow to handle with errors during directory creation
     except OSError as exc:
         if exc.errno == EEXIST:
             pass
         else:
             raise
+
+################################################################################
+# determine_treshold allows to return a list of th 10 percent threshold        #
+################################################################################
 
 
 def determine_treshold(all_combinations):
@@ -97,9 +101,18 @@ def determine_treshold(all_combinations):
         threshold = threshold + (int(len(all_combinations) / 2 + x),)
     return threshold
 
+################################################################################
+# randrange_float allows to generate random int in a particular range and      #
+# a given pitch                                                                #
+################################################################################
 
-def randrange_float(start, stop, step):
-    return randint(0, int((stop - start) / step)) * step + start
+
+def randrange_float(start, stop, pitch):
+    return randint(0, int((stop - start) / pitch)) * pitch + start
+
+################################################################################
+# fit_logit allows to generate an array of array of beta coeffecient           #
+################################################################################
 
 
 def fit_logit(pattern_size, all_combinations, threshold):
@@ -125,6 +138,11 @@ def fit_logit(pattern_size, all_combinations, threshold):
     print(array_random_global)
     return array_random_global
 
+################################################################################
+# compute_logit allows to compute a logistique regression using possible values#
+# and possible genotypes                                                       #
+################################################################################
+
 
 def compute_logit(list_random, combination):
     Y = -1
@@ -142,6 +160,12 @@ def compute_logit(list_random, combination):
     precision = (1 / (1 + exp(-Y)))
     return precision
 
+################################################################################
+# generate_SNP_name allows to generate an array of non causal and causal SNPs  #
+# names                                                                        #
+################################################################################
+
+
 def generate_SNP_name(number_of_variables, pattern_size):
     id = []
     # Generate id of variables
@@ -152,6 +176,11 @@ def generate_SNP_name(number_of_variables, pattern_size):
         # Join "SNP" string with iterator
         id.append(''.join('SNP-C-' + str(j)))
     return id
+
+################################################################################
+# save_phenotype_dataset use phenotype dataset, contruct a filename and save   #
+# it                                                                           #
+################################################################################
 
 
 def save_phenotype_dataset(i, output_directory, common_prefix, phenotype_dataset):
@@ -168,6 +197,11 @@ def save_phenotype_dataset(i, output_directory, common_prefix, phenotype_dataset
     np.savetxt(path,
                np.r_[header, final_matrix_phenotype_dataset], fmt='%s', delimiter=',')
 
+################################################################################
+# save_genotype_dataset, use header and matrix, merge them, contruct a file    #
+# name and save genotype dataset                                               #
+################################################################################
+
 
 def save_genotype_dataset(i, output_directory, common_prefix, matrix_genotype_ID, matrix_ready_save):
     # Generate header
@@ -179,8 +213,6 @@ def save_genotype_dataset(i, output_directory, common_prefix, matrix_genotype_ID
     # Print it as a csv file called phenotype_toy_dataset.txt
     np.savetxt(path,
                np.r_[[matrix_genotype_ID], matrix_ready_save], fmt='%s', delimiter=',')
-
-
 
 ################################################################################
 # Main function                                                                #
@@ -269,5 +301,6 @@ def main():
 ################################################################################
 # Execution of main function                                                   #
 ################################################################################
+
 if __name__ == "__main__":
     main()
