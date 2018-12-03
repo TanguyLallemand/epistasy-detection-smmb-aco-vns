@@ -5,7 +5,7 @@
 class parameters_parsing
 {
 public:
-    parameters_parsing();
+    parameters_parsing(string parameters_file);
     void import_line(std::string const& line);
 
 // Parameters given in the OPTIONS.txt file

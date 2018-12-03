@@ -7,6 +7,7 @@ smmb_aco
     -implementer one-pass/two-pass //DONE
     -faire sortir les resultats de smmbaco dans toy_results
 vns
+    -ajouter le paramètre pour le nombre d'itération dans local search comme le k_max pour la couche au dessus
     -voir si on peut opti en empechant de repasser par des combi récemment testée
     -trier les résultats dans l'output
     -pas prendre les résultats pas signif

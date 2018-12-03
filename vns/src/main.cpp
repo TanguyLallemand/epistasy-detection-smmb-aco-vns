@@ -13,8 +13,9 @@ int main(int argc, char* argv[])
     // Arguments
 	std::string genos_file = argv[1];
 	std::string phenos_file = argv[2];
+	std::string parameters_file = argv[3];
 
-    parameters_parsing params;
+    parameters_parsing params(parameters_file);
 	params.genos_file = genos_file;
 	params.phenos_file = phenos_file;
 	int header = params.header;

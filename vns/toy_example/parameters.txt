@@ -1,0 +1,28 @@
+################################################################################
+# Parameters of data structure and project architecture
+################################################################################
+
+# number of header lines in the genotype file
+header 1
+
+# separation between fields in the genotype file
+separator ,
+
+# Path of output directory
+output_directory ./vns/toy_example/toy_results
+
+# Prefix of output files
+output_prefix result_
+
+################################################################################
+# Parameters of VNS
+################################################################################
+
+# alpha type I error rate
+alpha 0.05
+
+# Max runs
+max_it 50
+
+# k Max
+k_max 50

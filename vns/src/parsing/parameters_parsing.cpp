@@ -3,9 +3,9 @@
 //==============================================================================
 // Constructor
 //==============================================================================
-parameters_parsing::parameters_parsing()
+parameters_parsing::parameters_parsing(string parameters_file)
 {
-    ifstream file("vns/parameters/parameters.txt");
+    ifstream file(parameters_file);
     if(file)
     {
         string line;
