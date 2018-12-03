@@ -233,10 +233,12 @@ void vns::write_result_file()
 {
     std::cout << "Write_result_file" << '\n';
     std::cout << "Time of execution:" << _duration << "seconds" << endl;
-    // Create the output file
-    size_t lastindex = _filename.find_last_of(".");
+    // Create the output file TODO patch this disgusting thing
     size_t firstindex = _filename.find_last_of("/");
-    string filename_without_extension = _filename.substr(firstindex+1, lastindex);
+    string filename_without_extension = _filename.substr(firstindex+1, 5000);
+    size_t lastindex = filename_without_extension.find_last_of(".");
+    filename_without_extension = filename_without_extension.substr(0, lastindex);
+
     std::cout << filename_without_extension << '\n';
     // Create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_vns.txt");
