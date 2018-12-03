@@ -6,9 +6,10 @@
 
 import numpy as np
 import pandas as pd
-import random
+from random import *
 import string
 from math import exp
+import itertools
 
 
 ################################################################################
@@ -86,117 +87,97 @@ def check_output_directory(output_directory):
         else:
             raise
 
-################################################################################
-# Generation of causal genotype dataset                                        #
-################################################################################
+
+def determine_treshold(all_combinations):
+    threshold = ()
+    percentage = int(len(all_combinations) * 0.1)
+    if percentage < 1:
+        percentage = 1
+    for x in range(-percentage, percentage):
+        threshold = threshold + (int(len(all_combinations) / 2 + x),)
+    return threshold
 
 
-def generate_genotype_with_linear_regression(number_of_patient, pattern_size):
-    # Initialisation of some variables
-    # Variable to store mean
-    mean = 0
-    # List of possible value for beta
-    array_of_beta = [-0.1, -0.2, -0.3, -0.4, -0.5, -0.6, -0.7, -
-                     0.8, -0.9, -1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
-    # List of possible value in genotype matrix: 0: absence of SNP,
-    # 1: SNP heterozygote, 2: SNP homozygote
-    possible_values = [0, 1, 2]
-    print("############################ Generating causal SNPs ############################")
-    # Loop for generate right values
-    while mean != 0.5:
-        # Initialisation of temporary lists
-        associated_phenotype = []
-        genotype_linearly_generated_dataset = {}
-        # For every values to generate
-        for i in range(0, number_of_patient):
-            # Initialisation of list to store temporary values
-            x_list = []
-            list_of_beta = []
-            y_list = []
-            # For every causal SNPs to generate
-            for j in range(pattern_size):
-                # Generate a value to fill matrix
-                x_list.append(random.choice(possible_values))
-            for j in range(pattern_size):
-                # Choose a beta
-                list_of_beta.append(random.choice(array_of_beta))
-            for j in range(0, pattern_size):
-                # Calculate y of every generated tuple matrix value and associated beta
-                y_list.append((list_of_beta[j]) * (x_list[j]))
-            # Sum all y calculated
-            y = sum(y_list)
-            # Calcluate precision to determine phenotype
-            precision = 1 / (1 + exp(-y))
-            # If precision is greater than 0.5 patient is sick
-            if precision >= 0.5:
-                associated_phenotype.append(1)
-            # If precision is lesser than 0.5 patient is a control
-            elif precision < 0.5:
-                associated_phenotype.append(0)
-            # Stor generated values
-            genotype_linearly_generated_dataset[i] = x_list
-        #Calculate mean to get 50% of sick
-        mean = (sum(associated_phenotype) / number_of_patient)
-        # Return genotype dataset and associated phenotype
-    return [list(genotype_linearly_generated_dataset.values()), associated_phenotype]
-
-################################################################################
-# Generation of genotype dataset                                               #
-################################################################################
+def randrange_float(start, stop, step):
+    return randint(0, int((stop - start) / step)) * step + start
 
 
-def generate_genotype_dataset(output_directory, number_of_variable, number_of_patients, common_prefix, pattern_size, causal_genotype_SNPs):
-    # Initialisation of list to store SNPs IDs
-    random_genotype_id = []
-    causal_genotype_id = []
-    # Get causal_genotype_SNPs and transtype it in array
-    linear_regression_genotype_dataset = np.array(causal_genotype_SNPs)
-    # Check if output directory exist
-    check_output_directory(output_directory)
-    # Generate path to save txt file
-    path = './' + output_directory + '/genotype_toy_dataset' + common_prefix + '.txt'
-    non_causal = number_of_variable - pattern_size
-    # Generate id of variables
-    for j in range(0, non_causal):
-        # Join "SNP" string with iterator
-        random_genotype_id.append(''.join('SNP-N-' + str(j)))
-    for j in range(0, pattern_size):
-        # Join "SNP" string with iterator
-        causal_genotype_id.append(''.join('SNP-C-' + str(j)))
-    # Generate dataset
-    random_genotype_dataset = np.random.randint(
-        3, size=(number_of_patients, non_causal))
-    # Merge SNP header with random generated matrix
-    matrix_random_genotypes = np.vstack(
-        [random_genotype_id, random_genotype_dataset])
-    # Merge SNP header with linear generated matrix
-    matrix_linear_genotypes = np.vstack(
-        [causal_genotype_id, linear_regression_genotype_dataset])
-    # Merge both matrix into one
-    genotype_dataset = np.column_stack(
-        [matrix_random_genotypes, matrix_linear_genotypes])
-    # Concatenate both arrays and print it as a csv file called genotype_toy_dataset.txt
-    np.savetxt(path,
-               np.r_[genotype_dataset], fmt='%s', delimiter=',')
+def fit_logit(pattern_size, all_combinations, threshold):
+    max_iterations = 1000
+    array_psi_global = []
+    array_random_global = []
+    array_random = []
+    for i in range(0, pattern_size):
+        array_random.append(randrange_float(-1, 1, 0.1))
+
+    for logit_iter in range(0, max_iterations):
+        array_of_psi = []
+        count_healthy = 0
+        for i in range(0, pow(3, pattern_size)):
+            precision = compute_logit(array_random, all_combinations[i])
+            if precision < 0.5:
+                array_of_psi.append(precision)
+                count_healthy += 1
+        if count_healthy in threshold:
+            array_psi_global.append(array_of_psi)
+            array_random_global.append(array_random)
+    return array_random_global
 
 
-################################################################################
-# Generation of phenotype dataset                                              #
-################################################################################
+def compute_logit(list_random, combination):
+    Y = 1
+    for i in range(0, len(list_random)):
+        Y = Y + list_random[i] * combination[i]
+        # We can't iniate multiplicators with 0, that is why at firt iteration, multiplicators take the first value for temp or beta
+        if i != 0:
+            multiplicate_Bs = multiplicate_Bs * list_random[i]
+            multiplicate_Xs = multiplicate_Xs * combination[i]
+        else:
+            multiplicate_Bs = list_random[0]
+            multiplicate_Xs = combination[0]
+
+    Y = Y + (multiplicate_Bs * multiplicate_Xs)
+    precision = (1 / (1 + exp(-Y)))
+    return precision
 
 
-def generate_phenotype_dataset(output_directory, number_of_case, number_of_control, common_prefix, causal_phenotype_SNPs):
+def save_phenotype_dataset(output_directory, common_prefix, phenotype_dataset):
     # Generate header
-    causal_phenotype_SNPs.insert(0, "Class ###### 0: healthy 1: sick ######")
-    final_matrix_causal_phenotype_SNPs = np.asarray(causal_phenotype_SNPs)
+
+    final_matrix_phenotype_dataset = np.asarray(phenotype_dataset)
+    header = ["Class ###### 0: healthy 1: sick ######"]
     # Check if output directory exist
     check_output_directory(output_directory)
     # Generate path to save txt file
-    path = './' + output_directory + '/phenotype_toy_dataset' + common_prefix + '.txt'
+    path = './' + output_directory + '/' + \
+        common_prefix + '_phenotype_toy_dataset' + '.txt'
     # Print it as a csv file called phenotype_toy_dataset.txt
     np.savetxt(path,
-               np.r_[final_matrix_causal_phenotype_SNPs], fmt='%s', delimiter=',')
+               np.r_[header, final_matrix_phenotype_dataset], fmt='%s', delimiter=',')
 
+
+def save_genotype_dataset(output_directory, common_prefix, matrix_genotype_ID, matrix_ready_save):
+    # Generate header
+    # Check if output directory exist
+    check_output_directory(output_directory)
+    # Generate path to save txt file
+    path = './' + output_directory + '/' + \
+        common_prefix + '_genotype_toy_dataset' + '.txt'
+    # Print it as a csv file called phenotype_toy_dataset.txt
+    np.savetxt(path,
+               np.r_[[matrix_genotype_ID], matrix_ready_save], fmt='%s', delimiter=',')
+
+
+def generate_SNP_name(number_of_variables, pattern_size):
+    id = []
+    # Generate id of variables
+    for j in range(0, number_of_variables - pattern_size):
+        # Join "SNP" string with iterator
+        id.append(''.join('SNP-N-' + str(j)))
+    for j in range(0, pattern_size):
+        # Join "SNP" string with iterator
+        id.append(''.join('SNP-C-' + str(j)))
+    return id
 
 ################################################################################
 # Main function                                                                #
@@ -214,24 +195,71 @@ def main():
     number_of_case = args.case
     number_of_control = args.control
     size_pattern = args.size_pattern
-    # Calculate number of patient
-    number_of_patients = number_of_case + number_of_control
-    # A loop to generate number of genotype file asked
-    for i in range(0, number_of_file):
-        # Generate a genotype matrix with causal SNPs
-        results_of_regression = generate_genotype_with_linear_regression(
-            number_of_patients, size_pattern)
-        # Parse results
-        # Get genotype dataset
-        causal_genotype_SNPs = results_of_regression[0]
-        # Get phenotype dataset
-        causal_phenotype_SNPs = results_of_regression[1]
-        # Generate datas and save it in a CSV file
-        generate_genotype_dataset(
-            output_directory, number_of_variable, number_of_patients, common_prefix, size_pattern, causal_genotype_SNPs)
-        # Generate one phenotype dataset linked to generated dataset
-        generate_phenotype_dataset(
-            output_directory, number_of_case, number_of_control, common_prefix, causal_phenotype_SNPs)
+
+    # List of different genotype
+    list_value_genotype = [[0, 1, 2]]
+    #  Generate all possible pattern
+    for i in range(1, size_pattern):
+        list_value_genotype.append([0, 1, 2])
+    all_combinations = list(itertools.product(*list_value_genotype))
+    threshold = determine_treshold(all_combinations)
+    logit = fit_logit(size_pattern, all_combinations, threshold)
+    # This loop will determine the number of file for a run(with the same logit model)
+    for i in range(1, number_of_file + 1):
+        # SNPs IDs matrix initialization
+        matrix_genotype_non_causal_ID = []
+        # pattern matrix initialization
+        pattern_genotype_case = []
+        pattern_genotype_control = []
+        # phenotypes matrix initialization
+        matrix_phenotype_case = []
+        matrix_phenotype_control = []
+        matrix_genotype_ID = generate_SNP_name(number_of_variable, size_pattern)
+
+        # Matrix random creation
+        matrix_case_geno = np.random.randint(low=0, high=3, size=(
+            number_of_case, number_of_variable - size_pattern), dtype="int")
+        matrix_control_geno = np.random.randint(low=0, high=3, size=(
+            number_of_control, number_of_variable - size_pattern), dtype="int")
+
+        # Select first list of Betas
+        list_random = logit[0]
+        print(list_random)
+        # Generation of geno for pattern and phenotype
+        # while there is less genotype generated than the number of case or the number of control
+        while ((len(pattern_genotype_case) < number_of_case) or (len(pattern_genotype_control) < number_of_control)):
+            temp_matrix = np.random.randint(
+                low=0, high=3, size=(1, size_pattern))
+            pr_value = compute_logit(list_random, temp_matrix[0])
+            # If there pr is upper 0.5, the generated individual is sick
+            if pr_value > 0.5:
+                if len(pattern_genotype_case) >= number_of_case:
+                    continue
+                pattern_genotype_case.append(temp_matrix[0])
+                matrix_phenotype_case.append(1)
+            else:
+                if len(pattern_genotype_control) >= number_of_control:
+                    continue
+                pattern_genotype_control.append(temp_matrix[0])
+                matrix_phenotype_control.append(0)
+
+        # hstack will concatenate by column
+        matrix_final_geno_case = np.hstack(
+            (matrix_case_geno, pattern_genotype_case))
+        matrix_final_geno_control = np.hstack(
+            (matrix_control_geno, pattern_genotype_control))
+        # vstack will concatenate by rows
+        matrix_ready_save = np.vstack(
+            (matrix_final_geno_case, matrix_final_geno_control))
+        print(matrix_ready_save[0])
+        # concatenate pheno matrix
+        matrix_final_pheno = np.hstack(
+            (matrix_phenotype_case, matrix_phenotype_control))
+        save_phenotype_dataset(
+            output_directory, common_prefix, matrix_final_pheno)
+        print(matrix_genotype_ID)
+        save_genotype_dataset(output_directory, common_prefix,
+                              matrix_genotype_ID, matrix_ready_save)
 
 
 ################################################################################
