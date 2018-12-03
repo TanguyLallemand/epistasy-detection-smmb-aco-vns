@@ -106,7 +106,7 @@ def fit_logit(pattern_size, all_combinations, threshold):
     max_iterations = 1000
     array_psi_global = []
     array_random_global = []
-    if len(all_combinations) !=pow(3,pattern_size):
+    if len(all_combinations) != pow(3, pattern_size):
         print("Error in combinations")
     for logit_iter in range(0, max_iterations):
         array_of_psi = []
@@ -142,34 +142,6 @@ def compute_logit(list_random, combination):
     precision = (1 / (1 + exp(-Y)))
     return precision
 
-
-def save_phenotype_dataset(output_directory, common_prefix, phenotype_dataset):
-    # Generate header
-
-    final_matrix_phenotype_dataset = np.asarray(phenotype_dataset)
-    header = ["Class ###### 0: healthy 1: sick ######"]
-    # Check if output directory exist
-    check_output_directory(output_directory)
-    # Generate path to save txt file
-    path = './' + output_directory + '/' + \
-        common_prefix + '_phenotype_toy_dataset' + '.txt'
-    # Print it as a csv file called phenotype_toy_dataset.txt
-    np.savetxt(path,
-               np.r_[header, final_matrix_phenotype_dataset], fmt='%s', delimiter=',')
-
-
-def save_genotype_dataset(output_directory, common_prefix, matrix_genotype_ID, matrix_ready_save):
-    # Generate header
-    # Check if output directory exist
-    check_output_directory(output_directory)
-    # Generate path to save txt file
-    path = './' + output_directory + '/' + \
-        common_prefix + '_genotype_toy_dataset' + '.txt'
-    # Print it as a csv file called phenotype_toy_dataset.txt
-    np.savetxt(path,
-               np.r_[[matrix_genotype_ID], matrix_ready_save], fmt='%s', delimiter=',')
-
-
 def generate_SNP_name(number_of_variables, pattern_size):
     id = []
     # Generate id of variables
@@ -180,6 +152,35 @@ def generate_SNP_name(number_of_variables, pattern_size):
         # Join "SNP" string with iterator
         id.append(''.join('SNP-C-' + str(j)))
     return id
+
+
+def save_phenotype_dataset(i, output_directory, common_prefix, phenotype_dataset):
+    # Generate header
+
+    final_matrix_phenotype_dataset = np.asarray(phenotype_dataset)
+    header = ["Class ###### 0: healthy 1: sick ######"]
+    # Check if output directory exist
+    check_output_directory(output_directory)
+    # Generate path to save txt file
+    path = './' + output_directory + '/' + \
+        str(i) + '_' + common_prefix + '_phenotype_toy_dataset' + '.txt'
+    # Print it as a csv file called phenotype_toy_dataset.txt
+    np.savetxt(path,
+               np.r_[header, final_matrix_phenotype_dataset], fmt='%s', delimiter=',')
+
+
+def save_genotype_dataset(i, output_directory, common_prefix, matrix_genotype_ID, matrix_ready_save):
+    # Generate header
+    # Check if output directory exist
+    check_output_directory(output_directory)
+    # Generate path to save txt file
+    path = './' + output_directory + '/' + \
+        str(i) + '_' + common_prefix + '_genotype_toy_dataset' + '.txt'
+    # Print it as a csv file called phenotype_toy_dataset.txt
+    np.savetxt(path,
+               np.r_[[matrix_genotype_ID], matrix_ready_save], fmt='%s', delimiter=',')
+
+
 
 ################################################################################
 # Main function                                                                #
@@ -219,7 +220,8 @@ def main():
         # phenotypes matrix initialization
         matrix_phenotype_case = []
         matrix_phenotype_control = []
-        matrix_genotype_ID = generate_SNP_name(number_of_variable, size_pattern)
+        matrix_genotype_ID = generate_SNP_name(
+            number_of_variable, size_pattern)
 
         # Matrix random creation
         matrix_case_geno = np.random.randint(low=0, high=3, size=(
@@ -255,14 +257,12 @@ def main():
         # vstack will concatenate by rows
         matrix_ready_save = np.vstack(
             (matrix_final_geno_case, matrix_final_geno_control))
-        print(matrix_ready_save[0])
         # concatenate pheno matrix
         matrix_final_pheno = np.hstack(
             (matrix_phenotype_case, matrix_phenotype_control))
-        save_phenotype_dataset(
-            output_directory, common_prefix, matrix_final_pheno)
-        print(matrix_genotype_ID)
-        save_genotype_dataset(output_directory, common_prefix,
+        save_phenotype_dataset(i,
+                               output_directory, common_prefix, matrix_final_pheno)
+        save_genotype_dataset(i, output_directory, common_prefix,
                               matrix_genotype_ID, matrix_ready_save)
 
 
