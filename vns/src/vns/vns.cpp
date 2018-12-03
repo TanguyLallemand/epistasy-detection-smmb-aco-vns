@@ -12,7 +12,7 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     this->_genos_matrix = dataset._geno_matrix;
     this->_phenos_vector = dataset._pheno_vector;
     this->_snp_id = dataset._snp_id_vector;
-    this->_filename = dataset._geno_filename.substr(14, dataset._geno_filename.length());
+    this->_filename = dataset._geno_filename;
 
     this->_rng.seed(time(NULL));
 }
@@ -235,7 +235,8 @@ void vns::write_result_file()
     std::cout << "Time of execution:" << _duration << "seconds" << endl;
     // Create the output file
     size_t lastindex = _filename.find_last_of(".");
-    string filename_without_extension = _filename.substr(0, lastindex);
+    size_t firstindex = _filename.find_last_of("/");
+    string filename_without_extension = _filename.substr(firstindex+1, lastindex);
     std::cout << filename_without_extension << '\n';
     // Create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_vns.txt");
