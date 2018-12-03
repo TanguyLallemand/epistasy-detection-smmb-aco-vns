@@ -108,8 +108,9 @@ def fit_logit(pattern_size, all_combinations, threshold):
     array_random_global = []
     array_random = []
     for i in range(0, pattern_size):
-        array_random.append(randrange_float(-1, 1, 0.1))
-
+        array_random.append(randrange_float(0, 1, 0.1))
+    if len(all_combinations) !=pow(3,pattern_size):
+        print("Error in combinations")
     for logit_iter in range(0, max_iterations):
         array_of_psi = []
         count_healthy = 0
@@ -125,7 +126,7 @@ def fit_logit(pattern_size, all_combinations, threshold):
 
 
 def compute_logit(list_random, combination):
-    Y = 1
+    Y = -1
     for i in range(0, len(list_random)):
         Y = Y + list_random[i] * combination[i]
         # We can't iniate multiplicators with 0, that is why at firt iteration, multiplicators take the first value for temp or beta
