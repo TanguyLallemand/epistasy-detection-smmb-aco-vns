@@ -29,6 +29,7 @@ private:
     int _n_it_max;
     int _k_max;
     int _l_max;
+    float _alpha;
 
     std::mt19937 _rng;
 

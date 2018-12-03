@@ -1,0 +1,8 @@
+# Result from vns 
+# Pattern || occurences || chi2-score || p-value || unreliable case
+{SNP-N-1,SNP-N-2} || 1 || 19.4572 || 0.0125967 || 0
+{SNP-N-8,SNP-C-0} || 1 || 427.902 || 0 || 0
+{SNP-N-14,SNP-N-21,SNP-N-23} || 1 || 39.7328 || 0.0414307 || 0
+{SNP-C-0} || 1 || 417.92 || 0 || 0
+{SNP-C-1} || 1 || 3759.07 || 0 || 0
+# Time of execution:0seconds

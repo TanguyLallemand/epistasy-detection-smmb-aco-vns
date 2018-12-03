@@ -7,6 +7,7 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     this->_k_max = _params._k_max;
     this->_output_directory = _params.output_directory;
     this->_output_prefix = _params.output_prefix;
+    this->_alpha = _params.alpha;
 
     //unpacking datas
     this->_genos_matrix = dataset._geno_matrix;
@@ -222,7 +223,10 @@ void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
     }
     else
     {
-        _optimum_set[x] = {1, x_score[0], x_score[1], x_score[2]};
+        if (x_score[1] < _alpha)
+        {
+            _optimum_set[x] = {1, x_score[0], x_score[1], x_score[2]};
+        }
     }
 }
 
