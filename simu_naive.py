@@ -106,14 +106,14 @@ def fit_logit(pattern_size, all_combinations, threshold):
     max_iterations = 1000
     array_psi_global = []
     array_random_global = []
-    array_random = []
-    for i in range(0, pattern_size):
-        array_random.append(randrange_float(0, 1, 0.1))
     if len(all_combinations) !=pow(3,pattern_size):
         print("Error in combinations")
     for logit_iter in range(0, max_iterations):
         array_of_psi = []
         count_healthy = 0
+        array_random = []
+        for i in range(0, pattern_size):
+            array_random.append(randrange_float(0, 1, 0.1))
         for i in range(0, pow(3, pattern_size)):
             precision = compute_logit(array_random, all_combinations[i])
             if precision < 0.5:
@@ -122,6 +122,7 @@ def fit_logit(pattern_size, all_combinations, threshold):
         if count_healthy in threshold:
             array_psi_global.append(array_of_psi)
             array_random_global.append(array_random)
+    print(array_random_global)
     return array_random_global
 
 
@@ -203,8 +204,11 @@ def main():
     for i in range(1, size_pattern):
         list_value_genotype.append([0, 1, 2])
     all_combinations = list(itertools.product(*list_value_genotype))
+    print(all_combinations)
     threshold = determine_treshold(all_combinations)
+    print(threshold)
     logit = fit_logit(size_pattern, all_combinations, threshold)
+    print(logit[0])
     # This loop will determine the number of file for a run(with the same logit model)
     for i in range(1, number_of_file + 1):
         # SNPs IDs matrix initialization
@@ -225,7 +229,6 @@ def main():
 
         # Select first list of Betas
         list_random = logit[0]
-        print(list_random)
         # Generation of geno for pattern and phenotype
         # while there is less genotype generated than the number of case or the number of control
         while ((len(pattern_genotype_case) < number_of_case) or (len(pattern_genotype_control) < number_of_control)):
