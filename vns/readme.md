@@ -8,7 +8,7 @@ In order to compile this method a makefile was given at the root of VNS's folder
 In the makefile please change BOOST_FOLDER value with path of the installed BOOST library on current workstation.
 Moreover, please check if current g++ version is compatible with C++11 functionalities (version >= 5.0). Please also check BOOST library. Authors cannot guaranty compatibility with other BOOST version even if BOOST version seems to be compatible. For this method version 1.61.0 was employed.
 ### Compilation
-To compile this method, please call those lines a the root of the project:
+To compile this method, please call those lines at the root of the project:
 
     cd vns
     make
@@ -17,7 +17,7 @@ I a recompilation is needed use:
 
     cd smmb_aco
     make clean
-    make clean
+    make
 
 Execution of program with:
 
@@ -26,10 +26,10 @@ Execution of program with:
 ## Summary of files of this project
 | Module         | Files              | Usability                                                                                                  | Inputs                                                                                                                                                         | Outputs                                                                                       |
 |----------------|--------------------|------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| Parsing        | file_parsing       | Allows to parse file containing dataset.                                                                   | Files names given as argument in program's call                                                                                                                |  One boost matrix containing all genotype data <br> One boost vector containing all phenotype data |
+| Parsing        | file_parsing       | Allows to parse file containing dataset                                                                   | Files names given as argument in program's call                                                                                                                |  One boost matrix containing all genotype data <br> One boost vector containing all phenotype data <br> boost vector with SNPs IDs |
 | Parsing        | parameters_parsing | Allows to parse parameters and save them in parameters class                                               | Will use ./parameters/parameters.txt                                                                                                                           | Class object with all parameters as class variables                                           |
 | Smmb aco       | smmb_aco           | Core of this project allows to run smmb-aco's algorithm                                                    | Parameters object containing all parameters <br> Dataset object containing: <br>  - Matrix of genotype data <br>   - Vector of phenotype data               | Final markov blanket                                                                          |
-| Statistics     | statistics         | Used to do g2 conditional test of independence                                                            | Matrix column of genotype (subset of genotype matrix with only tested SNPs)<br> Vector of phenotype Indexes of tested SNPs                                         |  g2 score and associated p-value Number of cell considered s non reliable because n<5         |
+| Statistics     | statistics         | Used to do g2 conditional test of independence                                                            | Matrix column of genotype (subset of genotype matrix with only tested SNPs)<br> Vector of phenotype Indexes of tested SNPs                                         |  g2 score and associated p-value Number of cell considered as non reliable because n<5         |
 | Statistics     | contingencies      |  Build observed and expected contingencies table,   some functions useful to work on contingencies tables | Matrix column of genotype (subset of genotype matrix with only tested SNPs) <br> Vector of phenotype <br>  Indexes of tested SNPs Number of observation in tested subset |  One observed contingency table <br> One expected contingency table                                |
 | Output writing | output_writing     | Can save algorithm's results in file                                                                       | Markov blanket and associated score                                                                                                                            | Final result file                                                                             |
 | Tools          | tools              |   Used to generate random discrete distribution used to pick   SNPs when building subset                   |  Weight vector size of subset in construction <br> Random seed                                                                                                      | Subset of SNPs for every ant                                                                  |
@@ -52,5 +52,5 @@ Using toy dataset:
 -   [BOOST](https://www.boost.org/) - peer-reviewed portable C++ source libraries
 
 ## Authors
-Tanguy Lallemand
+Tanguy Lallemand -
 Jonathan Cruard

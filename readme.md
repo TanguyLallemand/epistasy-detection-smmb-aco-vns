@@ -12,7 +12,9 @@ Moreover, please check if current g++ version is compatible with C++11 functiona
 ### Compilation
 To compile this method, please call this lines at the root of the project:
 
+
     make
+
 
 If a recompilation is needed please use:
 
@@ -39,5 +41,5 @@ Using toy dataset:
 - [NumpY](http://www.numpy.org/) a python library to handle with matrix.
 
 ## Authors
-Tanguy Lallemand
+Tanguy Lallemand -
 Jonathan Cruard

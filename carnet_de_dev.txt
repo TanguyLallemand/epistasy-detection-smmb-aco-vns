@@ -1,6 +1,6 @@
 TODO upgrades ideas
 -remodeler le système d'input ouput
--ajouter le temps de process dans les fichiers d'output
+-temps de process dans les fichiers d'output à réparer
 -commenter plus
 
 smmb_aco

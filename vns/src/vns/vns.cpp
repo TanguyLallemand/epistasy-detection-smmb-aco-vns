@@ -93,13 +93,6 @@ vector<unsigned> vns::generate_starting_pattern()
 
         while (find(pattern.begin(), pattern.end(), new_SNP) != pattern.end())
         {
-            std::cout << "loop 1" << '\n';
-            std::cout << new_SNP << '\n';
-            for (auto tut : pattern)
-            {
-                std::cout << tut;
-            }
-            std::cout << '\n';
             new_SNP = distribution(_rng);
         }
 
@@ -181,7 +174,6 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
             // Repick while the snp is already in the pattern
             while (find(pattern.begin(), pattern.end(), new_SNP) != pattern.end())
             {
-                std::cout << "loop 2" << '\n';
                 new_SNP = distribution_snp(_rng);
             }
             // add SNP
@@ -197,7 +189,6 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
             // repick while the snp is already in the pattern
             while (find(pattern.begin(), pattern.end(), new_SNP) != pattern.end())
             {
-                std::cout << "loop 3" << '\n';
                 new_SNP = distribution_snp(_rng);
             }
             pattern[SNP_to_change]= new_SNP;
@@ -223,7 +214,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
 //==============================================================================
 void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 {
-    sort(x.begin(), x.end()); 
+    sort(x.begin(), x.end());
     auto current_opti = _optimum_set.find(x);
     if(_optimum_set.end() != current_opti)
     {

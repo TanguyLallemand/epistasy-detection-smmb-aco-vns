@@ -22,7 +22,7 @@ output_prefix result_
 alpha 0.05
 
 # Max runs
-max_it 40
+max_it 50
 
 # k Max
-k_max 40
+k_max 50
