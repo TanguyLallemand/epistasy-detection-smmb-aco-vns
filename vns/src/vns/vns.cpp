@@ -7,13 +7,12 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     this->_k_max = _params._k_max;
     this->_output_directory = _params.output_directory;
     this->_output_prefix = _params.output_prefix;
-    this->_alpha = _params.alpha;
 
     //unpacking datas
     this->_genos_matrix = dataset._geno_matrix;
     this->_phenos_vector = dataset._pheno_vector;
     this->_snp_id = dataset._snp_id_vector;
-    this->_filename = dataset._geno_filename;
+    this->_filename = dataset._geno_filename.substr(14, dataset._geno_filename.length());
 
     this->_rng.seed(time(NULL));
 }
@@ -223,10 +222,7 @@ void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
     }
     else
     {
-        if (x_score[1] < _alpha)
-        {
-            _optimum_set[x] = {1, x_score[0], x_score[1], x_score[2]};
-        }
+        _optimum_set[x] = {1, x_score[0], x_score[1], x_score[2]};
     }
 }
 
@@ -239,9 +235,7 @@ void vns::write_result_file()
     std::cout << "Time of execution:" << _duration << "seconds" << endl;
     // Create the output file
     size_t lastindex = _filename.find_last_of(".");
-    size_t firstindex = _filename.find_last_of("/");
-    string filename_without_extension = _filename.substr(firstindex+1, lastindex);
-
+    string filename_without_extension = _filename.substr(0, lastindex);
     std::cout << filename_without_extension << '\n';
     // Create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_vns.txt");

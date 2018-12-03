@@ -2,7 +2,6 @@ TODO upgrades ideas
 -remodeler le système d'input ouput
 -temps de process dans les fichiers d'output à réparer
 -commenter plus
--adapter parameters_parsing pour le nouveau type de fichier (cimer christine)
 
 smmb_aco
     -implementer one-pass/two-pass //DONE

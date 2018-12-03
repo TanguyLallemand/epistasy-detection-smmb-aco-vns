@@ -10,9 +10,8 @@ int main(int argc, char* argv[])
 	// Arguments
 	string genos_file = argv[1];
 	string phenos_file = argv[2];
-	string parameters_file = argv[3];
 
-	parameters_parsing params(parameters_file);
+	parameters_parsing params;
 	//params.list_parameters();
 
 	params.genos_file = genos_file;

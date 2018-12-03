@@ -3,9 +3,9 @@
 //=================================================
 // Constructor
 //=================================================
-parameters_parsing::parameters_parsing(string parameters_file)
+parameters_parsing::parameters_parsing()
 {
-    ifstream file(parameters_file);
+    ifstream file("smmb_aco/parameters/parameters.txt");
     if(file)
     {
         string line;
