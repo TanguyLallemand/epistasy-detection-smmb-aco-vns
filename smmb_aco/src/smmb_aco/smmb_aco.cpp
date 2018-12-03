@@ -3,33 +3,35 @@
 //==============================================================================
 // smmb_aco : constructor
 //==============================================================================
-smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing _params)
+smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing params)
 {
     // Storing datas in members objects
     this->_genos_matrix = dataset._geno_matrix;
     this->_pheno_vector = dataset._pheno_vector;
     this->_snp_id = dataset._snp_id_vector;
-    this->_filename = dataset._geno_filename.substr (14, dataset._geno_filename.length()); //TODO changer ça c'est vomitif
+    this->_filename = dataset._geno_filename;
 
     // Storing parameters in members variables
-    this->_n_it_n = _params.aco_n_iterations;
-    this->_n_ant = _params.aco_n_ants;
-    this->_rho = _params.aco_rho;
-    this->_lambda = _params.aco_lambda;
-    this->_alpha_phero = _params.aco_alpha;
-    this->_beta_phero = _params.aco_beta;
-    this->_alpha_stat = _params.alpha;
-    this->_subset_size = _params.aco_set_size;
-    this->_sub_subset_size = _params.subset_size_small;
-    this->_output_prefix = _params.output_prefix;
-    this->_output_directory = _params.output_directory;
+    this->_n_it_n = params.aco_n_iterations;
+    this->_n_it = params.n_trials_to_learn_1_mb;
+    this->_n_ant = params.aco_n_ants;
+    this->_rho = params.aco_rho;
+    this->_lambda = params.aco_lambda;
+    this->_alpha_phero = params.aco_alpha;
+    this->_beta_phero = params.aco_beta;
+    this->_alpha_stat = params.alpha;
+    this->_subset_size = params.aco_set_size;
+    this->_sub_subset_size = params.subset_size_small;
+    this->_output_prefix = params.output_prefix;
+    this->_output_directory = params.output_directory;
+    this->_pass_number = params.n_smmb_aco_runs;
 
     // Initialization of the rng seed
     this->_rng.seed(time(NULL));
 
     // Initialization of vectors for pheromons
-    this->_eta = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_eta);
-    this->_tau = boost_vector_float(_genos_matrix.size2(), (float)_params.aco_tau_init);
+    this->_eta = boost_vector_float(_genos_matrix.size2(), (float)params.aco_eta);
+    this->_tau = boost_vector_float(_genos_matrix.size2(), (float)params.aco_tau_init);
     this->_pheromone_distrib = boost_vector_float(_genos_matrix.size2(), 0.0);
 
     // Initialisation of the _markov_blanket_a to number of ant
@@ -124,10 +126,10 @@ void smmb_aco::run()
         }
     }
     // If user asked for SMMB-ACO in two pass and if dataset is enought wide
-    if ((_params.n_smmb_aco_runs > 1) && (new_set.size() > 20))
+    if ((_pass_number > 1) && (new_set.size() > 20))
     {
         // Put n_smmb_aco_runs to 1 to stop above next time
-        _params.n_smmb_aco_runs--;
+        _pass_number--;
         for (auto v : new_set)
         {
             // Search for SNPs contained in new set
@@ -211,7 +213,7 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
     // Counter of iterations
     unsigned j = 0;
     // Loop to generate the markov blanket //TODO check the condition
-    while ((MB_a_ref.empty() && j<_n_it) || (markov_blanket_modified))
+    while ((MB_a_ref.empty() && j<_n_it) && (markov_blanket_modified))
     {
         forward(markov_blanket_modified, MB_a_ref, ant_subset, mem_ant_ref);
         j++;
@@ -474,10 +476,12 @@ void smmb_aco::show_results()
 //==============================================================================
 void smmb_aco::save_results()
 {
+    size_t firstindex = _filename.find_last_of("/");
+    string filename_without_extension = _filename.substr(firstindex+1, 545754);
     // Search for "." and get index
-    size_t lastindex = _filename.find_last_of(".");
+    size_t lastindex = filename_without_extension.find_last_of(".");
     // Remove extension of given filename
-    string filename_without_extension = _filename.substr(0, lastindex);
+    filename_without_extension = filename_without_extension.substr(0, lastindex);
     // Create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt");
     // Fill output file with pattern, number of occurence and associated g2 score and p-value

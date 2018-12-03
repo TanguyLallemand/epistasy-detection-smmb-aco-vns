@@ -28,7 +28,7 @@ n_smmb_aco_runs 1#2
 precision 0.1
 
 # Number of iterations in ACO
-aco_n_iterations 40
+aco_n_iterations 10
 
 # Number of ants (500 or more (antEpiSeeker))
 aco_n_ants 100

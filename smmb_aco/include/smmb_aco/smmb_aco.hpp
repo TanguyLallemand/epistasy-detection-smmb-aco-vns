@@ -25,11 +25,12 @@ private:
     boost_matrix _genos_matrix;
     boost_vector_int _pheno_vector;
     boost_vector_string _snp_id;
-    parameters_parsing _params;
     string _filename;
     //==========================================================================
     // Variables initialized by the constructor from parameters
     //==========================================================================
+    //variable to now if a second pass is asked and on which pass we are
+    unsigned _pass_number;
     // Number of ACO iterations
     unsigned _n_it_n;
     // Number of ants
@@ -39,7 +40,7 @@ private:
     // Size of a combination of variables sampled from _subset_size
     unsigned _sub_subset_size;
     // Maximum number of iterations to explore the research space
-    unsigned _n_it; //TODO check tout ça car tu a 3 trucs de limite dans les paramètres et on en utilise que 2 
+    unsigned _n_it; //TODO check tout ça car tu a 3 trucs de limite dans les paramètres et on en utilise que 2
     // Significance threshold
     float _alpha_stat;
     // Initial pheromone value of each variable, at the beginning of the time perfect equality because we have no knowledge. To be treated as a vector
