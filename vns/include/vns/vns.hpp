@@ -30,6 +30,8 @@ private:
     int _k_max;
     int _l_max;
 
+    float _alpha;
+
     std::mt19937 _rng;
 
     vector<unsigned> shake(vector<unsigned> pattern);

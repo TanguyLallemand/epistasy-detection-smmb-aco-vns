@@ -9,7 +9,7 @@ header 1
 separator ,
 
 # Path of output directory
-output_directory ./vns/toy_example/toy_results
+output_directory ./vns/toy_example/toy_results/
 
 # Prefix of output files
 output_prefix result_
@@ -22,7 +22,7 @@ output_prefix result_
 alpha 0.05
 
 # Max runs
-max_it 50
+max_it 30
 
 # k Max
-k_max 50
+k_max 40

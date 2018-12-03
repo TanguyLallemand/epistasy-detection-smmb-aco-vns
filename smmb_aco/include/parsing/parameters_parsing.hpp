@@ -6,7 +6,7 @@
 class parameters_parsing
 {
 public:
-    parameters_parsing();
+    parameters_parsing(string parameters_file);
     void import_line(std::string const& line);
 
 // Reachable from any class that include the current header (Option_file_parsing.hpp)

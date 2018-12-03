@@ -35,8 +35,8 @@ INC=-I$(BOOST_FOLDER) \
 #Give .o files to create
 OBJ=$(OBJDIR)/main.o \
 $(OBJDIR)/file_parsing.o \
-$(OBJDIR)/smmb_aco.o \
 $(OBJDIR)/parameters_parsing.o \
+$(OBJDIR)/smmb_aco.o \
 $(OBJDIR)/tools.o \
 $(OBJDIR)/contingencies.o \
 $(OBJDIR)/output_writing.o \

@@ -9,7 +9,7 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing _params)
     this->_genos_matrix = dataset._geno_matrix;
     this->_pheno_vector = dataset._pheno_vector;
     this->_snp_id = dataset._snp_id_vector;
-    this->_filename = dataset._geno_filename.substr (14, dataset._geno_filename.length()); //TODO changer ça c'est vomitif
+    this->_filename = dataset._geno_filename;
 
     // Storing parameters in members variables
     this->_n_it_n = _params.aco_n_iterations;
@@ -211,7 +211,7 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
     // Counter of iterations
     unsigned j = 0;
     // Loop to generate the markov blanket //TODO check the condition
-    while ((MB_a_ref.empty() && j<_n_it) || (markov_blanket_modified))
+    while ((MB_a_ref.empty() && j<_n_it) && (markov_blanket_modified))
     {
         forward(markov_blanket_modified, MB_a_ref, ant_subset, mem_ant_ref);
         j++;
@@ -476,8 +476,8 @@ void smmb_aco::save_results()
 {
     // Search for "." and get index
     size_t lastindex = _filename.find_last_of(".");
-    // Remove extension of given filename
-    string filename_without_extension = _filename.substr(0, lastindex);
+    size_t firstindex = _filename.find_last_of("/");
+    string filename_without_extension = _filename.substr(firstindex+1, lastindex);
     // Create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt");
     // Fill output file with pattern, number of occurence and associated g2 score and p-value
@@ -490,7 +490,8 @@ void smmb_aco::save_results()
         for (auto const& snp : pattern.first)
         {
             output_file << _snp_id(snp);
-            if (snp!=pattern.first.back()) {
+            if (snp!=pattern.first.back())
+            {
                 output_file << ",";
             }
         }
