@@ -20,12 +20,12 @@ float statistics::compute_g_2(boost_matrix_float const& contingency_table, boost
 		for(unsigned j=0; j<contingency_table.size2(); ++j)
 		{
 			// If cell is not equal to 0
-			if(contingency_table(i,j) != 0)
-			{
+			// if(contingency_table(i,j) != 0)
+			// {
 				double div = (double) contingency_table(i,j) / contingency_theorical_table(i,j);
 				g_2_result += contingency_table(i,j) * log(div);
 				std::cout << g_2_result << '\n';
-			}
+			// }
 		}
 	}
 	g_2_result *= 2;
