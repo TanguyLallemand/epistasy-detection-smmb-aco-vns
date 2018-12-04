@@ -21,8 +21,11 @@ output_prefix result_
 # alpha type I error rate
 alpha 0.05
 
-# Max runs
-max_it 5
+# Max runs (number of runs in vns)
+max_it 40
 
-# k Max
-k_max 5
+# k Max (vns stop counter)
+k_max 40
+
+# l Max (local search stop counter)
+l_max 40

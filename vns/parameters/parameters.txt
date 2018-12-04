@@ -24,5 +24,8 @@ alpha 0.05
 # Max runs
 max_it 30
 
-# k Max
-k_max 30
+# k Max (vns stop counter)
+k_max 40
+
+# l Max (local search stop counter)
+l_max 40

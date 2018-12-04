@@ -195,3 +195,10 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+# prendre un répertoire en entré
+# récup tout les files
+# les runs dans une méthode * n runs
+#   on analyse les n_run fichier pour dire si ils sont TP FP FN
+#   et on sort un fichier avec chaque ligne avec TP, FP ou FN ou chaque ligne correspond a un run
+#
