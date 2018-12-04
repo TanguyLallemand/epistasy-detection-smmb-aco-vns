@@ -14,11 +14,6 @@
 float statistics::compute_g_2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table)
 {
 	float g_2_result = 0;
-	// Check if contingencies table are viable. In fact if one of their cell value are under 5 g 2 cannot be compute because of reliability
-	if (!contingencies::reliable_test(contingency_table) || !contingencies::reliable_test(contingency_theorical_table))
-	{
-		return g_2_result = 0.0;
-	}
 	// Iterate tought contingency table
 	for(unsigned i=0; i<contingency_table.size1(); ++i)
 	{
