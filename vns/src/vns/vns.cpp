@@ -5,6 +5,8 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     //params unpacking
     this->_n_it_max = _params._n_it_max;
     this->_k_max = _params._k_max;
+    this->_l_max = _params._l_max;
+    std::cout << _l_max << '\n';
     this->_output_directory = _params.output_directory;
     this->_output_prefix = _params.output_prefix;
     this->_alpha = _params.alpha;
@@ -110,9 +112,9 @@ vector<unsigned> vns::generate_starting_pattern()
 vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & third_x)
 {
     vector<float> score, best_score {0,0,0};
-    unsigned k=0;
+    unsigned l=0;
     vector<unsigned> candidat_neighbor;
-    while (k<_k_max)
+    while (l<_l_max)
     {
 
         candidat_neighbor = shake(second_x);
@@ -123,11 +125,11 @@ vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & th
         {
             best_score = score;
             third_x = candidat_neighbor;
-            k=0;
+            l=0;
         }
         else
         {
-            k++;
+            l++;
         }
     }
 

@@ -16,6 +16,7 @@ public:
 
     unsigned _n_it_max;
     unsigned _k_max;
+    unsigned _l_max;
 
     string genos_file;
     string phenos_file;

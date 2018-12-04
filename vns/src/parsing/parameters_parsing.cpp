@@ -65,6 +65,9 @@ void parameters_parsing::import_line(string const& line)
     else if(key == "k_max")
         _k_max = atof(value.c_str());
 
+    else if(key == "l_max")
+        _l_max = atof(value.c_str());
+
     else {}
 }
 

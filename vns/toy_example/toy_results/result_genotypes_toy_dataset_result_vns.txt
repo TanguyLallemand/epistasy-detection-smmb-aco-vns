@@ -1,0 +1,6 @@
+# Result from vns 
+# Pattern || occurences || chi2-score || p-value || unreliable case
+{N9} || 1 || 8.29162 || 0.0158306 || 0
+{N9,N14,M0P7} || 1 || 60.2516 || 0.000155091 || 9
+{N14,N15,M0P7} || 1 || 50.1296 || 0.003034 || 9
+# Time of execution: 55 seconds
