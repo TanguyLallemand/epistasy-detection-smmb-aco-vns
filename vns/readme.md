@@ -21,7 +21,7 @@ I a recompilation is needed use:
 
 Execution of program with:
 
-    ./vns.exe <path_to_genotype_dataset> <path_to_phenotype_dataset>
+    ./vns.exe <path_to_genotype_dataset> <path_to_phenotype_dataset> <path_to_parameters.txt>
 
 ## Summary of files of this project
 | Module         | Files              | Usability                                                                                                  | Inputs                                                                                                                                                         | Outputs                                                                                       |

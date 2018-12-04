@@ -10,8 +10,10 @@ vns
     -trier les résultats dans l'output
     -autres optis?
 
+QUESTION condition d arret
 
-
+A relire:
+readme.md a la racine du projet
 
 Attention les launch doivent avoir en comment l ensemble de l explication des parametres
 
