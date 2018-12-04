@@ -27,7 +27,7 @@ Execute program with:
 
 | Module         | Files              | Usability                                                                                                  | Inputs                                                                                                                                                         | Outputs                                                                                       |
 |----------------|--------------------|------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| Parsing        | file_parsing       | Allows to parse file containing dataset                                                                   | Files names given as argument in program's call                                                                                                                |  One boost matrix containing all genotype data <br> One boost vector containing all phenotype data <br> boost vector with SNPs IDs |
+| Parsing        | file_parsing       | Allows to parse file containing data set                                                                   | Files names given as argument in program's call                                                                                                                |  One boost matrix containing all genotype data <br> One boost vector containing all phenotype data <br> boost vector with SNPs IDs |
 | Parsing        | parameters_parsing | Allows to parse parameters and save them in parameters class                                               | Will use parameters.txt                                                                                                                           | Class object with all parameters as class variables                                           |
 | Smmb aco       | smmb_aco           | Core of this project allows to run smmb-aco's algorithm                                                    | Parameters object <br> Matrix of genotype data <br> Vector of phenotype data                                                                                             | A set of different Markov Blanket found during the run                                                                          |
 | Statistics     | statistics         | Used to do g2 conditional test of independence                                                            | Matrix column of genotype (subset of genotype matrix with only tested SNPs) <br> Vector of phenotype <br> Indexes of tested SNPs                                         |  g2 score and associated p-value Number of cell considered as non reliable because n<5         |
@@ -38,8 +38,8 @@ Execute program with:
 
 ## Parameters
 Parameters of this program are stored in parameters folder into a file called parameters.txt. This file is commented to permit an easy setup for particular needs. This allows to tweaks many parameters like output directory or output prefix and many parameters specific to SMMB-ACO.
-## Launch the analysis of the toy dataset
-With this project is provided a python script allowing a simple launch on every platform equipped with python. This script will launch program on a naive dataset with default configuration given by authors.
+## Launch the analysis of the toy data set
+With this project is provided a python script allowing a simple launch on every platform equipped with python. This script will launch program on a naive data set with default configuration given by authors.
 To execute this script please call:
 
     ./launch_smmbaco_toy_example.py
@@ -48,7 +48,7 @@ To execute this script please call:
 This method give as output a text file gathering all results.
 <!-- TODO mettre un exemple -->
 Those results can be checked using our evaluation tool given in evaluation folder.
-Using toy dataset:
+Using toy data set:
 <!-- TODO mettre ce qu on attend -->
 ## Built With
 -   [BOOST](https://www.boost.org/) - peer-reviewed portable C++ source libraries

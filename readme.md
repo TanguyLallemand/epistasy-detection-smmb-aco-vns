@@ -22,8 +22,8 @@ If a recompilation is needed please use:
 ## Parameters
 It is possible to tweaks different parameters for both methods. To change parameters of SMMB ACO method use [parameters.txt](smmb_aco/parameters/parameters.txt) localized in smmb_aco/parameters. This file is commented allowing an easy setup for particular needs. If some tweaks are needed for VNS method, please modify vns/parameters/parameters.txt. Please note that a particular section has been included in associated project report about some parameters and their effects.
 
-## Generate a naive dataset
-This project is provided with a tool to generate some naive dataset. This tool follows a logistic regression and produce a dataset of given sizes with a given number of causal SNPs. This operation is performed by simu_naive.py. It is possible to call this tool using a default call using launch_simu_naive_toy_example.py. In this launcher is also added explications about arguments used in call. It is also possible to display help using
+## Generate a naive data set
+This project is provided with a tool to generate some naive data set. This tool follows a logistic regression and produce a data set of given sizes with a given number of causal SNPs. This operation is performed by simu_naive.py. It is possible to call this tool using a default call using launch_simu_naive_toy_example.py. In this launcher is also added explications about arguments used in call. It is also possible to display help using
 
     simu_naive.py --help
 
@@ -31,7 +31,7 @@ This project is provided with a tool to generate some naive dataset. This tool f
 
 
 ## Expected output
-On each dataset constituted by one genotype file and his associated phenotype file epistasis pattern is searched using both methods. Here is an example of expected output file.
+On each data set constituted by one genotype file and his associated phenotype file epistasis pattern is searched using both methods. Here is an example of expected output file.
 
     # Result from vns
     # Pattern || occurences || chi2-score || p-value || unreliable case
@@ -44,7 +44,7 @@ On each dataset constituted by one genotype file and his associated phenotype fi
     # Time of execution: 37 seconds
 
 This method give as output a txt file gathering all results. Those results can be checked using our evaluation tool given in evaluation folder.
-Using a toy dataset:
+Using a toy data set:
 
 <!-- TODO add  -->
 
