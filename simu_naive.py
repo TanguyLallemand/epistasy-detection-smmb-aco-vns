@@ -116,39 +116,37 @@ def randrange_float(start, stop, pitch):
 
 
 def fit_logit(pattern_size, all_combinations, threshold):
+    #  Init useful variables
     max_iterations = 1000
-    array_psi_global = []
     array_random_global = []
+    #  Check for previous step's result
     if len(all_combinations) != pow(3, pattern_size):
         print("Error in combinations")
+
     for logit_iter in range(0, max_iterations):
-        array_of_psi = []
         count_healthy = 0
         array_random = []
+        # Pick a random value between 0 and 1 for each SNPs of pattern
         for i in range(0, pattern_size):
             array_random.append(randrange_float(0, 1, 0.1))
         for i in range(0, pow(3, pattern_size)):
+            #  Compute logistic_model using random values and beta
             precision = compute_logit(array_random, all_combinations[i])
             if precision < 0.5:
-                array_of_psi.append(precision)
                 count_healthy += 1
-        if count_healthy in threshold:
-            array_psi_global.append(array_of_psi)
-            array_random_global.append(array_random)
-    print(array_random_global)
     return array_random_global
 
 ################################################################################
-# compute_logit allows to compute a logistique regression using possible values#
-# and possible genotypes                                                       #
+# compute_logit allows to compute a logistique regression using possible       #
+# values and possible genotypes                                                #
 ################################################################################
 
 
 def compute_logit(list_random, combination):
+    # Initialization
     Y = -1
     for i in range(0, len(list_random)):
         Y = Y + list_random[i] * combination[i]
-        # We can't iniate multiplicators with 0, that is why at firt iteration, multiplicators take the first value for temp or beta
         if i != 0:
             multiplicate_Bs = multiplicate_Bs * list_random[i]
             multiplicate_Xs = multiplicate_Xs * combination[i]
@@ -184,16 +182,16 @@ def generate_SNP_name(number_of_variables, pattern_size):
 
 
 def save_phenotype_dataset(i, output_directory, common_prefix, phenotype_dataset):
-    # Generate header
-
+    # Transtype phenotype dataset
     final_matrix_phenotype_dataset = np.asarray(phenotype_dataset)
+    #  Generate header
     header = ["Class ###### 0: healthy 1: sick ######"]
     # Check if output directory exist
     check_output_directory(output_directory)
     # Generate path to save txt file
     path = './' + output_directory + '/' + \
         str(i) + '_' + common_prefix + '_phenotype_toy_dataset' + '.txt'
-    # Print it as a csv file called phenotype_toy_dataset.txt
+    # Print it as a csv file
     np.savetxt(path,
                np.r_[header, final_matrix_phenotype_dataset], fmt='%s', delimiter=',')
 
@@ -204,13 +202,12 @@ def save_phenotype_dataset(i, output_directory, common_prefix, phenotype_dataset
 
 
 def save_genotype_dataset(i, output_directory, common_prefix, matrix_genotype_ID, matrix_ready_save):
-    # Generate header
     # Check if output directory exist
     check_output_directory(output_directory)
     # Generate path to save txt file
     path = './' + output_directory + '/' + \
         str(i) + '_' + common_prefix + '_genotype_toy_dataset' + '.txt'
-    # Print it as a csv file called phenotype_toy_dataset.txt
+    # Print it as a csv file called
     np.savetxt(path,
                np.r_[[matrix_genotype_ID], matrix_ready_save], fmt='%s', delimiter=',')
 
