@@ -68,7 +68,8 @@ void vns::run()
         save_local_optimum(x, x_score);
     }
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
-    double _duration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
+    this-> _duration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
+    std::cout << _duration << '\n';
     // Write results in a file
     write_result_file();
 }
@@ -236,7 +237,7 @@ void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 void vns::write_result_file()
 {
     std::cout << "Write_result_file" << '\n';
-    std::cout << "Time of execution:" << _duration << "seconds" << endl;
+    std::cout << "Time of execution: " << _duration << " seconds" << endl;
     // Create the output file TODO patch this disgusting thing
     size_t firstindex = _filename.find_last_of("/");
     string filename_without_extension = _filename.substr(firstindex+1, 5000);
@@ -245,7 +246,7 @@ void vns::write_result_file()
 
     std::cout << filename_without_extension << '\n';
     // Create the output file
-    ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_vns.txt");
+    ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_result_vns.txt");
 
     output_file << "# Result from vns \n";
     output_file << "# Pattern || occurences || chi2-score || p-value || unreliable case\n";
@@ -268,7 +269,7 @@ void vns::write_result_file()
         }
         output_file << "\n";
     }
-    output_file << "# Time of execution:" << _duration << "seconds" << endl;
+    output_file << "# Time of execution: " << _duration << " seconds" << endl;
 }
 
 //==============================================================================
