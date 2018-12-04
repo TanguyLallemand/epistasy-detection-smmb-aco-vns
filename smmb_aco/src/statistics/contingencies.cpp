@@ -80,6 +80,7 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
             c(cr, cc) += 1;
         }
     }
+    std::cout << contingency_theorical_table << '\n';
     return contingencies_vector;
 }
 
@@ -102,6 +103,7 @@ boost_matrix_float contingencies::make_contingency_theorical_table_conditionnal(
 			contingency_theorical_table(i,j) = ((float)(sum_row(i,contingency_table) * (float)sum_col(j,contingency_table)) / (float)sum_contingency_table(contingency_table));
 		}
 	}
+    std::cout << contingency_theorical_table << '\n';
 	return contingency_theorical_table;
 }
 
