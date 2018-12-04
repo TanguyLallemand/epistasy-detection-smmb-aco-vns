@@ -24,6 +24,7 @@ float statistics::compute_g_2(boost_matrix_float const& contingency_table, boost
 			{
 				double div = (double) contingency_table(i,j) / contingency_theorical_table(i,j);
 				g_2_result += contingency_table(i,j) * log(div);
+				std::cout << g_2_result << '\n';
 			}
 		}
 	}
