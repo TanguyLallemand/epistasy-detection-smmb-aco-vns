@@ -17,6 +17,7 @@ from random import *
 
 ################################################################################
 # Function to define arguments for script                                      #
+# Generate associated help                                                     #
 ################################################################################
 
 
@@ -68,7 +69,7 @@ def get_arguments():
     return args
 
 ################################################################################
-# This function permit to create an output directory if it does not exist      #
+# This function allows to create an output directory if it does not exist      #
 ################################################################################
 
 
@@ -95,9 +96,11 @@ def check_output_directory(output_directory):
 def determine_treshold(all_combinations):
     threshold = ()
     percentage = int(len(all_combinations) * 0.1)
+    # Fix percentage to 100 if it's inferior to it
     if percentage < 1:
         percentage = 1
     for x in range(-percentage, percentage):
+        #  Compute threshold
         threshold = threshold + (int(len(all_combinations) / 2 + x),)
     return threshold
 
@@ -119,23 +122,26 @@ def fit_logit(pattern_size, all_combinations, threshold):
     max_iterations = 1000
     array_psi_global = []
     array_random_global = []
+    # Check for reliability of generated combination
     if len(all_combinations) != pow(3, pattern_size):
         print("Error in combinations")
     for logit_iter in range(0, max_iterations):
-        array_of_psi = []
         count_healthy = 0
+        array_of_psi = []
         array_random = []
+        #  Generate an array of pattern size of random between 0 and 1
         for i in range(0, pattern_size):
             array_random.append(randrange_float(0, 1, 0.1))
+        # For every possible cases
         for i in range(0, pow(3, pattern_size)):
+            # COmpute precision of each cases associated with random
             precision = compute_logit(array_random, all_combinations[i])
+            #  If precision < 0.5 associate with healthy case (control)
             if precision < 0.5:
-                array_of_psi.append(precision)
                 count_healthy += 1
         if count_healthy in threshold:
-            array_psi_global.append(array_of_psi)
+            # If number of healty is in accepted values save it
             array_random_global.append(array_random)
-    print(array_random_global)
     return array_random_global
 
 ################################################################################
@@ -148,15 +154,15 @@ def compute_logit(list_random, combination):
     Y = -1
     for i in range(0, len(list_random)):
         Y = Y + list_random[i] * combination[i]
-        # We can't iniate multiplicators with 0, that is why at firt iteration, multiplicators take the first value for temp or beta
         if i != 0:
             multiplicate_Bs = multiplicate_Bs * list_random[i]
             multiplicate_Xs = multiplicate_Xs * combination[i]
         else:
             multiplicate_Bs = list_random[0]
             multiplicate_Xs = combination[0]
-
+    # Compute logistic regression
     Y = Y + (multiplicate_Bs * multiplicate_Xs)
+    # Compute associated precision
     precision = (1 / (1 + exp(-Y)))
     return precision
 
@@ -184,10 +190,10 @@ def generate_SNP_name(number_of_variables, pattern_size):
 
 
 def save_phenotype_dataset(i, output_directory, common_prefix, phenotype_dataset):
-    # Generate header
-
+    # Transtyp phenotype dataset
     final_matrix_phenotype_dataset = np.asarray(phenotype_dataset)
-    header = ["Class ###### 0: healthy 1: sick ######"]
+    # Generate header
+    header = ["Class"]
     # Check if output directory exist
     check_output_directory(output_directory)
     # Generate path to save txt file
@@ -237,21 +243,23 @@ def main():
     for i in range(1, size_pattern):
         list_value_genotype.append([0, 1, 2])
     all_combinations = list(itertools.product(*list_value_genotype))
-    print(all_combinations)
+    print("######################## Generate possible combinations ########################")
     threshold = determine_treshold(all_combinations)
-    print(threshold)
+    print("############################### Compute threshold ##############################")
     logit = fit_logit(size_pattern, all_combinations, threshold)
-    print(logit[0])
+    print("######################### Compute logistic regression ##########################")
     # This loop will determine the number of file for a run(with the same logit model)
     for i in range(1, number_of_file + 1):
+        print("############################## Generate data set ###############################")
         # SNPs IDs matrix initialization
         matrix_genotype_non_causal_ID = []
-        # pattern matrix initialization
+        # Pattern matrix initialization
         pattern_genotype_case = []
         pattern_genotype_control = []
-        # phenotypes matrix initialization
+        # Phenotypes matrix initialization
         matrix_phenotype_case = []
         matrix_phenotype_control = []
+        # Generate ID of SNPs
         matrix_genotype_ID = generate_SNP_name(
             number_of_variable, size_pattern)
 
