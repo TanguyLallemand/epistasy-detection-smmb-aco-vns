@@ -22,10 +22,10 @@ output_prefix result_
 alpha 0.05
 
 # Max runs
-max_it 30
+max_it 50
 
 # k Max (vns stop counter)
-k_max 40
+k_max 50
 
 # l Max (local search stop counter)
-l_max 40
+l_max 100
