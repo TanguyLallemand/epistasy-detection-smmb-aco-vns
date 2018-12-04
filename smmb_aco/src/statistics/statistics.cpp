@@ -107,7 +107,15 @@ boost_vector_float statistics::compute_g_2_conditional_test_indep(std::vector<co
 		results(0) = compute_g_2(contingencies_vector[i], contingency_theorical_table_content);
     }
 	// Calculate associated p value
-	results(1) = 1 - boost::math::cdf(g_2_distribution, results(0));
+	float p_value = 1 - boost::math::cdf(g_2_distribution, results(0));
+	if (p_value == 0)
+	{
+ 		results(1) = 2.0e-16;
+	}
+	else
+	{
+		results(1) = p_value;
+	}
 
 	return results;
 }
