@@ -80,7 +80,6 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
             c(cr, cc) += 1;
         }
     }
-    std::cout << contingency_theorical_table << '\n';
     return contingencies_vector;
 }
 
