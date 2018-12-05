@@ -24,7 +24,6 @@ float statistics::compute_g_2(boost_matrix_float const& contingency_table, boost
 			{
 				double div = (double) contingency_table(i,j) / contingency_theorical_table(i,j);
 				g_2_result += contingency_table(i,j) * log(div);
-				std::cout << g_2_result << '\n';
 			}
 		}
 	}
@@ -101,7 +100,6 @@ boost_vector_float statistics::compute_g_2_conditional_test_indep(std::vector<co
 		{
 			// If test is considered as not reliable count it
 			results(2) += 1;
-			break;
 		}
 		// Compute a g 2 test
 		results(0) = compute_g_2(contingencies_vector[i], contingency_theorical_table_content);

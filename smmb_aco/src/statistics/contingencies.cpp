@@ -48,8 +48,7 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
 	// Fill multiple contingency_table
     if(!cond_genos_indexes.empty())
     {
-        boost::numeric::ublas::matrix<unsigned int> ref_genos_matrix;
-		ref_genos_matrix = _genos_column.data(); // get matrix from a column
+        boost::numeric::ublas::matrix<unsigned int> const ref_genos_matrix = _genos_column.data(); // get matrix from a column
         for(unsigned i=0; i<number_obs_subset; ++i)
         {
             // Put the current observation in the correct contingency table
@@ -57,9 +56,10 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
             unsigned int contingency_index = 0;
             unsigned int j=0;
             // Iterate tought cond_genos_indexes list
-            for(std::list<unsigned>::const_iterator it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j)
+            for(auto it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j){
                 // Find right contingency table
                 contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
+            }
                 // Init contingency table at right index
 				contingencies & c = contingencies_vector[contingency_index];
                 // Fill contigency table
@@ -102,7 +102,6 @@ boost_matrix_float contingencies::make_contingency_theorical_table_conditionnal(
 			contingency_theorical_table(i,j) = ((float)(sum_row(i,contingency_table) * (float)sum_col(j,contingency_table)) / (float)sum_contingency_table(contingency_table));
 		}
 	}
-    std::cout << contingency_theorical_table << '\n';
 	return contingency_theorical_table;
 }
 
