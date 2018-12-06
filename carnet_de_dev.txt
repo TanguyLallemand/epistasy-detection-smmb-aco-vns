@@ -7,6 +7,7 @@ vns
     -voir si on peut opti en empechant de repasser par des combi récemment testée
     -trier les résultats dans l'output
     -autres optis?
+    implementer la complexite grandissante
 
 QUESTION condition d arret
 
@@ -18,7 +19,13 @@ Attention les launch doivent avoir en comment l ensemble de l explication des pa
 chemins a changer:
 boost folder dans le makefile
 
-Rapport: mettre l histoire de la condition d arret et l histoire du boolean
+Rapport: mettre l histoire de la condition d arret et l histoire du boolean qui laisse une trace fausse
+Bien mettre ce qu on a fait tt seul (les methpdes choppes dans boost, le fait qu on a rien piquer a clement)
+maximisation par p-value (expliquer pourquoi et que nous sommes decouvreurs)!!!!!!
+score negatif a expliquer
+
+
+
 
 changer la solution cradot du -48 dans le file_parsing.cpp
 (code ascii tout ça tout ça)
