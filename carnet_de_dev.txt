@@ -18,7 +18,7 @@ Attention les launch doivent avoir en comment l ensemble de l explication des pa
 chemins a changer:
 boost folder dans le makefile
 
-
+Rapport: mettre l histoire de la condition d arret et l histoire du boolean
 
 changer la solution cradot du -48 dans le file_parsing.cpp
 (code ascii tout ça tout ça)
