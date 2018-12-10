@@ -27,7 +27,7 @@ void data_parsing::parse_geno()
 {
     // Rezise object to right dimensions
     _geno_matrix.resize( _row_number, _col_number);
-    // Open file containning genos datas
+    // Open file containing genos datas
     ifstream file(_geno_filename);
     // Init variable to handle line
     string line;
@@ -36,7 +36,7 @@ void data_parsing::parse_geno()
     {
         getline(file, line);
     }
-    // Iterate tought file containning geno datas
+    // Iterate tought file containing geno datas
     for (size_t i = 0; i < _geno_matrix.size1(); i++)
     {
         // Get line
@@ -64,7 +64,7 @@ void data_parsing::parse_pheno()
 {
     // Resize vector following data set size
     _pheno_vector.resize(_row_number);
-    // Open file containning phenotype datas
+    // Open file containing phenotype datas
     ifstream file(_pheno_filename);
     string line;
     for (size_t x = 0; x < _header_size; x++)
@@ -108,7 +108,7 @@ void data_parsing::parse_snp_id()
 //=================================================
 void data_parsing::get_line_nb()
 {
-    // Open file containning phenotype datas
+    // Open file containing phenotype datas
     ifstream file(_pheno_filename);
     string temp;
     getline(file, temp);
@@ -134,7 +134,7 @@ void data_parsing::get_line_nb()
 //=================================================
 void data_parsing::get_col_nb()
 {
-    // Open file containning genotype datas
+    // Open file containing genotype datas
     ifstream file(_geno_filename);
     string line;
     int i;

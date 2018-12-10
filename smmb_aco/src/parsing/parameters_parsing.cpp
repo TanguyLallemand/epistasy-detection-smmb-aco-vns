@@ -1,38 +1,47 @@
 #include "parameters_parsing.hpp"
 
-//=================================================
+//==============================================================================
 // Constructor
-//=================================================
+//==============================================================================
+
 parameters_parsing::parameters_parsing(string parameters_file)
 {
+    // Open parameter file
     ifstream file(parameters_file);
+    // Init variable to stock line
+    string line;
+    // If file is opened
     if(file)
     {
-        string line;
+        // While file is not finished to parsed
         while (!file.eof())
         {
             getline(file, line);
-            if (line.length() != 0 && line[0] != '#')
+            // If line is not empty and begin with #
+            if (!line.empty() && line[0] != '#')
             {
+                // Determine what parameter is parsed and stock it in right variable
                 import_line(line);
             }
         }
     }
+    // Else throw an error
     else
     {
-        std::cerr << "Error while opening parameters.txt !\n";
+        std::cerr << "Error while opening "<< parameters_file << "\n";
     }
 }
 
-//=================================================
+//==============================================================================
 // parameters_parsing : import_line
-//=================================================
+//==============================================================================
+
 void parameters_parsing::import_line(string const& line)
 {
     vector<string> token = this->split(line, ' ');
     string const& key = token[0];
     string & value = token[1];
-
+    // Check parameter parsed
     if(key == "header")
         header = atoi(value.c_str());
 
@@ -106,9 +115,10 @@ void parameters_parsing::import_line(string const& line)
     n_mbs = aco_n_ants * aco_n_iterations;
 }
 
-//=================================================
+//==============================================================================
 // parameters_parsing : split
-//=================================================
+//==============================================================================
+// Tghis functions allows to split line following a delimiter
 vector<string> parameters_parsing::split(string const& s, char delim)
 {
     stringstream ss(s);
