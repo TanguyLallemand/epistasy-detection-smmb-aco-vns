@@ -26,11 +26,12 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing params)
     this->_output_directory = params.output_directory;
     this->_pass_number = params.n_smmb_aco_runs;
     this->_tau_0 = params.aco_tau_init;
+
     // Initialization of the rng seed
     this->_rng.seed(time(NULL));
 
     // Initialization of vectors for pheromons
-    this->_eta = boost_vector_float(_genos_matrix.size2(), (float)params.aco_eta);
+    this->_eta = boost_vector_float(_genos_matrix.size2(), params.aco_eta);
     this->_tau = boost_vector_float(_genos_matrix.size2(), _tau_0);
     this->_pheromone_distrib = boost_vector_float(_genos_matrix.size2(), 0.0);
 
@@ -76,33 +77,8 @@ void smmb_aco::run()
             learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant(a));
         }
 
-        // Clearing the global memory
-        _mem.clear();
+        save_iteration_result();
 
-        // Initialization of final variables of the run (merging all ants result)
-        for (size_t a = 0; a < _n_ant; a++)
-        {
-            // Merging memory of all ants into global memory
-            for (auto const& it : _mem_ant(a))
-            {
-                // Iterate map of the current ant
-                for (auto const& it2 : it.second)
-                {
-                    // Save map of the current ant in the global memory
-                    _mem[it.first].push_back(it2);
-                }
-            }
-
-            // If ant's markov blanket is not empty save it into _markov_blanket_s
-            if (!_markov_blanket_a(a).empty())
-            {
-                // Sort markov blanket of current ant
-                _markov_blanket_a(a).sort();
-                // if the ant MB is already known this add 1 to occurences number else it create the entry in the map and set it to 1
-                _markov_blanket_s[_markov_blanket_a(a)] += 1;
-
-            }
-        }
         // Update pheromon based on the results of tests performed on this iteration
         update_tau();
     }
@@ -404,11 +380,6 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
             boost_vector_float result_SNP = statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
             // Stocking result in the ant_memory
             mem_ant_ref[current_SNP].push_back(result_SNP(0));
-            if (current_SNP==22)
-            {
-                std::cout << current_SNP << '\n';
-                std::cout << result_SNP << '\n';
-            }
             // Score of the pattern
             if (result_SNP(0) > result_pattern(0))
             {
@@ -423,6 +394,40 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
         }
     }
     return best_result;
+}
+
+//==============================================================================
+// smmb_aco : save_iteration_result
+//==============================================================================
+// save the result of each ant for this iteration in the global results
+void smmb_aco::save_iteration_result()
+{
+    // Clearing the global memory
+    _mem.clear();
+    // Initialization of final variables of the run (merging all ants result)
+    for (size_t a = 0; a < _n_ant; a++)
+    {
+        // Merging memory of all ants into global memory
+        for (auto const& it : _mem_ant(a))
+        {
+            // Iterate map of the current ant
+            for (auto const& it2 : it.second)
+            {
+                // Save map of the current ant in the global memory
+                _mem[it.first].push_back(it2);
+            }
+        }
+
+        // If ant's markov blanket is not empty save it into _markov_blanket_s
+        if (!_markov_blanket_a(a).empty())
+        {
+            // Sort markov blanket of current ant
+            _markov_blanket_a(a).sort();
+            // if the ant MB is already known this add 1 to occurences number else it create the entry in the map and set it to 1
+            _markov_blanket_s[_markov_blanket_a(a)] += 1;
+
+        }
+    }
 }
 
 //==============================================================================

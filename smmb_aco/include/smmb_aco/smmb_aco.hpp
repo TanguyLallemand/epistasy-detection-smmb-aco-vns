@@ -106,6 +106,8 @@ private:
     void score_for_final_results();
     // Permit to show current results, usefull in debug process
     void show_results();
+    // save the current iteration results into global variables 
+    void save_iteration_result();
     // Write results in a file
     void save_results();
 };
