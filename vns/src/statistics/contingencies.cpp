@@ -32,9 +32,12 @@ void contingencies::make_contingency_table(vector<boost::numeric::ublas::matrix_
     // For every rows
     for (size_t i = 0; i < _phenos_vector.size(); i++)
     {
+        // Clear vector for every iteration
         vector_pattern.clear();
+        // Iterate tought geno datas
         for (size_t f = 0; f < pattern_datas.size(); f++)
         {
+            // Fill right cell of vector with geno data
             vector_pattern.push_back(pattern_datas[f](i));
         }
         // Searching for vector_pattern in all_combinations
@@ -42,6 +45,7 @@ void contingencies::make_contingency_table(vector<boost::numeric::ublas::matrix_
         // If find return a result
         if(all_combinations.end() != it)
         {
+            // Get index of searched vector_pattern
             auto index = std::distance(all_combinations.begin(), it);
             // Increment contingency table at cell following index of variables given as parameters: index of row is given by phenotype, index of column is given by index of found pattern in all possible combinations
             _contingency_table.at_element(_phenos_vector(i), index) +=1;
@@ -167,7 +171,7 @@ bool contingencies::reliable_test(boost_matrix_float const& contingency_table)
 	{
 	   for(unsigned j=0; j<contingency_table.size2(); ++j)
 	   {
-           // Check if each cell of contingency table is >5, if not return false because g 2 will not be reliable
+           // Check if each cell of contingency table is >5, if not return false because g2 will not be reliable
            if(contingency_table(i,j) < 5)
 			   return false;
 	   }

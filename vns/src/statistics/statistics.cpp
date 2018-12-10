@@ -4,6 +4,11 @@
  */
 #include "statistics.hpp"
 
+// Objective of this file is to compute conditionnal g2 test allowing to determine
+// if two variables, conditionnaly on a set of a variable are independant.
+// This allows to determine if a given SNPs need to be included or removed
+// from Markov Blanket in construction
+
 //==============================================================================
 // statistics::compute_p_value
 // return an array with g2_score, p value and number of non reliable tests
