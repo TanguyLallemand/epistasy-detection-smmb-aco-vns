@@ -1,5 +1,5 @@
 
-// Compute/*
+/*
 Authors: Tanguy Lallemand M2BB
          Jonathan Cruard M2BB
 */
