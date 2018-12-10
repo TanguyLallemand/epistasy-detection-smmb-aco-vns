@@ -23,7 +23,6 @@ boost_vector_float statistics::make_contingencies_g_2_conditional_test_indep(boo
 	}
 	// Init a matrix column and putting temp_pheno_matrix in it
 	boost::numeric::ublas::matrix_column<boost_matrix> _phenos_column (temp_pheno_matrix, 0);
-
 	// Get some informations and stock it
 	// Get number of patient in dataset
     int number_obs_subset = _genos_column.size();
@@ -43,7 +42,6 @@ boost_vector_float statistics::make_contingencies_g_2_conditional_test_indep(boo
 	std::vector<contingencies> contingencies_vector = std::vector<contingencies>(n_contingencies);
 	// Build contingencies table, this function will build all contingencies table
 	contingencies_vector = contingencies::make_contingencies_table_conditionnal(cond_genos_indexes, _genos_column, _phenos_column, number_obs_subset, contingencies_vector);
-
 	//compute conditionnal g 2, this function use contingencies table to build theorical table and will do a g 2 test
 	boost_vector_float result = compute_g_2_conditional_test_indep(contingencies_vector, liberty_degree);
 	// Return g 2 scores
