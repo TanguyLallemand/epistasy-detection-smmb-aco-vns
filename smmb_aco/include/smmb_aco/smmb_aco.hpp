@@ -102,11 +102,13 @@ private:
     boost_vector_float best_combination(list<unsigned> & best_pattern, list<list<unsigned>> const& pattern_list, list<unsigned> & MB_a_ref, std::map<unsigned, list<float>> & mem_ant_ref);
     // Update pheromons using _tau and _eta
     void update_pheromon_distrib();
+    // prepare next pass and lunch it
+    void next_pass(list<unsigned> new_set);
     // Compute g 2 conditional test of independance on markov blanket
     void score_for_final_results();
     // Permit to show current results, usefull in debug process
     void show_results();
-    // save the current iteration results into global variables 
+    // save the current iteration results into global variables
     void save_iteration_result();
     // Write results in a file
     void save_results();

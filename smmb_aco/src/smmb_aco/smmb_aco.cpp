@@ -101,28 +101,7 @@ void smmb_aco::run()
     // If user asked for two pass and if dataset is enought wide
     if ((_pass_number > 1) && (new_set.size() > 20))
     {
-        // Put n_smmb_aco_runs to 1 to stop above next time
-        _pass_number--;
-        //
-        for (auto v : new_set)
-        {
-            // Search for SNPs contained in new set
-            if (find(new_set.begin(), new_set.end(), v) != new_set.end())
-            {
-                // If SNPs is found reinit his tau value to 100
-                _tau[v] = _tau_0;
-            }
-            else
-            {
-                // If SNPs are not in dataset used for the second pass of SMMB_ACO their pheromons are set to 0 : they can't be picked anymore
-                _tau[v] = 0;
-                _eta[v] = 0;
-            }
-        }
-        // Reset residual markov blanket
-        _markov_blanket_s.clear();
-        // Run a new SMMB-ACO using first SMMB-ACO's output as input
-        run();
+        next_pass(new_set);
     }
     // final part of the algorithm, producing result file
     else
@@ -207,7 +186,6 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & MB_a_ref
 
     // Initialization of sub_subset container at right size with zeros
     boost_vector_int sub_subset(_sub_subset_size, 0);
-
     // Sub_sampling from ant_subset not taking SNPs already in the MB of this ant
     sub_sampling(sub_subset, ant_subset, MB_a_ref);
 
@@ -429,7 +407,37 @@ void smmb_aco::save_iteration_result()
         }
     }
 }
+//==============================================================================
+// smmb_aco : next_pass
+//==============================================================================
+// prepare next pass by making unpickable non choosen SNPs and reinitialising other ones pheromon values
+void smmb_aco::next_pass(list<unsigned> new_set)
+{
+    // Put n_smmb_aco_runs to 1 to stop above next time
+    _pass_number--;
+    //
+    for (auto v : new_set)
+    {
+        // Search for SNPs contained in new set
+        if (find(new_set.begin(), new_set.end(), v) != new_set.end())
+        {
+            // If SNPs is found reinit his tau value to 100
+            _tau[v] = _tau_0;
+        }
+        else
+        {
+            // If SNPs are not in dataset used for the second pass of SMMB_ACO their pheromons are set to 0 : they can't be picked anymore
+            _tau[v] = 0;
+            _eta[v] = 0;
+        }
+    }
+    // Reset residual markov blanket
+    _markov_blanket_s.clear();
 
+    update_pheromon_distrib();
+    // Run a new SMMB-ACO using first SMMB-ACO's output as input
+    run();
+}
 //==============================================================================
 // smmb_aco : score_for_final_results
 //==============================================================================
