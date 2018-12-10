@@ -1,4 +1,5 @@
-/*
+
+// Compute/*
 Authors: Tanguy Lallemand M2BB
          Jonathan Cruard M2BB
 */
@@ -23,9 +24,13 @@ public:
     //==========================================================================
     // Some static functions used in contigencies.cpp and in statistics.cpp
     //==========================================================================
+    // Compute sum of a given row
     static unsigned int sum_row(int index, boost_matrix_float const& contingency_table);
+    // Compute sum of a given column
     static unsigned int sum_col(int index, boost_matrix_float const& contingency_table);
+    // Compute total sm of a given contingency table
     static unsigned int sum_contingency_table(boost_matrix_float const& contingency_table);
+    // Check if every cells of a given contingency table is above 5 (chi 2 application condition)
     static bool reliable_test(boost_matrix_float const& contingency_table);
     //==========================================================================
     // Some static functions used in statistics.cpp for some required operations
