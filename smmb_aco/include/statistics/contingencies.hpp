@@ -16,7 +16,7 @@ public:
     //==========================================================================
     // contingencies() to init a contingency table with 2,3 dimension
     contingencies();
-    // contingencies(int a, int b) to init a two contingencies tables with 2,3 dimension
+    // contingencies(int a, int b) to init two contingencies tables with 2,3 dimension
     contingencies(int a, int b);
     // contingencies(contingencies const& m) to init a contingency table with given contingency table's dimension
     contingencies(contingencies const& m);
@@ -33,7 +33,6 @@ public:
     //==========================================================================
     static boost_matrix_float make_contingency_theorical_table_conditionnal( boost_matrix_float contingency_table);
     static std::vector<contingencies> make_contingencies_table_conditionnal(std::list<unsigned> const& cond_genos_indexes, boost_column const& _genos_column, boost_column const& _phenos_column, unsigned number_obs_subset, std::vector<contingencies> contingencies_vector);
-
     //==========================================================================
     // Class Variables
     //==========================================================================

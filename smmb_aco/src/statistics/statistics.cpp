@@ -4,34 +4,6 @@
  */
 #include "statistics.hpp"
 
-
-//==============================================================================
-// statistics::compute_g_2
-// Use a given contingency table and a theorical contingency table
-// Return g 2 score
-//==============================================================================
-
-float statistics::compute_g_2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table)
-{
-	float g_2_result = 0;
-	// Iterate tought contingency table
-	for(unsigned i=0; i<contingency_table.size1(); ++i)
-	{
-		for(unsigned j=0; j<contingency_table.size2(); ++j)
-		{
-			// If cell is not equal to 0
-			if(contingency_table(i,j) != 0)
-			{
-				double div = (double) contingency_table(i,j) / contingency_theorical_table(i,j);
-				g_2_result += contingency_table(i,j) * log(div);
-			}
-		}
-	}
-	g_2_result *= 2;
-	return g_2_result;
-}
-
-
 //==============================================================================
 // statistics::make_contingencies_g_2_conditional_test_indep
 // Use a given matrix_column of genotype matrix, vector of phenotypes, and
@@ -44,7 +16,8 @@ boost_vector_float statistics::make_contingencies_g_2_conditional_test_indep(boo
 	// Parse _phenos_vector to become a _phenos_column
 	// Init a temporary boost matrix with size of _phenos_vector
 	boost_matrix temp_pheno_matrix (_phenos_vector.size(), 1);
-	for (size_t i = 0; i < _phenos_vector.size(); i++) {
+	for (size_t i = 0; i < _phenos_vector.size(); i++)
+	{
 		// Fill temporary matrix
 		temp_pheno_matrix(i, 0) = _phenos_vector(i);
 	}
@@ -85,7 +58,7 @@ boost_vector_float statistics::make_contingencies_g_2_conditional_test_indep(boo
 boost_vector_float statistics::compute_g_2_conditional_test_indep(std::vector<contingencies> contingencies_vector, unsigned int liberty_degree)
 {
 	// Init a vector that will store in first cell g 2 score and in second cell associated p value
-	boost_vector_float results(3,0);
+	boost_vector_float results_to_return(3,0);
 	// Get number of contingencies table
 	unsigned number_contingencies = contingencies_vector.size();
 	// Generate a g 2 distribution for a given liberty degree
@@ -99,21 +72,50 @@ boost_vector_float statistics::compute_g_2_conditional_test_indep(std::vector<co
 		if (!contingencies::reliable_test(contingencies_vector[i]) || !contingencies::reliable_test(contingency_theorical_table_content))
 		{
 			// If test is considered as not reliable count it
-			results(2) += 1;
+			results_to_return(2) += 1;
 		}
 		// Compute a g 2 test
-		results(0) = compute_g_2(contingencies_vector[i], contingency_theorical_table_content);
+		results_to_return(0) = compute_g_2(contingencies_vector[i], contingency_theorical_table_content);
     }
-	// Calculate associated p value
-	float p_value = 1 - boost::math::cdf(g_2_distribution, results(0));
+	// Calculate associated p value using a chi2 distribution table generated following a number of liberty degrees
+	float p_value = 1 - boost::math::cdf(g_2_distribution, results_to_return(0));
+	// If p-value is too small, initialize it to 2.0e-16
 	if (p_value == 0)
 	{
- 		results(1) = 2.0e-16;
+ 		results_to_return(1) = 2.0e-16;
 	}
 	else
 	{
-		results(1) = p_value;
+		results_to_return(1) = p_value;
 	}
+	// Return array of results
+	return results_to_return;
+}
 
-	return results;
+//==============================================================================
+// statistics::compute_g_2
+// Use a given contingency table and a theorical contingency table
+// Return g 2 score
+//==============================================================================
+
+float statistics::compute_g_2(boost_matrix_float const& contingency_table, boost_matrix_float const& contingency_theorical_table)
+{
+	float g_2_result = 0;
+	// Iterate tought contingency table
+	for(unsigned i=0; i<contingency_table.size1(); ++i)
+	{
+		for(unsigned j=0; j<contingency_table.size2(); ++j)
+		{
+			// If cell is not equal to 0
+			if(contingency_table(i,j) != 0)
+			{
+				// Compute g2 statistic
+				// Negative results are possible because unlike chi2 which is necessarily positive because of the elevation at the edge, the logarithm allows negative results
+				double div = (double) contingency_table(i,j) / contingency_theorical_table(i,j);
+				g_2_result += contingency_table(i,j) * log(div);
+			}
+		}
+	}
+	g_2_result *= 2;
+	return g_2_result;
 }

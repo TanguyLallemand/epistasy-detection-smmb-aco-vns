@@ -48,24 +48,27 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
 	// Fill multiple contingency_table
     if(!cond_genos_indexes.empty())
     {
-        boost::numeric::ublas::matrix<unsigned int> const ref_genos_matrix = _genos_column.data(); // get matrix from a column
+        // Get matrix from a column
+        boost::numeric::ublas::matrix<unsigned int> const ref_genos_matrix = _genos_column.data();
+        // For every observations in subset
         for(unsigned i=0; i<number_obs_subset; ++i)
         {
             // Put the current observation in the correct contingency table
-            // Intialization of iterator
+            // Intialization of iterators
             unsigned int contingency_index = 0;
             unsigned int j=0;
             // Iterate tought cond_genos_indexes list
-            for(auto it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j){
+            for(auto it=cond_genos_indexes.begin(); it!=cond_genos_indexes.end(); ++it, ++j)
+            {
                 // Find right contingency table
                 contingency_index += pow(3, j) * ref_genos_matrix(i, *it);
             }
                 // Init contingency table at right index
 				contingencies & c = contingencies_vector[contingency_index];
                 // Fill contigency table
-				unsigned cr = _phenos_column(i);
-				unsigned cc = _genos_column(i);
-				c(cr, cc) += 1;
+				unsigned contingency_row = _phenos_column(i);
+				unsigned contingency_column = _genos_column(i);
+				c(contingency_row, contingency_column) += 1;
         }
     }
 	// Fill one contingency_table
@@ -75,9 +78,9 @@ std::vector<contingencies> contingencies::make_contingencies_table_conditionnal(
         {
             // Fill contigency table
             contingencies & c = contingencies_vector[0];
-            unsigned cr = _phenos_column(i);
-            unsigned cc = _genos_column(i);
-            c(cr, cc) += 1;
+            unsigned contingency_row = _phenos_column(i);
+            unsigned contingency_column = _genos_column(i);
+            c(contingency_row, contingency_column) += 1;
         }
     }
     return contingencies_vector;
