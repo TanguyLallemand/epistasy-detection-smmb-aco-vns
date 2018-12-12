@@ -46,6 +46,11 @@
 	boost::math::chi_squared_distribution<float> g2_distribution(liberty_degree);
 	// Calculate p value following g_squared_distribution generated and g square score
 	results_to_return[1] = 1 - boost::math::cdf(g2_distribution, results_to_return[0]);
+    // If p-value is too small, initialize it to 2.0e-16
+	if (results_to_return[1] == 0)
+	{
+ 		results_to_return[1] = 2.0e-16;
+	}
 	// Return calculated p_value
 	return results_to_return;
 }
