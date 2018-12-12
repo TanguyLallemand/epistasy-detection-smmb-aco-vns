@@ -16,7 +16,10 @@ creer une solution initiale
                 s<-s'', k=1
             sinon
                 k++
+            finsi
+        fin tant que
         memoriser l'optimum local obtenue dans M
+    fin tant que
     retourner s, la meilleur solution rencontrer dans M
 */
 

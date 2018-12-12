@@ -109,7 +109,7 @@ void smmb_aco::run()
         // Calculate scores of patterns in _markov_blanket_s into _stats_results
         score_for_final_results();
         // Print results of the run to terminal
-        show_results();
+        // show_results();
         // Save time
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
         // Calculate time of execution
@@ -165,12 +165,26 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
     bool markov_blanket_modified = true;
     // Counter of iterations
     unsigned j = 0;
-
+    list<unsigned> save_MB;
+    // std::cout << _n_it << '\n';
     // Loop to generate the markov blanket //TODO check the condition
     while ((MB_a_ref.empty() && j<_n_it) && markov_blanket_modified)
     {
+        // std::cout << "toto" << '\n';
+        // std::cout << markov_blanket_modified << '\n';
+        // std::cout << save_MB.size() << '\n';
+        // std::cout << MB_a_ref.size() << '\n';
+        // saving MB to check differencies and launch next iteration or not
+        save_MB = MB_a_ref;
+
         forward(markov_blanket_modified, MB_a_ref, ant_subset, mem_ant_ref);
         j++;
+        // sorting just in case... maybe already done elsewhere
+        MB_a_ref.sort();
+        if (save_MB != MB_a_ref)
+        {
+            markov_blanket_modified = true;
+        }
     }
     //backward(markov_blanket_modified, MB_a_ref);
     //TODO voir si on en met un la finalement
@@ -200,6 +214,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & MB_a_ref
     // Searching for the best combination based on score and returning the score and p_value of the solution
     boost_vector_float result = best_combination(best_pattern, combi_list, MB_a_ref, mem_ant_ref);
     // If independance hypothesis is rejected : entering here
+    std::cout << result(1) << '\n';
     if (result(1) < _alpha_stat)
     {
         // Append the best pattern found at the end of the MB
@@ -338,11 +353,11 @@ void smmb_aco::generate_combinations(list<unsigned> temp, list<list<unsigned>> &
 boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, list<list<unsigned>> const& pattern_list, list<unsigned> & MB_a_ref, std::map<unsigned, list<float>> & mem_ant_ref)
 {
     // Stock the current best_result
-    boost_vector_float best_result(2, 0);
+    boost_vector_float best_result(3, 1);
     // Iterate through the list of pattern
     for (auto const& current_pattern : pattern_list)
     {
-        boost_vector_float result_pattern(2, 0);
+        boost_vector_float result_pattern(3, 1);
         for (auto const& current_SNP : current_pattern)
         {
             // Setting up the list of conditionnals SNPs
@@ -359,13 +374,13 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
             // Stocking result in the ant_memory
             mem_ant_ref[current_SNP].push_back(result_SNP(0));
             // Score of the pattern
-            if (result_SNP(0) > result_pattern(0))
+            if (result_SNP(1) < result_pattern(1))
             {
                 result_pattern = result_SNP;
             }
         }
         // If the score of the current pattern is better than the current best it become the best pattern
-        if (result_pattern(0) > best_result(0))
+        if (result_pattern(1) < best_result(1))
         {
             best_result = result_pattern;
             best_pattern = current_pattern;
@@ -450,7 +465,7 @@ void smmb_aco::score_for_final_results()
 
     for (auto pattern : _markov_blanket_s)
     {
-        _stats_results(st) = boost_vector_float(2, 1);
+        _stats_results(st) = boost_vector_float(3, 1);
         for (auto snp : pattern.first)
         {
             boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, snp);
@@ -502,7 +517,7 @@ void smmb_aco::save_results()
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt");
     // Fill output file with pattern, number of occurence and associated g2 score and p-value
     output_file << "# Result from SMMB-ACO \n";
-    output_file << "# Pattern || Occurences || G2-score || p-value\n";
+    output_file << "# Pattern || Occurences || G2-score || p-value || unreliable case\n";
     unsigned tu = 0;
     for (auto const& pattern : _markov_blanket_s)
     {
@@ -514,10 +529,14 @@ void smmb_aco::save_results()
                 output_file << ",";
             }
         }
-        output_file << "} || " << pattern.second << " || ";
-        output_file << _stats_results(tu)(0) << " || " << _stats_results(tu)(1) << '\n';
+        output_file << "} || " << pattern.second;
+        for (auto stat : _stats_results(tu))
+        {
+            output_file << " || " << stat;
+        }
+        output_file << "\n";
         tu++;
     }
-    output_file << "# Time of execution: " << _duration;
+    output_file << "# Time of execution: " << _duration << " seconds" << endl;
     std::cout << "### SMMB_ACO has finished please see results in: " << '\n' << _output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt" << '\n';
 }
