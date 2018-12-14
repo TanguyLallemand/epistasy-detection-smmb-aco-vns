@@ -59,14 +59,20 @@ void parameters_parsing::import_line(string const& line)
     else if(key == "pfile")
         phenos_file = value;
 
-    else if(key == "max_it")
-        _n_it_max = atof(value.c_str());
+    else if(key == "iteration_num")
+        _iteration_num = atof(value.c_str());
 
-    else if(key == "k_max")
-        _k_max = atof(value.c_str());
+    else if(key == "pat_size_max")
+        _pat_size_max = atof(value.c_str());
 
-    else if(key == "l_max")
-        _l_max = atof(value.c_str());
+    else if(key == "pat_size_min")
+        _pat_size_min = atof(value.c_str());
+
+    else if(key == "max_it_vns")
+        _max_it_vns = atof(value.c_str());
+
+    else if(key == "max_it_local_search")
+        _max_it_local_search = atof(value.c_str());
 
     else {}
 }

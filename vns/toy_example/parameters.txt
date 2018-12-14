@@ -21,11 +21,17 @@ output_prefix result_
 # alpha type I error rate
 alpha 0.05
 
-# Max runs (number of runs in vns)
-max_it 40
+# Runs (number of runs in vns)
+iteration_num 40
 
-# k Max (vns stop counter)
-k_max 10
+# max size of searched patterns
+pat_size_max 3
 
-# l Max (local search stop counter)
-l_max 100
+# min size of searched patterns
+pat_size_min 2
+
+# number of neighbors to test before going to a futher neighborhood (VNS)
+max_it_vns 50
+
+# number of neighbors to test before going to a futher neighborhood (VNS)
+max_it_local_search 50

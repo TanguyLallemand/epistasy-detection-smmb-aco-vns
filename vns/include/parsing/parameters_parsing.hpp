@@ -14,9 +14,11 @@ public:
     char separator;
     float alpha;
 
-    unsigned _n_it_max;
-    unsigned _k_max;
-    unsigned _l_max;
+    unsigned _iteration_num;
+    unsigned _pat_size_max;
+    unsigned _pat_size_min;
+    unsigned _max_it_vns;
+    unsigned _max_it_local_search;
 
     string genos_file;
     string phenos_file;

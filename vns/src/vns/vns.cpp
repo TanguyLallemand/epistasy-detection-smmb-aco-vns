@@ -3,14 +3,19 @@
 vns::vns(data_parsing dataset, parameters_parsing _params)
 {
     //params unpacking
-    this->_n_it_max = _params._n_it_max;
-    this->_k_max = _params._k_max;
-    this->_l_max = _params._l_max;
-    std::cout << _l_max << '\n';
     this->_output_directory = _params.output_directory;
     this->_output_prefix = _params.output_prefix;
-    this->_alpha = _params.alpha;
 
+    this->_iteration_num = _params._iteration_num;
+    this->_alpha = _params.alpha;
+    this->_pat_size_max = _params._pat_size_max;
+    this->_pat_size_min = _params._pat_size_min;
+    this->_max_it_vns = _params._max_it_vns;
+    this->_max_it_local_search = _params._max_it_local_search;
+
+    // TODO voir si il faut ajuster ça
+    this->_k_max = _params._pat_size_max-1;
+    this->_l_max = _params._pat_size_max-1;
     //unpacking datas
     this->_genos_matrix = dataset._geno_matrix;
     this->_phenos_vector = dataset._pheno_vector;
@@ -30,13 +35,12 @@ void vns::run()
     // Parallelization
     #pragma omp parallel for
 
-    for (size_t i = 0; i < _n_it_max; i++)
+    for (size_t i = 0; i < _iteration_num; i++)
     {
         std::cout << "iteration # : " << i << '\n';
 
         // Selecting starting pattern
         vector<unsigned> x = generate_starting_pattern();
-
         // compute the score of x for first iteration
         vector<float> x_score = test_pattern(x);
 
@@ -46,28 +50,35 @@ void vns::run()
         vector<float> third_x_score;
 
         // stop when x did not changed for k_max itérations
-        int k = 0;
+        unsigned exploration = 0;
+        int k = 1;
         while (k < _k_max)
         {
-            // Take a random neighbor of x
-            second_x = shake(x);
-
-            // Searching for a best neighbor of second_x
-            third_x_score = local_search(second_x, third_x);
-
-            if (third_x_score[0] > x_score[0])
+            while (exploration < _max_it_vns)
             {
-                x = third_x;
-                x_score = third_x_score;
-                k = 0;
+                // Take a random neighbor of x
+                second_x = shake(x, k);
+
+                // Searching for a best neighbor of second_x
+                third_x_score = local_search(second_x, third_x);
+
+                if (third_x_score[1] < x_score[1])
+                {
+                    x = third_x;
+                    x_score = third_x_score;
+                    k = 1;
+                    exploration = 0;
+                }
+                else
+                {
+                    exploration++;
+                }
             }
-            else
-            {
-                k++;
-            }
+            save_local_optimum(x, x_score);
+            k++;
+            exploration = 0;
         }
         // Saving the local optimum
-        save_local_optimum(x, x_score);
     }
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     this-> _duration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
@@ -84,8 +95,8 @@ vector<unsigned> vns::generate_starting_pattern()
 {
     // Initialization of list to store the pattern
     vector<unsigned> pattern;
-    // Random pick of the pattern size up to _max_size (TODO fixed to 3 for now)
-    std::uniform_int_distribution<int> distribution(1,3);
+    // Random pick of the pattern size between _pat_size_min and _pat_size_max
+    std::uniform_int_distribution<int> distribution(_pat_size_min,_pat_size_max);
     unsigned size_pattern = distribution(_rng);
 
     // Fill the pattern with size_pattern different SNPs
@@ -111,26 +122,32 @@ vector<unsigned> vns::generate_starting_pattern()
 //==============================================================================
 vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & third_x)
 {
-    vector<float> score, best_score {0,0,0};
-    unsigned l=0;
+    vector<float> score, best_score {0,1,0};
+    unsigned l=1;
+    unsigned exploration = 0;
     vector<unsigned> candidat_neighbor;
-    while (l<_l_max)
+    while (l < _l_max)
     {
-
-        candidat_neighbor = shake(second_x);
-
-        score = test_pattern(candidat_neighbor);
-
-        if (score[0] > best_score[0])
+        while (exploration < _max_it_local_search)
         {
-            best_score = score;
-            third_x = candidat_neighbor;
-            l=0;
+            candidat_neighbor = shake(second_x, l);
+
+            score = test_pattern(candidat_neighbor);
+
+            if (score[1] < best_score[1])
+            {
+                best_score = score;
+                third_x = candidat_neighbor;
+                l=1;
+                exploration = 0;
+            }
+            else
+            {
+                exploration++;
+            }
         }
-        else
-        {
-            l++;
-        }
+        l++;
+        exploration = 0;
     }
 
     return best_score;
@@ -139,22 +156,21 @@ vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & th
 //==============================================================================
 // vns : shake
 //==============================================================================
-vector<unsigned> vns::shake(vector<unsigned> pattern)
+vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
 {
     unsigned mutation_type;
     std::uniform_int_distribution<int> distribution;
     std::uniform_int_distribution<int> distribution_pattern(0,pattern.size()-1);
     std::uniform_int_distribution<int> distribution_snp(0,_genos_matrix.size2()-1);
     // make sure we won't do a forbiden change in the pattern
-    if (pattern.size()==1)
+    if (pattern.size()==_pat_size_min)
     {
         // Produce 0 or 1
         std::uniform_int_distribution<int> distribution(0,1);
     }
     else
     {
-        // _max_size (TODO fixed to 3 for now)
-        if (pattern.size()==3)
+        if (pattern.size()==_pat_size_max)
         {
             // Produce 1 or 2
             std::uniform_int_distribution<int> distribution(1,2);
@@ -209,7 +225,11 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
         default :
         break;
     }
-
+    if (k>1)
+    {
+        k = k-1;
+        pattern = shake(pattern, k);
+    }
     return pattern;
 }
 
@@ -219,6 +239,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern)
 void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 {
     sort(x.begin(), x.end());
+
     auto current_opti = _optimum_set.find(x);
     if(_optimum_set.end() != current_opti)
     {
