@@ -149,6 +149,24 @@ vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & th
 }
 
 //==============================================================================
+// vns : test_pattern
+//==============================================================================
+//test the pattern and return a vector containing score,p-value,unreliable case
+vector<float> vns::test_pattern(vector<unsigned> const& pattern)
+{
+    //prepare the list of matrix column for the test
+    vector<boost::numeric::ublas::matrix_column<boost_matrix>> pattern_datas;
+    for (auto snp : pattern)
+    {
+        boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, snp);
+        pattern_datas.push_back(mc);
+    }
+    //test the datas provided
+    vector<float> result = statistics::compute_p_value(pattern_datas, _phenos_vector);
+    return result;
+}
+
+//==============================================================================
 // vns : shake
 //==============================================================================
 //return a neighbor of pattern, this neighbor have a distance of k with the pattern
@@ -281,21 +299,4 @@ void vns::write_result_file()
         output_file << "\n";
     }
     output_file << "# Execution time : " << _duration << " seconds" << endl;
-}
-
-//==============================================================================
-// vns : test_pattern
-//==============================================================================
-vector<float> vns::test_pattern(vector<unsigned> const& pattern)
-{
-    //prepare the list of matrix column for the test
-    vector<boost::numeric::ublas::matrix_column<boost_matrix>> pattern_datas;
-    for (auto snp : pattern)
-    {
-        boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, snp);
-        pattern_datas.push_back(mc);
-    }
-    //test the datas provided 
-    vector<float> result = statistics::compute_p_value(pattern_datas, _phenos_vector);
-    return result;
 }
