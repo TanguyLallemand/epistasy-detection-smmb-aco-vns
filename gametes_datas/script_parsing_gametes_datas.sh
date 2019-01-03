@@ -18,6 +18,7 @@ for first_dir in "$(ls -d */ | cut -f1 -d'/')"; do
                     cat temp_"$basename".csv | awk -F',' '{print $NF}' > phenotype_"$basename".csv
                     cat temp_"$basename".csv | awk -F',' '{OFS=","};NF{NF-=1};1' <temp_"$basename".csv >genotype_"$basename".csv
                 done
+                rm *.txt
                 cd ..
             done
         done
