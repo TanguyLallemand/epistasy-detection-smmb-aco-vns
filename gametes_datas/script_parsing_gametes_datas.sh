@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #extraction
-# tar xzvf repository.tar.gz  -C ./datas
+tar xzvf repository.tar.gz  -C ./datas
 cd datas/repository
 for first_dir in "$(ls -d */ | cut -f1 -d'/')"; do
     for directory in $first_dir; do
@@ -11,13 +11,12 @@ for first_dir in "$(ls -d */ | cut -f1 -d'/')"; do
                 cd "$sub_directory"
                 for file in *.txt ; do
                     # Get basename
-                    # basename=$(echo "$filename" | cut -f 1 -d '.')
+                    basename=${file%.txt}
                     # Replace tab by commas
-                    sed 's/\t/,/g' "$file" > genotype_"$file".csv
+                    sed 's/\t/,/g' "$file" > temp_"$basename".csv
                     # Get last column phenotype column
-                    cat genotype_"$file".csv | awk -F',' '{print $NF}' > phenotype_"$file".csv
-                    # cat genotype_"$file".csv | awk -F',' '{print $NF}' > genotype_"$file".csv
-                    # awk -F',' 'NF{NF-=1};1' <genotype_"$file".csv >genotype_"$file".csv
+                    cat temp_"$basename".csv | awk -F',' '{print $NF}' > phenotype_"$basename".csv
+                    cat temp_"$basename".csv | awk -F',' '{OFS=","};NF{NF-=1};1' <temp_"$basename".csv >genotype_"$basename".csv
                 done
                 cd ..
             done
