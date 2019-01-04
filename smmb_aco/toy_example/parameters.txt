@@ -45,7 +45,7 @@ n_trials_to_learn_mbs 30
 # Maximal number of iterations allowed to learn one Markov blanket, for one given large subset K, to escape the issue of non-modified MB.
 # If the sampling of k variables among K variables does not allow to identify a candidate subset s which is actually added to the growing MB, then the MB would not be modified and learnMB (inner level procedure of SMMB algorithm) would stop.
 # To palliate this problem, one coerces the exploration of the subset of K variables through n_trials_to_learn_1_mb.
-n_trials_to_learn_1_mb 30
+n_trials_to_learn_1_mb 15
 
 ################################################################################
 # Parameters for ACO optimization

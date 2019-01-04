@@ -25,6 +25,7 @@ for first_dir in "$(ls -d */ | cut -f1 -d'/')"; do
                 done
                 # Remove raw datas
                 rm *.txt
+                rm temp*
                 cd ..
             done
         done
