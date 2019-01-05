@@ -29,32 +29,37 @@ def get_arguments():
 ###############################################################################
 
 
-def get_input_files(input_directory):
+def get_genotype_files(input_directory):
     # Search for file ending with txt extension in a given directory
-    input_files = glob.glob(input_directory + '*.txt')
+    input_files = glob.glob(input_directory + 'genotype_*.csv')
     return input_files
 
 ###############################################################################
-# This function permit to determine for every results if it is a FP, TP or FN
+# This function allow to determine for every results if it is a FP, TP or FN
 ###############################################################################
 
 
-def parsing_result_file(result_file, pattern):
-    result = []
-    false_negative = 0
-    true_positive = 0
-    false_positive = 0
+def result_analysis(result_file, pattern_size):
+    result_type = 'FN'
     for line in result_file:
-        if line.strip() == pattern:
-            result.append('TP')
-            true_positive += 1
-        elif line.strip() == '' or len(line.strip()) != len(pattern):
-            result.append('FN')
-            false_negative += 1
-        elif line.strip() != pattern:
-            result.append('FP')
-            false_positive += 1
-    return [result, true_positive, false_negative, false_positive]
+        if line[0]=='{':
+            result_type = 'FP'
+            pattern=line[line.find("{")+1:line.find("}")]
+            if pattern.count('M') == pattern_size:
+                result_type = 'TP'
+                break
+    return result_type
+
+###############################################################################
+# get the size of the pattern in simulated datas
+###############################################################################
+
+
+def get_pattern_size(input_files):
+    file = open(input_files[0], 'r')
+    size = file.readline().count('M')
+    return size
+
 
 ###############################################################################
 # This function permit to create an output directory if it does not exist
@@ -99,7 +104,10 @@ def creation_of_output_file(output_directory, results_file_parsed, name_of_file)
 
 
 def calc_recall(true_positive, false_negative):
-    recall = true_positive / (true_positive + false_negative)
+    if (true_positive + false_negative)==0:
+        recall = true_positive / 1
+    else:
+        recall = true_positive / (true_positive + false_negative)
     return recall
 
 ###############################################################################
@@ -108,7 +116,10 @@ def calc_recall(true_positive, false_negative):
 
 
 def calc_precision(true_positive, false_positive):
-    precision = true_positive / (true_positive + false_positive)
+    if (true_positive + false_positive)==0:
+        precision = true_positive / 1
+    else:
+        precision = true_positive / (true_positive + false_positive)
     return precision
 
 ###############################################################################
@@ -116,25 +127,18 @@ def calc_precision(true_positive, false_positive):
 ###############################################################################
 
 
-def creation_of_measure_file(recall, precision):
-    with open('f_measures.txt', 'w') as measure_file:
-        f_measure = 2 / (1 + recall + 1 + precision)
-        measure_file.write(str(f_measure))
-        return f_measure
+def calc_f_measure(recall, precision):
+    f_measure = 2 / (1 + recall + 1 + precision)
+    return f_measure
 
 ###############################################################################
 # This function permit to powers file and calcul powers
 ###############################################################################
 
 
-def creation_of_powers_file(f_measure, number_of_execution, number_true_positive):
-    with open('powers.txt', 'w') as powers_file:
-        powers_file.write('Power\n')
-        powers_file.write(
-            str(number_true_positive / number_of_execution) + '\n')
-        powers_file.write('f_measures\n')
-        for item in f_measure:
-            powers_file.write(str(item) + '\n')
+def calc_power(true_positive, number_of_execution):
+    power = true_positive / number_of_execution
+    return power
 
 ###############################################################################
 # Main function
@@ -143,54 +147,59 @@ def creation_of_powers_file(f_measure, number_of_execution, number_true_positive
 
 def main():
     # Initialization of some variables
-    # Put pattern in raw code, TODO: get it
-    pattern = 'ml'
-    f_measure = []
+    scores = []
     # Get argument parser
     args = get_arguments()
     # Get argument passed to script
     input_directory = args.input
     output_directory = args.output
     number_of_execution = args.nruns
-
-    # Get list of file in input directory
-    input_files = get_input_files(input_directory)
+    # Get list of genotype files in input directory
+    input_files = get_genotype_files(input_directory)
+    # Get pattern size from one file
+    pattern_size = get_pattern_size(input_files)
     # Get number of files in input directory
     n_files = len(input_files)
 
+    print(os.path.basename(input_directory))
     # For every files
     for file in input_files:
-        with open(file, 'r') as result_file:
-            # Determine results category: TP, FN or FP
-            results_file_parsed = parsing_result_file(result_file, pattern)
-            # Check if output directory exist, if not creation of it
-            check_output_directory(output_directory)
-            # Save parsed result in a file
-            creation_of_output_file(
-                output_directory, results_file_parsed[0], file)
+        pheno_file = file.replace("genotype", "phenotype")
 
-            # Save number of TP, FN and TN
-            number_true_positive = results_file_parsed[1]
-            number_false_negative = results_file_parsed[2]
-            number_false_positive = results_file_parsed[3]
-            # Resolve problems for calculating f-measure, if a variable is equal to zero add 1 and remove 1 to the other one
-            if number_false_negative == 0:
-                number_false_positive -= 1
-                number_false_negative += 1
-            if number_false_positive == 0:
-                number_false_negative -= 1
-                number_false_positive += 1
+        TP = 0
+        FP = 0
+        FN = 0
 
-            # Calcul recall
-            recall = calc_recall(number_true_positive, number_false_negative)
-            # Calcul precision
-            precision = calc_precision(
-                number_true_positive, number_false_positive)
-            # Stock in a list all f_measures calculated
-            f_measure.append(creation_of_measure_file(recall, precision))
-            # Creation of power file containning all f_measure, and calculated power
-            creation_of_powers_file(
-                f_measure, number_of_execution, number_true_positive)
+        for i in range(0, number_of_execution):
+            os.system('./smmb_aco/smmb_aco.exe '+file+' '+pheno_file+' '+'./evaluation/parameters_smmb.txt')
+
+            result_file = glob.glob("./gametes_datas/temp_results/" + "*")
+            result_file1 = open(result_file[0], 'r')
+
+            result_type = result_analysis(result_file1, pattern_size)
+            result_file1.close()
+            os.remove(result_file[0])
+            if result_type == "TP":
+                TP +=1
+            elif result_type == "FP":
+                FP +=1
+            elif result_type == "FN":
+                FN +=1
+
+        recall = calc_recall(TP, FN)
+        prec = calc_precision(TP, FP)
+        f_measure = calc_f_measure(recall, prec)
+        power = calc_power(TP, number_of_execution)
+        scores.append((os.path.basename(os.path.normpath(file)), recall, prec, f_measure, power))
+
+    power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)), 'w')
+    power_file.write("Filename,recall,precision,f_measure,power"+"\n")
+    for res in scores:
+        power_file.write(str(res[0])+","+str(res[1])+","+str(res[2])+","+str(res[3])+","+str(res[4])+"\n")
+
+
+
+
 
 
 if __name__ == "__main__":

@@ -1,6 +1,0 @@
-FN
-TP
-FN
-TP
-FN
-FP
