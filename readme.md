@@ -50,7 +50,11 @@ Following this, activate this environment and execute simu_naive with arguments:
 
 ### Run simu_naive.py
 
-It is possible to call this tool using a default call using launch_simu_naive_toy_example.py. In this launcher is also added explications about arguments used in call. It is also possible to display help using
+It is possible to call this tool using a default call using
+
+    ./launch_simu_naive_toy_example.py
+
+In this launcher is also added explications about arguments used in call. It is also possible to display help using
 
     simu_naive.py --help
 

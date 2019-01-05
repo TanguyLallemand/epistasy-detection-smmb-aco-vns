@@ -45,8 +45,18 @@ To execute this script please call:
     ./launch_smmbaco_toy_example.py
 
 ## Expected output
-This method give as output a text file gathering all results.
-<!-- TODO mettre un exemple -->
+This method give as output a text file gathering all results. Here is an example of expected output:
+
+    # Result from SMMB-ACO
+    # Pattern || Occurences || G2-score || p-value || unreliable case
+    {N4} || 2 || 0.82732 || 0.661226 || 0
+    {N6} || 35 || 6.60145 || 0.0368564 || 0
+    {N9} || 38 || 8.29162 || 0.0158306 || 0
+    {N11} || 1 || 2.02875 || 0.36263 || 0
+    {M0P7} || 197 || 23.0793 || 9.73652e-06 || 0
+    {M0P8} || 502 || 25.2601 || 3.27211e-06 || 0
+    # Time of execution: 18 seconds
+
 Those results can be checked using our evaluation tool given in evaluation folder.
 Using toy data set:
 <!-- TODO mettre ce qu on attend -->
