@@ -166,18 +166,13 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
     // Counter of iterations
     unsigned j = 0;
     list<unsigned> save_MB;
-    // std::cout << _n_it << '\n';
     // Loop to generate the markov blanket //TODO check the condition
-    while ((MB_a_ref.empty() && j<_n_it) && markov_blanket_modified)
+    while ((MB_a_ref.empty() && j<_n_it) || markov_blanket_modified)
     {
-        // std::cout << "toto" << '\n';
-        // std::cout << markov_blanket_modified << '\n';
-        // std::cout << save_MB.size() << '\n';
-        // std::cout << MB_a_ref.size() << '\n';
         // saving MB to check differencies and launch next iteration or not
         save_MB = MB_a_ref;
 
-        forward(markov_blanket_modified, MB_a_ref, ant_subset, mem_ant_ref);
+        forward(MB_a_ref, ant_subset, mem_ant_ref);
         j++;
         // sorting just in case... maybe already done elsewhere
         MB_a_ref.sort();
@@ -185,19 +180,18 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
         {
             markov_blanket_modified = true;
         }
+        else
+        {
+            markov_blanket_modified = false;
+        }
     }
-    //backward(markov_blanket_modified, MB_a_ref);
-    //TODO voir si on en met un la finalement
 }
 
 //==============================================================================
 // smmb_aco : forward
 //==============================================================================
-void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & MB_a_ref, boost_vector_int const& ant_subset, std::map<unsigned, list<float>> & mem_ant_ref)
+void smmb_aco::forward(list<unsigned> & MB_a_ref, boost_vector_int const& ant_subset, std::map<unsigned, list<float>> & mem_ant_ref)
 {
-    // To break the loop if nothing modified
-    markov_blanket_modified = false;
-
     // Initialization of sub_subset container at right size with zeros
     boost_vector_int sub_subset(_sub_subset_size, 0);
     // Sub_sampling from ant_subset not taking SNPs already in the MB of this ant
@@ -214,7 +208,6 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & MB_a_ref
     // Searching for the best combination based on score and returning the score and p_value of the solution
     boost_vector_float result = best_combination(best_pattern, combi_list, MB_a_ref, mem_ant_ref);
     // If independance hypothesis is rejected : entering here
-    std::cout << result(1) << '\n';
     if (result(1) < _alpha_stat)
     {
         // Append the best pattern found at the end of the MB
@@ -222,8 +215,6 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & MB_a_ref
         {
             MB_a_ref.push_back(i);
         }
-        // Markov blanket has been modified we need an other loop run
-        markov_blanket_modified = true;
         // Entering backward phase to remove worst SNPs of the MB
         backward(MB_a_ref);
     }
@@ -232,7 +223,7 @@ void smmb_aco::forward(bool & markov_blanket_modified, list<unsigned> & MB_a_ref
 //==============================================================================
 // smmb_aco : backward
 //==============================================================================
-void smmb_aco::backward(list<unsigned> & MB_a_ref) //TODO comfirm that it is not safe at all
+void smmb_aco::backward(list<unsigned> & MB_a_ref)
 {
     // Creating a copy of the MB to avoid modifying the iterator
     list<unsigned> iterate = MB_a_ref;

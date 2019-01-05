@@ -8,4 +8,4 @@ import os
 # First: path of genotype data set
 # Second: path of associated phenotype data set
 # Third: path to parameters file
-os.system('./smmb_aco/smmb_aco.exe ./toy_dataset/1__simu_naive_genotype_toy_dataset.txt ./toy_dataset/1__simu_naive_phenotype_toy_dataset.txt ./smmb_aco/toy_example/parameters.txt')
+os.system('./smmb_aco/smmb_aco.exe ./smmb_aco/toy_example/toy_dataset/genotypes_toy_dataset.txt ./smmb_aco/toy_example/toy_dataset/phenotypes_toy_dataset.txt ./smmb_aco/toy_example/parameters.txt')

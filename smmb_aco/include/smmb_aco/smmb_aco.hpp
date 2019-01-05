@@ -84,7 +84,7 @@ private:
     //==========================================================================
 
     void learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref, std::map<unsigned, list<float>> & mem_ant_ref);
-    void forward(bool & markov_blanket_modified, list<unsigned> & MB_a_ref, boost_vector_int const& ant_subset, std::map<unsigned, list<float>> & mem_ant_ref);
+    void forward(list<unsigned> & MB_a_ref, boost_vector_int const& ant_subset, std::map<unsigned, list<float>> & mem_ant_ref);
     void backward(list<unsigned> & MB_a_ref);
 
     //==========================================================================
