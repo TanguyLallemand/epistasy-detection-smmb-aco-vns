@@ -22,7 +22,7 @@ output_prefix result_
 alpha 0.05
 
 # Number of consecutive runs of SMMB-ACO
-n_smmb_aco_runs 1#2
+n_smmb_aco_runs 1 #2
 
 # Precision used in adaptative permutations
 precision 0.1

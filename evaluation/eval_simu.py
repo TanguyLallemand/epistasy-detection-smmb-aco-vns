@@ -27,6 +27,8 @@ def get_arguments():
         "-o", "--output", help="Give an output directory", type=str, action='store', required=True)
     parser.add_argument(
         "-n", "--nruns", help="Number of method executions to be performed on each file in the dataset", type=int)
+    parser.add_argument(
+        "-m", "--method", help="Method to test", type=str, action='store', required=True)
     args = parser.parse_args()
     return args
 
@@ -160,6 +162,7 @@ def main():
     input_directory = args.input
     output_directory = args.output
     number_of_execution = args.nruns
+    method = args.method
     # Get list of genotype files in input directory
     input_files = get_genotype_files(input_directory)
     # Get pattern size from one file
@@ -177,9 +180,15 @@ def main():
         FN = 0
 
         for i in range(0, number_of_execution):
-            os.system('./smmb_aco/smmb_aco.exe '+file+' '+pheno_file+' '+'./evaluation/parameters_smmb.txt')
+            if method == 'smmb_aco':
+                os.system('./smmb_aco/smmb_aco.exe '+file+' '+pheno_file+' '+'./evaluation/parameters_smmb.txt')
+            elif method == "vns":
+                os.system('./vns/vns.exe '+file+' '+pheno_file+' '+'./evaluation/parameters_vns.txt')
+            else:
+                sys.exit("wrong method name, available methods : vns, smmb_aco")
 
-            result_file = glob.glob("./gametes_datas/temp_results/" + "*")
+            result_file = glob.glob("./evaluation/temp_results/" + "*")
+            print(result_file)
             result_file1 = open(result_file[0], 'r')
 
             result_type = result_analysis(result_file1, pattern_size)

@@ -1,0 +1,37 @@
+################################################################################
+# Parameters of data structure and project architecture
+################################################################################
+
+# number of header lines in the genotype file
+header 1
+
+# separation between fields in the genotype file
+separator ,
+
+# Path of output directory
+output_directory ./evaluation/temp_results/
+
+# Prefix of output files
+output_prefix result_
+
+################################################################################
+# Parameters of VNS
+################################################################################
+
+# alpha type I error rate
+alpha 0.05
+
+# Runs (number of runs in vns)
+iteration_num 10
+
+# max size of searched patterns
+pat_size_max 3
+
+# min size of searched patterns
+pat_size_min 2
+
+# number of neighbors to test before going to a futher neighborhood (VNS)
+max_it_vns 40
+
+# number of neighbors to test before going to a futher neighborhood (VNS)
+max_it_local_search 40
