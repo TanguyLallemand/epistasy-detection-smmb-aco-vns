@@ -1,9 +1,7 @@
 #include "file_parsing.hpp"
 
-//TODO voir si un destructeur est nécessaire
-
 //=============================================================================
-// data_parsing : constructeur
+// data_parsing : constructor
 //=============================================================================
 data_parsing::data_parsing(string geno_filename, string pheno_filename, int header_size, char separator)
 {
@@ -104,7 +102,6 @@ void data_parsing::get_line_nb()
         {
             _row_number++;
         }
-        //_row_number = _row_number - _header_size;
     }
     else
     {
