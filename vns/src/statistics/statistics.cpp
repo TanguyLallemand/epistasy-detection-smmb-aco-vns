@@ -4,8 +4,9 @@
  */
 #include "statistics.hpp"
 
-// Objective of this file is to compute conditionnal g2 test allowing to determine
-// if two variables, conditionnaly on a set of a variable are independant.
+// Objective of this file is to compute conditionnal g2 test allowing to
+// determine if two variables, conditionnaly on a set of a variable are
+// independant.
 // This allows to determine if a given SNPs need to be included or removed
 // from Markov Blanket in construction
 
