@@ -177,10 +177,10 @@ def generate_SNP_name(number_of_variables, pattern_size):
     # Generate id of variables
     for j in range(0, number_of_variables - pattern_size):
         # Join "SNP" string with iterator
-        id.append(''.join('SNP-N-' + str(j)))
+        id.append(''.join('N' + str(j)))
     for j in range(0, pattern_size):
         # Join "SNP" string with iterator
-        id.append(''.join('SNP-C-' + str(j)))
+        id.append(''.join('M' + str(j)))
     return id
 
 ################################################################################
