@@ -64,13 +64,10 @@ void smmb_aco::run()
         std::cout << "Iteration #" << i << '\n';
         std::cout << "Tau vector" << '\n';
         std::cout << _tau << '\n';
-
         // Reseting _markov_blanket_a for the new iteration
         _markov_blanket_a.clear();
-
         // Parallelization
         #pragma omp parallel for
-
         // Iterating through ants
         for (size_t a = 0; a < _n_ant; a++)
         {
@@ -81,13 +78,10 @@ void smmb_aco::run()
             //generate MB from the ant subset
             learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant(a));
         }
-
         save_iteration_result();
-
         // Update pheromon based on the results of tests performed on this iteration
         update_tau();
     }
-
     // prepare the second pass
     // listing all different SNPs in MB_s
     list<unsigned> new_set;
@@ -177,7 +171,6 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
     {
         // saving MB to check differencies and launch next iteration or not
         save_MB = MB_a_ref;
-
         forward(MB_a_ref, ant_subset, mem_ant_ref);
         j++;
         // sorting just in case... maybe already done elsewhere
@@ -202,13 +195,10 @@ void smmb_aco::forward(list<unsigned> & MB_a_ref, boost_vector_int const& ant_su
     boost_vector_int sub_subset(_sub_subset_size, 0);
     // Sub_sampling from ant_subset not taking SNPs already in the MB of this ant
     sub_sampling(sub_subset, ant_subset, MB_a_ref);
-
     // Container for all combinations of the current sub_subset
     list<list<unsigned>> combi_list;
-
     // Generating all the combinations from the drawn sub_subset
     get_all_combinations(sub_subset, combi_list);
-
     // Container to save the best pattern found by best_combination()
     list<unsigned> best_pattern;
     // Searching for the best combination based on score and returning the score and p_value of the solution
@@ -233,13 +223,11 @@ void smmb_aco::backward(list<unsigned> & MB_a_ref)
 {
     // Creating a copy of the MB to avoid modifying the iterator
     list<unsigned> iterate = MB_a_ref;
-
     // iterating SNPs of the MB
     for (auto const& current_SNP : iterate)
     {
         // Creating a copy of the current MB
         list<unsigned> MB_minus_current_SNP = MB_a_ref;
-
         // Removing the current SNP from the MB copy
         MB_minus_current_SNP.remove(current_SNP);
         // Converting current MB without current SNP to a vector
@@ -256,7 +244,6 @@ void smmb_aco::backward(list<unsigned> & MB_a_ref)
         list<list<unsigned>> combi_list;
         // Generating all the combination from the drawn sub_subset
         get_all_combinations(vector_MB, combi_list);
-
         //reference to the column of the current SNP
         boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, current_SNP);
         //iterating the combination list
@@ -296,7 +283,6 @@ void smmb_aco::sub_sampling(boost_vector_int & sub_subset, boost_vector_int cons
             small_distrib(i) = _pheromone_distrib(ant_subset(i));
         }
     }
-
     // Picking SNPs in the ant subset
     boost_vector_int temporary = tools::sampling(_sub_subset_size, small_distrib, _rng);
     // Taking the SNPs on index returned by tools::sampling in ant_subset
@@ -327,7 +313,6 @@ void smmb_aco::generate_combinations(list<unsigned> temp, list<list<unsigned>> &
 {
     // Copy the subset for next iteration
     list<unsigned> next_subset(subset);
-
     // Iterate the subset list
     for (auto const& h : subset)
     {
@@ -365,7 +350,6 @@ boost_vector_float smmb_aco::best_combination(list<unsigned> & best_pattern, lis
             conditionnal_set.remove(current_SNP);
             // Making a matrix column ref to pass to the function
             boost::numeric::ublas::matrix_column<boost_matrix> mc (_genos_matrix, current_SNP);
-
             // Calculating score of the current SNP of the pattern
             boost_vector_float result_SNP = statistics::make_contingencies_g_2_conditional_test_indep(mc, _pheno_vector, conditionnal_set);
             // Stocking result in the ant_memory
@@ -457,9 +441,7 @@ void smmb_aco::next_pass(list<unsigned> new_set)
 void smmb_aco::score_for_final_results()
 {
     _stats_results.resize(_markov_blanket_s.size());
-
     unsigned st=0;
-
     for (auto pattern : _markov_blanket_s)
     {
         _stats_results(st) = boost_vector_float(3, 1);
