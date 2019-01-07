@@ -1,3 +1,7 @@
+/*
+   Authors: Tanguy Lallemand M2BB
+         Jonathan Cruard M2BB
+ */
 #include "parameters_parsing.hpp"
 #include "file_parsing.hpp"
 #include "smmb_aco.hpp"
@@ -25,17 +29,5 @@ int main(int argc, char* argv[])
 	// Instanciation de smmb_aco
 	smmb_aco test(data, params);
 	test.run();
-	// std::cout << "fin des temps" << '\n';
-	//boost_vector mordecai = test.return_tau();
-	//boost::numeric::ublas::vector<int> gg = TOOLS_HPP::sampling(params.aco_set_size, mordecai);
-	//smmb_aco.run();//exemple de call de la méthode smmb. Ca ne passe pas parce qu'il faut avoir une instance d ela classe avt...
-
-
-/*Algo du main
-
-   parser les parametres
-   parser les fichiers et les charger en tant que matrice
-   les passer a smmb_ACO
-   ecrire les resultats
- */
+	return 0;
 }

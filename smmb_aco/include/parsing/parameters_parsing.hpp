@@ -1,3 +1,7 @@
+/*
+   Authors: Tanguy Lallemand M2BB
+         Jonathan Cruard M2BB
+ */
 #ifndef PARAMETERS_PARSING_HPP
 #define PARAMETERS_PARSING_HPP
 

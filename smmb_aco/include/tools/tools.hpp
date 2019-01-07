@@ -1,3 +1,7 @@
+/*
+   Authors: Tanguy Lallemand M2BB
+         Jonathan Cruard M2BB
+ */
 #ifndef TOOLS_HPP
 #define TOOLS_HPP
 
