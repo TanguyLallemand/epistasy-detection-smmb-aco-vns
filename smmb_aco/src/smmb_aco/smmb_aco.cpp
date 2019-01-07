@@ -27,6 +27,7 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing params)
     this->_pass_number = params.n_smmb_aco_runs;
     this->_tau_0 = params.aco_tau_init;
 
+    std::cout << _pass_number << '\n';
     // Initialization of the rng seed
     this->_rng.seed(time(NULL));
 
@@ -98,6 +99,7 @@ void smmb_aco::run()
             }
         }
     }
+    std::cout << new_set.size() << '\n';
     // If user asked for two pass and if dataset is enought wide
     if ((_pass_number > 1) && (new_set.size() > 20))
     {
