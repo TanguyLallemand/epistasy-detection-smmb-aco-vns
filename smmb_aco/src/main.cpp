@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
 	data_parsing data(genos_file, phenos_file, header, separator);
 	// Instanciation of smmb_aco
 	smmb_aco smmb_aco_instanciation(data, params);
+	// Run algorithm
 	smmb_aco_instanciation.run();
 	return 0;
 }
