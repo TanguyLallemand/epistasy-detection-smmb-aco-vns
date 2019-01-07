@@ -9,7 +9,7 @@ header 1
 separator ,
 
 # Path of output directory
-output_directory ./gametes_datas/temp_results/
+output_directory ./evaluation/temp_results/
 
 # Prefix of output files
 output_prefix result_
