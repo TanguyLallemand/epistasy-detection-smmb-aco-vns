@@ -1,3 +1,7 @@
+/*
+   Authors: Tanguy Lallemand M2BB
+         Jonathan Cruard M2BB
+ */
 #include <iostream>
 #include <stdlib.h>
 #include <string>
@@ -26,5 +30,4 @@ int main(int argc, char* argv[])
 	test.run();
 
 	return 0;
-    //variable_neightborhood_search vns(params);
 }

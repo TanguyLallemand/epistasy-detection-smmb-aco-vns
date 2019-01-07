@@ -1,4 +1,8 @@
-#include "file_parsing.hpp"
+/*
+   Authors: Tanguy Lallemand M2BB
+         Jonathan Cruard M2BB
+ */
+ #include "file_parsing.hpp"
 
 //=============================================================================
 // data_parsing : constructor
