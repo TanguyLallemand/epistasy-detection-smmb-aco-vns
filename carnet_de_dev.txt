@@ -1,6 +1,7 @@
 TODO upgrades ideas
 -commenter plus
-
+-rework eval
+-tri dans l'output
 smmb_aco
 
 vns
@@ -17,7 +18,7 @@ Attention les launch doivent avoir en comment l ensemble de l explication des pa
 chemins a changer:
 boost folder dans le makefile
 
-Rapport: mettre l histoire de la condition d arret et l histoire du boolean qui laisse une trace fausse //DONE
+
 
 Bien mettre ce qu on a fait tt seul (les methpdes choppes dans boost, le fait qu on a rien piquer a clement)
 
