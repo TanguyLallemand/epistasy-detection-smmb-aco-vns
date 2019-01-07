@@ -22,7 +22,7 @@ output_prefix result_
 alpha 0.05
 
 # Runs (number of runs in vns)
-iteration_num 10
+iteration_num 4
 
 # max size of searched patterns
 pat_size_max 3
@@ -30,8 +30,8 @@ pat_size_max 3
 # min size of searched patterns
 pat_size_min 2
 
-# number of neighbors to test before going to a futher neighborhood (VNS)
-max_it_vns 40
+# number of neighbors to test before going to a further neighborhood (VNS)
+max_it_vns 10
 
-# number of neighbors to test before going to a futher neighborhood (VNS)
-max_it_local_search 40
+# number of neighbors to test before going to a further neighborhood (local_search)
+max_it_local_search 50

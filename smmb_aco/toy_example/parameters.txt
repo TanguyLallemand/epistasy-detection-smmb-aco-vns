@@ -22,7 +22,7 @@ output_prefix result_
 alpha 0.05
 
 # Number of consecutive runs of SMMB-ACO
-n_smmb_aco_runs 1#2
+n_smmb_aco_runs 1 #2
 
 # Number of iterations in ACO
 aco_n_iterations 10
