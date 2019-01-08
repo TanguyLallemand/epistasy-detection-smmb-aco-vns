@@ -4,7 +4,9 @@ Authors: Tanguy Lallemand M2BB
 */
 #ifndef GLOBAL_HPP
 #define GLOBAL_HPP
-
+//==============================================================================
+// Library included
+//==============================================================================
 #include <boost/math/distributions/chi_squared.hpp>
 #include <boost/numeric/ublas/io.hpp>
 #include <boost/numeric/ublas/matrix.hpp>
