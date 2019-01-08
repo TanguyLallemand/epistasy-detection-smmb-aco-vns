@@ -500,20 +500,23 @@ void smmb_aco::save_results()
     unsigned tu = 0;
     for (auto const& pattern : _markov_blanket_s)
     {
-        output_file << "{";
-        for (auto const& snp : pattern.first)
+        if (_stats_results(tu)[1])
         {
-            output_file << _snp_id(snp);
-            if (snp!=pattern.first.back()) {
-                output_file << ",";
+            output_file << "{";
+            for (auto const& snp : pattern.first)
+            {
+                output_file << _snp_id(snp);
+                if (snp!=pattern.first.back()) {
+                    output_file << ",";
+                }
             }
+            output_file << "} || " << pattern.second;
+            for (auto stat : _stats_results(tu))
+            {
+                output_file << " || " << stat;
+            }
+            output_file << "\n";
         }
-        output_file << "} || " << pattern.second;
-        for (auto stat : _stats_results(tu))
-        {
-            output_file << " || " << stat;
-        }
-        output_file << "\n";
         tu++;
     }
     output_file << "# Time of execution: " << _duration << " seconds" << endl;
