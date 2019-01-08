@@ -39,7 +39,7 @@ def get_arguments():
 
 def get_genotype_files(input_directory):
     # Search for file ending with txt extension in a given directory
-    input_files = glob.glob(input_directory + 'genotype_*.csv')
+    input_files = glob.glob(input_directory + '*genotype*')
     return input_files
 
 ###############################################################################
@@ -205,12 +205,12 @@ def main():
         prec = calc_precision(TP, FP)
         f_measure = calc_f_measure(recall, prec)
         power = calc_power(TP, number_of_execution)
-        scores.append((os.path.basename(os.path.normpath(file)), recall, prec, f_measure, power))
+        scores.append((os.path.basename(os.path.normpath(file)), TP, FP, FN, recall, prec, f_measure, power))
         break
-    power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)), 'w')
-    power_file.write("Filename,recall,precision,f_measure,power"+"\n")
+    power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + ".csv", 'w')
+    power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power"+"\n")
     for res in scores:
-        power_file.write(str(res[0])+","+str(res[1])+","+str(res[2])+","+str(res[3])+","+str(res[4])+"\n")
+        power_file.write(str(res[0])+","+str(res[1])+","+str(res[2])+","+str(res[3])+","+str(res[4])+","+str(res[5])+","+str(res[6])+","+str(res[7])+"\n")
 
 
 

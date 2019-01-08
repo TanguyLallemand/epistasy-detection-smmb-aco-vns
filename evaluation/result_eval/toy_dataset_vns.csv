@@ -1,0 +1,2 @@
+Filename,TP,FP,FN,recall,precision,f_measure,power
+genotypes_toy_dataset.txt,2,55,43,0.044444444444444446,0.03508771929824561,0.9617547806524185,0.02
