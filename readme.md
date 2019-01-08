@@ -75,7 +75,9 @@ On each data set constituted by one genotype file and his associated phenotype f
 This method give as output a text file gathering all results. Those results can be checked using our evaluation tool given in evaluation folder.
 Using a toy data set:
 
-<!-- TODO add  -->
+Filename,TP,FP,FN,recall,precision,f_measure,power
+genotypes_toy_dataset.txt,2,55,43,0.044444444444444446,0.03508771929824561,0.9617547806524185,0.02
+
 
 ## Packages and library used in this project
 

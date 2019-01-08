@@ -53,8 +53,10 @@ This method give as output a txt file gathering all results.
     {N13,M0P7,M0P8} || 1 || 99.0419 || 0 || 3
     # Time of execution: 37 seconds
 Those results can be checked using our evaluation tool given in evaluation folder.
-Using toy data set:
-<!-- TODO mettre ce qu on attend -->
+Using a toy data set:
+
+Filename,TP,FP,FN,recall,precision,f_measure,power
+genotypes_toy_dataset.txt,2,55,43,0.044444444444444446,0.03508771929824561,0.9617547806524185,0.02
 
 ## Built With
 -   [BOOST](https://www.boost.org/) - peer-reviewed portable C++ source libraries
