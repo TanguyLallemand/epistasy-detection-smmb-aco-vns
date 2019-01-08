@@ -122,7 +122,8 @@ void parameters_parsing::import_line(string const& line)
 //==============================================================================
 // parameters_parsing : split
 //==============================================================================
-// Tghis functions allows to split line following a delimiter
+// This functions allows to split line following a delimiter
+
 vector<string> parameters_parsing::split(string const& s, char delim)
 {
     stringstream ss(s);
