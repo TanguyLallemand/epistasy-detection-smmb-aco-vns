@@ -73,7 +73,7 @@ boost_vector_float statistics::compute_g_2_conditional_test_indep(std::vector<co
 			results_to_return(2) += 1;
 		}
 		// Compute a g 2 test
-		results_to_return(0) = compute_g_2(contingencies_vector[i], contingency_theorical_table_content);
+		results_to_return(0) += compute_g_2(contingencies_vector[i], contingency_theorical_table_content);
     }
 	// Calculate associated p value using a chi2 distribution table generated following a number of liberty degrees
 	float p_value = 1 - boost::math::cdf(g_2_distribution, results_to_return(0));
