@@ -500,7 +500,7 @@ void smmb_aco::save_results()
     unsigned tu = 0;
     for (auto const& pattern : _markov_blanket_s)
     {
-        if (_stats_results(tu)[1])
+        if (_stats_results(tu)[1] < 0.5)
         {
             output_file << "{";
             for (auto const& snp : pattern.first)
