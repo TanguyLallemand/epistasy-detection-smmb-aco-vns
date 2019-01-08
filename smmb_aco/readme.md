@@ -49,13 +49,15 @@ This method give as output a text file gathering all results. Here is an example
 
     # Result from SMMB-ACO
     # Pattern || Occurences || G2-score || p-value || unreliable case
-    {N4} || 2 || 0.82732 || 0.661226 || 0
-    {N6} || 35 || 6.60145 || 0.0368564 || 0
-    {N9} || 38 || 8.29162 || 0.0158306 || 0
-    {N11} || 1 || 2.02875 || 0.36263 || 0
-    {M0P7} || 197 || 23.0793 || 9.73652e-06 || 0
-    {M0P8} || 502 || 25.2601 || 3.27211e-06 || 0
-    # Time of execution: 18 seconds
+    {N9} || 5 || 8.29162 || 0.0158306 || 0
+    {N2,N15} || 1 || 13.6362 || 0.0339752 || 0
+    {N3,N24} || 1 || 19.1511 || 0.00391592 || 0
+    {M0P8} || 67 || 25.2601 || 3.27211e-06 || 0
+    {M0P7} || 59 || 23.0793 || 9.73652e-06 || 0
+    {N9,M0P8} || 14 || 41.0846 || 2.78666e-07 || 0
+    {M0P7,M0P8} || 269 || 64.7442 || 4.86522e-12 || 0
+    # Time of execution: 11 seconds
+
 
 Those results can be checked using our evaluation tool given in evaluation folder.
 Using toy data set:
