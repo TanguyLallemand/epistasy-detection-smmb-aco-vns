@@ -14,7 +14,8 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing params)
     this->_pheno_vector = dataset._pheno_vector;
     this->_snp_id = dataset._snp_id_vector;
     this->_filename = dataset._geno_filename;
-
+    // Miscellaneous
+    this->_verbose = params.verbose;
     // Storing parameters in members variables
     this->_n_it_n = params.aco_n_iterations;
     this->_n_it = params.n_trials_to_learn_1_mb;
@@ -31,7 +32,6 @@ smmb_aco::smmb_aco(data_parsing dataset, parameters_parsing params)
     this->_pass_number = params.n_smmb_aco_runs;
     this->_tau_0 = params.aco_tau_init;
 
-    std::cout << _pass_number << '\n';
     // Initialization of the rng seed
     this->_rng.seed(time(NULL));
 
@@ -62,8 +62,11 @@ void smmb_aco::run()
     for (size_t i = 0; i < _n_it_n; i++)
     {
         std::cout << "Iteration #" << i << '\n';
-        std::cout << "Tau vector" << '\n';
-        std::cout << _tau << '\n';
+        if (_verbose)
+        {
+            std::cout << "Tau vector" << '\n';
+            std::cout << _tau << '\n';
+        }
         // Reseting _markov_blanket_a for the new iteration
         _markov_blanket_a.clear();
         // Parallelization
