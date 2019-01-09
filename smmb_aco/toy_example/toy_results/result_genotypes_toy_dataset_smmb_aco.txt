@@ -1,4 +1,4 @@
-# Result from SMMB-ACO 
+# Result from SMMB-ACO
 # Pattern || Occurences || G2-score || p-value || unreliable case
 {M0P7,M0P8} || 298 || 64.744194 || 4.87e-12 || 0
 {N9,M0P8} || 4 || 41.084591 || 2.79e-07 || 0

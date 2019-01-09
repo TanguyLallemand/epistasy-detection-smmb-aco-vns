@@ -63,6 +63,9 @@ void parameters_parsing::import_line(string const& line)
     else if(key == "output_prefix")
         output_prefix = value;
 
+    else if(key == "verbose")
+        verbose = atoi(value.c_str());
+
     else if(key == "alpha")
         alpha = atof(value.c_str());
 
@@ -122,7 +125,8 @@ void parameters_parsing::import_line(string const& line)
 //==============================================================================
 // parameters_parsing : split
 //==============================================================================
-// Tghis functions allows to split line following a delimiter
+// This functions allows to split line following a delimiter
+
 vector<string> parameters_parsing::split(string const& s, char delim)
 {
     stringstream ss(s);

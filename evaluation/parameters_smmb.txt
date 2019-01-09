@@ -28,7 +28,7 @@ n_smmb_aco_runs 1 #2
 precision 0.1
 
 # Number of iterations in ACO
-aco_n_iterations 5
+aco_n_iterations 10
 
 # Number of ants (500 or more (antEpiSeeker))
 aco_n_ants 50
@@ -70,3 +70,10 @@ aco_eta 1
 #     alpha and beta: two values used to ajust the relative importance between pheromone rate and a priori knowledge (by default, both parameters are initialized to 1).
 aco_alpha 1
 aco_beta 1
+
+################################################################################
+# Miscellaneous
+################################################################################
+
+# Ask program to be verbose or not. Please put 1 or 0
+verbose 1

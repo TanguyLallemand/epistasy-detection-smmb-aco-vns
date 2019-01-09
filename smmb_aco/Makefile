@@ -6,9 +6,14 @@
 # compiler flags
 # -g --Enable debugging
 # -Wall --Turn on all warnings
-# -D_USE_FIXED_PROTOTYPES_
-# --Force the compiler to use the correct headers
-# -ansi --Don't use GNU ext; do use ansi standard.
+# -fopenmp to use parallelized computation
+# -Wall for all warnings
+# -Wextra for extra warnings
+# -DNDEBUG for using debugging tools such as dnd or valgrind and profiling of our program if those informations are don't wanted please use -s instead
+# -I$(BOOST_FOLDER) include all libraries
+# -O1 -O2 -O3  offers three levels of optimization, from least optimized to fastest. The program generated will generally be larger and, above all, the compilation time will increase as you move up levels.
+
+
 
 # Add external library path
 BOOST_FOLDER = ../../boost_1_61_0
@@ -23,10 +28,13 @@ INC=-I$(BOOST_FOLDER) \
 
 # Save compiler call
  CXX=g++ -o
-# CXXFLAGS=-std=c++11 -DNDEBUG -g $(INC)
  #Intial call
- CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -g $(INC)
- LFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -I$(BOOST_FOLDER) -lm
+ # Flags for less verbose
+ CXXFLAGS=-std=c++11 -s -O2 -g $(INC)
+ LFLAGS=-std=c++11 -fopenmp -I$(BOOST_FOLDER) -lm
+ # flags with maximum verbose
+ #CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -O2 -g $(INC)
+ #LFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -I$(BOOST_FOLDER) -lm
 # Save directory names
  SRCDIR=src
  OBJDIR=obj

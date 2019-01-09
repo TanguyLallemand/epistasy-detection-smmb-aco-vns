@@ -61,7 +61,10 @@ This method give as output a text file gathering all results. Here is an example
 
 Those results can be checked using our evaluation tool given in evaluation folder.
 Using toy data set:
-<!-- TODO mettre ce qu on attend -->
+
+    Filename,TP,FP,FN,recall,precision,f_measure,power
+    genotypes_toy_dataset.txt,100,0,0,1.0,1.0,0.5,1.0
+
 ## Built With
 -   [BOOST](https://www.boost.org/) - peer-reviewed portable C++ source libraries
 

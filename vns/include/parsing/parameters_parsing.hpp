@@ -9,30 +9,40 @@
 class parameters_parsing
 {
 public:
+    //==========================================================================
+    // Constructor
+    //==========================================================================
     parameters_parsing(string parameters_file);
+    //==========================================================================
+    // Method
+    //==========================================================================
     void import_line(std::string const& line);
-
-// Parameters given in the OPTIONS.txt file
-// Reachable from any class that include the current header (Option_file_parsing.hpp)
+    //==========================================================================
+    // Parameters variable reachable by every class
+    //==========================================================================
+    // Parsing instruction
     int header;
     char separator;
+    // Output parameters
+    string output_directory;
+    string output_prefix;
+    // Miscellaneous
+    int verbose;
+    // Parameters for algorithm
     float alpha;
-
     unsigned _iteration_num;
     unsigned _pat_size_max;
     unsigned _pat_size_min;
     unsigned _max_it_vns;
     unsigned _max_it_local_search;
-
+    // Files given as arguments
     string genos_file;
     string phenos_file;
 
-    string output_directory;
-    string output_prefix;
-
-
-
 private:
+    //==========================================================================
+    // Method
+    //==========================================================================
     std::vector<std::string> split(std::string const& s, char delim);
 
 };

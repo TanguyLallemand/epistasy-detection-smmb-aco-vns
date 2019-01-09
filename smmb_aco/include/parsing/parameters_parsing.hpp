@@ -33,7 +33,8 @@ public:
     // Significance threshold
     float alpha;
     float precision;
-
+    // Miscellaneous
+    int verbose;
     // Variables filled with parameters.txt
     //
     unsigned n_mbs;
