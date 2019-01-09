@@ -481,6 +481,8 @@ void smmb_aco::show_results()
     }
 }
 
+
+
 //==============================================================================
 // smmb_aco : save_results
 //==============================================================================
@@ -498,27 +500,61 @@ void smmb_aco::save_results()
     output_file << "# Result from SMMB-ACO \n";
     output_file << "# Pattern || Occurences || G2-score || p-value || unreliable case\n";
     unsigned tu = 0;
+    unsigned to = 0;
+    vector<pair<unsigned, float>> sorting;
+    vector<string> string_pat;
+    string lign;
     for (auto const& pattern : _markov_blanket_s)
     {
         if (_stats_results(tu)[1] < 0.5)
         {
-            output_file << "{";
+            lign = "";
+            lign = lign + '{';
             for (auto const& snp : pattern.first)
             {
-                output_file << _snp_id(snp);
+                lign += _snp_id(snp);
                 if (snp!=pattern.first.back()) {
-                    output_file << ",";
+                    lign = lign + ',';
                 }
             }
-            output_file << "} || " << pattern.second;
-            for (auto stat : _stats_results(tu))
-            {
-                output_file << " || " << stat;
-            }
-            output_file << "\n";
+            lign = lign + "} || ";
+            lign = lign + to_string(pattern.second);
+            lign = lign + " || ";
+            lign = lign + to_string(_stats_results(tu)[0]);
+            lign = lign + " || ";
+            std::stringstream ss;
+            ss << std::scientific << std::setprecision(2) << _stats_results(tu)[1];
+            lign = lign + ss.str();
+            lign = lign + " || ";
+            lign = lign + to_string((int)_stats_results(tu)[2]);
+            lign = lign + "\n";
+            string_pat.push_back(lign);
+            pair<unsigned, float> pair_sort(to, _stats_results(tu)[1]);
+            sorting.push_back(pair_sort);
+            to++;
         }
         tu++;
     }
+    sort(sorting.begin(), sorting.end(), compareFunc);
+
+    for (auto ss : sorting)
+    {
+        output_file << string_pat[ss.first];
+    }
+
+
     output_file << "# Time of execution: " << _duration << " seconds" << endl;
     std::cout << "### SMMB_ACO has finished please see results in: " << '\n' << _output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt" << '\n';
+}
+
+
+bool smmb_aco::compareFunc(pair<unsigned, float> const& a, pair<unsigned, float> const& b)
+{
+    if (a.second < b.second) {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

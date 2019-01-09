@@ -60,7 +60,7 @@ In this launcher is also added explications about arguments used in call. It is 
 
 ## Expected output
 
-On each data set constituted by one genotype file and his associated phenotype file epistasis pattern is searched using both methods. Here is an example of expected output file.
+On each data set constituted by one genotype file and his associated phenotype file epistasis pattern is searched using both methods. Here is an example of expected output file :
 
     # Result from vns
     # Pattern || occurences || chi2-score || p-value || unreliable case
@@ -69,14 +69,19 @@ On each data set constituted by one genotype file and his associated phenotype f
     {N8,N11,N24} || 1 || 44.8019 || 0.0123739 || 10
     {N11,N24} || 1 || 17.463 || 0.0256333 || 0
     {N12,N24,M0P7} || 1 || 42.5037 || 0.0217698 || 4
-    {N13,M0P7,M0P8} || 1 || 99.0419 || 0 || 3
+    {N13,M0P7,M0P8} || 1 || 99.0419 || 2.0e-16 || 3
     # Time of execution: 37 seconds
 
-This method give as output a text file gathering all results. Those results can be checked using our evaluation tool given in evaluation folder.
-Using a toy data set:
+Each method can be evaluated using the eval_simu.py script, it uses the method as many times as it is asked on each data file in the directory given as an argument. A file summarizing the results is produced, it includes the counting of the type of results (true positive: TP, false positive: FP, false negative: FN) as well as the precision calculations, f-measurement, etc.
 
-Filename,TP,FP,FN,recall,precision,f_measure,power
-genotypes_toy_dataset.txt,2,55,43,0.044444444444444446,0.03508771929824561,0.9617547806524185,0.02
+Using call this call on a toy data set :
+
+    ./evaluation/eval_simu.py -i ./smmb_aco/toy_example/toy_dataset/ -o ./evaluation/result_eval/ -n 100 -m vns
+
+It will produce a file of this type :
+
+    Filename,TP,FP,FN,recall,precision,f_measure,power
+    genotypes_toy_dataset.txt,2,55,43,0.044444444444444446,0.03508771929824561,0.9617547806524185,0.02
 
 
 ## Packages and library used in this project

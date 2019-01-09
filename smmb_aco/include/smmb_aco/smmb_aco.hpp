@@ -116,5 +116,9 @@ private:
     void save_iteration_result();
     // Write results in a file
     void save_results();
+
+
+
+    static bool compareFunc(pair<unsigned, float> const& a, pair<unsigned, float> const& b);
 };
 #endif
