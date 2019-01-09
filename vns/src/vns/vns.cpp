@@ -307,18 +307,28 @@ void vns::write_result_file()
 
     output_file << "# Result from vns \n";
     output_file << "# Pattern || occurences || chi2-score || p-value || unreliable case\n";
-    for (auto const& pattern : _optimum_set)
+
+    vector<pair<vector<unsigned>, vector<float>>> _optimum_set_vector;
+    for (auto pattern : _optimum_set)
+    {
+        pair<vector<unsigned>, vector<float>> pair_sort(pattern.first, pattern.second);
+        _optimum_set_vector.push_back(pair_sort);
+    }
+    sort(_optimum_set_vector.begin(), _optimum_set_vector.end(), compareFunc);
+
+    for (auto const& pattern : _optimum_set_vector)
     {
         output_file << "{";
         for (auto const& snp : pattern.first)
         {
-            std::cout << _snp_id(snp) << '\n';
             output_file << _snp_id(snp);
-            if (snp!=pattern.first.back()) {
+            if (snp!=pattern.first.back())
+            {
                 output_file << ",";
             }
         }
         output_file << "}";
+        unsigned cpt = 0;
         for (auto stat : pattern.second)
         {
             output_file << " || " << stat;
@@ -326,4 +336,16 @@ void vns::write_result_file()
         output_file << "\n";
     }
     output_file << "# Execution time : " << _duration << " seconds" << endl;
+}
+
+
+bool vns::compareFunc(pair<vector<unsigned>, vector<float>> const& a, pair<vector<unsigned>, vector<float>> const& b)
+{
+    if (a.second[2] < b.second[2]) {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }

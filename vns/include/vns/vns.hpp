@@ -62,5 +62,6 @@ private:
     vector<float> test_pattern(vector<unsigned> const& pattern);
     vector<unsigned> generate_starting_pattern();
 
+    static bool compareFunc(pair<vector<unsigned>, vector<float>> const& a, pair<vector<unsigned>, vector<float>> const& b);
 };
 #endif
