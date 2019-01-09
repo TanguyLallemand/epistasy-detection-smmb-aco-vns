@@ -43,15 +43,21 @@ To execute this script please call:
 
 ## Expected output
 This method give as output a txt file gathering all results.
-    # Result from vns
+    # Result from vns 
     # Pattern || occurences || chi2-score || p-value || unreliable case
-    {N2,N12,M0P7} || 1 || 43.0154 || 0.0192421 || 12
-    {N7,N20,M0P8} || 1 || 48.6441 || 0.00454652 || 9
-    {N8,N11,N24} || 1 || 44.8019 || 0.0123739 || 10
-    {N11,N24} || 1 || 17.463 || 0.0256333 || 0
-    {N12,N24,M0P7} || 1 || 42.5037 || 0.0217698 || 4
-    {N13,M0P7,M0P8} || 1 || 99.0419 || 0 || 3
-    # Time of execution: 37 seconds
+    {N0,N18} || 1 || 19.8798 || 0.0108003 || 0
+    {N3,N21,M0P7} || 1 || 52.6552 || 0.00149465 || 14
+    {N4,N17,M0P8} || 1 || 49.0533 || 0.00407094 || 4
+    {N6,N9} || 1 || 18.9766 || 0.0149854 || 0
+    {N6,N21,M0P7} || 1 || 39.7037 || 0.0417014 || 14
+    {N9,N10,N17} || 1 || 41.8464 || 0.0254582 || 10
+    {N9,N20} || 1 || 19.9661 || 0.0104652 || 3
+    {N10,M0P7} || 1 || 26.5278 || 0.000852644 || 0
+    {N11,M0P7} || 1 || 29.0766 || 0.000307441 || 0
+    {N12,M0P8} || 1 || 29.5862 || 0.000250101 || 0
+    {N20,N21,M0P7} || 1 || 42.3177 || 0.022761 || 10
+    {N21,M0P7} || 1 || 26.6079 || 0.000826061 || 4
+    # Execution time : 13 seconds
 Those results can be checked using our evaluation tool given in evaluation folder.
 Using a toy data set:
 
