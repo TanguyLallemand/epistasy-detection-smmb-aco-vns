@@ -24,9 +24,6 @@ alpha 0.05
 # Number of consecutive runs of SMMB-ACO
 n_smmb_aco_runs 1#2
 
-# Precision used in adaptative permutations
-precision 0.1
-
 # Number of iterations in ACO
 aco_n_iterations 10
 
@@ -38,9 +35,6 @@ aco_set_size 10
 
 # Size of the smallest subset, k (draw in Algorithm 2)
 subset_size_small 3
-
-# Maximal number of iterations if there is no convergence (top level procedure of SMMB algorithm)
-n_trials_to_learn_mbs 10
 
 # Maximal number of iterations allowed to learn one Markov blanket, for one given large subset K, to escape the issue of non-modified MB.
 # If the sampling of k variables among K variables does not allow to identify a candidate subset s which is actually added to the growing MB, then the MB would not be modified and learnMB (inner level procedure of SMMB algorithm) would stop.

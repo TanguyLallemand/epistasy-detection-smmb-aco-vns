@@ -30,6 +30,8 @@ private:
     boost_vector_int _pheno_vector;
     boost_vector_string _snp_id;
     string _filename;
+    // Miscellaneous
+    int _verbose;
     //==========================================================================
     // Variables initialized by the constructor from parameters
     //==========================================================================

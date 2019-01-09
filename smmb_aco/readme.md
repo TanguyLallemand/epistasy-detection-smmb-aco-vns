@@ -47,16 +47,27 @@ To execute this script please call:
 ## Expected output
 This method give as output a text file gathering all results. Here is an example of expected output:
 
-    # Result from SMMB-ACO
+    # Result from SMMB-ACO 
     # Pattern || Occurences || G2-score || p-value || unreliable case
-    {N9} || 5 || 8.29162 || 0.0158306 || 0
-    {N2,N15} || 1 || 13.6362 || 0.0339752 || 0
-    {N3,N24} || 1 || 19.1511 || 0.00391592 || 0
-    {M0P8} || 67 || 25.2601 || 3.27211e-06 || 0
-    {M0P7} || 59 || 23.0793 || 9.73652e-06 || 0
-    {N9,M0P8} || 14 || 41.0846 || 2.78666e-07 || 0
-    {M0P7,M0P8} || 269 || 64.7442 || 4.86522e-12 || 0
-    # Time of execution: 11 seconds
+    {M0P7,M0P8} || 255 || 64.744194 || 4.87e-12 || 0
+    {N9,M0P8} || 18 || 41.084591 || 2.79e-07 || 0
+    {M0P8} || 74 || 25.260149 || 3.27e-06 || 0
+    {M0P7} || 58 || 23.079254 || 9.74e-06 || 0
+    {N0,N18} || 2 || 19.843737 || 2.95e-03 || 0
+    {N6,N17} || 1 || 18.021011 || 6.18e-03 || 1
+    {N9} || 16 || 8.291620 || 1.58e-02 || 0
+    {N11,N24} || 1 || 15.434236 || 1.71e-02 || 1
+    {N8,N11} || 1 || 14.412374 || 2.54e-02 || 1
+    {N6} || 7 || 6.601450 || 3.69e-02 || 0
+    {N17} || 2 || 3.510657 || 1.73e-01 || 0
+    {N5} || 1 || 3.219894 || 2.00e-01 || 0
+    {N19} || 2 || 2.836130 || 2.42e-01 || 0
+    {N13} || 2 || 2.563854 || 2.78e-01 || 0
+    {N11} || 1 || 2.028747 || 3.63e-01 || 0
+    {N22} || 2 || 2.015779 || 3.65e-01 || 0
+    {N7} || 2 || 1.548885 || 4.61e-01 || 0
+    # Time of execution: 4 seconds
+
 
 
 Those results can be checked using our evaluation tool given in evaluation folder.
