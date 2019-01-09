@@ -35,3 +35,10 @@ max_it_vns 10
 
 # number of neighbors to test before going to a further neighborhood (local_search)
 max_it_local_search 50
+
+################################################################################
+# Miscellaneous
+################################################################################
+
+# Ask program to be verbose or not. Please put 1 or 0
+verbose 1
