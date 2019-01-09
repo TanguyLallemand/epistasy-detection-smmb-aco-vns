@@ -26,7 +26,9 @@ public:
     // Output parameters
     string output_directory;
     string output_prefix;
-    
+    // Miscellaneous
+    int verbose;
+    // Parameters for algorithm
     float alpha;
     unsigned _iteration_num;
     unsigned _pat_size_max;

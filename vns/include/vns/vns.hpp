@@ -35,7 +35,8 @@ private:
 
     // Result map
     map<vector<unsigned>, vector<float>> _optimum_set;
-
+    // Miscellaneous
+    int _verbose;
     double _duration;
     // Parameters of algorithm
     unsigned _iteration_num;

@@ -15,6 +15,7 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     // Output informations
     this->_output_directory = _params.output_directory;
     this->_output_prefix = _params.output_prefix;
+    this->_verbose = _params.verbose;
     // Algorithm parameters
     this->_iteration_num = _params._iteration_num;
     this->_alpha = _params.alpha;

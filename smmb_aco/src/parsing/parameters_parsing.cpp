@@ -63,6 +63,9 @@ void parameters_parsing::import_line(string const& line)
     else if(key == "output_prefix")
         output_prefix = value;
 
+    else if(key == "verbose")
+        verbose = atoi(value.c_str());
+
     else if(key == "alpha")
         alpha = atof(value.c_str());
 
