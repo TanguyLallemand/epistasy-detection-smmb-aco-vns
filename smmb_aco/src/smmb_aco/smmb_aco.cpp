@@ -522,8 +522,8 @@ void smmb_aco::save_results()
             lign = lign + " || ";
             lign = lign + to_string(_stats_results(tu)[0]);
             lign = lign + " || ";
-            std::stringstream ss;
-            ss << std::scientific << std::setprecision(2) << _stats_results(tu)[1];
+            stringstream ss;
+            ss << scientific << setprecision(2) << _stats_results(tu)[1];
             lign = lign + ss.str();
             lign = lign + " || ";
             lign = lign + to_string((int)_stats_results(tu)[2]);
