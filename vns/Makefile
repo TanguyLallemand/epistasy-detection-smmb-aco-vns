@@ -26,7 +26,7 @@ INC=-I$(BOOST_FOLDER) \
  CXX=g++ -o
  #Intial call
  # Flags for less verbose
- CXXFLAGS=-std=c++11 -s -O2 -g $(INC)
+ CXXFLAGS=-std=c++11 -fopenmp -s -O2 -g $(INC)
  LFLAGS=-std=c++11 -fopenmp -I$(BOOST_FOLDER) -lm
  # flags with maximum verbose
  #CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -O2 -g $(INC)
