@@ -70,3 +70,10 @@ aco_eta 1
 #     alpha and beta: two values used to ajust the relative importance between pheromone rate and a priori knowledge (by default, both parameters are initialized to 1).
 aco_alpha 1
 aco_beta 1
+
+################################################################################
+# Miscellaneous
+################################################################################
+
+# Ask program to be verbose or not
+verbose 1 #0
