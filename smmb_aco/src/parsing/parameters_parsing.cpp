@@ -69,14 +69,8 @@ void parameters_parsing::import_line(string const& line)
     else if(key == "alpha")
         alpha = atof(value.c_str());
 
-    else if(key == "precision")
-        precision = atof(value.c_str());
-
     else if(key == "subset_size_small")
         subset_size_small = atoi (value.c_str());
-
-    else if(key == "n_trials_to_learn_mbs")
-        n_trials_to_learn_mbs = atoi(value.c_str());
 
     else if(key == "n_trials_to_learn_1_mb")
         n_trials_to_learn_1_mb = atoi(value.c_str());
