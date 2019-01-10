@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
+# Authors: Tanguy Lallemand M2BB
+#          Jonathan Cruard M2BB
+#
+# This script must be run next to the repository.tar.gz archive that collects gamete data.
+# It will then decompress the archive and reformat data so that they can be used directly by our programs.
 
 # Extract raw datas
 tar xzvf repository.tar.gz  -C ./datas
