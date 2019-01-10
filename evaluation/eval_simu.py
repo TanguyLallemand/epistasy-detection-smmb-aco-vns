@@ -4,11 +4,6 @@
 #          Jonathan Cruard M2 BB
 
 
-## pour lancer
-## ./evaluation/eval_simu.py -i ./gametes_datas/datas/repository/model1/model1_0_01p_0005h_005m/ -o ./gametes_datas/temp_results/ -n 5
-
-
-
 import glob
 import os
 import numpy as np

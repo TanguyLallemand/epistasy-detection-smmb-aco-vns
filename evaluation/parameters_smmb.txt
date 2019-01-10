@@ -9,7 +9,7 @@ header 1
 separator ,
 
 # Path of output directory
-output_directory ./smmb_aco/outputs/
+output_directory ./evaluation/temp_results/
 
 # Prefix of output files
 output_prefix result_
