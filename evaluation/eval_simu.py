@@ -201,7 +201,7 @@ def main():
         f_measure = calc_f_measure(recall, prec)
         power = calc_power(TP, number_of_execution)
         scores.append((os.path.basename(os.path.normpath(file)), TP, FP, FN, recall, prec, f_measure, power))
-        break
+        
     power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + ".csv", 'w')
     power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power"+"\n")
     for res in scores:
