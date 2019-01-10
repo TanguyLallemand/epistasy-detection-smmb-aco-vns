@@ -301,7 +301,7 @@ void vns::write_result_file()
     size_t lastindex = filename_without_extension.find_last_of(".");
     filename_without_extension = filename_without_extension.substr(0, lastindex);
 
-    std::cout << filename_without_extension << '\n';
+        std::cout << "### VNS has finished please see results in: " << '\n' << _output_directory + _output_prefix + filename_without_extension + "_result_vns.txt" << '\n';
     // Create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_result_vns.txt");
 
