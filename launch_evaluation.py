@@ -18,4 +18,4 @@ import os
 #   -m METHOD, --method METHOD
 #                         Method to test
 
-os.system('./evaluation/eval_simu.py -i ./smmb_aco/toy_example/toy_dataset/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco')
+os.system('./evaluation/eval_simu.py -i ./gametes_datas/datas/repository/model1/model1_0_01p_0005h_005m/ -o ./evaluation/result_eval/ -n 100 -m vns')
