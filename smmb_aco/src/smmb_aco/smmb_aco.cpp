@@ -100,7 +100,6 @@ void smmb_aco::run()
             }
         }
     }
-    std::cout << new_set.size() << '\n';
     // If user asked for two pass and if dataset is enought wide
     if ((_pass_number > 1) && (new_set.size() > 20))
     {

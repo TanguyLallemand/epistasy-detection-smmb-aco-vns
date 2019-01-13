@@ -134,19 +134,21 @@ vector<unsigned> vns::generate_starting_pattern()
 vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & third_x)
 {
     // Initialization of temporary variables
-    vector<float> score, best_score {0,1,0};
+    vector<float> score;
+    vector<float> best_score = test_pattern(second_x);
     unsigned l=1;
+    vector<unsigned> candidat_neighbor;
     unsigned exploration = 0;
     while (l < _l_max)
     {
         while (exploration < _max_it_local_search)
         {
-            vector<unsigned> candidat_neighbor = shake(second_x, l);
+            candidat_neighbor = shake(second_x, l);
             score = test_pattern(candidat_neighbor);
             if (score[1] < best_score[1]) // If this pattern is the best tested he becomes the new best and reset counters
             {
                 best_score = score;
-                third_x = candidat_neighbor;
+                second_x = candidat_neighbor;
                 l=1;
                 exploration = 0;
             }
@@ -158,6 +160,7 @@ vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & th
         l++;
         exploration = 0;
     }
+    third_x = second_x;
     return best_score;
 }
 
@@ -188,32 +191,53 @@ vector<float> vns::test_pattern(vector<unsigned> const& pattern)
 
 vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
 {
+    // std::cout << "shake" << '\n';
+    // for (auto test : pattern)
+    // {
+    //     std::cout << test << ' ';
+    // }
+    // std::cout << '\n';
     unsigned mutation_type;
-    std::uniform_int_distribution<int> distribution;
+    // std::uniform_int_distribution<int> distribution;
     std::uniform_int_distribution<int> distribution_pattern(0,pattern.size()-1);
     std::uniform_int_distribution<int> distribution_snp(0,_genos_matrix.size2()-1);
     // Make sure we won't do a forbiden change in the pattern
-    // Here we cannot remove a SNP
-    if (pattern.size()==_pat_size_min)
+    if (_pat_size_min == _pat_size_max)
     {
-        std::uniform_int_distribution<int> distribution(0,1);
+        mutation_type = 1;
     }
     else
     {
-        // Here we cannot add a SNP
-        if (pattern.size()==_pat_size_max)
+        // Here we cannot remove a SNP
+        if (pattern.size()==_pat_size_min)
         {
-            std::uniform_int_distribution<int> distribution(1,2);
+            std::uniform_int_distribution<int> distribution(0,1);
+            // Choose the mutation type to perform (add/remove/change)
+            mutation_type = distribution(_rng);
         }
-        // Here we can add, remove or change a SNP
         else
         {
-            std::uniform_int_distribution<int> distribution(0,2);
+            // Here we cannot add a SNP
+            if (pattern.size()==_pat_size_max)
+            {
+                std::uniform_int_distribution<int> distribution(1,2);
+                // Choose the mutation type to perform (add/remove/change)
+                mutation_type = distribution(_rng);
+
+            }
+            // Here we can add, remove or change a SNP
+            else
+            {
+                std::uniform_int_distribution<int> distribution(0,2);
+                // Choose the mutation type to perform (add/remove/change)
+                mutation_type = distribution(_rng);
+
+            }
         }
     }
-    // Choose the mutation type to perform (add/remove/change)
-    mutation_type = distribution(_rng);
 
+    // std::cout << "mutation_type" << '\n';
+    // std::cout << mutation_type << '\n';
     switch (mutation_type)
     {
         // This case will add an snp to the pattern
@@ -259,6 +283,12 @@ vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
         k = k-1;
         pattern = shake(pattern, k);
     }
+    // std::cout << "shake end" << '\n';
+    // for (auto test : pattern)
+    // {
+    //     std::cout << test << ' ';
+    // }
+    // std::cout << '\n';
     return pattern;
 }
 
@@ -269,6 +299,12 @@ vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
 void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 {
     sort(x.begin(), x.end());
+    for (auto test : x)
+    {
+        std::cout << test << ' ';
+    }
+    std::cout << '\n';
+    std::cout << x_score[1] << '\n';
     // Search for the pattern in the result map
     auto current_opti = _optimum_set.find(x);
 

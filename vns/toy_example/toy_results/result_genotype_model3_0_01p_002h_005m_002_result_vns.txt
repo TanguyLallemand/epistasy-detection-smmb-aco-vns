@@ -1,0 +1,5 @@
+# Result from vns 
+# Pattern || occurences || chi2-score || p-value || unreliable case
+{N34,N50,N51} || 3 || 70.6452 || 5.36442e-06 || 9
+{N15,N24,N32} || 1 || 66.6455 || 2.01464e-05 || 10
+# Execution time : 2 seconds

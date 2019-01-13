@@ -1,0 +1,7 @@
+# Result from vns 
+# Pattern || occurences || chi2-score || p-value || unreliable case
+{N0,M0P11,M0P12} || 1 || 122.355 || 2e-16 || 9
+{N52,M0P11,M0P12} || 1 || 126.776 || 2e-16 || 10
+{N63,M0P11} || 1 || 63.9335 || 2e-16 || 0
+{N79,N80,M0P12} || 1 || 89.0234 || 2e-16 || 9
+# Execution time : 3 seconds

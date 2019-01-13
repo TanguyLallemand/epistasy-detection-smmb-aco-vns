@@ -31,10 +31,10 @@ pat_size_max 3
 pat_size_min 2
 
 # number of neighbors to test before going to a further neighborhood (VNS)
-max_it_vns 10
+max_it_vns 20
 
 # number of neighbors to test before going to a further neighborhood (local_search)
-max_it_local_search 50
+max_it_local_search 20
 
 ################################################################################
 # Miscellaneous
