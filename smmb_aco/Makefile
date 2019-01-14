@@ -24,7 +24,6 @@ INC=-I$(BOOST_FOLDER) \
  -I./include/parsing \
  -I./include/statistics \
  -I./include/tools \
- -I./include/output_writing \
  -I./include/smmb_aco
 
 # Save compiler call
@@ -48,7 +47,6 @@ $(OBJDIR)/smmb_aco.o \
 $(OBJDIR)/parameters_parsing.o \
 $(OBJDIR)/tools.o \
 $(OBJDIR)/contingencies.o \
-$(OBJDIR)/output_writing.o \
 $(OBJDIR)/statistics.o
 
 TARGET=$(BINDIR)/smmb_aco.exe
