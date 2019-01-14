@@ -1,7 +1,0 @@
-# Result from SMMB-ACO 
-# Pattern || Occurences || G2-score || p-value
-{SNP-N-1} || 42 || 5.06483 || 0.0794667
-{SNP-N-10} || 228 || 7.27799 || 0.0262787
-{SNP-N-16} || 22 || 1.5349 || 0.464195
-{SNP-C-0} || 3619 || 383.631 || 0
-# Time of execution: 5
