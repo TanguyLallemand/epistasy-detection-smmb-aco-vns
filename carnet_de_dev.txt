@@ -5,8 +5,6 @@ vns
     -vérifier si on a pas des erreurs qui traînent
 
 
-A relire:
-Attention les launch doivent avoir en comment l ensemble de l explication des parametres
 
 chemins a changer:
 boost folder dans le makefile
@@ -25,30 +23,7 @@ changer la solution cradot du -48 dans le file_parsing.cpp
 (code ascii tout ça tout ça)
 pour le moment on garde car on veut du fonctionnel mais faudrais dans l'idéal trouver mieux <3
 
-On le met dans le launch_smmb_aco
 
-
-fichiers d entres:
-nom des variables entre virgules, autant de lignes que d individus et autant de colonnes que de variables et en plus le fichier des phenotypes
-On fait du random sur tout sauf les deux variables du pattern d epistasie sur les quels ont fait de la rgression logistique. on simule X1 et X2. on a 3 valuers 0,1,2, donc 9 combianaisons possibles. Etant donne le modèle de regression, le calcul avec et Z>0.5. on en a par exemple 6 malade et 3 malade et apres on veut 5000 malades qu on prends dans les 6 configs et 3000 malades qu on prends dans les 3 configs
-
-z= alpha + beta_1 * X1 + beta_2 * X2 + beta_12 * X1 * X2
-
-pr = 1/ 1+exp(z)
-si pr >0.5 alors malade sinon sain
-
-L’algorithme SMMB est une approche originale ; c’est la première variation stochastique proposée
-pour le calcul d’une couverture de Markov : de multiples couvertures sont calculées sur des versions
-perturbées du jeu de données, obtenues par échantillonnage des variables. Une couverture "consensus"
-est ensuite construite. Pour assurer le passage à l’échelle requis par les études d’association génétique,
-et ne pas biaiser l’apprentissage des CM en y incorporant une variable fortement dépendante avec lephénotype, la méthode SMMB se démarque des autres approches en ajoutant des groupes de variables
-à la CM en cours de construction, au lieu d’ajouter les variables une à une.
-L’algorithme SMMB-ACO permet de restreindre encore l’espace de recherche des combinaisons de
-variables explorées. Dans ce cadre, un échantillon de variables est assigné à chacune des fourmis, qui
-en apprend une couverture de Markov. A tous les niveaux de l’algorithme SMMB, l’échantillonnage
-des variables est réalisé selon une loi uniforme. Dans SMMB-ACO, l’échantillonnage est guidé au
-moyen d’une distribution de probabilité, calculée grâce à une stratégie d’optimisation de type colonie
-de fourmis.
 
 mardi 16 octobre, 166min smmb_aco
 
