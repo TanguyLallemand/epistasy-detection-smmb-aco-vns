@@ -1,9 +1,10 @@
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# Makefile for Unix & Linux Systems #
-# using a GNU C++ compiler #
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#===============================================================================
+# Makefile for Unix & Linux Systems using a GNU C++ compiler #
+#===============================================================================
 
-# compiler flags
+#===============================================================================
+# Compiler flags
+#===============================================================================
 # -g --Enable debugging
 # -Wall --Turn on all warnings
 # -fopenmp to use parallelized computation
@@ -29,10 +30,10 @@ INC=-I$(BOOST_FOLDER) \
 # Save compiler call
  CXX=g++ -o
  #Intial call
- # Flags for less verbose
+ # Flags for less verbose, include parallelized compute, optimization at level 2
  CXXFLAGS=-std=c++11 -fopenmp -s -O2 -g $(INC)
  LFLAGS=-std=c++11 -fopenmp -I$(BOOST_FOLDER) -lm
- # flags with maximum verbose
+ # Flags with maximum verbose, include parallelized compute, optimization at level 2, debugger informations
  #CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -O2 -g $(INC)
  #LFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -I$(BOOST_FOLDER) -lm
 # Save directory names
