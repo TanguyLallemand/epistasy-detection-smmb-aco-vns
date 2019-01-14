@@ -118,9 +118,7 @@ private:
     void save_iteration_result();
     // Write results in a file
     void save_results();
-
-
-
+    // Used to sort the results in the output file
     static bool compareFunc(pair<unsigned, float> const& a, pair<unsigned, float> const& b);
 };
 #endif
