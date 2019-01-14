@@ -9,14 +9,17 @@
 //=============================================================================
 data_parsing::data_parsing(string geno_filename, string pheno_filename, int header_size, char separator)
 {
+    // Saving input parameters
     _geno_filename = geno_filename;
     _pheno_filename = pheno_filename;
     _header_size = header_size;
     _separator = separator;
+
+    // Preliminary informations gathering
     get_line_nb();
     get_col_nb();
 
-    //parsing each input object
+    // Parsing of the datas
     parse_snp_id();
     parse_geno();
     parse_pheno();
@@ -88,12 +91,15 @@ void data_parsing::parse_geno()
 //=================================================
 void data_parsing::parse_snp_id()
 {
+    // The vector of IDs is initialised to the number of columns
     _snp_id_vector.resize(_col_number);
     ifstream file(_geno_filename);
     string line;
+    // Get only the header line of the file
     getline(file, line);
     int i=0;
 
+    // Iterate throught the line and save characters into the vector of ID once the seperator is encountered move on to the next case of the vector
     for (size_t r = 0; r < line.size(); r++)
     {
         if (line[r]==_separator)
