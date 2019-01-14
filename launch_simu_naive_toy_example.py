@@ -2,16 +2,19 @@
 # -*- coding: utf-8 -*-
 # Authors: Tanguy Lallemand M2BB
 #          Jonathan Cruard M2BB
+#
+#
 # Please call this script in a python environment with needed packages.
 # In a folder called environment_to_execute_python a file is given to build a
 # virtual environment containning all needed packages.
 # Please read readme for more informations.
-
-
+#
+#
 ################################################################################
 # Arguments                                                                    #
 ################################################################################
-
+#
+# 
 #-o OUTPUT, --output OUTPUT: Give an output directory
 #-p PREFIX, --prefix PREFIX: Common prefix for files
 #-f FILE, --file FILE  Number of file to generate

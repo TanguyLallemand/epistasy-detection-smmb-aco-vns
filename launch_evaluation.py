@@ -2,8 +2,13 @@
 # -*- coding: utf-8 -*-
 # Authors: Tanguy Lallemand M2BB
 #          Jonathan Cruard M2BB
-import os
-
+#
+#
+################################################################################
+# Arguments                                                                    #
+################################################################################
+#
+#
 # usage: eval_simu.py [-h] -i INPUT -o OUTPUT [-n NRUNS] -m METHOD
 #
 # optional arguments:
@@ -17,5 +22,5 @@ import os
 #                         file in the dataset
 #   -m METHOD, --method METHOD
 #                         Method to test
-
+import os
 os.system('./evaluation/eval_simu.py -i ./gametes_datas/datas/repository/model1/model1_0_01p_0005h_005m/ -o ./evaluation/result_eval/ -n 100 -m vns')
