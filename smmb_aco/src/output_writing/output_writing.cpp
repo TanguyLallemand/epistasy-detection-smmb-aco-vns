@@ -9,7 +9,7 @@ void output_writing::write_in_file(string method_used)
 {
     // Instanciate ofstream and open results.txt
     ofstream output_data("./results/results.txt");
-    // // Open the file
+    // Open the file
     // output_data.open("./results/results.txt");
     // Check if file has trouble to be opened
     if( !output_data )

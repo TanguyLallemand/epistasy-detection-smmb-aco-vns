@@ -58,10 +58,11 @@ void smmb_aco::run()
     // Get actual time to measure running time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
     std::cout << "###Run Of SMMB-ACO###" << '\n';
-
+    // Loop, first level
     for (size_t i = 0; i < _n_it_n; i++)
     {
         std::cout << "Iteration #" << i << '\n';
+        // Some optional verbose
         if (_verbose)
         {
             std::cout << "Tau vector" << '\n';
@@ -69,7 +70,7 @@ void smmb_aco::run()
         }
         // Reseting _markov_blanket_a for the new iteration
         _markov_blanket_a.clear();
-        // Parallelization
+        // Parallelization command, need to add correct argument in compilation line
         #pragma omp parallel for
         // Iterating through ants
         for (size_t a = 0; a < _n_ant; a++)
@@ -78,7 +79,7 @@ void smmb_aco::run()
             boost_vector_int ant_subset(_subset_size);
             // Assigning a subset of _subset_size SNPs
             ant_subset = tools::sampling(_subset_size, _pheromone_distrib, _rng);
-            //generate MB from the ant subset
+            // Generate MB from the ant subset
             learn_MB(ant_subset, _markov_blanket_a(a), _mem_ant(a));
         }
         save_iteration_result();
@@ -88,6 +89,7 @@ void smmb_aco::run()
     // prepare the second pass
     // listing all different SNPs in MB_s
     list<unsigned> new_set;
+    // Iterate tought markov blanket
     for (auto d : _markov_blanket_s)
     {
         for (auto d2 : d.first)
@@ -105,12 +107,12 @@ void smmb_aco::run()
     {
         next_pass(new_set);
     }
-    // final part of the algorithm, producing result file
+    // Final part of the algorithm, producing result file
     else
     {
         // Calculate scores of patterns in _markov_blanket_s into _stats_results
         score_for_final_results();
-        // Print results of the run to terminal
+        // In order to print results of the run in terminal, please uncomment next line
         // show_results();
         // Save time
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
@@ -149,6 +151,7 @@ void smmb_aco::update_tau()
 //==============================================================================
 void smmb_aco::update_pheromon_distrib()
 {
+    // Iterate tought pheromon distribution and update every values
     for (size_t i = 0; i < _pheromone_distrib.size(); i++)
     {
         _pheromone_distrib(i) = pow(_tau(i), _alpha_phero) + pow(_eta(i), _beta_phero);
@@ -161,7 +164,7 @@ void smmb_aco::update_pheromon_distrib()
 // Return non optimal Markov Blanket eventually empty
 void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref, map<unsigned, list<float>> & mem_ant_ref)
 {
-    //clearing memory of the predecent iteration
+    // Clearing memory of the predecent iteration
     mem_ant_ref.clear();
     // Initialization at true to enter the loop on first iteration
     bool markov_blanket_modified = true;
@@ -171,12 +174,13 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
     // Loop to generate the markov blanket //TODO check the condition
     while ((MB_a_ref.empty() && j<_n_it) && markov_blanket_modified)
     {
-        // saving MB to check differencies and launch next iteration or not
+        // Saving MB to check differencies and launch next iteration or not
         save_MB = MB_a_ref;
         forward(MB_a_ref, ant_subset, mem_ant_ref);
         j++;
-        // sorting just in case... maybe already done elsewhere
+        // Sort markov blanket
         MB_a_ref.sort();
+        // Update state of markov blanket
         if (save_MB != MB_a_ref)
         {
             markov_blanket_modified = true;
@@ -234,7 +238,7 @@ void smmb_aco::backward(list<unsigned> & MB_a_ref)
         MB_minus_current_SNP.remove(current_SNP);
         // Converting current MB without current SNP to a vector
         boost_vector_int vector_MB(MB_minus_current_SNP.size());
-        // Counter for index to copy MB into a vector
+        // Initialize a counter for index to copy MB into a vector
         int i=0;
         // Stocking MB in vector
         for (auto const& value : MB_minus_current_SNP)
@@ -310,7 +314,7 @@ void smmb_aco::get_all_combinations(boost_vector_int & sub_subset, list<list<uns
 //==============================================================================
 // smmb_aco : generate_combinations
 //==============================================================================
-// recursively generate all non empty possible combinations from a set of snp
+// Recursively generate all non empty possible combinations from a set of snp
 void smmb_aco::generate_combinations(list<unsigned> temp, list<list<unsigned>> & combi_list, list<unsigned> subset)
 {
     // Copy the subset for next iteration
@@ -413,7 +417,6 @@ void smmb_aco::next_pass(list<unsigned> new_set)
 {
     // Put n_smmb_aco_runs to 1 to stop above next time
     _pass_number--;
-    //
     for (auto v : new_set)
     {
         // Search for SNPs contained in new set
@@ -439,7 +442,7 @@ void smmb_aco::next_pass(list<unsigned> new_set)
 //==============================================================================
 // smmb_aco : score_for_final_results
 //==============================================================================
-// calculating the score of the final selected patterns to print them in output file
+// Calculating the score of the final selected patterns to print them in output file
 void smmb_aco::score_for_final_results()
 {
     _stats_results.resize(_markov_blanket_s.size());
@@ -490,6 +493,8 @@ void smmb_aco::show_results()
 //==============================================================================
 void smmb_aco::save_results()
 {
+    // Parse filename
+    // search for last "/"
     size_t firstindex = _filename.find_last_of("/");
     string filename_without_extension = _filename.substr(firstindex+1, 545754);
     // Search for "." and get index
@@ -508,8 +513,10 @@ void smmb_aco::save_results()
     string lign;
     for (auto const& pattern : _markov_blanket_s)
     {
-        if (_stats_results(tu)[1] < 0.5)
+        // Only output results considered as reliable following statistical treshold fixed by user
+        if (_stats_results(tu)[1] < _alpha_stat)
         {
+            // Construct using concatenation output
             lign = "";
             lign = lign + '{';
             for (auto const& snp : pattern.first)
@@ -522,15 +529,19 @@ void smmb_aco::save_results()
             lign = lign + "} || ";
             lign = lign + to_string(pattern.second);
             lign = lign + " || ";
+            // Add to output g2 score
             lign = lign + to_string(_stats_results(tu)[0]);
             lign = lign + " || ";
             stringstream ss;
+            // Add to output p value using scientific writing and two significant digits
             ss << scientific << setprecision(2) << _stats_results(tu)[1];
             lign = lign + ss.str();
             lign = lign + " || ";
+            // Add to output number of unreliable g2 tests
             lign = lign + to_string((int)_stats_results(tu)[2]);
             lign = lign + "\n";
             string_pat.push_back(lign);
+            // Sort result following p-value in descending order
             pair<unsigned, float> pair_sort(to, _stats_results(tu)[1]);
             sorting.push_back(pair_sort);
             to++;
@@ -543,13 +554,15 @@ void smmb_aco::save_results()
     {
         output_file << string_pat[ss.first];
     }
-
-
+    // Print in file time of exectution
     output_file << "# Time of execution: " << _duration << " seconds" << endl;
+    // Verbose displayed in terminal
     std::cout << "### SMMB_ACO has finished please see results in: " << '\n' << _output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt" << '\n';
 }
 
-
+//==============================================================================
+// smmb_aco : compareFunc
+//==============================================================================
 bool smmb_aco::compareFunc(pair<unsigned, float> const& a, pair<unsigned, float> const& b)
 {
     if (a.second < b.second) {
