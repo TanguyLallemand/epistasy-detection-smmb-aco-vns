@@ -4,7 +4,7 @@
 #
 # This script must be run next to the repository.tar.gz archive that collects gamete data.
 # It will then decompress the archive and reformat data so that they can be used directly by our programs.
-
+mkdir datas
 # Extract raw datas
 tar xzvf repository.tar.gz  -C ./datas
 # Go in folder containning datas
