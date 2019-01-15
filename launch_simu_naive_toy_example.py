@@ -14,7 +14,7 @@
 # Arguments                                                                    #
 ################################################################################
 #
-# 
+#
 #-o OUTPUT, --output OUTPUT: Give an output directory
 #-p PREFIX, --prefix PREFIX: Common prefix for files
 #-f FILE, --file FILE  Number of file to generate
@@ -24,4 +24,4 @@
 #-s SIZE_PATTERN, --size_pattern SIZE_PATTERN: Size of epistasis pattern to generate
 
 import os
-os.system('./simu_naive.py -p _simu_naive -f 1 -v 28 -pa 2000 -o toy_dataset -c 2000 -s 2')
+os.system('./simu_naive.py -p _simu_naive -f 1 -v 28 -pa 2000 -o toy_dataset_simu_naive -c 2000 -s 2')
