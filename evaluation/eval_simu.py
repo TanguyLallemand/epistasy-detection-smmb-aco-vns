@@ -170,6 +170,7 @@ def main():
     print(os.path.basename(input_directory))
     # For every files
     for file in input_files:
+        start_file = time.time()
         pheno_file = file.replace("genotype", "phenotype")
 
         TP = 0
@@ -197,17 +198,17 @@ def main():
                 FP +=1
             elif result_type == "FN":
                 FN +=1
-
+        end_file = time.time()
         recall = calc_recall(TP, FN)
         prec = calc_precision(TP, FP)
         f_measure = calc_f_measure(recall, prec)
         power = calc_power(TP, number_of_execution)
-        scores.append((os.path.basename(os.path.normpath(file)), TP, FP, FN, recall, prec, f_measure, power))
+        scores.append((os.path.basename(os.path.normpath(file)), TP, FP, FN, recall, prec, f_measure, power, str(end_file-start_file)))
     end = time.time()
     power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + ".csv", 'w')
-    power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power"+"\n")
+    power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power,time"+"\n")
     for res in scores:
-        power_file.write(str(res[0])+","+str(res[1])+","+str(res[2])+","+str(res[3])+","+str(res[4])+","+str(res[5])+","+str(res[6])+","+str(res[7])+"\n")
+        power_file.write(str(res[0])+","+str(res[1])+","+str(res[2])+","+str(res[3])+","+str(res[4])+","+str(res[5])+","+str(res[6])+","+str(res[7])+","+str(res[8])+"\n")
     power_file.write('### execution time : ' + str(end-start))
 
 
