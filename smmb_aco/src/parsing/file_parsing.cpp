@@ -23,7 +23,7 @@ data_parsing::data_parsing(string geno_filename, string pheno_filename, int head
     parse_snp_id();
     parse_geno();
     parse_pheno();
-
+    // Verbose for user
     std::cout << "Genotype file computed: " <<_geno_filename << endl;
     std::cout << "Phenotype file computed: " <<_pheno_filename << endl;
     std::cout << endl;
