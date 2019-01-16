@@ -24,6 +24,8 @@ def get_arguments():
     parser.add_argument(
         "-n", "--nruns", help="Number of method executions to be performed on each file in the dataset", type=int)
     parser.add_argument(
+        "-nf", "--nfiles", help="Number of file to test in the dataset", type=int)
+    parser.add_argument(
         "-m", "--method", help="Method to test", type=str, action='store', required=True)
     args = parser.parse_args()
     return args
@@ -204,7 +206,10 @@ def main():
         f_measure = calc_f_measure(recall, prec)
         power = calc_power(TP, number_of_execution)
         scores.append((os.path.basename(os.path.normpath(file)), TP, FP, FN, recall, prec, f_measure, power, str(end_file-start_file)))
-        break
+        if args.nfiles == 0:
+            break
+        else:
+            args.nfiles -= 1
 
     end = time.time()
     power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + ".csv", 'w')

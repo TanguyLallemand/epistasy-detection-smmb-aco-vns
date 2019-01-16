@@ -81,7 +81,7 @@ void vns::run()
                 }
                 else
                 {
-                    if (third_x_score[0] < x_score[0]) {
+                    if (third_x_score[0] > x_score[0]) {
                         x = third_x;
                         x_score = third_x_score;
                         k = 1;
@@ -166,7 +166,7 @@ vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & th
             }
             else
             {
-                if (score[0] < best_score[0])
+                if (score[0] > best_score[0])
                 {
                     // If this pattern is the best tested he becomes the new best and reset counters
                     best_score = score;

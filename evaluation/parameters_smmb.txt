@@ -25,10 +25,10 @@ alpha 0.05
 n_smmb_aco_runs 1#2
 
 # Number of iterations in ACO
-aco_n_iterations 10
+aco_n_iterations 5
 
 # Number of ants (500 or more (antEpiSeeker))
-aco_n_ants 50
+aco_n_ants 30
 
 # Number of snps sampled in each ant
 aco_set_size 10

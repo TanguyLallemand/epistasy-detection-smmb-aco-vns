@@ -4,7 +4,7 @@
 #          Jonathan Cruard M2BB
 import os
 
-# usage: eval_simu.py [-h] -i INPUT -o OUTPUT [-n NRUNS] -m METHOD
+# usage: eval_simu.py [-h] -i INPUT -o OUTPUT [-n NRUNS] [-nf NFILES] -m METHOD
 #
 # optional arguments:
 #   -h, --help            show this help message and exit
@@ -15,7 +15,19 @@ import os
 #   -n NRUNS, --nruns NRUNS
 #                         Number of method executions to be performed on each
 #                         file in the dataset
+#   -nf NFILES, --nfiles NFILES
+#                         Number of file to test in the dataset
 #   -m METHOD, --method METHOD
 #                         Method to test
 
-os.system('./evaluation/eval_simu.py -i ./smmb_aco/toy_example/toy_dataset/ -o ./evaluation/result_eval/ -n 100 -m vns')
+os.system('./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100')
+
+os.system('./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 50 -m vns -nf 100')
+
+os.system('./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 20 -m vns -nf 100')
+
+os.system('./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100')
+
+os.system('./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 50 -m smmb_aco -nf 100')
+
+os.system('./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 20 -m smmb_aco -nf 100')
