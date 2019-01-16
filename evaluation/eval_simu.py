@@ -5,8 +5,9 @@
 
 
 import glob
-import os
 import numpy as np
+import os
+import time
 
 ###############################################################################
 # This function permit to define some arguments and generate associated help
@@ -149,6 +150,7 @@ def calc_power(true_positive, number_of_execution):
 
 
 def main():
+    start = time.time()
     # Initialization of some variables
     scores = []
     # Get argument parser
@@ -201,15 +203,12 @@ def main():
         f_measure = calc_f_measure(recall, prec)
         power = calc_power(TP, number_of_execution)
         scores.append((os.path.basename(os.path.normpath(file)), TP, FP, FN, recall, prec, f_measure, power))
-        
+    end = time.time()
     power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + ".csv", 'w')
     power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power"+"\n")
     for res in scores:
         power_file.write(str(res[0])+","+str(res[1])+","+str(res[2])+","+str(res[3])+","+str(res[4])+","+str(res[5])+","+str(res[6])+","+str(res[7])+"\n")
-
-
-
-
+    power_file.write('### execution time : ' + str(end-start))
 
 
 if __name__ == "__main__":
