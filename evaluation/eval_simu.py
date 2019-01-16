@@ -35,7 +35,7 @@ def get_arguments():
 
 def get_genotype_files(input_directory):
     # Search for file ending with txt extension in a given directory
-    input_files = glob.glob(input_directory + '*Genotype*')
+    input_files = glob.glob(input_directory + '*genotype*')
     return input_files
 
 ###############################################################################
@@ -49,7 +49,7 @@ def result_analysis(result_file, pattern_size):
         if line[0]=='{':
             result_type = 'FP'
             pattern=line[line.find("{")+1:line.find("}")]
-            if pattern.count('X') == pattern_size:
+            if pattern.count('M') == pattern_size:
                 result_type = 'TP'
                 break
     return result_type
@@ -61,7 +61,7 @@ def result_analysis(result_file, pattern_size):
 
 def get_pattern_size(input_files):
     file = open(input_files[0], 'r')
-    size = file.readline().count('X')
+    size = file.readline().count('M')
     return size
 
 
@@ -171,22 +171,21 @@ def main():
     # For every files
     for file in input_files:
         start_file = time.time()
-        pheno_file = file.replace("Genotype", "Phenotype")
+        pheno_file = file.replace("genotype", "phenotype")
 
         TP = 0
         FP = 0
         FN = 0
-
         for i in range(0, number_of_execution):
+            print(file + " Iteration " + str(i))
             if method == 'smmb_aco':
-                os.system('./smmb_aco/smmb_aco.exe '+file+' '+pheno_file+' '+'./evaluation/parameters_smmb.txt')
+                os.system('./smmb_aco/smmb_aco.exe '+file+' '+pheno_file+' '+'./evaluation/parameters_smmb.txt >> ./evaluation/smmb_aco_log.log')
             elif method == "vns":
-                os.system('./vns/vns.exe '+file+' '+pheno_file+' '+'./evaluation/parameters_vns.txt')
+                os.system('./vns/vns.exe '+file+' '+pheno_file+' '+'./evaluation/parameters_vns.txt >> ./evaluation/vns_log.log')
             else:
                 sys.exit("wrong method name, available methods : vns, smmb_aco")
 
             result_file = glob.glob("./evaluation/temp_results/" + "*")
-            print(result_file)
             result_file1 = open(result_file[0], 'r')
 
             result_type = result_analysis(result_file1, pattern_size)
