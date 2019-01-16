@@ -85,10 +85,10 @@ private:
     boost_vector_float _eta;
     boost_vector_float _tau;
     boost_vector_float _pheromone_distrib;
+
     //==========================================================================
     // Main functions used in this algorithm
     //==========================================================================
-
     void learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref, std::map<unsigned, list<float>> & mem_ant_ref);
     void forward(list<unsigned> & MB_a_ref, boost_vector_int const& ant_subset, std::map<unsigned, list<float>> & mem_ant_ref);
     void backward(list<unsigned> & MB_a_ref);
@@ -125,5 +125,7 @@ private:
     void print_parameters();
     // Allow to show current results, usefull in debug process
     void show_results();
+    // Allow to format results in a more readable way
+    void format_results(vector<pair<unsigned, float>> & sorting, vector<string> & string_pat);
 };
 #endif

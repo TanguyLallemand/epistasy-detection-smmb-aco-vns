@@ -57,7 +57,10 @@ void smmb_aco::run()
 {
     // Get actual time to measure running time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-    print_parameters();
+    if (_verbose)
+    {
+        print_parameters();
+    }
     std::cout << "### Backtrace of SMMB_ACO run ###" << '\n';
     // Loop, first level
     for (size_t i = 0; i < _n_it_n; i++)
@@ -507,49 +510,11 @@ void smmb_aco::save_results()
     // Fill output file with pattern, number of occurence and associated g2 score and p-value
     output_file << "# Result from SMMB-ACO \n";
     output_file << "# Pattern || Occurences || G2-score || p-value || unreliable case\n";
-    unsigned tu = 0;
-    unsigned to = 0;
+
     vector<pair<unsigned, float>> sorting;
     vector<string> string_pat;
-    string lign;
-    for (auto const& pattern : _markov_blanket_s)
-    {
-        // Only output results considered as reliable following statistical treshold fixed by user
-        if (_stats_results(tu)[1] < _alpha_stat)
-        {
-            // Construct using concatenation output
-            lign = "";
-            lign = lign + '{';
-            for (auto const& snp : pattern.first)
-            {
-                lign += _snp_id(snp);
-                if (snp!=pattern.first.back()) {
-                    lign = lign + ',';
-                }
-            }
-            lign = lign + "} || ";
-            lign = lign + to_string(pattern.second);
-            lign = lign + " || ";
-            // Add to output g2 score
-            lign = lign + to_string(_stats_results(tu)[0]);
-            lign = lign + " || ";
-            stringstream ss;
-            // Add to output p value using scientific writing and two significant digits
-            ss << scientific << setprecision(2) << _stats_results(tu)[1];
-            lign = lign + ss.str();
-            lign = lign + " || ";
-            // Add to output number of unreliable g2 tests
-            lign = lign + to_string((int)_stats_results(tu)[2]);
-            lign = lign + "\n";
-            string_pat.push_back(lign);
-            // Sort result following p-value in descending order
-            pair<unsigned, float> pair_sort(to, _stats_results(tu)[1]);
-            sorting.push_back(pair_sort);
-            to++;
-        }
-        tu++;
-    }
-    sort(sorting.begin(), sorting.end(), compareFunc);
+
+    format_results(sorting, string_pat);
 
     for (auto ss : sorting)
     {
@@ -599,4 +564,53 @@ void smmb_aco::print_parameters()
     std::cout << "Value to initiate evaporation rates: " << _tau_0  << endl;
     std::cout << "### End of parameters" << endl;
     std::cout << endl;
+}
+
+
+//==============================================================================
+// smmb_aco : format_results
+//==============================================================================
+void smmb_aco::format_results(vector<pair<unsigned, float>> & sorting, vector<string> & string_pat)
+{
+    unsigned tu = 0;
+    unsigned to = 0;
+    string lign;
+    for (auto const& pattern : _markov_blanket_s)
+    {
+        // Only output results considered as reliable following statistical treshold fixed by user
+        if (_stats_results(tu)[1] < _alpha_stat)
+        {
+            // Construct using concatenation output
+            lign = "";
+            lign = lign + '{';
+            for (auto const& snp : pattern.first)
+            {
+                lign += _snp_id(snp);
+                if (snp!=pattern.first.back()) {
+                    lign = lign + ',';
+                }
+            }
+            lign = lign + "} || ";
+            lign = lign + to_string(pattern.second);
+            lign = lign + " || ";
+            // Add to output g2 score
+            lign = lign + to_string(_stats_results(tu)[0]);
+            lign = lign + " || ";
+            stringstream ss;
+            // Add to output p value using scientific writing and two significant digits
+            ss << scientific << setprecision(2) << _stats_results(tu)[1];
+            lign = lign + ss.str();
+            lign = lign + " || ";
+            // Add to output number of unreliable g2 tests
+            lign = lign + to_string((int)_stats_results(tu)[2]);
+            lign = lign + "\n";
+            string_pat.push_back(lign);
+            // Sort result following p-value in descending order
+            pair<unsigned, float> pair_sort(to, _stats_results(tu)[1]);
+            sorting.push_back(pair_sort);
+            to++;
+        }
+        tu++;
+    }
+    sort(sorting.begin(), sorting.end(), compareFunc);
 }
