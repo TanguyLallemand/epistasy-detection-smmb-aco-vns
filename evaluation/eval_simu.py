@@ -35,7 +35,7 @@ def get_arguments():
 
 def get_genotype_files(input_directory):
     # Search for file ending with txt extension in a given directory
-    input_files = glob.glob(input_directory + '*genotype*')
+    input_files = glob.glob(input_directory + '*Genotype*')
     return input_files
 
 ###############################################################################
@@ -49,7 +49,7 @@ def result_analysis(result_file, pattern_size):
         if line[0]=='{':
             result_type = 'FP'
             pattern=line[line.find("{")+1:line.find("}")]
-            if pattern.count('M') == pattern_size:
+            if pattern.count('X') == pattern_size:
                 result_type = 'TP'
                 break
     return result_type
@@ -61,7 +61,7 @@ def result_analysis(result_file, pattern_size):
 
 def get_pattern_size(input_files):
     file = open(input_files[0], 'r')
-    size = file.readline().count('M')
+    size = file.readline().count('X')
     return size
 
 
@@ -171,7 +171,7 @@ def main():
     # For every files
     for file in input_files:
         start_file = time.time()
-        pheno_file = file.replace("genotype", "phenotype")
+        pheno_file = file.replace("Genotype", "Phenotype")
 
         TP = 0
         FP = 0
@@ -204,6 +204,8 @@ def main():
         f_measure = calc_f_measure(recall, prec)
         power = calc_power(TP, number_of_execution)
         scores.append((os.path.basename(os.path.normpath(file)), TP, FP, FN, recall, prec, f_measure, power, str(end_file-start_file)))
+        break
+
     end = time.time()
     power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + ".csv", 'w')
     power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power,time"+"\n")
