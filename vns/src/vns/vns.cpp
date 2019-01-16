@@ -79,7 +79,16 @@ void vns::run()
                 }
                 else
                 {
-                    exploration++;
+                    if (third_x_score[0] < x_score[0]) {
+                        x = third_x;
+                        x_score = third_x_score;
+                        k = 1;
+                        exploration = 0;
+                    }
+                    else
+                    {
+                        exploration++;
+                    }
                 }
             }
             save_local_optimum(x, x_score);
@@ -156,8 +165,19 @@ vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & th
             }
             else
             {
-                // If this pattern isn't better than the current we keep the current and increment the counter
-                exploration++;
+                if (score[0] < best_score[0])
+                {
+                    // If this pattern is the best tested he becomes the new best and reset counters
+                    best_score = score;
+                    third_x = candidat_neighbor;
+                    l=1;
+                    exploration = 0;
+                }
+                else
+                {
+                    // If this pattern isn't better than the current we keep the current and increment the counter
+                    exploration++;
+                }
             }
         }
         // Get to the next neighborhood
