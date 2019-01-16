@@ -123,8 +123,8 @@ private:
     static bool compareFunc(pair<unsigned, float> const& a, pair<unsigned, float> const& b);
     // Used to print in terminal parameters used
     void print_parameters();
-    // Allow to show current results, usefull in debug process
-    void show_results();
+    // Allow to show current results usefull for logs
+    void show_results(vector<pair<unsigned, float>> & sorting, vector<string> & string_pat);
     // Allow to format results in a more readable way
     void format_results(vector<pair<unsigned, float>> & sorting, vector<string> & string_pat);
 };

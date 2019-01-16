@@ -472,22 +472,16 @@ void smmb_aco::score_for_final_results()
 //==============================================================================
 // smmb_aco : show_results
 //==============================================================================
-void smmb_aco::show_results()
+void smmb_aco::show_results(vector<pair<unsigned, float>> & sorting, vector<string> & string_pat)
 {
-    // Verbose used in debug process
-    int st = 0;
-    for (auto good : _markov_blanket_s)
+    cout << endl;
+    cout << "# Result from SMMB-ACO \n";
+    cout << "# Pattern || Occurences || G2-score || p-value || unreliable case\n";
+    for (auto ss : sorting)
     {
-        std::cout << "Pattern" << '\n';
-        for (auto go : good.first)
-        {
-            std::cout << go << ' ';
-        }
-        std::cout << '\n';
-        std::cout << "Occurences " << "Score " << "p-value"<< '\n';
-        std::cout << good.second << " " << _stats_results(st)(0) << " " << _stats_results(st)(1) << '\n';
-        st++;
+        std::cout << string_pat[ss.first];
     }
+    cout << endl;
 }
 
 
@@ -523,6 +517,10 @@ void smmb_aco::save_results()
     // Print in file time of exectution
     output_file << "# Time of execution: " << _duration << " seconds" << endl;
     // Verbose displayed in terminal
+    if (_verbose)
+    {
+        show_results(sorting, string_pat);
+    }
     std::cout << "# Time of execution: " << _duration << " seconds" << endl;
     std::cout << "### SMMB_ACO has finished please see results in: " << '\n' << _output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt" << '\n';
 }
