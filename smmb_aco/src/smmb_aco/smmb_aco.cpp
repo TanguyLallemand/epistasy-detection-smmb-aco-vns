@@ -57,7 +57,8 @@ void smmb_aco::run()
 {
     // Get actual time to measure running time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-    std::cout << "###Run Of SMMB-ACO###" << '\n';
+    print_parameters();
+    std::cout << "### Backtrace of SMMB_ACO run ###" << '\n';
     // Loop, first level
     for (size_t i = 0; i < _n_it_n; i++)
     {
@@ -557,6 +558,7 @@ void smmb_aco::save_results()
     // Print in file time of exectution
     output_file << "# Time of execution: " << _duration << " seconds" << endl;
     // Verbose displayed in terminal
+    std::cout << "# Time of execution: " << _duration << " seconds" << endl;
     std::cout << "### SMMB_ACO has finished please see results in: " << '\n' << _output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt" << '\n';
 }
 
@@ -565,11 +567,36 @@ void smmb_aco::save_results()
 //==============================================================================
 bool smmb_aco::compareFunc(pair<unsigned, float> const& a, pair<unsigned, float> const& b)
 {
-    if (a.second < b.second) {
+    if (a.second < b.second)
+    {
         return true;
     }
     else
     {
         return false;
     }
+}
+
+//==============================================================================
+// smmb_aco : print_parameters
+//==============================================================================
+void smmb_aco::print_parameters()
+{
+    std::cout << "### Parameters used for this run: " << endl;
+    std::cout << "Number of iterations in ACO: " << _n_it_n  << endl;
+    std::cout << "Maximal number of iterations allowed to learn one Markov blanket: " << _n_it  << endl;
+    std::cout << "Number of ants: " << _n_ant  << endl;
+    std::cout << "Evaporation rate: " << _rho  << endl;
+    std::cout << "Lambda parameter from ACO-PDF update function: " << _lambda  << endl;
+    std::cout << "Alpha, used to ajust the relative importance between pheromone rate and a priori knowledge: " << _alpha_phero  << endl;
+    std::cout << "Beta, used to ajust the relative importance between pheromone rate and a priori knowledge: " << _beta_phero  << endl;
+    std::cout << "Alpha type I error rate: " << _alpha_stat  << endl;
+    std::cout << "Number of snps sampled in each ant: " << _subset_size  << endl;
+    std::cout << "Size of the smallest subset: " << _sub_subset_size  << endl;
+    std::cout << "Prefix of output files: " << _output_prefix  << endl;
+    std::cout << "Path of output directory: " << _output_directory  << endl;
+    std::cout << "Number of consecutive runs of SMMB-ACO: " << _pass_number  << endl;
+    std::cout << "Value to initiate evaporation rates: " << _tau_0  << endl;
+    std::cout << "### End of parameters" << endl;
+    std::cout << endl;
 }

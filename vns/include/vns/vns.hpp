@@ -61,7 +61,10 @@ private:
     void write_result_file();
     vector<float> test_pattern(vector<unsigned> const& pattern);
     vector<unsigned> generate_starting_pattern();
-
+    //==========================================================================
+    // Miscellaneous
+    //==========================================================================
     static bool compareFunc(pair<vector<unsigned>, vector<float>> const& a, pair<vector<unsigned>, vector<float>> const& b);
+    void print_parameters();
 };
 #endif
