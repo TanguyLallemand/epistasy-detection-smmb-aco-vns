@@ -112,13 +112,18 @@ private:
     void next_pass(list<unsigned> new_set);
     // Compute g 2 conditional test of independance on markov blanket
     void score_for_final_results();
-    // Permit to show current results, usefull in debug process
-    void show_results();
     // save the current iteration results into global variables
     void save_iteration_result();
+    //==========================================================================
+    // Miscellaneous
+    //==========================================================================
     // Write results in a file
     void save_results();
     // Used to sort the results in the output file
     static bool compareFunc(pair<unsigned, float> const& a, pair<unsigned, float> const& b);
+    // Used to print in terminal parameters used
+    void print_parameters();
+    // Allow to show current results, usefull in debug process
+    void show_results();
 };
 #endif

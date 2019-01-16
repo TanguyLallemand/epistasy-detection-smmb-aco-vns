@@ -45,11 +45,13 @@ void vns::run()
 {
     // Initialization of time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
+    print_parameters();
+    std::cout << "### Backtrace of VNS run ###" << '\n';
     // Parallelization
     #pragma omp parallel for
     for (size_t i = 0; i < _iteration_num; i++)
     {
-        std::cout << "iteration # : " << i << '\n';
+        std::cout << "Iteration # : " << i << '\n';
         // Selecting starting pattern
         vector<unsigned> x = generate_starting_pattern();
         // Compute the score of x for first iteration
@@ -91,7 +93,6 @@ void vns::run()
     // End time
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     this-> _duration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
-    std::cout << _duration << '\n';
     // Write results in a file
     write_result_file();
 }
@@ -287,12 +288,12 @@ vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
 void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 {
     sort(x.begin(), x.end());
+    std::cout << " SNP in pattern:" << '\n';
     for (auto test : x)
     {
         std::cout << test << ' ';
     }
-    std::cout << '\n';
-    std::cout << x_score[1] << '\n';
+    std::cout << " Associated p-value: " << x_score[1] << '\n';
     // Search for the pattern in the result map
     auto current_opti = _optimum_set.find(x);
 
@@ -317,7 +318,6 @@ void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 
 void vns::write_result_file()
 {
-    std::cout << "Write_result_file" << '\n';
     std::cout << "Time of execution: " << _duration << " seconds" << endl;
     // Create the output file name
     size_t firstindex = _filename.find_last_of("/");
@@ -361,15 +361,34 @@ void vns::write_result_file()
     }
     output_file << "# Execution time : " << _duration << " seconds" << endl;
 }
-
+//==============================================================================
+// vns : compareFunc
+//==============================================================================
 // Function to sort the results
 bool vns::compareFunc(pair<vector<unsigned>, vector<float>> const& a, pair<vector<unsigned>, vector<float>> const& b)
 {
-    if (a.second[2] < b.second[2]) {
+    if (a.second[2] < b.second[2])
+    {
         return true;
     }
     else
     {
         return false;
     }
+}
+
+//==============================================================================
+// vns : print_parameters
+//==============================================================================
+void vns::print_parameters()
+{
+    std::cout << "### Parameters used for this run: " << endl;
+    std::cout << "Number of iterations in VNS: " << _iteration_num  << endl;
+    std::cout << "Alpha type I error rate: " << _alpha  << endl;
+    std::cout << "Maximum size of pattern: " << _pat_size_max  << endl;
+    std::cout << "Minimum size of pattern: " << _pat_size_min  << endl;
+    std::cout << "k Max (vns stop counter) " << _k_max  << endl;
+    std::cout << "l Max (local search stop counter) " << _l_max  << endl;
+    std::cout << "### End of parameters" << endl;
+    std::cout << endl;
 }
