@@ -94,18 +94,21 @@ void vns::run()
                     }
                     else
                     {
+                        // Expand neighborhood
                         exploration++;
                     }
                 }
             }
             save_local_optimum(x, x_score);
             k++;
+            // Reset exploration
             exploration = 0;
         }
         // Saving the local optimum
     }
     // End time
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+    // Save time of execution
     this-> _duration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
     // Write results in a file
     write_result_file();
@@ -275,7 +278,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
             // Add the SNP
             pattern.push_back(new_SNP);
         }
-        break;
+            break;
         // This case will change an snp from the pattern
         case 1:
         {
@@ -289,16 +292,16 @@ vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
             }
             pattern[SNP_to_change]= new_SNP;
         }
-        break;
+            break;
         // This case will remove an snp to the pattern
         case 2:
         {
             unsigned SNP_to_remove = distribution_pattern(_rng);
             pattern.erase(pattern.begin()+SNP_to_remove);
         }
-        break;
+            break;
         default:
-        break;
+            break;
     }
     if (k>1)
     {
