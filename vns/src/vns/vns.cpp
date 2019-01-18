@@ -348,17 +348,18 @@ void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 
 void vns::write_result_file()
 {
+    // Some verbose for user and log
     std::cout << "Time of execution: " << _duration << " seconds" << endl;
     // Create the output file name
     size_t firstindex = _filename.find_last_of("/");
     string filename_without_extension = _filename.substr(firstindex+1, 5000);
     size_t lastindex = filename_without_extension.find_last_of(".");
     filename_without_extension = filename_without_extension.substr(0, lastindex);
-
+    // Some verbose for user and log
     std::cout << "### VNS has finished please see results in: " << '\n' << _output_directory + _output_prefix + filename_without_extension + "_result_vns.txt" << '\n';
     // Create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_result_vns.txt");
-
+    // Some verbose for user and log
     output_file << "# Result from vns \n";
     output_file << "# Pattern || occurences || chi2-score || p-value || unreliable case\n";
 
@@ -389,6 +390,7 @@ void vns::write_result_file()
         }
         output_file << "\n";
     }
+    // Some verbose for user and log
     output_file << "# Execution time : " << _duration << " seconds" << endl;
 }
 //==============================================================================
