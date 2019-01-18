@@ -45,9 +45,14 @@ void vns::run()
 {
     // Initialization of time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-    print_parameters();
+    // Print parameters if asked
+    if (_verbose)
+    {
+        print_parameters();
+    }
+
     std::cout << "### Backtrace of VNS run ###" << '\n';
-    // Parallelization
+    // Parallelization of loop
     #pragma omp parallel for
     for (size_t i = 0; i < _iteration_num; i++)
     {
@@ -141,6 +146,7 @@ vector<unsigned> vns::generate_starting_pattern()
 // vns : local_search
 //==============================================================================
 // Exploration of the neighborhood of the provided pattern
+
 vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & third_x)
 {
     // Initialization of temporary variables
@@ -305,6 +311,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
 //==============================================================================
 // vns : save_local_optimum
 //==============================================================================
+
 void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 {
     sort(x.begin(), x.end());
@@ -385,6 +392,7 @@ void vns::write_result_file()
 // vns : compareFunc
 //==============================================================================
 // Function to sort the results
+
 bool vns::compareFunc(pair<vector<unsigned>, vector<float>> const& a, pair<vector<unsigned>, vector<float>> const& b)
 {
     if (a.second[2] < b.second[2])
@@ -400,6 +408,7 @@ bool vns::compareFunc(pair<vector<unsigned>, vector<float>> const& a, pair<vecto
 //==============================================================================
 // vns : print_parameters
 //==============================================================================
+
 void vns::print_parameters()
 {
     std::cout << "### Parameters used for this run: " << endl;
