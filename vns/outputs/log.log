@@ -1,25 +1,19 @@
-### Parameters used for this run: 
-Number of iterations in VNS: 4
-Alpha type I error rate: 0.05
-Maximum size of pattern: 3
-Minimum size of pattern: 2
-k Max (vns stop counter) 2
-l Max (local search stop counter) 2
-### End of parameters
+Genotype file computed: ./vns/toy_example/toy_dataset/genotypes_toy_dataset.txt
+Phenotype file computed: ./vns/toy_example/toy_dataset/phenotypes_toy_dataset.txt
 
 ### Backtrace of VNS run ###
-Iteration # : Iteration # : 13
+Iteration # : Iteration # : Iteration # : 03
 
-Iteration # : 0
-Iteration # : 2
+2
+Iteration # : 1
  SNP in pattern:
-20 26 27  Associated p-value: 2e-16
+9 26 27  Associated p-value: 2e-16
  SNP in pattern:
 17 26 27  Associated p-value: 2e-16
  SNP in pattern:
-15 26 27  Associated p-value: 2e-16
+9 26 27  Associated p-value: 2e-16
  SNP in pattern:
-23 26 27  Associated p-value: 2e-16
+9 26 27  Associated p-value: 2e-16
 Time of execution: 0 seconds
 ### VNS has finished please see results in: 
 ./vns/toy_example/toy_results/result_genotypes_toy_dataset_result_vns.txt

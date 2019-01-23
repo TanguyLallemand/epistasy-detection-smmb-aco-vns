@@ -45,9 +45,14 @@ void vns::run()
 {
     // Initialization of time
     std::chrono::high_resolution_clock::time_point t1 = std::chrono::high_resolution_clock::now();
-    print_parameters();
+    // Print parameters if asked
+    if (_verbose)
+    {
+        print_parameters();
+    }
+
     std::cout << "### Backtrace of VNS run ###" << '\n';
-    // Parallelization
+    // Parallelization of loop
     #pragma omp parallel for
     for (size_t i = 0; i < _iteration_num; i++)
     {
@@ -89,18 +94,21 @@ void vns::run()
                     }
                     else
                     {
+                        // Expand neighborhood
                         exploration++;
                     }
                 }
             }
             save_local_optimum(x, x_score);
             k++;
+            // Reset exploration
             exploration = 0;
         }
         // Saving the local optimum
     }
     // End time
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
+    // Save time of execution
     this-> _duration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
     // Write results in a file
     write_result_file();
@@ -141,6 +149,7 @@ vector<unsigned> vns::generate_starting_pattern()
 // vns : local_search
 //==============================================================================
 // Exploration of the neighborhood of the provided pattern
+
 vector<float> vns::local_search(vector<unsigned> second_x, vector<unsigned> & third_x)
 {
     // Initialization of temporary variables
@@ -269,7 +278,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
             // Add the SNP
             pattern.push_back(new_SNP);
         }
-        break;
+            break;
         // This case will change an snp from the pattern
         case 1:
         {
@@ -283,16 +292,16 @@ vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
             }
             pattern[SNP_to_change]= new_SNP;
         }
-        break;
+            break;
         // This case will remove an snp to the pattern
         case 2:
         {
             unsigned SNP_to_remove = distribution_pattern(_rng);
             pattern.erase(pattern.begin()+SNP_to_remove);
         }
-        break;
+            break;
         default:
-        break;
+            break;
     }
     if (k>1)
     {
@@ -305,6 +314,7 @@ vector<unsigned> vns::shake(vector<unsigned> pattern, unsigned k)
 //==============================================================================
 // vns : save_local_optimum
 //==============================================================================
+
 void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 {
     sort(x.begin(), x.end());
@@ -338,17 +348,18 @@ void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 
 void vns::write_result_file()
 {
+    // Some verbose for user and log
     std::cout << "Time of execution: " << _duration << " seconds" << endl;
     // Create the output file name
     size_t firstindex = _filename.find_last_of("/");
     string filename_without_extension = _filename.substr(firstindex+1, 5000);
     size_t lastindex = filename_without_extension.find_last_of(".");
     filename_without_extension = filename_without_extension.substr(0, lastindex);
-
+    // Some verbose for user and log
     std::cout << "### VNS has finished please see results in: " << '\n' << _output_directory + _output_prefix + filename_without_extension + "_result_vns.txt" << '\n';
     // Create the output file
     ofstream output_file(_output_directory + _output_prefix + filename_without_extension + "_result_vns.txt");
-
+    // Some verbose for user and log
     output_file << "# Result from vns \n";
     output_file << "# Pattern || occurences || chi2-score || p-value || unreliable case\n";
 
@@ -379,12 +390,14 @@ void vns::write_result_file()
         }
         output_file << "\n";
     }
+    // Some verbose for user and log
     output_file << "# Execution time : " << _duration << " seconds" << endl;
 }
 //==============================================================================
 // vns : compareFunc
 //==============================================================================
 // Function to sort the results
+
 bool vns::compareFunc(pair<vector<unsigned>, vector<float>> const& a, pair<vector<unsigned>, vector<float>> const& b)
 {
     if (a.second[2] < b.second[2])
@@ -400,6 +413,7 @@ bool vns::compareFunc(pair<vector<unsigned>, vector<float>> const& a, pair<vecto
 //==============================================================================
 // vns : print_parameters
 //==============================================================================
+
 void vns::print_parameters()
 {
     std::cout << "### Parameters used for this run: " << endl;
