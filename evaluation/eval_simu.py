@@ -37,7 +37,7 @@ def get_arguments():
 
 def get_genotype_files(input_directory):
     # Search for file ending with txt extension in a given directory
-    input_files = glob.glob(input_directory + '*genotype*')
+    input_files = glob.glob(input_directory + '*Genotype*')
     return input_files
 
 ###############################################################################
@@ -173,7 +173,7 @@ def main():
     # For every files
     for file in input_files:
         start_file = time.time()
-        pheno_file = file.replace("genotype", "phenotype")
+        pheno_file = file.replace("Genotype", "Phenotype")
 
         TP = 0
         FP = 0
@@ -187,12 +187,12 @@ def main():
             else:
                 sys.exit("wrong method name, available methods : vns, smmb_aco")
 
-            result_file = glob.glob("./evaluation/temp_results/" + "*")
-            result_file1 = open(result_file[0], 'r')
+            result_file_name = glob.glob("./evaluation/temp_results/" + "*")
+            result_file_handler = open(result_file_name[0], 'r')
 
-            result_type = result_analysis(result_file1, pattern_size)
-            result_file1.close()
-            os.remove(result_file[0])
+            result_type = result_analysis(result_file_handler, pattern_size)
+            result_file_handler.close()
+            os.remove(result_file_name[0])
             if result_type == "TP":
                 TP +=1
             elif result_type == "FP":
@@ -204,7 +204,7 @@ def main():
         prec = calc_precision(TP, FP)
         f_measure = calc_f_measure(recall, prec)
         power = calc_power(TP, number_of_execution)
-        scores.append((os.path.basename(os.path.normpath(file)), TP, FP, FN, recall, prec, f_measure, power, str(end_file-start_file)))
+        scores.append((os.path.basename(os.path.normpath(file)), TP, FP, FN, recall, prec, f_measure, power, str((end_file-start_file)/number_of_execution)))
         if args.nfiles == 0:
             break
         else:
@@ -212,7 +212,7 @@ def main():
 
     end = time.time()
     power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + ".csv", 'w')
-    power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power,time"+"\n")
+    power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power,average time per run"+"\n")
     for res in scores:
         power_file.write(str(res[0])+","+str(res[1])+","+str(res[2])+","+str(res[3])+","+str(res[4])+","+str(res[5])+","+str(res[6])+","+str(res[7])+","+str(res[8])+"\n")
     power_file.write('### execution time : ' + str(end-start))

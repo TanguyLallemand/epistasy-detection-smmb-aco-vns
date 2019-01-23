@@ -407,8 +407,8 @@ void vns::print_parameters()
     std::cout << "Alpha type I error rate: " << _alpha  << endl;
     std::cout << "Maximum size of pattern: " << _pat_size_max  << endl;
     std::cout << "Minimum size of pattern: " << _pat_size_min  << endl;
-    std::cout << "k Max (vns stop counter) " << _k_max  << endl;
-    std::cout << "l Max (local search stop counter) " << _l_max  << endl;
+    std::cout << "max_it_vns (vns stop counter) " << _max_it_vns  << endl;
+    std::cout << "max_it_local_search (local search stop counter) " << _max_it_local_search  << endl;
     std::cout << "### End of parameters" << endl;
     std::cout << endl;
 }

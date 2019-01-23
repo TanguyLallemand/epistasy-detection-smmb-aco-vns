@@ -1,7 +1,4 @@
 # Result from vns 
 # Pattern || occurences || chi2-score || p-value || unreliable case
-{N5,M0P7,M0P8} || 1 || 108.812 || 2e-16 || 0
-{N9,M0P7,M0P8} || 1 || 118.763 || 2e-16 || 0
-{N20,M0P7,M0P8} || 1 || 102.887 || 2e-16 || 14
-{N24,M0P7,M0P8} || 1 || 97.971 || 2e-16 || 3
-# Execution time : 1 seconds
+{N9,M0P7,M0P8} || 4 || 118.763 || 2e-16 || 0
+# Execution time : 0 seconds
