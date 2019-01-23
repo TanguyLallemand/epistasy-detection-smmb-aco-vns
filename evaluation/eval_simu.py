@@ -169,7 +169,9 @@ def main():
     # Get number of files in input directory
     n_files = len(input_files)
 
-    print(os.path.basename(input_directory))
+    # Global counter
+    z = 0
+    zmax = number_of_execution * min(args.nfiles, n_files)
     # For every files
     for file in input_files:
         start_file = time.time()
@@ -179,7 +181,8 @@ def main():
         FP = 0
         FN = 0
         for i in range(0, number_of_execution):
-            print(file + " Iteration " + str(i))
+            z+=1
+            print(file + " Iteration " + str(i) + ' ' + str(z) + '/' + str(zmax))
             if method == 'smmb_aco':
                 os.system('./smmb_aco/smmb_aco.exe '+file+' '+pheno_file+' '+'./evaluation/parameters_smmb.txt >> ./evaluation/smmb_aco_log.log')
             elif method == "vns":
@@ -215,7 +218,7 @@ def main():
     power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power,average time per run"+"\n")
     for res in scores:
         power_file.write(str(res[0])+","+str(res[1])+","+str(res[2])+","+str(res[3])+","+str(res[4])+","+str(res[5])+","+str(res[6])+","+str(res[7])+","+str(res[8])+"\n")
-    power_file.write('### total evaluation time : ' + str(end-start))
+    power_file.write('### Total evaluation time : ' + str(end-start))
 
 
 if __name__ == "__main__":

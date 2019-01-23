@@ -20,4 +20,4 @@ import os
 #   -m METHOD, --method METHOD
 #                         Method to test
 
-os.system('./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100')
+os.system('./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 50 -m smmb_aco -nf 20')
