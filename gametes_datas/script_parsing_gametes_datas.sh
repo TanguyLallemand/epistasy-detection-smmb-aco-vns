@@ -9,6 +9,7 @@ mkdir datas
 tar xzvf repository.tar.gz  -C ./datas
 # Go in folder containning datas
 cd datas/repository
+echo -e '\033[33mParse files to be suitable with input of methods \033[0m'
 # Loop on first level of directories
 for first_dir in "$(ls -d */ | cut -f1 -d'/')"; do
     for directory in $first_dir; do
