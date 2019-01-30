@@ -24,8 +24,8 @@ vns::vns(data_parsing dataset, parameters_parsing _params)
     this->_max_it_vns = _params._max_it_vns;
     this->_max_it_local_search = _params._max_it_local_search;
     // Definition of neighbor exploration range
-    this->_k_max = _params._pat_size_max-1;
-    this->_l_max = _params._pat_size_max-1;
+    this->_k_max = _params._pat_size_max;
+    this->_l_max = _params._pat_size_max;
 
 // Unpacking datas
     this->_genos_matrix = dataset._geno_matrix;
@@ -125,9 +125,17 @@ vector<unsigned> vns::generate_starting_pattern()
 {
     // Initialization of list to store the pattern
     vector<unsigned> pattern;
+    unsigned size_pattern;
     // Random pick of the pattern size between _pat_size_min and _pat_size_max
-    std::uniform_int_distribution<int> distribution(_pat_size_min,_pat_size_max);
-    unsigned size_pattern = distribution(_rng);
+    if (_pat_size_min != _pat_size_max)
+    {
+        std::uniform_int_distribution<int> distribution(_pat_size_min,_pat_size_max);
+        size_pattern = distribution(_rng);
+    }
+    else
+    {
+        size_pattern = _pat_size_min;
+    }
     // Fill the pattern with size_pattern different SNPs
     for (size_t i = 0; i < size_pattern; i++)
     {

@@ -1,8 +1,0 @@
-# Result from vns 
-# Pattern || occurences || chi2-score || p-value || unreliable case
-{SNP-N-6,SNP-N-734} || 1 || 17.3118 || 0.0270209 || 0
-{SNP-N-179,SNP-N-848,SNP-N-986} || 1 || 46.4515 || 0.00811738 || 0
-{SNP-N-200,SNP-N-660,SNP-N-740} || 1 || 54.5926 || 0.000854313 || 0
-{SNP-N-600,SNP-N-632} || 1 || 15.5369 || 0.0495085 || 0
-{SNP-N-784} || 1 || 7.80937 || 0.0201473 || 0
-# Time of execution: 50 seconds

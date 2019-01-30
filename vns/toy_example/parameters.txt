@@ -25,7 +25,7 @@ alpha 0.05
 iteration_num 4
 
 # max size of searched patterns
-pat_size_max 3
+pat_size_max 2
 
 # min size of searched patterns
 pat_size_min 2

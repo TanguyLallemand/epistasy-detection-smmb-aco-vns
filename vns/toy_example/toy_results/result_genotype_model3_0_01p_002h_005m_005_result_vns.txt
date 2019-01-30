@@ -1,5 +1,0 @@
-# Result from vns 
-# Pattern || occurences || chi2-score || p-value || unreliable case
-{N19,N63,N68} || 2 || 68.9833 || 9.29832e-06 || 7
-{N13,N83,N88} || 2 || 65.9238 || 2.55108e-05 || 5
-# Execution time : 2 seconds
