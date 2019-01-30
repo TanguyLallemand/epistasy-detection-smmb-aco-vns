@@ -1,3 +1,0 @@
-# Result from SMMB-ACO 
-# Pattern || Occurences || G2-score || p-value || unreliable case
-# Time of execution: 0 seconds

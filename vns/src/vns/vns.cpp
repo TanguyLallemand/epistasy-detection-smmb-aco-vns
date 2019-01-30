@@ -109,7 +109,7 @@ void vns::run()
     // End time
     std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
     // Save time of execution
-    this-> _duration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
+    this-> _duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
     // Write results in a file
     write_result_file();
 }
@@ -357,7 +357,7 @@ void vns::save_local_optimum(vector<unsigned> & x, vector<float> & x_score)
 void vns::write_result_file()
 {
     // Some verbose for user and log
-    std::cout << "Time of execution: " << _duration << " seconds" << endl;
+    std::cout << "Time of execution: " << _duration << " milliseconds" << endl;
     // Create the output file name
     size_t firstindex = _filename.find_last_of("/");
     string filename_without_extension = _filename.substr(firstindex+1, 5000);
@@ -399,7 +399,7 @@ void vns::write_result_file()
         output_file << "\n";
     }
     // Some verbose for user and log
-    output_file << "# Execution time : " << _duration << " seconds" << endl;
+    output_file << "# Execution time : " << _duration << " milliseconds" << endl;
 }
 //==============================================================================
 // vns : compareFunc

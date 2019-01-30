@@ -121,7 +121,7 @@ void smmb_aco::run()
         // Save time
         std::chrono::high_resolution_clock::time_point t2 = std::chrono::high_resolution_clock::now();
         // Calculate time of execution
-        this -> _duration = std::chrono::duration_cast<std::chrono::seconds>(t2-t1).count();
+        this -> _duration = std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count();
         // Post treatment
         save_results();
     }
@@ -515,13 +515,13 @@ void smmb_aco::save_results()
         output_file << string_pat[ss.first];
     }
     // Print in file time of exectution
-    output_file << "# Time of execution: " << _duration << " seconds" << endl;
+    output_file << "# Time of execution: " << _duration << " milliseconds" << endl;
     // Verbose displayed in terminal
     if (_verbose)
     {
         show_results(sorting, string_pat);
     }
-    std::cout << "# Time of execution: " << _duration << " seconds" << endl;
+    std::cout << "# Time of execution: " << _duration << " milliseconds" << endl;
     std::cout << "### SMMB_ACO has finished please see results in: " << '\n' << _output_directory + _output_prefix + filename_without_extension + "_smmb_aco.txt" << '\n';
 }
 
