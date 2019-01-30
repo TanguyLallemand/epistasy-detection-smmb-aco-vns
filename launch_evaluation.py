@@ -23,4 +23,4 @@
 #   -m METHOD, --method METHOD
 #                         Method to test
 import os
-os.system('./evaluation/eval_simu.py -i ./gametes_datas/datas/repository/model1/model1_0_01p_0005h_005m/ -o ./evaluation/result_eval/ -n 100 -m vns')
+os.system('./evaluation/eval_simu.py -i ./gametes_datas/datas/repository/model1/model1_0_01p_0005h_005m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 10 -l M')

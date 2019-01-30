@@ -22,11 +22,13 @@ def get_arguments():
     parser.add_argument(
         "-o", "--output", help="Give an output directory", type=str, action='store', required=True)
     parser.add_argument(
+        "-l", "--causal_id", help="Letter to identify causal SNPs", type=str, action='store')
+    parser.add_argument(
+        "-m", "--method", help="Method to test", type=str, action='store', required=True)
+    parser.add_argument(
         "-n", "--nruns", help="Number of method executions to be performed on each file in the dataset", type=int)
     parser.add_argument(
         "-nf", "--nfiles", help="Number of file to test in the dataset", type=int)
-    parser.add_argument(
-        "-m", "--method", help="Method to test", type=str, action='store', required=True)
     args = parser.parse_args()
     return args
 
@@ -37,7 +39,7 @@ def get_arguments():
 
 def get_genotype_files(input_directory):
     # Search for file ending with txt extension in a given directory
-    input_files = glob.glob(input_directory + '*Genotype*')
+    input_files = glob.glob(input_directory + '*genotype*')
     return input_files
 
 ###############################################################################
@@ -45,13 +47,13 @@ def get_genotype_files(input_directory):
 ###############################################################################
 
 
-def result_analysis(result_file, pattern_size):
+def result_analysis(result_file, pattern_size, causal_id):
     result_type = 'FN'
     for line in result_file:
         if line[0]=='{':
             result_type = 'FP'
             pattern=line[line.find("{")+1:line.find("}")]
-            if pattern.count('M') == pattern_size:
+            if pattern.count(causal_id) == pattern_size:
                 result_type = 'TP'
                 break
     return result_type
@@ -61,48 +63,11 @@ def result_analysis(result_file, pattern_size):
 ###############################################################################
 
 
-def get_pattern_size(input_files):
+def get_pattern_size(input_files, causal_id):
     file = open(input_files[0], 'r')
-    size = file.readline().count('M')
+    size = file.readline().count(causal_id)
     return size
 
-
-###############################################################################
-# This function permit to create an output directory if it does not exist
-###############################################################################
-
-
-def check_output_directory(output_directory):
-    import re
-    import os
-    # Import errno to handle with errors during directory creation
-    from errno import EEXIST
-    # Get current path and add sub directory name
-    # Get current directory path
-    my_path = os.getcwd() + '/' + output_directory
-    # Try to create a new directory
-    try:
-        # Make a directory following path given
-        os.mkdir(my_path)
-    except OSError as exc:
-        if exc.errno == EEXIST:
-            pass
-        else:
-            raise
-
-###############################################################################
-# This function permit to create an output file and writing results
-###############################################################################
-
-
-def creation_of_output_file(output_directory, results_file_parsed, name_of_file):
-    base = os.path.basename(name_of_file)
-    name = os.path.splitext(base)[0] + '_results.txt'
-    if os.path.isdir(output_directory):
-        name = output_directory + '/' + name
-        with open(name, 'w') as output_file:
-            for item in results_file_parsed:
-                output_file.write(item + '\n')
 
 ###############################################################################
 # This function permit to calcul recall
@@ -147,6 +112,34 @@ def calc_power(true_positive, number_of_execution):
     return power
 
 ###############################################################################
+# functions to write the different result files
+###############################################################################
+def write_f_measure(scores, input_directory, method):
+    power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + "_f_measure.csv", 'w')
+    power_file.write("Filename,f_measure"+"\n")
+    for res in scores:
+        power_file.write(str(res[0])+","+str(res[6])+"\n")
+
+def write_power(scores, input_directory, method):
+    power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + "_power.csv", 'w')
+    power_file.write("Filename,power"+"\n")
+    for res in scores:
+        power_file.write(str(res[0])+","+str(res[7])+"\n")
+
+def write_time(scores, input_directory, method):
+    power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + "_time.csv", 'w')
+    power_file.write("Filename,average_time_per_run"+"\n")
+    for res in scores:
+        power_file.write(str(res[0])+","+str(res[8])+"\n")
+
+def write_global_results(scores, start, end, input_directory, method):
+    power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + ".csv", 'w')
+    power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power,average_time_per_run"+"\n")
+    for res in scores:
+        power_file.write(str(res[0])+","+str(res[1])+","+str(res[2])+","+str(res[3])+","+str(res[4])+","+str(res[5])+","+str(res[6])+","+str(res[7])+","+str(res[8])+"\n")
+    power_file.write('### Total evaluation time : ' + str(end-start))
+
+###############################################################################
 # Main function
 ###############################################################################
 
@@ -165,7 +158,7 @@ def main():
     # Get list of genotype files in input directory
     input_files = get_genotype_files(input_directory)
     # Get pattern size from one file
-    pattern_size = get_pattern_size(input_files)
+    pattern_size = get_pattern_size(input_files, args.causal_id)
     # Get number of files in input directory
     n_files = len(input_files)
 
@@ -175,12 +168,12 @@ def main():
     # For every files
     for file in input_files:
         start_file = time.time()
-        pheno_file = file.replace("Genotype", "Phenotype")
-
+        pheno_file = file.replace("genotype", "phenotype")
         TP = 0
         FP = 0
         FN = 0
-        for i in range(0, number_of_execution):
+
+        for i in range(1, number_of_execution):
             z+=1
             print(file + " Iteration " + str(i) + ' ' + str(z) + '/' + str(zmax))
             if method == 'smmb_aco':
@@ -193,7 +186,7 @@ def main():
             result_file_name = glob.glob("./evaluation/temp_results/" + "*")
             result_file_handler = open(result_file_name[0], 'r')
 
-            result_type = result_analysis(result_file_handler, pattern_size)
+            result_type = result_analysis(result_file_handler, pattern_size, args.causal_id)
             result_file_handler.close()
             os.remove(result_file_name[0])
             if result_type == "TP":
@@ -214,11 +207,11 @@ def main():
             args.nfiles -= 1
 
     end = time.time()
-    power_file = open('./evaluation/result_eval/' + os.path.basename(os.path.normpath(input_directory)) +'_'+ method + ".csv", 'w')
-    power_file.write("Filename,TP,FP,FN,recall,precision,f_measure,power,average time per run"+"\n")
-    for res in scores:
-        power_file.write(str(res[0])+","+str(res[1])+","+str(res[2])+","+str(res[3])+","+str(res[4])+","+str(res[5])+","+str(res[6])+","+str(res[7])+","+str(res[8])+"\n")
-    power_file.write('### Total evaluation time : ' + str(end-start))
+    write_f_measure(scores, input_directory, method)
+    write_power(scores, input_directory, method)
+    write_time(scores, input_directory, method)
+    write_global_results(scores, start, end, input_directory, method)
+
 
 
 if __name__ == "__main__":
