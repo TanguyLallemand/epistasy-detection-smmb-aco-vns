@@ -14,11 +14,11 @@ In order to compile the whole project a makefile is provided at project's root. 
 ### Preparation of prerequisite
 
 In makefiles please change BOOST_FOLDER value with path of the installed boost library on current workstation.
-Moreover, please check if current g++ version is compatible with C++11 functionalities (version >= 5.0). Please also check boost library's version. Authors cannot guaranty compatibility with other boost version even if boost version seems to be compatible. For this method version 1.61.0 was employed.
+Moreover, please check if current g++ version is compatible with C++11 functionalities (version >= 5.0). Please also check boost library's version. Authors cannot guaranty compatibility with other boost version even if boost version seems to be compatible between them. For this method version 1.61.0 was employed.
 
 ### Compilation
 
-To compile this method, please call this lines at the root of the project:
+To compile both methods, please call this lines at the root of the project:
 
     make
 
@@ -58,25 +58,33 @@ In this launcher is also added explications about arguments used in call. It is 
 
     simu_naive.py --help
 
+
 ## Expected output
 
 On each data set constituted by one genotype file and his associated phenotype file epistasis pattern is searched using both methods. Here is an example of expected output file :
 
     # Result from vns
     # Pattern || occurences || chi2-score || p-value || unreliable case
-    {N2,N12,M0P7} || 1 || 43.0154 || 0.0192421 || 12
-    {N7,N20,M0P8} || 1 || 48.6441 || 0.00454652 || 9
-    {N8,N11,N24} || 1 || 44.8019 || 0.0123739 || 10
-    {N11,N24} || 1 || 17.463 || 0.0256333 || 0
-    {N12,N24,M0P7} || 1 || 42.5037 || 0.0217698 || 4
-    {N13,M0P7,M0P8} || 1 || 99.0419 || 2.0e-16 || 3
-    # Time of execution: 37 seconds
+    {SNP-N-1,SNP-N-17,SNP-C-0} || 1 || 422.528 || 0 || 0
+    {SNP-N-3} || 1 || 6.7944 || 0.0334668 || 0
+    {SNP-N-6,SNP-C-0} || 1 || 393.468 || 0 || 0
+    {SNP-N-8,SNP-C-1} || 1 || 3898.56 || 0 || 0
+    {SNP-N-19,SNP-N-20,SNP-C-0} || 1 || 413.348 || 0 || 0
+    {SNP-C-0} || 1 || 389.899 || 0 || 0
+    {SNP-C-1} || 2 || 3893.06 || 0 || 0
+    # Time of execution:0seconds
 
 Each method can be evaluated using the eval_simu.py script, it uses the method as many times as it is asked on each data file in the directory given as an argument. A file summarizing the results is produced, it includes the counting of the type of results (true positive: TP, false positive: FP, false negative: FN) as well as the precision calculations, f-measurement, etc.
 
-Using call this call on a toy data set :
+#### Run eval_simu.py
 
-    ./evaluation/eval_simu.py -i ./smmb_aco/toy_example/toy_dataset/ -o ./evaluation/result_eval/ -n 100 -m vns
+This script allows to execute a given number of times the methods on files contained in a given folder. In order to execute this script with a default configuration please call it with following line:
+
+    ./launch_evaluation.py
+
+This launcher will perform each methods a given number of times on some files generated using gametes. If a particular configuration is needed, please check call used in launcher or display help using:
+
+    ./evaluation/eval_simu.py --help
 
 It will produce a file of this type :
 
