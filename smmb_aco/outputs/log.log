@@ -49,3 +49,71 @@ Tau vector
 # Time of execution: 3 seconds
 ### SMMB_ACO has finished please see results in: 
 ./smmb_aco/outputs/result_genotypes_toy_dataset_smmb_aco.txt
+Genotype file computed: ./smmb_aco/toy_example/toy_dataset/genotypes_toy_dataset.txt
+Phenotype file computed: ./smmb_aco/toy_example/toy_dataset/phenotypes_toy_dataset.txt
+
+### Parameters used for this run: 
+Number of iterations in ACO: 10
+Maximal number of iterations allowed to learn one Markov blanket: 30
+Number of ants: 50
+Evaporation rate: 0.05
+Lambda parameter from ACO-PDF update function: 0.1
+Alpha, used to ajust the relative importance between pheromone rate and a priori knowledge: 1
+Beta, used to ajust the relative importance between pheromone rate and a priori knowledge: 1
+Alpha type I error rate: 0.05
+Number of snps sampled in each ant: 10
+Size of the smallest subset: 3
+Prefix of output files: result_
+Path of output directory: ./smmb_aco/toy_example/toy_results/
+Number of consecutive runs of SMMB-ACO: 1
+Value to initiate evaporation rates: 100
+### End of parameters
+
+### Backtrace of SMMB_ACO run ###
+Iteration #0
+Tau vector
+[28](100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100,100)
+Iteration #1
+Tau vector
+[28](100.169,108.526,107.463,106.408,112.9,117.418,121.323,124.622,105.24,126.453,107.088,116.624,104.247,110.095,104.469,117.246,110.103,109.087,113.504,107.006,134.292,112.662,109.509,118.321,107.941,107.585,139.594,141.193)
+Iteration #2
+Tau vector
+[28](100.842,116.968,122.31,121.427,130.88,140.07,161.883,125.173,113.915,160.956,116.993,128.993,101.559,111.321,113.597,135.503,119.291,125.6,133.041,110.603,141.487,115.274,112.572,156.063,117.84,111.076,184.872,255.097)
+Iteration #3
+Tau vector
+[28](104.117,123.581,128.355,130.918,140.26,140.16,197.601,146.273,119.193,186.855,118.515,141.662,100.261,127.454,125.004,140.547,121.337,139.724,143.761,115.699,150.996,127.703,122.665,173.409,129.722,111.258,274.974,402.441)
+Iteration #4
+Tau vector
+[28](108.572,124.408,130.075,127.732,146.31,149.105,194.052,148.893,126.974,236.723,139.063,155.692,101.161,138.368,128.991,137.994,122.693,159.08,139.347,130.035,168.419,139.733,133.652,174.202,147.191,114.855,484.525,674.853)
+Iteration #5
+Tau vector
+[28](111.109,132.283,130.483,144.899,145.818,165.72,224.04,152.673,120.625,290.737,159.671,153.016,104.102,138.86,138.576,139.442,122.643,168.178,148.185,125.852,180.05,146.418,135.84,172.578,153.347,113.038,766.867,1021.39)
+Iteration #6
+Tau vector
+[28](108.274,134.953,126.143,141.323,146.288,176.456,235.958,147.706,131.403,331.583,157.171,153.824,103.059,143.584,147.098,137.151,140.662,164.485,146.435,135.323,187.949,150.249,134.692,178.933,151.574,113.172,1246.06,1508.32)
+Iteration #7
+Tau vector
+[28](104.76,128.205,124.45,150.466,147.569,184.94,248.316,142.903,127.38,385.449,161.71,155.29,99.9567,149.993,146.072,135.529,140.85,165.305,146.853,137.824,196.374,150.74,133.282,182.543,143.996,114.902,1786.67,2110.54)
+Iteration #8
+Tau vector
+[28](103.794,126.762,120.411,150.367,142.823,192.587,256.864,137.935,127.623,437.041,159.745,155.608,99.0601,146.985,138.768,130.888,155.026,175.902,147.319,134.521,189.901,145.958,133.766,180.975,140.554,109.157,2476.36,2845.5)
+Iteration #9
+Tau vector
+[28](98.6045,124.067,121.542,153.985,144.496,191.628,248.357,137.939,127.595,489.012,167.438,155.368,97.9378,141.882,137.428,127.302,150.913,180.716,145.294,131.382,189.019,143.67,137.627,187.044,133.526,103.699,3106.27,3565.99)
+
+# Result from SMMB-ACO 
+# Pattern || Occurences || G2-score || p-value || unreliable case
+{M0P7,M0P8} || 182 || 64.744194 || 4.87e-12 || 0
+{N9,M0P8} || 19 || 41.084591 || 2.79e-07 || 0
+{M0P8} || 74 || 25.260149 || 3.27e-06 || 0
+{M0P7} || 67 || 23.079254 || 9.74e-06 || 0
+{N3,N24} || 2 || 19.151096 || 3.92e-03 || 0
+{N6,N17} || 2 || 18.021011 || 6.18e-03 || 1
+{N1,N3} || 1 || 17.277134 || 8.32e-03 || 0
+{N9} || 19 || 8.291620 || 1.58e-02 || 0
+{N8,N11} || 1 || 14.412374 || 2.54e-02 || 1
+{N6} || 13 || 6.601450 || 3.69e-02 || 0
+
+# Time of execution: 5756 milliseconds
+### SMMB_ACO has finished please see results in: 
+./smmb_aco/toy_example/toy_results/result_genotypes_toy_dataset_smmb_aco.txt
