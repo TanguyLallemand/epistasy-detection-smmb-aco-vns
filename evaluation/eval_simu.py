@@ -40,6 +40,8 @@ def get_arguments():
 def get_genotype_files(input_directory):
     # Search for file ending with txt extension in a given directory
     input_files = glob.glob(input_directory + '*geno*')
+    if len(input_files)<1:
+        input_files = glob.glob(input_directory + '*Geno*')
     return input_files
 
 ###############################################################################
@@ -169,6 +171,7 @@ def main():
     for file in input_files:
         start_file = time.time()
         pheno_file = file.replace("geno", "pheno")
+        pheno_file = pheno_file.replace("Geno", "Pheno")
         TP = 0
         FP = 0
         FN = 0
