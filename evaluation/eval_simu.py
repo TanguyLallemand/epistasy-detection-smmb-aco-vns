@@ -39,7 +39,7 @@ def get_arguments():
 
 def get_genotype_files(input_directory):
     # Search for file ending with txt extension in a given directory
-    input_files = glob.glob(input_directory + '*genotype*')
+    input_files = glob.glob(input_directory + '*geno*')
     return input_files
 
 ###############################################################################
@@ -168,7 +168,7 @@ def main():
     # For every files
     for file in input_files:
         start_file = time.time()
-        pheno_file = file.replace("genotype", "phenotype")
+        pheno_file = file.replace("geno", "pheno")
         TP = 0
         FP = 0
         FN = 0
