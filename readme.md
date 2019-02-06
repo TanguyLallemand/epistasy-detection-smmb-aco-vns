@@ -17,7 +17,9 @@ In makefiles please change BOOST_FOLDER value with path of the installed boost l
 Moreover, please check if current g++ version is compatible with C++11 functionalities (version >= 5.0). Please also check boost library's version. Authors cannot guaranty compatibility with other boost version even if boost version seems to be compatible between them. For this method version 1.61.0 was employed.
 
 ### Compilation
+To install both methods, please call this line at the root of the project:
 
+    make install
 To compile both methods, please call this lines at the root of the project:
 
     make
@@ -63,7 +65,7 @@ In this launcher is also added explications about arguments used in call. It is 
 
 On each data set constituted by one genotype file and his associated phenotype file epistasis pattern is searched using both methods. Here is an example of expected output file :
 
-    # Result from vns 
+    # Result from vns
     # Pattern || occurences || chi2-score || p-value || unreliable case
     {M0P7,M0P8} || 3 || 87.8235 || 2e-16 || 0
     {N9,M0P8} || 1 || 49.3762 || 5.96046e-08 || 0
