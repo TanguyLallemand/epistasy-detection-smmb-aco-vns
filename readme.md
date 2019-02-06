@@ -16,6 +16,12 @@ In order to compile the whole project a makefile is provided at project's root. 
 In makefiles please change BOOST_FOLDER value with path of the installed boost library on current workstation.
 Moreover, please check if current g++ version is compatible with C++11 functionalities (version >= 5.0). Please also check boost library's version. Authors cannot guaranty compatibility with other boost version even if boost version seems to be compatible between them. For this method version 1.61.0 was employed.
 
+A quick "install" can be done using:
+
+    ./installation_of_project.sh
+
+This script will create some directories, install conda environment and purge compiled file to recreate executables
+
 ### Compilation
 To install both methods, please call this line at the root of the project:
 
