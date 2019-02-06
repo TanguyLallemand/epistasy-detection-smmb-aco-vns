@@ -45,7 +45,7 @@ This project is provided with a tool to generate some naive data set. This tool 
 
 ### Prerequisite, generation of right virtual environment
 
-Some packages are required to run this tool. List of them is provided with version in environment.yml file. In order to generate a virtual environment where simu_naive.py can be executed please follow next steps.
+Some packages are required to run this tool. List of them is provided with version in environment.yml file. In order to generate a virtual environment where simu_naive.py can be executed please follow next steps. For this step conda is needed, please follow instructions from anaconda documentation to get it installed.
 
 On a workstation with conda installed please execute this line to generate an environment called projet_c:
 
