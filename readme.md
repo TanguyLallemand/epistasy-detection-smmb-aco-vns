@@ -20,6 +20,7 @@ Moreover, please check if current g++ version is compatible with C++11 functiona
 To install both methods, please call this line at the root of the project:
 
     make install
+
 To compile both methods, please call this lines at the root of the project:
 
     make
@@ -42,7 +43,7 @@ Some packages are required to run this tool. List of them is provided with versi
 
 On a workstation with conda installed please execute this line to generate an environment called projet_c:
 
-    conda env create -f environment.yml
+    conda env create -f ./environment_to_execute_python/environment.yml
 
 Following this, activate this environment and execute simu_naive with arguments:
 
