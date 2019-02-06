@@ -122,7 +122,7 @@ It will produce a file of this type :
 
 -   [BOOST](https://www.boost.org/) a peer reviewed c++ collection of library.
 -   [NumpY](http://www.numpy.org/) a python library to handle with matrix.
--   [Pandas](https://pandas.pydata.org/) a Python Data Analysis Library.
+-   [Anaconda](https://www.anaconda.com/) a software to handle with python virtual environment.
 
 ## Authors
 

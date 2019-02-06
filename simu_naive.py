@@ -4,7 +4,6 @@
 #          Jonathan Cruard M2BB
 
 import numpy as np
-import pandas as pd
 import string
 import itertools
 import re
