@@ -11,8 +11,16 @@ mkdir -p ./evaluation/temp_results
 mkdir -p ./smmb_aco/obj
 mkdir -p ./vns/obj
 echo -e "\033[32m""Complete""\033[0m"
-echo -e "\033[33m""Creating conda environment""\033[0m"
-conda env create -f ./environment_to_execute_python/environment.yml
+echo -e "\033[33m""Creating conda environment following configuration of workstation""\033[0m"
+if which conda; then
+    conda env create -f ./environment_to_execute_python/environment.yml
+    else
+    pip install virtualenv
+    virtualenv -p /usr/bin/python3.6 projet_c
+    source projet_c/bin/activate
+    pip install -r environment.txt
+    deactivate
+fi
 echo -e "\033[32m""Complete""\033[0m"
 echo -e "\033[33m""Cleaning compiled files""\033[0m"
 make install
