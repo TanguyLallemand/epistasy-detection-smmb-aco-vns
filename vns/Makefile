@@ -53,49 +53,49 @@ all: $(TARGET)
 
 $(TARGET): $(OBJ)
 	@g++ $^ -o $@ $(LFLAGS)
-	@echo "Compilation complete, executable produced."
+	@echo "\033[32m"+"Compilation complete, executable produced."+"\033[0m"
 
 #===============================================================================
 # Main
 #===============================================================================
 $(OBJDIR)/main.o: ./$(SRCDIR)/main.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "Compiled main.o"
+	@echo "\033[32m"+"Compiled main.o"+"\033[0m"
 
 #===============================================================================
 # VNS
 #===============================================================================
 $(OBJDIR)/vns.o: ./$(SRCDIR)/vns/vns.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "Compiled vns.o"
+	@echo "\033[32m"+"Compiled vns.o"+"\033[0m"
 
 #===============================================================================
 # Parameters_parsing
 #===============================================================================
 $(OBJDIR)/parameters_parsing.o: ./$(SRCDIR)/parsing/parameters_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "Compiled parameters_parsing.o"
+	@echo "\033[32m"+"Compiled parameters_parsing.o"+"\033[0m"
 
 #===============================================================================
 # file_parsing
 #===============================================================================
 $(OBJDIR)/file_parsing.o: ./$(SRCDIR)/parsing/file_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "Compiled file_parsing.o"
+	@echo "\033[32m"+"Compiled file_parsing.o"+"\033[0m"
 
 #===============================================================================
 # Statistics
 #===============================================================================
 $(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "Compiled statistics.o"
+	@echo "\033[32m"+"Compiled statistics.o"+"\033[0m"
 
 #===============================================================================
 # Statistics
 #===============================================================================
 $(OBJDIR)/contingencies.o: ./$(SRCDIR)/statistics/contingencies.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "Compiled contingencies.o"
+	@echo "\033[32m"+"Compiled contingencies.o"+"\033[0m"
 
 #===============================================================================
 # PHONEY
@@ -103,16 +103,16 @@ $(OBJDIR)/contingencies.o: ./$(SRCDIR)/statistics/contingencies.cpp
 .PHONEY: clean
 clean:
 	@$(rm) $(OBJ)
-	@echo "Cleanup complete."
+	@echo "\n\033[32m"+"Cleanup complete."+"\033[0m\n"
 
 .PHONEY: remove
 remove: clean
 	@$(rm) $(TARGET)
-	@echo "Executable removed."
+	@echo "\n\033[32m"+"Executable removed."+"\033[0m\n"
 
-.PHONEY: directories
-directories:
+.PHONEY: install
+install:
 	@$(mkdir) $(OBJDIR)
 	@$(mkdir) $(SRCDIR)
 	@$(mkdir) $(LOGDIR)
-	@echo "Directories created"
+	@echo "\n\033[32m"+"Directories created"+"\033[0m\n"
