@@ -29,7 +29,7 @@
 #                         Number of file to test in the dataset
 
 import os
-os.system('mkdir -p ./evaluation/temp_results')
+
 os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/simu_naive_CARLUER_OUEDRAOGO/simu_naive_2snp_0_059_0_25/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
 os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/simu_naive_CARLUER_OUEDRAOGO/simu_naive_2snp_0_059_0_25/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
 
