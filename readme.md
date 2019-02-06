@@ -63,16 +63,12 @@ In this launcher is also added explications about arguments used in call. It is 
 
 On each data set constituted by one genotype file and his associated phenotype file epistasis pattern is searched using both methods. Here is an example of expected output file :
 
-    # Result from vns
+    # Result from vns 
     # Pattern || occurences || chi2-score || p-value || unreliable case
-    {SNP-N-1,SNP-N-17,SNP-C-0} || 1 || 422.528 || 0 || 0
-    {SNP-N-3} || 1 || 6.7944 || 0.0334668 || 0
-    {SNP-N-6,SNP-C-0} || 1 || 393.468 || 0 || 0
-    {SNP-N-8,SNP-C-1} || 1 || 3898.56 || 0 || 0
-    {SNP-N-19,SNP-N-20,SNP-C-0} || 1 || 413.348 || 0 || 0
-    {SNP-C-0} || 1 || 389.899 || 0 || 0
-    {SNP-C-1} || 2 || 3893.06 || 0 || 0
-    # Time of execution:0seconds
+    {M0P7,M0P8} || 3 || 87.8235 || 2e-16 || 0
+    {N9,M0P8} || 1 || 49.3762 || 5.96046e-08 || 0
+    # Execution time : 156 milliseconds
+
 
 Each method can be evaluated using the eval_simu.py script, it uses the method as many times as it is asked on each data file in the directory given as an argument. A file summarizing the results is produced, it includes the counting of the type of results (true positive: TP, false positive: FP, false negative: FN) as well as the precision calculations, f-measurement, etc.
 
@@ -88,8 +84,29 @@ This launcher will perform each methods a given number of times on some files ge
 
 It will produce a file of this type :
 
-    Filename,TP,FP,FN,recall,precision,f_measure,power
-    genotypes_toy_dataset.txt,2,55,43,0.044444444444444446,0.03508771929824561,0.9617547806524185,0.02
+    Filename,TP,FP,FN,recall,precision,f_measure,power,average time per run
+    Naif_21_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.6516388654708862
+    Naif_71_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.676003575325012
+    Naif_29_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.807805299758911
+    Naif_55_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.7822365760803223
+    Naif_70_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.8581265211105347
+    Naif_47_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.7423101663589478
+    Naif_48_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.5195796489715576
+    Naif_18_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.580695629119873
+    Naif_83_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,4.2409913539886475
+    Naif_38_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,4.10369074344635
+    Naif_7_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.7983251810073853
+    Naif_90_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.890117645263672
+    Naif_95_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.696593999862671
+    Naif_54_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,3.9864935874938965
+    Naif_69_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,5.381306171417236
+    Naif_43_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,4.6655861139297485
+    Naif_10_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,4.1970778703689575
+    Naif_33_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,4.428283214569092
+    Naif_41_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,4.373726487159729
+    Naif_64_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,4.405292868614197
+    Naif_50_Genotype.txt,2,0,0,1.0,1.0,0.5,1.0,4.1667115688323975
+    ### Total evaluation time : 169.9076943397522
 
 
 ## Packages and library used in this project
