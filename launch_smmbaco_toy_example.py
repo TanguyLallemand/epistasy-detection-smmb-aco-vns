@@ -14,4 +14,4 @@
 # Third: path to parameters file
 # Finally > is used to redirect standard output in a log file
 import os
-os.system('./smmb_aco/smmb_aco.exe ./smmb_aco/toy_example/toy_dataset/genotypes_toy_dataset.txt ./smmb_aco/toy_example/toy_dataset/phenotypes_toy_dataset.txt ./smmb_aco/toy_example/parameters.txt >> ./smmb_aco/outputs/log.log')
+os.system('./smmb_aco/smmb_aco.exe ./smmb_aco/toy_example/toy_dataset/genotypes_toy_dataset.txt ./smmb_aco/toy_example/toy_dataset/phenotypes_toy_dataset.txt ./smmb_aco/toy_example/parameters.txt >> ./smmb_aco/log/log.log')

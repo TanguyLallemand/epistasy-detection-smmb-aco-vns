@@ -14,4 +14,4 @@
 # Third: path to parameters file
 # Finally > is used to redirect standard output in a log file
 import os
-os.system('./vns/vns.exe ./vns/toy_example/toy_dataset/genotypes_toy_dataset.txt ./vns/toy_example/toy_dataset/phenotypes_toy_dataset.txt ./vns/toy_example/parameters.txt >> ./vns/outputs/log.log')
+os.system('./vns/vns.exe ./vns/toy_example/toy_dataset/genotypes_toy_dataset.txt ./vns/toy_example/toy_dataset/phenotypes_toy_dataset.txt ./vns/toy_example/parameters.txt >> ./vns/log/log.log')
