@@ -32,11 +32,12 @@ INC=-I$(BOOST_FOLDER) \
  # Flags with maximum verbose, include parallelized compute, optimization at level 2, debugger informations
  #CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -O2 -g $(INC)
  #LFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -I$(BOOST_FOLDER) -lm
-# Save directory names
+# Save directory names, store some sheel commands
  SRCDIR=src
  OBJDIR=obj
  BINDIR=.
  rm=rm -f
+  mkdir=mkdir -p
 #Give .o files to create
 OBJ=$(OBJDIR)/main.o \
 $(OBJDIR)/parameters_parsing.o \
@@ -107,3 +108,9 @@ clean:
 remove: clean
 	@$(rm) $(TARGET)
 	@echo "Executable removed."
+
+.PHONEY: directories
+directories:
+	@$(mkdir) $(OBJDIR)
+	@$(mkdir) $(SRCDIR)
+	@echo "Directories created"

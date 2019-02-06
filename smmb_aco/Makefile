@@ -15,7 +15,6 @@
 # -O1 -O2 -O3  offers three levels of optimization, from least optimized to fastest. The program generated will generally be larger and, above all, the compilation time will increase as you move up levels.
 
 
-
 # Add external library path
 BOOST_FOLDER = ../../boost_1_61_0
 # Give path of .hpp files
@@ -35,11 +34,13 @@ INC=-I$(BOOST_FOLDER) \
  # Flags with maximum verbose, include parallelized compute, optimization at level 2, debugger informations
  #CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -O2 -g $(INC)
  #LFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -I$(BOOST_FOLDER) -lm
-# Save directory names
+# Save directory names, store some sheel commands
  SRCDIR=src
  OBJDIR=obj
  BINDIR=.
  rm=rm -f
+ mkdir=mkdir -p
+
 #Give .o files to create
 OBJ=$(OBJDIR)/main.o \
 $(OBJDIR)/file_parsing.o \
@@ -49,11 +50,13 @@ $(OBJDIR)/tools.o \
 $(OBJDIR)/contingencies.o \
 $(OBJDIR)/statistics.o
 
+
+
 TARGET=$(BINDIR)/smmb_aco.exe
 
-all: $(TARGET)
+all:$(TARGET)
 
-$(TARGET): $(OBJ)
+$(TARGET):$(OBJ)
 	@g++ $^ -o $@ $(LFLAGS)
 	@echo "Compilation complete, executable produced."
 
@@ -127,3 +130,9 @@ clean:
 remove: clean
 	@$(rm) $(TARGET)
 	@echo "Executable removed."
+
+.PHONEY: directories
+directories:
+	@$(mkdir) $(OBJDIR)
+	@$(mkdir) $(SRCDIR)
+	@echo "Directories created"

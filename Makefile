@@ -1,5 +1,6 @@
 SUBDIRS = vns smmb_aco
 .PHONY: clean
+.PHONY: directories
 
 all:
 	@for i in $(SUBDIRS); do \
@@ -10,3 +11,8 @@ clean:
 	@for i in $(SUBDIRS); do \
 	echo "cleaning in $$i..."; \
 	(cd $$i; $(MAKE) clean); done
+
+directories:
+	@for i in $(SUBDIRS); do \
+	echo "Creating directories in $$i..."; \
+	(cd $$i; $(MAKE) directories); done
