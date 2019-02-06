@@ -11,7 +11,7 @@
 #
 # usage: eval_simu.py [-h] -i INPUT -o OUTPUT [-l CAUSAL_ID] -m METHOD
 #                     [-n NRUNS] [-nf NFILES]
-#
+# 
 # optional arguments:
 #   -h, --help            show this help message and exit
 #   -i INPUT, --input INPUT
@@ -27,6 +27,7 @@
 #                         file in the dataset
 #   -nf NFILES, --nfiles NFILES
 #                         Number of file to test in the dataset
+
 
 import os
 os.system('mkdir -p ./evaluation/temp_results')
