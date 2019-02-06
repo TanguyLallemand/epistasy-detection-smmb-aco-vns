@@ -59,63 +59,63 @@ all:$(TARGET)
 
 $(TARGET):$(OBJ)
 	@g++ $^ -o $@ $(LFLAGS)
-	@echo "\033[32m"+"Compilation complete, executable produced.""\033[0m"
+	@echo "\033[32m""Compilation complete, executable produced.""\033[0m"
 
 #===============================================================================
 # Main
 #===============================================================================
 $(OBJDIR)/main.o: ./$(SRCDIR)/main.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "\033[32m"+"Compiled main.o""\033[0m"
+	@echo "\033[32m""Compiled main.o""\033[0m"
 
 #===============================================================================
 # Parsing
 #===============================================================================
 $(OBJDIR)/file_parsing.o: ./$(SRCDIR)/parsing/file_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "\033[32m"+"Compiled file_parsing.o""\033[0m"
+	@echo "\033[32m""Compiled file_parsing.o""\033[0m"
 
 $(OBJDIR)/parameters_parsing.o: ./$(SRCDIR)/parsing/parameters_parsing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "\033[32m"+"Compiled parameters_parsing.o""\033[0m"
+	@echo "\033[32m""Compiled parameters_parsing.o""\033[0m"
 #===============================================================================
 # Smmb_aco
 #===============================================================================
 $(OBJDIR)/smmb_aco.o: ./$(SRCDIR)/smmb_aco/smmb_aco.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "\033[32m"+"Compiled smmb_aco.o""\033[0m"
+	@echo "\033[32m""Compiled smmb_aco.o""\033[0m"
 
 #===============================================================================
 # Statistics
 #===============================================================================
 $(OBJDIR)/statistics.o: ./$(SRCDIR)/statistics/statistics.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "\033[32m"+"Compiled statistics.o""\033[0m"
+	@echo "\033[32m""Compiled statistics.o""\033[0m"
 
 $(OBJDIR)/contingencies.o: ./$(SRCDIR)/statistics/contingencies.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "\033[32m"+"Compiled contingencies.o""\033[0m"
+	@echo "\033[32m""Compiled contingencies.o""\033[0m"
 
 #===============================================================================
 # Global
 #===============================================================================
 $(OBJDIR)/global.o: ./$(SRCDIR)/global.hpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "\033[32m"+"Compiled global.o""\033[0m"
+	@echo "\033[32m""Compiled global.o""\033[0m"
 
 #===============================================================================
 # Tools
 #===============================================================================
 $(OBJDIR)/tools.o: ./$(SRCDIR)/tools/tools.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "\033[32m"+"Compiled tools.o""\033[0m"
+	@echo "\033[32m""Compiled tools.o""\033[0m"
 
 #===============================================================================
 # Output_writing
 #===============================================================================
 $(OBJDIR)/output_writing.o: ./$(SRCDIR)/output_writing/output_writing.cpp
 	@$(CXX) $@ -c $< $(CXXFLAGS)
-	@echo "\033[32m"+"Compiled output_writing.o""\033[0m"
+	@echo "\033[32m""Compiled output_writing.o""\033[0m"
 
 
 
@@ -125,16 +125,16 @@ $(OBJDIR)/output_writing.o: ./$(SRCDIR)/output_writing/output_writing.cpp
 .PHONEY: clean
 clean:
 	@$(rm) $(OBJ)
-	@echo "\n\033[32m"+"Cleanup complete."+"\033[0m\n"
+	@echo "\n\033[32m""Cleanup complete.""\033[0m\n"
 
 .PHONEY: remove
 remove: clean
 	@$(rm) $(TARGET)
-	@echo "\n\033[32m"+"Executable removed."+"\033[0m\n"
+	@echo "\n\033[32m""Executable removed.""\033[0m\n"
 
 .PHONEY: install
 install:
 	@$(mkdir) $(OBJDIR)
 	@$(mkdir) $(SRCDIR)
 	@$(mkdir) $(LOGDIR)
-	@echo "\n\033[32m"+"Directories created"+"\033[0m\n"
+	@echo "\n\033[32m""Directories created""\033[0m\n"
