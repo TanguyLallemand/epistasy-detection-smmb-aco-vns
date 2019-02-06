@@ -1,3 +1,0 @@
-Filename,TP,FP,FN,recall,precision,f_measure,power,time
-genotypes_toy_dataset.txt,10,0,0,1.0,1.0,0.5,1.0,4.397878646850586
-### execution time : 4.399138927459717
