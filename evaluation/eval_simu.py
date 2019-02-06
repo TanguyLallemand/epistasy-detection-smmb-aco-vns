@@ -146,6 +146,9 @@ def write_global_results(scores, start, end, input_directory, method):
 
 
 def main():
+    # Create needed directories
+    os.system('mkdir -p ./evaluation/temp_eval')
+    os.system('mkdir -p ./evaluation/temp_results')
     start = time.time()
     # Initialization of some variables
     scores = []
