@@ -34,10 +34,11 @@ INC=-I$(BOOST_FOLDER) \
  # Flags with maximum verbose, include parallelized compute, optimization at level 2, debugger informations
  #CXXFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -O2 -g $(INC)
  #LFLAGS=-std=c++11 -fopenmp -Wall -Wextra -DNDEBUG -I$(BOOST_FOLDER) -lm
-# Save directory names, store some sheel commands
+# Save directory names, store some shell commands
  SRCDIR=src
  OBJDIR=obj
  BINDIR=.
+ LOGDIR=log
  rm=rm -f
  mkdir=mkdir -p
 
@@ -135,4 +136,5 @@ remove: clean
 directories:
 	@$(mkdir) $(OBJDIR)
 	@$(mkdir) $(SRCDIR)
+	@$(mkdir) $(LOGDIR)
 	@echo "Directories created"
