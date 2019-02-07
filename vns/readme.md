@@ -1,5 +1,5 @@
-# VNS documentation
-## Variable Neightbor Search (VNS)
+# Variable Neightbor Search (VNS) documentation
+
 VNS is a program permitting to find epistasy patterns using Variable Neighbor Search.
 
 ## Compilation instructions
@@ -15,7 +15,7 @@ To compile this method, please call those lines at the root of the project:
 
 I a recompilation is needed use:
 
-    cd smmb_aco
+    cd vns
     make clean
     make
 
@@ -28,7 +28,7 @@ Execution of program with:
 |----------------|--------------------|------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | Parsing        | file_parsing       | Allows to parse file containing data set                                                                   | Files names given as argument in program's call                                                                                                                |  One boost matrix containing all genotype data <br> One boost vector containing all phenotype data <br> boost vector with SNPs IDs |
 | Parsing        | parameters_parsing | Allows to parse parameters and save them in parameters class                                               | Will use ./parameters/parameters.txt                                                                                                                           | Class object with all parameters as class variables                                           |
-| Smmb aco       | smmb_aco           | Core of this project allows to run smmb-aco's algorithm                                                    | Parameters object containing all parameters <br> Data set object containing: <br>  - Matrix of genotype data <br>   - Vector of phenotype data               | Final markov blanket                                                                          |
+| VNS       | VNS           | Core of this project allows to run VNS's algorithm                                                    | Parameters object containing all parameters <br> Data set object containing: <br>  - Matrix of genotype data <br>   - Vector of phenotype data               | Final results                                                                          |
 | Statistics     | statistics         | Used to do g2 conditional test of independence                                                            | Matrix column of genotype (subset of genotype matrix with only tested SNPs)<br> Vector of phenotype Indexes of tested SNPs                                         |  g2 score and associated p-value Number of cell considered as non reliable because n<5         |
 | Statistics     | contingencies      |  Build observed and expected contingencies table,   some functions useful to work on contingencies tables | Matrix column of genotype (subset of genotype matrix with only tested SNPs) <br> Vector of phenotype <br>  Indexes of tested SNPs Number of observation in tested subset |  One observed contingency table <br> One expected contingency table                                |
 | Output writing | output_writing     | Can save algorithm's results in file                                                                       | Markov blanket and associated score                                                                                                                            | Final result file                                                                             |
