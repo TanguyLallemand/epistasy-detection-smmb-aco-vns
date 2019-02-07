@@ -42,23 +42,18 @@ To execute this script please call:
 
 ## Expected output
 This method give as output a txt file gathering all results.
+
     # Result from vns
     # Pattern || occurences || chi2-score || p-value || unreliable case
-    {N3,M0P7} || 1 || 32.5542 || 7.40886e-05 || 0
-    {N15,N16,M0P8} || 1 || 48.9789 || 0.00415379 || 13
-    {N21,N23,M0P8} || 1 || 48.5466 || 0.00466728 || 12
-    {N4,N7} || 1 || 18.6897 || 0.0166104 || 1
-    {N10,N41,M0P8} || 1 || 43.3115 || 0.0179045 || 1
-    {N16,N21,M0P7} || 1 || 42.7515 || 0.0205104 || 17
-    {N6,N17,N22} || 1 || 42.5162 || 0.0217049 || 9
-    {N14,N41,M0P8} || 1 || 39.822 || 0.0406088 || 11
-    {N13,N24,M0P8} || 1 || 39.4179 || 0.0444495 || 4
-    # Execution time : 20 seconds
+    {M0P7,M0P8} || 4 || 87.8235 || 2e-16 || 0
+    # Execution time : 116 milliseconds
+
+
 Those results can be checked using our evaluation tool given in evaluation folder.
 Using a toy data set:
 
-Filename,TP,FP,FN,recall,precision,f_measure,power
-genotypes_toy_dataset.txt,2,55,43,0.044444444444444446,0.03508771929824561,0.9617547806524185,0.02
+    Filename,TP,FP,FN,recall,precision,f_measure,power
+    genotypes_toy_dataset.txt,2,55,43,0.044444444444444446,0.03508771929824561,0.9617547806524185,0.02
 
 ## Built With
 -   [BOOST](https://www.boost.org/) - peer-reviewed portable C++ source libraries
