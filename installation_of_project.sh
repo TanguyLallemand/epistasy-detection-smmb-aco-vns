@@ -59,8 +59,8 @@ select choice in "${answer[@]}" ; do
     case $REPLY in
         1|y)
         echo -e "\033[33m""Runing an evaluation""\033[0m"
-        ./evaluation/eval_simu.py -i ./toy_dataset_simu_naive -o ./evaluation/result_eval/ -n 50 -m vns -nf 50 -l X
-        ./evaluation/eval_simu.py -i ./toy_dataset_simu_naive -o ./evaluation/result_eval/ -n 50 -m smmb_aco -nf 50 -l X
+        ./evaluation/eval_simu.py -i ./toy_dataset_simu_naive/ -o ./evaluation/result_eval/ -n 50 -m vns -nf 50 -l X
+        ./evaluation/eval_simu.py -i ./toy_dataset_simu_naive/ -o ./evaluation/result_eval/ -n 50 -m smmb_aco -nf 50 -l X
         echo -e "\033[32m""Complete""\033[0m"
         break
         ;;
