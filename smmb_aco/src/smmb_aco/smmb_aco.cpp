@@ -175,7 +175,7 @@ void smmb_aco::learn_MB(boost_vector_int & ant_subset, list<unsigned> & MB_a_ref
     // Counter of iterations
     unsigned j = 0;
     list<unsigned> save_MB;
-    // Loop to generate the markov blanket //TODO check the condition
+    // Loop to generate the markov blanket
     while ((MB_a_ref.empty() && j<_n_it) && markov_blanket_modified)
     {
         // Saving MB to check differencies and launch next iteration or not
