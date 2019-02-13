@@ -5,8 +5,14 @@
 # This script must be run next to the repository.tar.gz archive that collects gamete data.
 # It will then decompress the archive and reformat data so that they can be used directly by our programs.
 mkdir -p ./data_simulated_from_class/gametes_datas/datas
+################################################################################
 # Extract raw datas
+################################################################################
+# Extract data from Gametes
 tar xzvf ./data_simulated_from_class/gametes_datas/repository.tar.gz  -C ./data_simulated_from_class/gametes_datas/datas
+# Extract data from classmates
+tar -xvf ./data_simulated_from_class/simu_naive_CARLUER_OUEDRAOGO.tar.xz -C ./data_simulated_from_class/
+tar -xvf ./data_simulated_from_class/simu_naive.tar.xz -C ./data_simulated_from_class/
 # Go in folder containning datas
 cd ./data_simulated_from_class/gametes_datas/datas/repository
 echo -e '\033[33mParse files to be suitable with input of methods \033[0m'
