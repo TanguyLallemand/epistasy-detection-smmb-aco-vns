@@ -32,4 +32,4 @@
 *.app
 
 # Gametes Data
-gametes_datas/datas/
+data_simulated_from_class/gametes_datas/datas/
