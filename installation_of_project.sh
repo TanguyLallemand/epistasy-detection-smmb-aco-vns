@@ -45,6 +45,7 @@ select choice in "${answer[@]}" ; do
         echo -e "\033[33m""Runing a naive simulation""\033[0m"
         ./launch_simu_naive_toy_example.py
         echo -e "\033[32m""Complete""\033[0m"
+
         echo -e "\033[33m""Do you want to evaluate generated dataset using default parameters on both methods? ""\033[0m"
         answer=("[y] yes" "[n]  no")
         select choice in "${answer[@]}" ; do
@@ -62,6 +63,24 @@ select choice in "${answer[@]}" ; do
                 ;;
             esac
         done
+
+        break
+        ;;
+        2|n)
+        echo -e "\033[32m""Script will go to next step""\033[0m"
+        break
+        ;;
+    esac
+done
+
+echo -e "\033[33m""Some pre-generated data set also exist do you want to initialize them? ""\033[0m"
+answer=("[y] yes" "[n]  no")
+select choice in "${answer[@]}" ; do
+    case $REPLY in
+        1|y)
+        echo -e "\033[33m""Initialize datatsets""\033[0m"
+        ./initialization_of_simulated_datas_from_repository.sh
+        echo -e "\033[32m""Complete""\033[0m"
         break
         ;;
         2|n)
