@@ -53,7 +53,7 @@ select choice in "${answer[@]}" ; do
         ;;
     esac
 done
-echo -e "\033[33m""Do you want to an evaluation on generated dataset using default parameters on both methods? ""\033[0m"
+echo -e "\033[33m""Do you want to evaluate generated dataset using default parameters on both methods? ""\033[0m"
 answer=("[y] yes" "[n]  no")
 select choice in "${answer[@]}" ; do
     case $REPLY in
