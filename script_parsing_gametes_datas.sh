@@ -6,7 +6,7 @@
 # It will then decompress the archive and reformat data so that they can be used directly by our programs.
 mkdir -p ./data_simulated_from_class/gametes_datas/datas
 # Extract raw datas
-tar xzvf ./data_simulated_from_class/gametes_datas/repository.tar.gz  -C ./data_simulated_from_class/gametes_datas//datas
+tar xzvf ./data_simulated_from_class/gametes_datas/repository.tar.gz  -C ./data_simulated_from_class/gametes_datas/datas
 # Go in folder containning datas
 cd ./data_simulated_from_class/gametes_datas/datas/repository
 echo -e '\033[33mParse files to be suitable with input of methods \033[0m'
