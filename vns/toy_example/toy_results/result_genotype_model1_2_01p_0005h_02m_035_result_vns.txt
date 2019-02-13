@@ -1,0 +1,5 @@
+# Result from vns 
+# Pattern || occurences || chi2-score || p-value || unreliable case
+{M0P5,M0P6} || 3 || 49.6759 || 5.96046e-08 || 1
+{N84,M0P5} || 1 || 43.4254 || 7.15256e-07 || 1
+# Execution time : 232 milliseconds
