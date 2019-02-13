@@ -20,7 +20,7 @@ Some directories need to be created. Aslo few other thing like preparation of py
 
     ./installation_of_project.sh
 
-This script will create some directories, install conda environment and purge compiled file to recreate executables
+This script will create some needed directories, install conda environment and purge compiled file to recreate executables
 
 ### Compilation instruction
 To recreate directory structure for both methods, please call this line at the root of the project:
@@ -75,6 +75,11 @@ It is possible to call this tool using a default call using
 In this launcher is also added explications about arguments used in call. It is also possible to display help using
 
     simu_naive.py --help
+
+### Pre-generated naive dataset
+
+Project is provided with pre-generated naive dataset. They can be find in data_simulated_from_class. This directory gather some archives, one of them contain files that need to be parsed. In order to automatize those steps it is possible to run ./initialization_of_simulated_datas_from_repository.sh. This script can be run by the installation script.
+
 
 ## Parameters
 
