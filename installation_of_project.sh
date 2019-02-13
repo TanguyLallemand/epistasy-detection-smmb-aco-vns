@@ -45,23 +45,23 @@ select choice in "${answer[@]}" ; do
         echo -e "\033[33m""Runing a naive simulation""\033[0m"
         ./launch_simu_naive_toy_example.py
         echo -e "\033[32m""Complete""\033[0m"
-        break
-        ;;
-        2|n)
-        echo -e "\033[32m""Script will exit""\033[0m"
-        break
-        ;;
-    esac
-done
-echo -e "\033[33m""Do you want to evaluate generated dataset using default parameters on both methods? ""\033[0m"
-answer=("[y] yes" "[n]  no")
-select choice in "${answer[@]}" ; do
-    case $REPLY in
-        1|y)
-        echo -e "\033[33m""Runing an evaluation""\033[0m"
-        ./evaluation/eval_simu.py -i ./toy_dataset_simu_naive/ -o ./evaluation/result_eval/ -n 50 -m vns -nf 50 -l X
-        ./evaluation/eval_simu.py -i ./toy_dataset_simu_naive/ -o ./evaluation/result_eval/ -n 50 -m smmb_aco -nf 50 -l X
-        echo -e "\033[32m""Complete""\033[0m"
+        echo -e "\033[33m""Do you want to evaluate generated dataset using default parameters on both methods? ""\033[0m"
+        answer=("[y] yes" "[n]  no")
+        select choice in "${answer[@]}" ; do
+            case $REPLY in
+                1|y)
+                echo -e "\033[33m""Runing an evaluation""\033[0m"
+                ./evaluation/eval_simu.py -i ./toy_dataset_simu_naive/ -o ./evaluation/result_eval/ -n 50 -m vns -nf 50 -l X
+                ./evaluation/eval_simu.py -i ./toy_dataset_simu_naive/ -o ./evaluation/result_eval/ -n 50 -m smmb_aco -nf 50 -l X
+                echo -e "\033[32m""Complete""\033[0m"
+                break
+                ;;
+                2|n)
+                echo -e "\033[32m""Script will exit""\033[0m"
+                break
+                ;;
+            esac
+        done
         break
         ;;
         2|n)
