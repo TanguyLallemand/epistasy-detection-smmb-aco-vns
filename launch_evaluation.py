@@ -29,11 +29,60 @@
 #                         Number of file to test in the dataset
 
 # An example of basic call:
-# os.system ./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 50 -m smmb_aco -nf 20
+# os.system ./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 50 -m smmb_aco_aco -nf 20
 import os
-# Compute both methods on a first dataset
-os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/simu_naive_CARLUER_OUEDRAOGO/simu_naive_2snp_0_059_0_25/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
-os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/simu_naive_CARLUER_OUEDRAOGO/simu_naive_2snp_0_059_0_25/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
-# Compute both methods on second dataset
-os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l X')
-os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l X')
+# Compute VNS on game dataset
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model1/model1_0_01p_0005h_005m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model1/model1_1_01p_0005h_01m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model1/model1_2_01p_0005h_02m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model1/model1_3_01p_0005h_05m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model2/model2_0_01p_002h_005m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model2/model2_1_01p_002h_01m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model2/model2_2_01p_002h_02m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model2/model2_3_01p_002h_05m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model2/model2_3_01p_002h_05m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model3/model3_0_01p_002h_005m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model3/model3_1_01p_002h_01m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model3/model3_2_01p_002h_02m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model3/model3_3_01p_002h_05m/ -o ./evaluation/result_eval/ -n 100 -m vns -nf 100 -l M')
+
+# Compute smmb_aco_ACO
+
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model1/model1_0_01p_0005h_005m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model1/model1_1_01p_0005h_01m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model1/model1_2_01p_0005h_02m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model1/model1_3_01p_0005h_05m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model2/model2_0_01p_002h_005m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model2/model2_1_01p_002h_01m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model2/model2_2_01p_002h_02m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model2/model2_3_01p_002h_05m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model2/model2_3_01p_002h_05m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model3/model3_0_01p_002h_005m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model3/model3_1_01p_002h_01m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model3/model3_2_01p_002h_02m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
+
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/gametes_datas/datas/repository/model3/model3_3_01p_002h_05m/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l M')
