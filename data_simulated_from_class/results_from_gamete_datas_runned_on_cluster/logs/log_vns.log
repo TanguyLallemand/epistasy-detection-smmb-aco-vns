@@ -1,0 +1,31 @@
+version https://git-lfs.github.com/spec/v1
+oid sha256:78963861e5d12b104c24920aec2e8600648b6518349671b77a36d9bd90d9bf4e
+size 6907
+Genotype file computed: ./vns/toy_example/toy_dataset/genotypes_toy_dataset.txt
+Phenotype file computed: ./vns/toy_example/toy_dataset/phenotypes_toy_dataset.txt
+
+### Parameters used for this run: 
+Number of iterations in VNS: 4
+Alpha type I error rate: 0.05
+Maximum size of pattern: 2
+Minimum size of pattern: 2
+max_it_vns (vns stop counter) 10
+max_it_local_search (local search stop counter) 10
+### End of parameters
+
+### Backtrace of VNS run ###
+Iteration # : Iteration # : 3
+0
+Iteration # : Iteration # : 2
+1
+ SNP in pattern:
+26 27  Associated p-value: 2e-16
+ SNP in pattern:
+26 27  Associated p-value: 2e-16
+ SNP in pattern:
+26 27  Associated p-value: 2e-16
+ SNP in pattern:
+26 27  Associated p-value: 2e-16
+Time of execution: 3398 milliseconds
+### VNS has finished please see results in: 
+./vns/toy_example/toy_results/result_genotypes_toy_dataset_result_vns.txt
