@@ -13,13 +13,12 @@
 
     - simulation de patterns d'épistasie de taille 2
     beta12 variant dans {0.25, 0.50, 0.75} tous autres paramètres fixés à 0.1
-        + smmb_aco: 0.25 finis
-        + vns: 0.25 finis
-        Le reste n'a pas été lancé, le cluster est beaucoup plus lent que prévu
-    - simulation de patterns d'épistasie de taille 3
-    beta123 variant dans {0.25, 0.50, 0.75} tous autres paramètres fixés à 0.1
-        + Pas lancé non plus
-
+        + smmb_aco: 0.25 0.50 0.75 finis
+        + vns: 0.25 0.50 0.75 finis
+	- simulation de patterns d'épistasie de taille 3
+	    + smmb_aco: 0.25 finis
+        + vns: 0.25 0.50 0.75 finis
+	
 + Data gametes:
 
     + smmb_aco: model1 finis, model2 et model3 en cours
