@@ -31,5 +31,5 @@
 # An example of basic call:
 # os.system ./evaluation/eval_simu.py -i ./Simu_naive/Simu_naive_2snp_0.25/ -o ./evaluation/result_eval/ -n 50 -m smmb_aco_aco -nf 20
 import os
-os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/simu_naive/Simu_naive/Simu_naive_3snp_0.5/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l X')
-os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/simu_naive/Simu_naive/Simu_naive_3snp_0.75/ -o ./evaluation/result_eval/ -n 100 -m smmb_aco -nf 100 -l X')
+os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/simu_naive/Simu_naive/Simu_naive_3snp_0.5/ -o ./evaluation/result_eval/ -n 20 -m smmb_aco -nf 100 -l X')
+#os.system('./evaluation/eval_simu.py -i ./data_simulated_from_class/simu_naive/Simu_naive/Simu_naive_3snp_0.75/ -o ./evaluation/result_eval/ -n 20 -m smmb_aco -nf 100 -l X')
